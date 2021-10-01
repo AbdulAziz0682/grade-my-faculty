@@ -13,6 +13,8 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Container from '@mui/material/Container';
 import ArrowForward from '@mui/icons-material/ArrowForward';
+import { Link as MuiLink } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 export default function TopBar() {
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -61,8 +63,8 @@ export default function TopBar() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" color="transparent" sx={{ py: 1.7 }}>
-        <Container>
+      <AppBar position="static" color="transparent">
+        <Container sx={{ py: 1.7 }}>
           <Toolbar>
             <Typography
               variant="h6"
@@ -83,27 +85,35 @@ export default function TopBar() {
               <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
                 <List sx={{ display: 'flex' }}>
                   <ListItem>
-                    <ListItemText primary="Home" primaryTypographyProps={{ variant: 'button', color: 'gray' }} />
+                    <Link to="/" sx={{ textDecoration: 'none' }}>
+                      <ListItemText primary="Home" primaryTypographyProps={{ variant: 'button', color: 'gray' }} />
+                    </Link>
                   </ListItem>
                   <ListItem>
-                    <ListItemText primary="Blog" primaryTypographyProps={{ variant: 'button', color: 'gray' }} />
+                    <MuiLink href="/blog" underline="none">
+                      <ListItemText primary="Blog" primaryTypographyProps={{ variant: 'button', color: 'gray' }} />
+                    </MuiLink>
                   </ListItem>
                   <ListItem>
-                    <ListItemText sx={{ minWidth: '4.5rem' }} primary="About Us" primaryTypographyProps={{ variant: 'button', color: 'primary.main' }} />
+                    <Link to="/aboutUs">
+                      <ListItemText sx={{ minWidth: '4.5rem' }} primary="About Us" primaryTypographyProps={{ variant: 'button', color: 'primary.main' }} />
+                    </Link>
                   </ListItem>
                   <ListItem>
-                    <ListItemText primary="Contact" primaryTypographyProps={{ variant: 'button', color: 'gray' }} />
+                    <Link to="/contact">
+                      <ListItemText primary="Contact" primaryTypographyProps={{ variant: 'button', color: 'gray' }} />
+                    </Link>
                   </ListItem>
                 </List>
                 <Button
                   variant="text"
+                  onClick={() => {}}
                   sx={{ p: 1.5, mx: 3 }}
                 >
                   Login
                 </Button>
                 <Button
                   variant="contained"
-                  sx={{ p: 1.5 }}
                   endIcon={<ArrowForward />}
                 >
                   Signup
