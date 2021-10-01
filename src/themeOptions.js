@@ -1,6 +1,7 @@
 const themeOptions = {
   breakpoints: {
     values: {
+      xs: 0,
       sm: 600,
       md: 768,
       lg: 960,
@@ -10,9 +11,8 @@ const themeOptions = {
   palette: {
     type: 'light',
     primary: {
-      main: '#23A6F0',
+      main: '#5D5FEF',
       contrastText: '#FFFFFF',
-      dark: '#2a7cc7',
     },
     secondary: {
       main: '#40BB15',
@@ -66,6 +66,8 @@ const themeOptions = {
     button: {
       fontSize: 15,
       lineHeight: 1.57,
+      fontWeight: 600,
+      textTransform: 'capitalize',
     },
     body1: {
       fontSize: 17,
