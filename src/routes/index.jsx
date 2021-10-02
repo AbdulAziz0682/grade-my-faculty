@@ -16,8 +16,8 @@ import SingUp from '../components/Pages/SignUp/index';
 export default function App() {
   return (
     <Router>
-      <TopBar />
       <Switch>
+        <TopBar />
         <Route exact path="/">
           <Home />
         </Route>

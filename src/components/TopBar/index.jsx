@@ -1,4 +1,5 @@
 import * as React from 'react';
+
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -13,10 +14,11 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Container from '@mui/material/Container';
 import ArrowForward from '@mui/icons-material/ArrowForward';
-import { Link as MuiLink } from '@mui/material';
-import { Link } from 'react-router-dom';
+
+import { Link, useHistory } from 'react-router-dom';
 
 export default function TopBar() {
+  const { location: { pathname } } = useHistory();
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -64,7 +66,7 @@ export default function TopBar() {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" color="transparent">
-        <Container sx={{ py: 1.7 }}>
+        <Container maxWidth="xl" sx={{ py: 1.7, maxHeight: 91 }}>
           <Toolbar>
             <Typography
               variant="h6"
@@ -81,27 +83,27 @@ export default function TopBar() {
               Grade my faculty
             </Typography>
             <Box sx={{ flexGrow: 1, minWidth: 15 }} />
-            <Box id="Nav bar collapse">
-              <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+            <Box id="Nav bar collapse" sx={{ height: '100%' }}>
+              <Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center', height: '100%' }}>
                 <List sx={{ display: 'flex' }}>
                   <ListItem>
-                    <Link to="/" sx={{ textDecoration: 'none' }}>
-                      <ListItemText primary="Home" primaryTypographyProps={{ variant: 'button', color: 'gray' }} />
+                    <Link to="/" style={{ textDecoration: 'none' }}>
+                      <ListItemText primary="Home" primaryTypographyProps={{ variant: 'button', color: pathname === '/' || pathname === '/home' ? 'primary.main' : 'gray' }} />
                     </Link>
                   </ListItem>
                   <ListItem>
-                    <MuiLink href="/blog" underline="none">
-                      <ListItemText primary="Blog" primaryTypographyProps={{ variant: 'button', color: 'gray' }} />
-                    </MuiLink>
-                  </ListItem>
-                  <ListItem>
-                    <Link to="/aboutUs">
-                      <ListItemText sx={{ minWidth: '4.5rem' }} primary="About Us" primaryTypographyProps={{ variant: 'button', color: 'primary.main' }} />
+                    <Link to="/blog" style={{ textDecoration: 'none' }}>
+                      <ListItemText primary="Blog" primaryTypographyProps={{ variant: 'button', color: pathname === '/blog' ? 'primary.main' : 'gray' }} />
                     </Link>
                   </ListItem>
                   <ListItem>
-                    <Link to="/contact">
-                      <ListItemText primary="Contact" primaryTypographyProps={{ variant: 'button', color: 'gray' }} />
+                    <Link to="/aboutUs" style={{ textDecoration: 'none' }}>
+                      <ListItemText sx={{ minWidth: '4.5rem' }} primary="About Us" primaryTypographyProps={{ variant: 'button', color: pathname === '/aboutUs' ? 'primary.main' : 'gray' }} />
+                    </Link>
+                  </ListItem>
+                  <ListItem>
+                    <Link to="/contact" style={{ textDecoration: 'none' }}>
+                      <ListItemText primary="Contact" primaryTypographyProps={{ variant: 'button', color: pathname === '/contact' ? 'primary.main' : 'gray' }} />
                     </Link>
                   </ListItem>
                 </List>
@@ -115,6 +117,7 @@ export default function TopBar() {
                 <Button
                   variant="contained"
                   endIcon={<ArrowForward />}
+                  sx={{ p: 1.5 }}
                 >
                   Signup
                 </Button>
