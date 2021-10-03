@@ -17,31 +17,33 @@ import SingUp from '../components/Pages/SignUp';
 export default function App() {
   return (
     <Router>
-      <Switch>
+      <div className="flex flex-col h-screen justify-between">
         <TopBar />
-        <Route exact path="/">
-          <Home />
-        </Route>
-        <Route exact path="/home">
-          <Home />
-        </Route>
-        <Route exact path="/blog">
-          <Blog />
-        </Route>
-        <Route exact path="/aboutUs">
-          <AboutUs />
-        </Route>
-        <Route exact path="/contact">
-          <Contact />
-        </Route>
-        <Route exact path="/login">
-          <Login />
-        </Route>
-        <Route exact path="/singUp">
-          <SingUp />
-        </Route>
-      </Switch>
-      <Footer />
+        <Switch>
+          <Route exact path="/">
+            <Home />
+          </Route>
+          <Route exact path="/home">
+            <Home />
+          </Route>
+          <Route exact path="/blog">
+            <Blog />
+          </Route>
+          <Route exact path="/aboutUs">
+            <AboutUs />
+          </Route>
+          <Route exact path="/contact">
+            <Contact />
+          </Route>
+          <Route exact path="/login">
+            <Login />
+          </Route>
+          <Route exact path="/singUp">
+            <SingUp />
+          </Route>
+        </Switch>
+        <Footer />
+      </div>
     </Router>
   );
 }

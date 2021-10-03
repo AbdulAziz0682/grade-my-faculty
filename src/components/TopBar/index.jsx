@@ -72,7 +72,7 @@ export default function TopBar() {
   );
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box className="order-first">
       <AppBar position="static" color="transparent">
         <Container maxWidth="xl" sx={{ py: 1.7, maxHeight: 91 }}>
           <Toolbar style={{ paddingLeft: 0, paddingRight: 0 }}>

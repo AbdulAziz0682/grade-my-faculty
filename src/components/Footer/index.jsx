@@ -11,50 +11,57 @@ import twitter from '../../assets/twitter.svg';
 
 export default function Footer() {
   return (
-    <Box id="footer" sx={{ bgcolor: 'primary.main', width: '100%' }}>
-      <Container maxWidth="xl" sx={{ py: '50px' }}>
-        <Grid container justifyContent="space-between">
-          <Grid
-            item
-            xs={3}
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'flex-start',
-              gap: 1,
-            }}
-          >
-            <Typography className="font-semibold" color="white">Grade My Faculty</Typography>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-              <Typography className="font-semibold" color="white">FAQ</Typography>
-              <Typography className="font-semibold" color="white">Contact Us</Typography>
-              <Typography className="font-semibold" color="white">Blog</Typography>
-            </div>
+    <Box id="footer" className="w-full order-last">
+      <Box sx={{ bgcolor: 'primary.main', width: '100%' }}>
+        <Container maxWidth="xl" sx={{ py: '50px' }}>
+          <Grid container justifyContent="space-between">
+            <Grid
+              item
+              xs={3}
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'flex-start',
+                gap: 1,
+              }}
+            >
+              <Typography className="font-semibold" color="white">Grade My Faculty</Typography>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+                <Typography className="font-semibold" color="white">FAQ</Typography>
+                <Typography className="font-semibold" color="white">Contact Us</Typography>
+                <Typography className="font-semibold" color="white">Blog</Typography>
+              </div>
+            </Grid>
+            <Grid
+              item
+              xs={3}
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'flex-start',
+                gap: 1,
+              }}
+            >
+              <Typography color="white" className="font-semibold">Follow Us</Typography>
+              <div style={{ display: 'flex', gap: '1.5rem' }}>
+                <Icon>
+                  <img src={facebook} alt="facebook" />
+                </Icon>
+                <Icon>
+                  <img src={instagram} alt="instagram" />
+                </Icon>
+                <Icon>
+                  <img src={twitter} alt="twittter" />
+                </Icon>
+              </div>
+            </Grid>
           </Grid>
-          <Grid
-            item
-            xs={3}
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'flex-start',
-              gap: 1,
-            }}
-          >
-            <Typography color="white" className="font-semibold">Follow Us</Typography>
-            <div style={{ display: 'flex', gap: '1.5rem' }}>
-              <Icon>
-                <img src={facebook} alt="facebook" />
-              </Icon>
-              <Icon>
-                <img src={instagram} alt="instagram" />
-              </Icon>
-              <Icon>
-                <img src={twitter} alt="twittter" />
-              </Icon>
-            </div>
-          </Grid>
-        </Grid>
+        </Container>
+      </Box>
+      <Container maxWidth="xl" sx={{ py: 3 }}>
+        <div className="w-full">
+          <Typography color="gray" className="font-semibold">&copy; 2021 Grade My Faculty. All Rights Reserved</Typography>
+        </div>
       </Container>
     </Box>
   );
