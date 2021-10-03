@@ -49,16 +49,24 @@ export default function TopBar() {
       onClose={handleMobileMenuClose}
     >
       <MenuItem>
-        <Typography variant="button" sx={{ color: 'gray' }}>Home</Typography>
+        <Link to="/" style={{ textDecoration: 'none' }}>
+          <Typography variant="button" sx={{ color: pathname === '/' || pathname === '/' ? 'primary.main' : 'gray' }}>Home</Typography>
+        </Link>
       </MenuItem>
       <MenuItem>
-        <Typography variant="button" sx={{ color: 'gray' }}>Blog</Typography>
+        <Link to="/blog" style={{ textDecoration: 'none' }}>
+          <Typography variant="button" sx={{ color: pathname === '/blog' || pathname === '/blog' ? 'primary.main' : 'gray' }}>Blog</Typography>
+        </Link>
       </MenuItem>
       <MenuItem>
-        <Typography variant="button" sx={{ color: 'primary.main' }}>About Us</Typography>
+        <Link to="/aboutUs" style={{ textDecoration: 'none' }}>
+          <Typography variant="button" sx={{ color: pathname === '/aboutUs' || pathname === '/aboutUs' ? 'primary.main' : 'gray' }}>About Us</Typography>
+        </Link>
       </MenuItem>
       <MenuItem>
-        <Typography variant="button" sx={{ color: 'gray' }}>Contact</Typography>
+        <Link to="/contact" style={{ textDecoration: 'none' }}>
+          <Typography variant="button" sx={{ color: pathname === '/contact' || pathname === '/contact' ? 'primary.main' : 'gray' }}>Contact</Typography>
+        </Link>
       </MenuItem>
     </Menu>
   );
@@ -67,7 +75,7 @@ export default function TopBar() {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" color="transparent">
         <Container maxWidth="xl" sx={{ py: 1.7, maxHeight: 91 }}>
-          <Toolbar>
+          <Toolbar style={{ paddingLeft: 0, paddingRight: 0 }}>
             <Typography
               variant="h6"
               noWrap
@@ -78,62 +86,64 @@ export default function TopBar() {
                 backgroundColor: 'primary.main',
                 px: 2,
                 textTransform: 'capitalize',
+                fontWeight: 800,
               }}
             >
               Grade my faculty
             </Typography>
             <Box sx={{ flexGrow: 1, minWidth: 15 }} />
-            <Box id="Nav bar collapse" sx={{ height: '100%' }}>
-              <Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center', height: '100%' }}>
-                <List sx={{ display: 'flex' }}>
-                  <ListItem>
-                    <Link to="/" style={{ textDecoration: 'none' }}>
-                      <ListItemText primary="Home" primaryTypographyProps={{ variant: 'button', color: pathname === '/' || pathname === '/home' ? 'primary.main' : 'gray' }} />
-                    </Link>
-                  </ListItem>
-                  <ListItem>
-                    <Link to="/blog" style={{ textDecoration: 'none' }}>
-                      <ListItemText primary="Blog" primaryTypographyProps={{ variant: 'button', color: pathname === '/blog' ? 'primary.main' : 'gray' }} />
-                    </Link>
-                  </ListItem>
-                  <ListItem>
-                    <Link to="/aboutUs" style={{ textDecoration: 'none' }}>
-                      <ListItemText sx={{ minWidth: '4.5rem' }} primary="About Us" primaryTypographyProps={{ variant: 'button', color: pathname === '/aboutUs' ? 'primary.main' : 'gray' }} />
-                    </Link>
-                  </ListItem>
-                  <ListItem>
-                    <Link to="/contact" style={{ textDecoration: 'none' }}>
-                      <ListItemText primary="Contact" primaryTypographyProps={{ variant: 'button', color: pathname === '/contact' ? 'primary.main' : 'gray' }} />
-                    </Link>
-                  </ListItem>
-                </List>
-                <Button
-                  variant="text"
-                  onClick={() => {}}
-                  sx={{ p: 1.5, mx: 3 }}
-                >
-                  Login
-                </Button>
-                <Button
-                  variant="contained"
-                  endIcon={<ArrowForward />}
-                  sx={{ p: 1.5 }}
-                >
-                  Signup
-                </Button>
-              </Box>
-              <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
-                <IconButton
-                  size="large"
-                  aria-label="nav bar toggler"
-                  aria-controls={mobileMenuId}
-                  aria-haspopup="true"
-                  color="inherit"
-                  onClick={handleMobileMenuOpen}
-                >
-                  <MoreIcon />
-                </IconButton>
-              </Box>
+            <Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center', height: '100%' }}>
+              <List sx={{ display: 'flex' }}>
+                <ListItem>
+                  <Link to="/" style={{ textDecoration: 'none' }}>
+                    <ListItemText primary="Home" primaryTypographyProps={{ variant: 'button', color: pathname === '/' || pathname === '/home' ? 'primary.main' : 'gray' }} />
+                  </Link>
+                </ListItem>
+                <ListItem>
+                  <Link to="/blog" style={{ textDecoration: 'none' }}>
+                    <ListItemText primary="Blog" primaryTypographyProps={{ variant: 'button', color: pathname === '/blog' ? 'primary.main' : 'gray' }} />
+                  </Link>
+                </ListItem>
+                <ListItem>
+                  <Link to="/aboutUs" style={{ textDecoration: 'none' }}>
+                    <ListItemText sx={{ minWidth: '4.5rem' }} primary="About Us" primaryTypographyProps={{ variant: 'button', color: pathname === '/aboutUs' ? 'primary.main' : 'gray' }} />
+                  </Link>
+                </ListItem>
+                <ListItem>
+                  <Link to="/contact" style={{ textDecoration: 'none' }}>
+                    <ListItemText primary="Contact" primaryTypographyProps={{ variant: 'button', color: pathname === '/contact' ? 'primary.main' : 'gray' }} />
+                  </Link>
+                </ListItem>
+              </List>
+            </Box>
+            <Box flexGrow={1} maxWidth="12%" />
+            <Box sx={{ display: { md: 'flex', xs: 'none' } }}>
+              <Button
+                variant="text"
+                onClick={() => {}}
+                sx={{ p: 1.5, mx: 3 }}
+              >
+                Login
+              </Button>
+              <Button
+                variant="contained"
+                endIcon={<ArrowForward />}
+                sx={{ p: 1.5 }}
+              >
+                Signup
+              </Button>
+            </Box>
+            <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+              <IconButton
+                size="large"
+                aria-label="nav bar toggler"
+                aria-controls={mobileMenuId}
+                aria-haspopup="true"
+                color="inherit"
+                onClick={handleMobileMenuOpen}
+              >
+                <MoreIcon />
+              </IconButton>
             </Box>
           </Toolbar>
         </Container>
