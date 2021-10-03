@@ -5,13 +5,14 @@ import {
   Route,
 } from 'react-router-dom';
 
-import TopBar from '../components/TopBar/index';
-import Home from '../components/Pages/Home/index';
-import Blog from '../components/Pages/Blog/index';
-import AboutUs from '../components/Pages/AboutUs/index';
-import Contact from '../components/Pages/Contact/index';
-import Login from '../components/Pages/Login/index';
-import SingUp from '../components/Pages/SignUp/index';
+import TopBar from '../components/TopBar';
+import Footer from '../components/Footer';
+import Home from '../components/Pages/Home';
+import Blog from '../components/Pages/Blog';
+import AboutUs from '../components/Pages/AboutUs';
+import Contact from '../components/Pages/Contact';
+import Login from '../components/Pages/Login';
+import SingUp from '../components/Pages/SignUp';
 
 export default function App() {
   return (
@@ -40,6 +41,7 @@ export default function App() {
           <SingUp />
         </Route>
       </Switch>
+      <Footer />
     </Router>
   );
 }
