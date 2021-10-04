@@ -22,7 +22,7 @@ export default function App() {
         <Grid item>
           <TopBar />
         </Grid>
-        <Grid item className="flex-grow self-stretch" sx={{ marginTop: '91px' /* MaxHeight of Topbar */, zIndex: 0 }}>
+        <Grid item className="flex-grow self-stretch" sx={{ marginTop: '91px' /* MaxHeight of Topbar */ }}>
           <Switch>
             <Route exact path="/">
               <Home />

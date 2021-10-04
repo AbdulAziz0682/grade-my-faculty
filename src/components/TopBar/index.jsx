@@ -74,7 +74,7 @@ export default function TopBar() {
   return (
     <Box className="order-first">
       <AppBar position="fixed" color="default" className="bg-white">
-        <Container maxWidth="xl" sx={{ py: 1.7, maxHeight: 91 }}>
+        <Container sx={{ py: 1.7, maxHeight: 91 }}>
           <Toolbar style={{ paddingLeft: 0, paddingRight: 0 }}>
             <Typography
               variant="h6"
