@@ -18,7 +18,8 @@ import ArrowForward from '@mui/icons-material/ArrowForward';
 import { Link, useHistory } from 'react-router-dom';
 
 export default function TopBar() {
-  const { location: { pathname } } = useHistory();
+  const history = useHistory();
+  const { pathname } = history.location;
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -120,7 +121,7 @@ export default function TopBar() {
             <Box sx={{ display: { md: 'flex', xs: 'none' } }}>
               <Button
                 variant="text"
-                onClick={() => {}}
+                onClick={() => history.push('/login')}
                 sx={{ p: 1.5, mx: 3 }}
               >
                 Login
@@ -129,6 +130,7 @@ export default function TopBar() {
                 variant="contained"
                 endIcon={<ArrowForward />}
                 sx={{ p: 1.5 }}
+                onClick={() => history.push('/signUp')}
               >
                 Signup
               </Button>

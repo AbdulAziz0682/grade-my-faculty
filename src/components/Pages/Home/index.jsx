@@ -28,7 +28,7 @@ export default function Home() {
                   <option value="Search by University">Search by University</option>
                   <option value="Search by Name">Search by Faculty</option>
                 </select>
-                <input className="bg-gray-200 h-full px-3 flex-grow" />
+                <input className="bg-gray-100 h-full px-3 flex-grow" />
                 <span className="bg-primary h-full px-3 flex items-center rounded-r">
                   <Search htmlColor="white" />
                 </span>
