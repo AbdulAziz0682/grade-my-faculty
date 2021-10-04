@@ -48,22 +48,22 @@ export default function TopBar() {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem>
+      <MenuItem onClick={handleMobileMenuClose}>
         <Link to="/" style={{ textDecoration: 'none' }}>
           <Typography variant="button" sx={{ color: pathname === '/' || pathname === '/' ? 'primary.main' : 'gray' }}>Home</Typography>
         </Link>
       </MenuItem>
-      <MenuItem>
+      <MenuItem onClick={handleMobileMenuClose}>
         <Link to="/blog" style={{ textDecoration: 'none' }}>
           <Typography variant="button" sx={{ color: pathname === '/blog' || pathname === '/blog' ? 'primary.main' : 'gray' }}>Blog</Typography>
         </Link>
       </MenuItem>
-      <MenuItem>
+      <MenuItem onClick={handleMobileMenuClose}>
         <Link to="/aboutUs" style={{ textDecoration: 'none' }}>
           <Typography variant="button" sx={{ color: pathname === '/aboutUs' || pathname === '/aboutUs' ? 'primary.main' : 'gray' }}>About Us</Typography>
         </Link>
       </MenuItem>
-      <MenuItem>
+      <MenuItem onClick={handleMobileMenuClose}>
         <Link to="/contact" style={{ textDecoration: 'none' }}>
           <Typography variant="button" sx={{ color: pathname === '/contact' || pathname === '/contact' ? 'primary.main' : 'gray' }}>Contact</Typography>
         </Link>
@@ -73,7 +73,7 @@ export default function TopBar() {
 
   return (
     <Box className="order-first">
-      <AppBar position="static" color="transparent">
+      <AppBar position="fixed" color="default" className="bg-white">
         <Container maxWidth="xl" sx={{ py: 1.7, maxHeight: 91 }}>
           <Toolbar style={{ paddingLeft: 0, paddingRight: 0 }}>
             <Typography

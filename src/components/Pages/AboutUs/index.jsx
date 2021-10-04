@@ -13,16 +13,16 @@ import legals from '../../../assets/legals.svg';
 
 export default function AboutUs() {
   return (
-    <div className="flex-grow bg-pageBg">
+    <div className="w-full bg-pageBg">
       <Container>
         <Grid container direction="column" className="py-16">
-          <Grid item>
+          <Grid item className="w-full">
             <Typography variant="h1" align="center"> FAQ&apos;s </Typography>
           </Grid>
-          <Grid item className="flex flex-wrap gap-16 mt-8 justify-center">
+          <Grid item className="flex flex-wrap w-full gap-16 mt-8 justify-center">
             <FaqCard image={students} title="Students" />
             <FaqCard image={teachers} title="Teachers" />
-            <FaqCard image={conversations} title="Conversations" />
+            <FaqCard image={conversations} title="General" />
             <FaqCard image={legals} title="Legals" />
           </Grid>
         </Grid>

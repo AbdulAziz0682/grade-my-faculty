@@ -1,4 +1,5 @@
 import React from 'react';
+
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
@@ -11,13 +12,14 @@ import twitter from '../../assets/twitter.svg';
 
 export default function Footer() {
   return (
-    <Box id="footer" className="w-full order-last">
+    <Box id="footer" sx={{ top: 'auto', bottom: 0, zIndex: 0 }}>
       <Box sx={{ bgcolor: 'primary.main', width: '100%' }}>
-        <Container maxWidth="xl" sx={{ py: '50px' }}>
+        <Container maxWidth="xl" className="md:px-20" sx={{ py: '50px' }}>
           <Grid container justifyContent="space-between">
             <Grid
               item
-              xs={3}
+              xs={6}
+              sm={4}
               sx={{
                 display: 'flex',
                 flexDirection: 'column',
@@ -34,7 +36,8 @@ export default function Footer() {
             </Grid>
             <Grid
               item
-              xs={3}
+              xs={6}
+              sm={4}
               sx={{
                 display: 'flex',
                 flexDirection: 'column',
@@ -58,7 +61,7 @@ export default function Footer() {
           </Grid>
         </Container>
       </Box>
-      <Container maxWidth="xl" sx={{ py: 3 }}>
+      <Container maxWidth="xl" className="md:px-20" sx={{ py: 3, bgcolor: 'white' }}>
         <div className="w-full">
           <Typography color="gray" className="font-semibold">&copy; 2021 Grade My Faculty. All Rights Reserved</Typography>
         </div>
