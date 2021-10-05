@@ -16,20 +16,20 @@ export default function Home() {
     <>
       <Grid container className="flex-grow">
         <Container>
-          <Grid container alignItems="center" className="pt-12 pb-60" spacing={9}>
-            <Grid item md={8} className="h-full flex justify-center flex-col">
-              <Typography variant="h1">
-                View Evaluations and
-                <span className="text-primary px-2">Grade</span>
-                Your Faculty Members
+          <Grid container alignItems="center" className="pt-12 pb-60" columnSpacing={2}>
+            <Grid item xs={12} md={8} className="h-full flex justify-center flex-col">
+              <Typography className="text-3xl md:text-5xl font-bold">
+                View Evaluations and&nbsp;
+                <span className="text-primary">Grade</span>
+                &nbsp;Your Faculty Members
               </Typography>
-              <div className="w-full flex rounded h-16 p-2">
-                <select className="bg-primary text-white h-full rounded-l px-2 w-auto">
+              <div className="w-full flex rounded h-16 py-2">
+                <select className="bg-primary text-white h-full rounded-l px-0.5 md:px-2 w-auto">
                   <option value="Search by University">Search by University</option>
                   <option value="Search by Name">Search by Faculty</option>
                 </select>
-                <input className="bg-gray-100 h-full px-3 flex-grow" />
-                <span className="bg-primary h-full px-3 flex items-center rounded-r">
+                <input className="bg-gray-100 h-full px-3 w-3/6" />
+                <span className="bg-primary h-full px-1 md:px-3 flex items-center rounded-r">
                   <Search htmlColor="white" />
                 </span>
               </div>

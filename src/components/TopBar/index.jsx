@@ -69,6 +69,16 @@ export default function TopBar() {
           <Typography variant="button" sx={{ color: pathname === '/contact' || pathname === '/contact' ? 'primary.main' : 'gray' }}>Contact</Typography>
         </Link>
       </MenuItem>
+      <MenuItem onClick={handleMobileMenuClose}>
+        <Link to="/login" style={{ textDecoration: 'none' }}>
+          <Typography variant="button" sx={{ color: pathname === '/login' || pathname === '/login' ? 'primary.main' : 'gray' }}>Login</Typography>
+        </Link>
+      </MenuItem>
+      <MenuItem onClick={handleMobileMenuClose}>
+        <Link to="/signUp" style={{ textDecoration: 'none' }}>
+          <Typography variant="button" sx={{ color: pathname === '/signUp' || pathname === '/signUp' ? 'primary.main' : 'gray' }}>Sign Up</Typography>
+        </Link>
+      </MenuItem>
     </Menu>
   );
 
