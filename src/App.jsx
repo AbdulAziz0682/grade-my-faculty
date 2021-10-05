@@ -2,6 +2,8 @@ import React from 'react';
 
 import { createTheme, ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
 
+import { BrowserRouter } from 'react-router-dom';
+
 import './index.css';
 
 import Routes from './routes/index';
@@ -14,7 +16,9 @@ export default function App() {
   return (
     <StyledEngineProvider injectFirst>
       <ThemeProvider theme={theme}>
-        <Routes />
+        <BrowserRouter>
+          <Routes />
+        </BrowserRouter>
       </ThemeProvider>
     </StyledEngineProvider>
   );
