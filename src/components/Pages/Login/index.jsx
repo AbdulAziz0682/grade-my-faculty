@@ -45,7 +45,7 @@ export default function Login() {
               />
             </Grid>
             <Grid item className="mt-3">
-              <p className="font-semibold text-sm text-red-700 hidden" style={{ fontFamily: 'montserrat' }}>Incorrect email or password. Please try again.</p>
+              <p className="font-semibold text-sm text-red-700" style={{ fontFamily: 'montserrat' }}>Incorrect email or password. Please try again.</p>
             </Grid>
             <Grid item className="flex gap-3 justify-between items-center">
               <FormControl>

@@ -13,7 +13,7 @@ export default function Contact() {
   return (
     <Grid container className="bg-pageBg flex-grow">
       <Container className="flex items-center justify-center self-stretch pt-14 pb-28">
-        <Paper component="form" className="md:w-4/6 p-10">
+        <Paper component="form" className="md:w-4/6 p-10 rounded-xl">
           <div className="flex flex-col w-full h-full">
             <Typography variant="h3">Have Questions? Or, Suggestions?</Typography>
             <div className="flex flex-col gap-3 flex-grow w-full my-9">

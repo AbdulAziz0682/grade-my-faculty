@@ -13,6 +13,8 @@ import AboutUs from '../components/Pages/AboutUs';
 import Contact from '../components/Pages/Contact';
 import Login from '../components/Pages/Login';
 import SingUp from '../components/Pages/SignUp';
+import EmailVerification from '../components/Pages/SignUp/EmailVerification';
+import ForgetPassword from '../components/Pages/Login/ForgetPassword';
 
 export default function App() {
   return (
@@ -42,6 +44,12 @@ export default function App() {
           </Route>
           <Route exact path="/signUp">
             <SingUp />
+          </Route>
+          <Route exact path="/emailVerification">
+            <EmailVerification />
+          </Route>
+          <Route exact path="/forgotPassword">
+            <ForgetPassword />
           </Route>
         </Grid>
         <Grid item>
