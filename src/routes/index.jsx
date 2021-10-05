@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  BrowserRouter as Router,
   Switch,
   Route,
 } from 'react-router-dom';
@@ -17,40 +16,42 @@ import SingUp from '../components/Pages/SignUp';
 
 export default function App() {
   return (
-    <Router>
-      <Grid container direction="column" justifyContent="space-between" className="w-full">
-        <Grid item>
-          <TopBar />
+    <>
+      <Switch>
+        <Grid container direction="column" justifyContent="space-between" className="w-full">
+          <Grid item>
+            <TopBar />
+          </Grid>
+          <Grid item className="flex-grow self-stretch" sx={{ marginTop: '91px' /* MaxHeight of Topbar */ }}>
+            <>
+              <Route exact path="/">
+                <Home />
+              </Route>
+              <Route exact path="/home">
+                <Home />
+              </Route>
+              <Route exact path="/blog">
+                <Blog />
+              </Route>
+              <Route exact path="/aboutUs">
+                <AboutUs />
+              </Route>
+              <Route exact path="/contact">
+                <Contact />
+              </Route>
+              <Route exact path="/login">
+                <Login />
+              </Route>
+              <Route exact path="/singUp">
+                <SingUp />
+              </Route>
+            </>
+          </Grid>
+          <Grid item>
+            <Footer />
+          </Grid>
         </Grid>
-        <Grid item className="flex-grow self-stretch" sx={{ marginTop: '91px' /* MaxHeight of Topbar */ }}>
-          <Switch>
-            <Route exact path="/">
-              <Home />
-            </Route>
-            <Route exact path="/home">
-              <Home />
-            </Route>
-            <Route exact path="/blog">
-              <Blog />
-            </Route>
-            <Route exact path="/aboutUs">
-              <AboutUs />
-            </Route>
-            <Route exact path="/contact">
-              <Contact />
-            </Route>
-            <Route exact path="/login">
-              <Login />
-            </Route>
-            <Route exact path="/singUp">
-              <SingUp />
-            </Route>
-          </Switch>
-        </Grid>
-        <Grid item>
-          <Footer />
-        </Grid>
-      </Grid>
-    </Router>
+      </Switch>
+    </>
   );
 }

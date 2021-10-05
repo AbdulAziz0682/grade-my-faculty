@@ -15,11 +15,11 @@ import ListItemText from '@mui/material/ListItemText';
 import Container from '@mui/material/Container';
 import ArrowForward from '@mui/icons-material/ArrowForward';
 
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useLocation, useHistory } from 'react-router-dom';
 
 export default function TopBar() {
   const history = useHistory();
-  const { pathname } = history.location;
+  const { pathname } = useLocation();
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
