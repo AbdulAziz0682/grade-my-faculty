@@ -12,9 +12,12 @@ import {
   TextField,
 } from '@mui/material';
 
+import { useHistory } from 'react-router-dom';
+
 import googleLogo from '../../../assets/googleLogo.svg';
 
 export default function Login() {
+  const history = useHistory();
   return (
     <Grid container className="bg-pageBg flex-grow">
       <Container className="flex items-center justify-center py-3">
@@ -74,7 +77,7 @@ export default function Login() {
             <Grid item className="mt-9 flex justify-center">
               <p className="font-bold text-sm lg:text-lg" style={{ fontFamily: 'montserrat' }}>
                 Don&apos;t have an account?
-                <span className="text-primary mx-1.5 cursor-pointer">Click here</span>
+                <span className="text-primary mx-1.5 cursor-pointer" aria-hidden onClick={() => history.push('/signUp')}>Click here</span>
               </p>
             </Grid>
           </Grid>
