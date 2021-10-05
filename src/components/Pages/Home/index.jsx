@@ -1,6 +1,13 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 
-import { Grid, Typography } from '@mui/material';
+import {
+  Grid,
+  Typography,
+  Select,
+  MenuItem,
+  Autocomplete,
+  TextField,
+} from '@mui/material';
 import Container from '@mui/material/Container';
 import Hidden from '@mui/material/Hidden';
 
@@ -12,6 +19,12 @@ import compare from '../../../assets/compare.svg';
 import homeImg from '../../../assets/homeImg.svg';
 
 export default function Home() {
+  const ref = useRef();
+  const [searchBy, setSearchBy] = useState('university');
+  const [searchText, setSearchText] = useState('');
+  const universities = ['University of Dhaka', 'University of Lahore', 'University of Karachi'];
+  const names = ['Abdul Kalam', 'Abdul Salam', 'Shaikh Saadi'];
+  const [value, setValue] = React.useState(universities[0]);
   return (
     <>
       <Grid container className="flex-grow">
@@ -24,11 +37,39 @@ export default function Home() {
                 &nbsp;Your Faculty Members
               </Typography>
               <div className="w-full flex rounded h-16 py-2">
-                <select className="bg-primary text-white h-full rounded-l px-0.5 md:px-2 w-auto">
-                  <option value="Search by University">Search by University</option>
-                  <option value="Search by Name">Search by Faculty</option>
-                </select>
-                <input className="bg-gray-100 h-full px-3 w-3/6" />
+                <Select
+                  variant="outlined"
+                  ref={ref}
+                  className="bg-primary text-white md:px-2 w-auto"
+                  value={searchBy}
+                  onChange={(e) => setSearchBy(e.target.value)}
+                >
+                  <MenuItem value="university">Search by University</MenuItem>
+                  <MenuItem value="name">Search by Faculty</MenuItem>
+                </Select>
+                {/* <input className="bg-gray-100 h-full px-3 w-3/6" /> */}
+                <Autocomplete
+                  freeSolo
+                  id="free-solo-2-demo"
+                  disableClearable
+                  className="h-full w-3/6"
+                  options={searchBy === 'university' ? universities : names}
+                  value={value}
+                  onChange={(e) => setValue(e.target.value)}
+                  inputValue={searchText}
+                  onInputChange={(e, val) => setSearchText(val)}
+                  renderInput={(params) => (
+                    <TextField
+                      label="Search input"
+                      // eslint-disable-next-line react/jsx-props-no-spreading
+                      {...params}
+                      InputProps={{
+                        ...params.InputProps,
+                        type: 'search',
+                      }}
+                    />
+                  )}
+                />
                 <span className="bg-primary h-full px-1 md:px-3 flex items-center rounded-r">
                   <Search htmlColor="white" />
                 </span>
