@@ -11,8 +11,8 @@ import {
 
 export default function Contact() {
   return (
-    <Grid container sx={{ minHeight: '75vh' }} className="h-full bg-pageBg py-6">
-      <Container className="flex items-center justify-center self-stretch">
+    <Grid container className="bg-pageBg flex-grow">
+      <Container className="flex items-center justify-center self-stretch pt-14 pb-28">
         <Paper component="form" className="md:w-4/6 p-10">
           <div className="flex flex-col w-full h-full">
             <Typography variant="h3">Have Questions? Or, Suggestions?</Typography>

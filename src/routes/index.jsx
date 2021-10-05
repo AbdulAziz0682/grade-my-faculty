@@ -18,11 +18,11 @@ export default function App() {
   return (
     <>
       <Switch>
-        <Grid container direction="column" justifyContent="space-between" className="w-full">
+        <Grid container direction="column" className="min-w-screen min-h-screen">
           <Grid item>
             <TopBar />
           </Grid>
-          <Grid item className="flex-grow self-stretch" sx={{ marginTop: '91px' /* MaxHeight of Topbar */ }}>
+          <Grid item className="flex-grow flex flex-col" sx={{ marginTop: '91px' /* MaxHeight of Topbar */ }}>
             <>
               <Route exact path="/">
                 <Home />

@@ -14,9 +14,9 @@ import homeImg from '../../../assets/homeImg.svg';
 export default function Home() {
   return (
     <>
-      <Grid container>
+      <Grid container className="flex-grow">
         <Container>
-          <Grid container alignItems="center" className="pb-60 pt-12" spacing={9}>
+          <Grid container alignItems="center" className="pt-12 pb-60" spacing={9}>
             <Grid item md={8} className="h-full flex justify-center flex-col">
               <Typography variant="h1">
                 View Evaluations and
@@ -42,7 +42,7 @@ export default function Home() {
           </Grid>
         </Container>
       </Grid>
-      <Grid container className="bg-primaryLight">
+      <Grid container className="bg-primaryLight flex-grow">
         <Container className="p-16">
           <Grid container spacing={6}>
             <Grid item md={4} className="flex flex-col items-center">

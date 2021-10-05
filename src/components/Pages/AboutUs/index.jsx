@@ -13,9 +13,9 @@ import legals from '../../../assets/legals.svg';
 
 export default function AboutUs() {
   return (
-    <div className="w-full bg-pageBg">
+    <Grid container className="bg-pageBg flex-grow">
       <Container>
-        <Grid container direction="column" className="py-16">
+        <Grid container direction="column" className="pt-16 pb-60">
           <Grid item className="w-full">
             <Typography variant="h1" align="center"> FAQ&apos;s </Typography>
           </Grid>
@@ -27,6 +27,6 @@ export default function AboutUs() {
           </Grid>
         </Grid>
       </Container>
-    </div>
+    </Grid>
   );
 }

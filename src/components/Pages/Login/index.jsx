@@ -16,9 +16,9 @@ import googleLogo from '../../../assets/googleLogo.svg';
 
 export default function Login() {
   return (
-    <Grid container sx={{ minHeight: '75vh' }} className="h-full bg-pageBg py-6">
-      <Container className="flex items-center justify-center self-stretch">
-        <Paper component="form" className="sm:w-4/6 lg:w-3/6 p-3 md:p-10">
+    <Grid container className="bg-pageBg flex-grow">
+      <Container className="flex items-center justify-center">
+        <Paper component="form" className="sm:w-4/6 lg:w-3/6 p-3 md:p-5">
           <Grid container direction="column" className="gap-3">
             <Grid item>
               <Typography variant="h3" align="center" classes={{ root: 'font-extrabold text-2xl' }}>Sign In</Typography>
