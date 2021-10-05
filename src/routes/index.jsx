@@ -22,7 +22,7 @@ export default function App() {
           <Grid item>
             <TopBar />
           </Grid>
-          <Grid item className="flex-grow flex flex-col" sx={{ marginTop: '91px' /* MaxHeight of Topbar */ }}>
+          <Grid item className="flex-grow flex flex-col" sx={{ marginTop: '88px' /* MaxHeight of Topbar */ }}>
             <>
               <Route exact path="/">
                 <Home />

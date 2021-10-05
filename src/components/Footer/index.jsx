@@ -37,7 +37,8 @@ export default function Footer() {
             <Grid
               item
               xs={6}
-              sm={4}
+              sm={3}
+              lg={2}
               sx={{
                 display: 'flex',
                 flexDirection: 'column',
