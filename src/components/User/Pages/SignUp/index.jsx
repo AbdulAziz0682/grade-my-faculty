@@ -18,7 +18,7 @@ import { useHistory } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 
-import googleLogo from '../../../assets/googleLogo.svg';
+import googleLogo from '../../../../assets/googleLogo.svg';
 
 export default function SignUp() {
   const history = useHistory();
@@ -170,8 +170,8 @@ export default function SignUp() {
                 />
               </Grid>
             </Grid>
-            <Grid item className="mt-3">
-              <p className="font-semibold text-sm text-red-700" style={{ fontFamily: 'montserrat' }}>Email already exits. Please try again.</p>
+            <Grid item className={`${!formik.isValid ? 'block' : 'hidden'} mt-3`}>
+              <p className="font-semibold text-sm text-red-700" style={{ fontFamily: 'montserrat' }}>There are some errors in form. Please try again.</p>
             </Grid>
             <Grid item className="flex justify-between items-center">
               <div className="flex-grow flex gap-3 items-center">

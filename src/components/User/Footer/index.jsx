@@ -6,9 +6,9 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Icon from '@mui/material/Icon';
 
-import facebook from '../../assets/facebook.svg';
-import instagram from '../../assets/instagram.svg';
-import twitter from '../../assets/twitter.svg';
+import facebook from '../../../assets/facebook.svg';
+import instagram from '../../../assets/instagram.svg';
+import twitter from '../../../assets/twitter.svg';
 
 export default function Footer() {
   return (

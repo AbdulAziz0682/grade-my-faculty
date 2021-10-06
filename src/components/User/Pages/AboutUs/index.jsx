@@ -6,10 +6,10 @@ import Container from '@mui/material/Container';
 
 import FaqCard from './FaqCard';
 
-import teachers from '../../../assets/teachers.svg';
-import students from '../../../assets/students.svg';
-import conversations from '../../../assets/conversations.svg';
-import legals from '../../../assets/legals.svg';
+import teachers from '../../../../assets/teachers.svg';
+import students from '../../../../assets/students.svg';
+import conversations from '../../../../assets/conversations.svg';
+import legals from '../../../../assets/legals.svg';
 
 export default function AboutUs() {
   return (

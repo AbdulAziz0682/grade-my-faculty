@@ -5,18 +5,18 @@ import {
 } from 'react-router-dom';
 
 import Grid from '@mui/material/Grid';
-import TopBar from '../components/TopBar';
-import Footer from '../components/Footer';
-import Home from '../components/Pages/Home';
-import Blog from '../components/Pages/Blog';
-import AboutUs from '../components/Pages/AboutUs';
-import Contact from '../components/Pages/Contact';
-import Login from '../components/Pages/Login';
-import SingUp from '../components/Pages/SignUp';
-import EmailVerification from '../components/Pages/SignUp/EmailVerification';
-import ForgetPassword from '../components/Pages/Login/ForgetPassword';
+import TopBar from '../components/User/TopBar';
+import Footer from '../components/User/Footer';
+import Home from '../components/User/Pages/Home';
+import Blog from '../components/User/Pages/Blog';
+import AboutUs from '../components/User/Pages/AboutUs';
+import Contact from '../components/User/Pages/Contact';
+import Login from '../components/User/Pages/Login';
+import SingUp from '../components/User/Pages/SignUp';
+import EmailVerification from '../components/User/Pages/SignUp/EmailVerification';
+import ForgetPassword from '../components/User/Pages/Login/ForgetPassword';
 
-export default function App() {
+export default function UserRoutes() {
   return (
     <Switch>
       <Grid container direction="column" className="min-h-screen">

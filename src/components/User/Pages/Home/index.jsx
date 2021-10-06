@@ -13,10 +13,10 @@ import Hidden from '@mui/material/Hidden';
 
 import { Search } from '@mui/icons-material';
 
-import help from '../../../assets/help.svg';
-import evaluation from '../../../assets/evaluation.svg';
-import compare from '../../../assets/compare.svg';
-import homeImg from '../../../assets/homeImg.svg';
+import help from '../../../../assets/help.svg';
+import evaluation from '../../../../assets/evaluation.svg';
+import compare from '../../../../assets/compare.svg';
+import homeImg from '../../../../assets/homeImg.svg';
 
 export default function Home() {
   const ref = useRef();

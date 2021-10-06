@@ -16,7 +16,7 @@ import { useHistory } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 
-import googleLogo from '../../../assets/googleLogo.svg';
+import googleLogo from '../../../../assets/googleLogo.svg';
 
 export default function Login() {
   const history = useHistory();
@@ -67,6 +67,7 @@ export default function Login() {
               <TextField
                 fullWidth
                 required
+                type="password"
                 name="password"
                 value={formik.values.password}
                 onChange={formik.handleChange}
@@ -77,8 +78,8 @@ export default function Login() {
                 style={{ fontFamily: 'montserrat' }}
               />
             </Grid>
-            <Grid item className="mt-3">
-              <p className="font-semibold text-sm text-red-700" style={{ fontFamily: 'montserrat' }}>Incorrect email or password. Please try again.</p>
+            <Grid item className={`${!formik.isValid ? 'block' : 'hidden'} mt-3`}>
+              <p className="font-semibold text-sm text-red-700" style={{ fontFamily: 'montserrat' }}>There are some errors in form. Please try again.</p>
             </Grid>
             <Grid item className="flex gap-3 my-3 justify-between items-center">
               <div className="flex-grow flex gap-3 items-center">
