@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React, { useRef, useState } from 'react';
 
 import {
@@ -22,8 +23,16 @@ export default function Home() {
   const ref = useRef();
   const [searchBy, setSearchBy] = useState('university');
   const [searchText, setSearchText] = useState('');
-  const universities = ['University of Dhaka', 'University of Lahore', 'University of Karachi'];
-  const names = ['Abdul Kalam', 'Abdul Salam', 'Shaikh Saadi'];
+  const universities = [
+    { label: 'University of Dhaka' },
+    { label: 'University of Lahore' },
+    { label: 'University of Karachi' },
+  ];
+  const names = [
+    { label: 'Abdul Kalam', subject: 'Mathematics', university: 'North South University' },
+    { label: 'Abdul Salam', subject: 'Mathematics', university: 'North South University' },
+    { label: 'Shaikh Saadi', subject: 'Mathematics', university: 'North South University' },
+  ];
   const [value, setValue] = React.useState(universities[0]);
   return (
     <>
@@ -31,49 +40,75 @@ export default function Home() {
         <Container>
           <Grid container alignItems="center" className="pt-12 pb-60" columnSpacing={2}>
             <Grid item xs={12} md={8} className="h-full flex justify-center flex-col">
-              <Typography className="text-3xl md:text-5xl font-bold">
+              <Typography style={{ lineHeight: '4rem' }} className="text-3xl md:text-5xl font-bold">
                 View Evaluations and&nbsp;
                 <span className="text-primary">Grade</span>
                 &nbsp;Your Faculty Members
               </Typography>
-              <div className="w-full flex rounded h-16 py-2">
-                <Select
-                  variant="outlined"
-                  ref={ref}
-                  className="bg-primary text-white md:px-2 w-auto"
-                  value={searchBy}
-                  onChange={(e) => setSearchBy(e.target.value)}
-                >
-                  <MenuItem value="university">Search by University</MenuItem>
-                  <MenuItem value="name">Search by Faculty</MenuItem>
-                </Select>
-                {/* <input className="bg-gray-100 h-full px-3 w-3/6" /> */}
-                <Autocomplete
-                  freeSolo
-                  id="free-solo-2-demo"
-                  disableClearable
-                  className="h-full w-3/6"
-                  options={searchBy === 'university' ? universities : names}
-                  value={value}
-                  onChange={(e) => setValue(e.target.value)}
-                  inputValue={searchText}
-                  onInputChange={(e, val) => setSearchText(val)}
-                  renderInput={(params) => (
-                    <TextField
-                      label="Search input"
-                      // eslint-disable-next-line react/jsx-props-no-spreading
-                      {...params}
-                      InputProps={{
-                        ...params.InputProps,
-                        type: 'search',
-                      }}
-                    />
-                  )}
-                />
-                <span className="bg-primary h-full px-1 md:px-3 flex items-center rounded-r">
-                  <Search htmlColor="white" />
-                </span>
-              </div>
+              <Grid container className="rounded h-16 py-2 md:w-11/12">
+                <Grid item xs={10} md={4} sx={{ order: 1 }}>
+                  <Select
+                    variant="outlined"
+                    ref={ref}
+                    className="bg-primary h-14 w-full text-white"
+                    value={searchBy}
+                    onChange={(e) => setSearchBy(e.target.value)}
+                    classes={{
+                      icon: 'text-white',
+                    }}
+                  >
+                    <MenuItem value="university">Search by University</MenuItem>
+                    <MenuItem value="name">Search by Faculty</MenuItem>
+                  </Select>
+                </Grid>
+                <Grid item xs={12} md={7} sx={{ order: { xs: 3, md: 2 } }} className="mt-1 md:mt-0">
+                  <Autocomplete
+                    id="free-solo-2-demo"
+                    disableClearable
+                    freeSolo
+                    getOptionLabel={(option) => option.label}
+                    options={searchBy === 'university' ? universities : names}
+                    value={value}
+                    onChange={(e) => setValue(e.target.value)}
+                    inputValue={searchText}
+                    onInputChange={(e, val) => setSearchText(val)}
+                    renderInput={(params) => (
+                      <TextField
+                        placeholder="Search input"
+                        {...params}
+                        InputProps={{
+                          ...params.InputProps,
+                          type: 'search',
+                          className: 'h-14 bg-gray-200',
+                        }}
+                      />
+                    )}
+                    renderOption={(props, option) => {
+                      if (searchBy === 'university') {
+                        return (
+                          <MenuItem {...props}>{option.label}</MenuItem>
+                        );
+                      }
+                      return (
+                        <MenuItem {...props}>
+                          <div className="flex items-end justify-between gap-3 overflow-auto" style={{ fontFamily: 'montserrat' }}>
+                            <div className="flex flex-col">
+                              <p className="text-gray-600">{option.label}</p>
+                              <span className="text-primary text-xs">{option.subject}</span>
+                            </div>
+                            <p className="font-bold">{option.university}</p>
+                          </div>
+                        </MenuItem>
+                      );
+                    }}
+                  />
+                </Grid>
+                <Grid item sx={{ order: { xs: 2, md: 3 }, flexGrow: 1 }}>
+                  <span className="bg-primary h-14 px-3 flex items-center justify-center rounded-r">
+                    <Search htmlColor="white" />
+                  </span>
+                </Grid>
+              </Grid>
             </Grid>
             <Hidden mdDown>
               <Grid item md={4}>
@@ -84,11 +119,11 @@ export default function Home() {
         </Container>
       </Grid>
       <Grid container className="bg-primaryLight flex-grow">
-        <Container className="p-16">
+        <Container className="p-16 flex justify-center">
           <Grid container spacing={6}>
             <Grid item md={4} className="flex flex-col items-center">
               <img src={help} alt="help others" className="w-24" />
-              <Typography className="text-white font-bold capitalize py-3">Help other students 100% anonymous</Typography>
+              <Typography className="text-white text-center font-bold capitalize py-3">Help other students 100% anonymous</Typography>
               <Typography className="text-white flex flex-wrap" align="center">
                 Lorem ipsum dolor sit amet,
                 eum et consul accusam urbanitas,
@@ -97,7 +132,7 @@ export default function Home() {
             </Grid>
             <Grid item md={4} className="flex flex-col items-center">
               <img src={evaluation} alt="help others" className="w-24" />
-              <Typography className="text-white font-bold capitalize py-3">Reliable evaluation from your peers</Typography>
+              <Typography className="text-white text-center font-bold capitalize py-3">Reliable evaluation from your peers</Typography>
               <Typography className="text-white flex flex-wrap" align="center">
                 Lorem ipsum dolor sit amet, eum et
                 consul accusam urbanitas, vel ne
@@ -107,7 +142,7 @@ export default function Home() {
             </Grid>
             <Grid item md={4} className="flex flex-col items-center">
               <img src={compare} alt="help others" className="w-24" />
-              <Typography className="text-white font-bold capitalize py-3">Compare faculty members</Typography>
+              <Typography className="text-white text-center font-bold capitalize py-3">Compare faculty members</Typography>
               <Typography className="text-white flex flex-wrap" align="center">
                 Lorem ipsum dolor sit amet, eum et
                 consul accusam urbanitas, vel ne
