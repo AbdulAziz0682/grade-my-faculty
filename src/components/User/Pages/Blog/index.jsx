@@ -10,7 +10,7 @@ export default function AboutUs() {
       <Container>
         <Grid container direction="column" className="pt-16 pb-60">
           <Grid item className="w-full">
-            <Typography variant="h1" align="center"> Our Blogs </Typography>
+            <Typography variant="h2" align="center"> Our Blogs </Typography>
           </Grid>
         </Grid>
       </Container>

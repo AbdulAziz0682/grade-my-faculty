@@ -20,9 +20,9 @@ import compare from '../../../../assets/compare.svg';
 import homeImg from '../../../../assets/homeImg.svg';
 
 function getList(searchBy, universities, faculty) {
-  if (searchBy === 'university') return [...universities.map((uni) => <MenuItem value={uni.name}>{uni.name}</MenuItem>)];
+  if (searchBy === 'university') return [...universities.map((uni) => <MenuItem className="bg-gray-50" value={uni.name}>{uni.name}</MenuItem>)];
   return [...faculty.map((member) => (
-    <MenuItem value={member.name}>
+    <MenuItem value={member.name} className="bg-gray-50">
       <div className="flex items-end justify-between gap-3 overflow-auto pb-2" style={{ fontFamily: 'montserrat' }}>
         <div className="flex flex-col">
           <p className="text-gray-600">{member.name}</p>
@@ -80,47 +80,6 @@ export default function Home() {
                   </Select>
                 </Grid>
                 <Grid item xs={12} md={7} sx={{ order: { xs: 3, md: 2 } }} className="mt-1 md:mt-0">
-                  {/* <Autocomplete
-                    id="free-solo-2-demo"
-                    disableClearable
-                    freeSolo
-                    options={searchBy === 'university' ? universities : faculty}
-                    getOptionLabel={(option) => option.name}
-                    value={value}
-                    onChange={(e) => setValue(e.target.value)}
-                    inputValue={searchText}
-                    onInputChange={(e, val) => setSearchText(val)}
-                    renderInput={(params) => (
-                      <TextField
-                        placeholder="Search input"
-                        {...params}
-                        InputProps={{
-                          ...params.InputProps,
-                          type: 'search',
-                          className: 'h-14 bg-gray-200',
-                        }}
-                      />
-                    )}
-                    renderOption={(props, option) => {
-                      if (searchBy === 'university') {
-                        return (
-                          <MenuItem {...props} value={option.name}>{option.name}</MenuItem>
-                        );
-                      }
-                      return (
-                        <MenuItem {...props}>
-                          <div className="flex items-end justify-between gap-3 overflow-auto"
-                          style={{ fontFamily: 'montserrat' }}>
-                            <div className="flex flex-col">
-                              <p className="text-gray-600">{option.name}</p>
-                              <span className="text-primary text-xs">{option.subject}</span>
-                            </div>
-                            <p className="font-bold">{option.university}</p>
-                          </div>
-                        </MenuItem>
-                      );
-                    }}
-                  /> */}
                   <Select
                     variant="outlined"
                     className="bg-gray-100 h-14"
