@@ -6,11 +6,14 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Icon from '@mui/material/Icon';
 
+import { useHistory } from 'react-router-dom';
+
 import facebook from '../../../assets/facebook.svg';
 import instagram from '../../../assets/instagram.svg';
 import twitter from '../../../assets/twitter.svg';
 
 export default function Footer() {
+  const history = useHistory();
   return (
     <Box id="footer" sx={{ top: 'auto', bottom: 0, zIndex: 0 }}>
       <Box sx={{ bgcolor: 'primary.main', width: '100%' }}>
@@ -29,9 +32,15 @@ export default function Footer() {
             >
               <Typography className="font-semibold" color="white">Grade My Faculty</Typography>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-                <Typography className="font-semibold" color="white">FAQ</Typography>
-                <Typography className="font-semibold" color="white">Contact Us</Typography>
-                <Typography className="font-semibold" color="white">Blog</Typography>
+                <Typography className="font-semibold cursor-pointer" color="white">
+                  <span aria-hidden onClick={() => history.push('/faq')}>FAQ</span>
+                </Typography>
+                <Typography className="font-semibold cursor-pointer" color="white">
+                  <span aria-hidden onClick={() => history.push('/contact')}>Contact Us</span>
+                </Typography>
+                <Typography className="font-semibold cursor-pointer" color="white">
+                  <span aria-hidden onClick={() => history.push('/blog')}>Blog</span>
+                </Typography>
               </div>
             </Grid>
             <Grid

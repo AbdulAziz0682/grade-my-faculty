@@ -4,8 +4,7 @@ import { createTheme, ThemeProvider, StyledEngineProvider } from '@mui/material/
 
 import { BrowserRouter } from 'react-router-dom';
 
-import { useState } from '@hookstate/core';
-import account from './hookState/account';
+import { useSelector } from 'react-redux';
 
 import './index.css';
 
@@ -17,19 +16,19 @@ import themeOptions from './themeOptions';
 const theme = createTheme(themeOptions);
 
 export default function App() {
-  const { role } = useState(account);
+  const role = useSelector((state) => state.account.role);
   return (
     <StyledEngineProvider injectFirst>
       <ThemeProvider theme={theme}>
         <BrowserRouter>
           {
-            role.get() === 'user'
+            role === 'user'
             && (
               <UserRoutes />
             )
           }
           {
-            role.get() === 'admin'
+            role === 'admin'
             && (
               <AdminRoutes />
             )

@@ -5,7 +5,6 @@
   "dependencies": {
     "@emotion/react": "^11.4.1",
     "@emotion/styled": "^11.3.0",
-    "@hookstate/core": "^3.0.13",
     "@mui/icons-material": "^5.0.1",
     "@mui/material": "^5.0.2",
     "@mui/styles": "^5.0.1",
@@ -22,8 +21,10 @@
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-redux": "^7.2.5",
     "react-router-dom": "^5.3.0",
     "react-scripts": "4.0.3",
+    "redux": "^4.1.1",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.16",
     "web-vitals": "^1.0.1",
     "yup": "^0.32.9"

@@ -1,13 +1,13 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 
 import {
   Grid,
   Typography,
   Select,
   MenuItem,
-  Autocomplete,
-  TextField,
+  // Autocomplete,
+  // TextField,
 } from '@mui/material';
 import Container from '@mui/material/Container';
 import Hidden from '@mui/material/Hidden';
@@ -19,21 +19,39 @@ import evaluation from '../../../../assets/evaluation.svg';
 import compare from '../../../../assets/compare.svg';
 import homeImg from '../../../../assets/homeImg.svg';
 
+function getList(searchBy, universities, faculty) {
+  if (searchBy === 'university') return [...universities.map((uni) => <MenuItem value={uni.name}>{uni.name}</MenuItem>)];
+  return [...faculty.map((member) => (
+    <MenuItem value={member.name}>
+      <div className="flex items-end justify-between gap-3 overflow-auto pb-2" style={{ fontFamily: 'montserrat' }}>
+        <div className="flex flex-col">
+          <p className="text-gray-600">{member.name}</p>
+          <span className="text-primary text-xs">{member.subject}</span>
+        </div>
+        <p className="font-bold">{member.university}</p>
+      </div>
+    </MenuItem>
+  ))];
+}
+
 export default function Home() {
   const ref = useRef();
-  const [searchBy, setSearchBy] = useState('university');
-  const [searchText, setSearchText] = useState('');
+  const [searchBy, setSearchBy] = React.useState('university');
+  // const [searchText, setSearchText] = React.useState('');
   const universities = [
-    { label: 'University of Dhaka' },
-    { label: 'University of Lahore' },
-    { label: 'University of Karachi' },
+    { name: 'University of Dhaka' },
+    { name: 'University of Lahore' },
+    { name: 'University of Karachi' },
   ];
-  const names = [
-    { label: 'Abdul Kalam', subject: 'Mathematics', university: 'North South University' },
-    { label: 'Abdul Salam', subject: 'Mathematics', university: 'North South University' },
-    { label: 'Shaikh Saadi', subject: 'Mathematics', university: 'North South University' },
+  const faculty = [
+    { name: 'Abdul Kalam', subject: 'Mathematics', university: 'North South University' },
+    { name: 'Abdul Salam', subject: 'Mathematics', university: 'North South University' },
+    { name: 'Shaikh Saadi', subject: 'Mathematics', university: 'North South University' },
   ];
-  const [value, setValue] = React.useState(universities[0]);
+  const [value, setValue] = React.useState('');
+  React.useEffect(() => {
+    setValue(searchBy === 'university' ? universities[universities.length - 1] : faculty[faculty.length - 1]);
+  }, [searchBy]);
   return (
     <>
       <Grid container className="flex-grow">
@@ -62,12 +80,12 @@ export default function Home() {
                   </Select>
                 </Grid>
                 <Grid item xs={12} md={7} sx={{ order: { xs: 3, md: 2 } }} className="mt-1 md:mt-0">
-                  <Autocomplete
+                  {/* <Autocomplete
                     id="free-solo-2-demo"
                     disableClearable
                     freeSolo
-                    getOptionLabel={(option) => option.label}
-                    options={searchBy === 'university' ? universities : names}
+                    options={searchBy === 'university' ? universities : faculty}
+                    getOptionLabel={(option) => option.name}
                     value={value}
                     onChange={(e) => setValue(e.target.value)}
                     inputValue={searchText}
@@ -86,14 +104,15 @@ export default function Home() {
                     renderOption={(props, option) => {
                       if (searchBy === 'university') {
                         return (
-                          <MenuItem {...props}>{option.label}</MenuItem>
+                          <MenuItem {...props} value={option.name}>{option.name}</MenuItem>
                         );
                       }
                       return (
                         <MenuItem {...props}>
-                          <div className="flex items-end justify-between gap-3 overflow-auto" style={{ fontFamily: 'montserrat' }}>
+                          <div className="flex items-end justify-between gap-3 overflow-auto"
+                          style={{ fontFamily: 'montserrat' }}>
                             <div className="flex flex-col">
-                              <p className="text-gray-600">{option.label}</p>
+                              <p className="text-gray-600">{option.name}</p>
                               <span className="text-primary text-xs">{option.subject}</span>
                             </div>
                             <p className="font-bold">{option.university}</p>
@@ -101,7 +120,16 @@ export default function Home() {
                         </MenuItem>
                       );
                     }}
-                  />
+                  /> */}
+                  <Select
+                    variant="outlined"
+                    className="bg-gray-100 h-14"
+                    fullWidth
+                    value={value}
+                    onChange={(e) => setValue(e.target.value)}
+                  >
+                    {getList(searchBy, universities, faculty)}
+                  </Select>
                 </Grid>
                 <Grid item sx={{ order: { xs: 2, md: 3 }, flexGrow: 1 }}>
                   <span className="bg-primary h-14 px-3 flex items-center justify-center rounded-r">

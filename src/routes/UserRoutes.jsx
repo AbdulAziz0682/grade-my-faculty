@@ -9,12 +9,13 @@ import TopBar from '../components/User/TopBar';
 import Footer from '../components/User/Footer';
 import Home from '../components/User/Pages/Home';
 import Blog from '../components/User/Pages/Blog';
-import AboutUs from '../components/User/Pages/AboutUs';
 import Contact from '../components/User/Pages/Contact';
 import Login from '../components/User/Pages/Login';
 import SingUp from '../components/User/Pages/SignUp';
 import EmailVerification from '../components/User/Pages/SignUp/EmailVerification';
 import ForgetPassword from '../components/User/Pages/Login/ForgetPassword';
+import Faq from '../components/User/Pages/Faq';
+import AboutUs from '../components/User/Pages/AboutUs';
 
 export default function UserRoutes() {
   return (
@@ -35,6 +36,9 @@ export default function UserRoutes() {
           </Route>
           <Route exact path="/aboutUs">
             <AboutUs />
+          </Route>
+          <Route exact path="/faq">
+            <Faq />
           </Route>
           <Route exact path="/contact">
             <Contact />

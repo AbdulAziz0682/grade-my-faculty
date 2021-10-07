@@ -40,7 +40,7 @@ export default function Login() {
       <Container className="flex items-center justify-center py-3">
         <Paper
           component="form"
-          className="sm:w-4/6 lg:w-3/6 p-2 md:px-12 py-10 rounded-xl"
+          className="w-full lg:w-3/6 p-8 md:px-12 py-10 rounded-xl"
           onSubmit={formik.handleSubmit}
         >
           <Grid container direction="column" className="gap-3">
@@ -58,7 +58,10 @@ export default function Login() {
                 error={formik.touched.email && Boolean(formik.errors.email)}
                 helperText={formik.touched.email && formik.errors.email}
                 placeholder="example@gmail.com"
-                className="bg-gray-50 mt-2"
+                className="mt-2"
+                InputProps={{
+                  className: 'bg-gray-50',
+                }}
                 style={{ fontFamily: 'montserrat' }}
               />
             </Grid>
@@ -74,7 +77,10 @@ export default function Login() {
                 error={formik.touched.password && Boolean(formik.errors.password)}
                 helperText={formik.touched.password && formik.errors.password}
                 placeholder="********"
-                className="bg-gray-50 mt-2"
+                className="mt-2"
+                InputProps={{
+                  className: 'bg-gray-50',
+                }}
                 style={{ fontFamily: 'montserrat' }}
               />
             </Grid>
