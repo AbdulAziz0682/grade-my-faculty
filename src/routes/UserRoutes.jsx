@@ -8,6 +8,8 @@ import Grid from '@mui/material/Grid';
 import TopBar from '../components/User/TopBar';
 import Footer from '../components/User/Footer';
 import Home from '../components/User/Pages/Home';
+import Faculty from '../components/User/Pages/Faculty';
+import Grade from '../components/User/Pages/Grade';
 import Blog from '../components/User/Pages/Blog';
 import Contact from '../components/User/Pages/Contact';
 import Login from '../components/User/Pages/Login';
@@ -24,12 +26,18 @@ export default function UserRoutes() {
         <Grid item>
           <TopBar />
         </Grid>
-        <Grid item className="flex-grow flex flex-col" sx={{ marginTop: '86px' /* MaxHeight of Topbar */ }}>
+        <Grid item className="flex flex-col flex-grow" sx={{ marginTop: '86px' /* MaxHeight of Topbar */ }}>
           <Route exact path="/">
             <Home />
           </Route>
           <Route exact path="/home">
             <Home />
+          </Route>
+          <Route exact path="/faculty">
+            <Faculty />
+          </Route>
+          <Route exact path="/grade">
+            <Grade />
           </Route>
           <Route exact path="/blog">
             <Blog />

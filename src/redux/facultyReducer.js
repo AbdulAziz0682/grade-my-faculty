@@ -1,0 +1,298 @@
+const initialState = [
+  {
+    id: 1,
+    name: 'Abdul Kalam',
+    university: 'Nort South University',
+    department: 'Mathematics',
+    courses: ['MATH101', 'MATH201', 'MATH301'],
+    performance: 80, // == 80%
+    levelOfDifficulty: 3.5,
+    grade: 'A',
+    reviews: 34,
+    attributes: ['Lots of homework', 'Passionate', 'Hard grading', 'Motivational', 'Moderate exams', 'Dedicated'],
+  },
+  {
+    id: 2,
+    name: 'Abdul Salam',
+    university: 'Nort South University',
+    department: 'Mathematics',
+    courses: ['MATH101', 'MATH201', 'MATH301'],
+    performance: 80, // == 80%
+    levelOfDifficulty: 3.5,
+    grade: 'A',
+    reviews: 34,
+    attributes: ['Lots of homework', 'Passionate', 'Hard grading', 'Motivational', 'Moderate exams', 'Dedicated'],
+  },
+  {
+    id: 3,
+    name: 'Abdul Sami',
+    university: 'Nort South University',
+    department: 'Mathematics',
+    courses: ['MATH101', 'MATH201', 'MATH301'],
+    performance: 80, // == 80%
+    levelOfDifficulty: 3.5,
+    grade: 'A',
+    reviews: 34,
+    attributes: ['Lots of homework', 'Passionate', 'Hard grading', 'Motivational', 'Moderate exams', 'Dedicated'],
+  },
+  {
+    id: 4,
+    name: 'Shaikh Saadi',
+    university: 'Nort South University',
+    department: 'Mathematics',
+    courses: ['MATH101', 'MATH201', 'MATH301'],
+    performance: 80, // == 80%
+    levelOfDifficulty: 3.5,
+    grade: 'A',
+    reviews: 34,
+    attributes: ['Lots of homework', 'Passionate', 'Hard grading', 'Motivational', 'Moderate exams', 'Dedicated'],
+  },
+  {
+    id: 5,
+    name: 'Salman Ali',
+    university: 'Nort South University',
+    department: 'Mathematics',
+    courses: ['MATH101', 'MATH201', 'MATH301'],
+    performance: 80, // == 80%
+    levelOfDifficulty: 3.5,
+    grade: 'A',
+    reviews: 34,
+    attributes: ['Lots of homework', 'Passionate', 'Hard grading', 'Motivational', 'Moderate exams', 'Dedicated'],
+  },
+  {
+    id: 6,
+    name: 'Mansoor Saleem',
+    university: 'Nort South University',
+    department: 'Mathematics',
+    courses: ['MATH101', 'MATH201', 'MATH301'],
+    performance: 80, // == 80%
+    levelOfDifficulty: 3.5,
+    grade: 'A',
+    reviews: 34,
+    attributes: ['Lots of homework', 'Passionate', 'Hard grading', 'Motivational', 'Moderate exams', 'Dedicated'],
+  },
+  {
+    id: 7,
+    name: 'Mansoor Ahmed',
+    university: 'Nort South University',
+    department: 'Mathematics',
+    courses: ['MATH101', 'MATH201', 'MATH301'],
+    performance: 80, // == 80%
+    levelOfDifficulty: 3.5,
+    grade: 'A',
+    reviews: 34,
+    attributes: ['Lots of homework', 'Passionate', 'Hard grading', 'Motivational', 'Moderate exams', 'Dedicated'],
+  },
+  {
+    id: 8,
+    name: 'Ahmed Ali',
+    university: 'Nort South University',
+    department: 'Mathematics',
+    courses: ['MATH101', 'MATH201', 'MATH301'],
+    performance: 80, // == 80%
+    levelOfDifficulty: 3.5,
+    grade: 'A',
+    reviews: 34,
+    attributes: ['Lots of homework', 'Passionate', 'Hard grading', 'Motivational', 'Moderate exams', 'Dedicated'],
+  },
+  {
+    id: 1,
+    name: 'Abdul Kalam',
+    university: 'Karachi University',
+    department: 'Mathematics',
+    courses: ['MATH101', 'MATH201', 'MATH301'],
+    performance: 80, // == 80%
+    levelOfDifficulty: 3.5,
+    grade: 'A',
+    reviews: 34,
+    attributes: ['Lots of homework', 'Passionate', 'Hard grading', 'Motivational', 'Moderate exams', 'Dedicated'],
+  },
+  {
+    id: 2,
+    name: 'Abdul Salam',
+    university: 'Karachi University',
+    department: 'Mathematics',
+    courses: ['MATH101', 'MATH201', 'MATH301'],
+    performance: 80, // == 80%
+    levelOfDifficulty: 3.5,
+    grade: 'A',
+    reviews: 34,
+    attributes: ['Lots of homework', 'Passionate', 'Hard grading', 'Motivational', 'Moderate exams', 'Dedicated'],
+  },
+  {
+    id: 3,
+    name: 'Abdul Sami',
+    university: 'Karachi University',
+    department: 'Mathematics',
+    courses: ['MATH101', 'MATH201', 'MATH301'],
+    performance: 80, // == 80%
+    levelOfDifficulty: 3.5,
+    grade: 'A',
+    reviews: 34,
+    attributes: ['Lots of homework', 'Passionate', 'Hard grading', 'Motivational', 'Moderate exams', 'Dedicated'],
+  },
+  {
+    id: 4,
+    name: 'Shaikh Saadi',
+    university: 'Karachi University',
+    department: 'Mathematics',
+    courses: ['MATH101', 'MATH201', 'MATH301'],
+    performance: 80, // == 80%
+    levelOfDifficulty: 3.5,
+    grade: 'A',
+    reviews: 34,
+    attributes: ['Lots of homework', 'Passionate', 'Hard grading', 'Motivational', 'Moderate exams', 'Dedicated'],
+  },
+  {
+    id: 5,
+    name: 'Salman Ali',
+    university: 'Karachi University',
+    department: 'Mathematics',
+    courses: ['MATH101', 'MATH201', 'MATH301'],
+    performance: 80, // == 80%
+    levelOfDifficulty: 3.5,
+    grade: 'A',
+    reviews: 34,
+    attributes: ['Lots of homework', 'Passionate', 'Hard grading', 'Motivational', 'Moderate exams', 'Dedicated'],
+  },
+  {
+    id: 6,
+    name: 'Mansoor Saleem',
+    university: 'Karachi University',
+    department: 'Mathematics',
+    courses: ['MATH101', 'MATH201', 'MATH301'],
+    performance: 80, // == 80%
+    levelOfDifficulty: 3.5,
+    grade: 'A',
+    reviews: 34,
+    attributes: ['Lots of homework', 'Passionate', 'Hard grading', 'Motivational', 'Moderate exams', 'Dedicated'],
+  },
+  {
+    id: 7,
+    name: 'Mansoor Ahmed',
+    university: 'Karachi University',
+    department: 'Mathematics',
+    courses: ['MATH101', 'MATH201', 'MATH301'],
+    performance: 80, // == 80%
+    levelOfDifficulty: 3.5,
+    grade: 'A',
+    reviews: 34,
+    attributes: ['Lots of homework', 'Passionate', 'Hard grading', 'Motivational', 'Moderate exams', 'Dedicated'],
+  },
+  {
+    id: 8,
+    name: 'Ahmed Ali',
+    university: 'Karachi University',
+    department: 'Mathematics',
+    courses: ['MATH101', 'MATH201', 'MATH301'],
+    performance: 80, // == 80%
+    levelOfDifficulty: 3.5,
+    grade: 'A',
+    reviews: 34,
+    attributes: ['Lots of homework', 'Passionate', 'Hard grading', 'Motivational', 'Moderate exams', 'Dedicated'],
+  },
+  {
+    id: 1,
+    name: 'Abdul Kalam',
+    university: 'Lahore University',
+    department: 'Mathematics',
+    courses: ['MATH101', 'MATH201', 'MATH301'],
+    performance: 80, // == 80%
+    levelOfDifficulty: 3.5,
+    grade: 'A',
+    reviews: 34,
+    attributes: ['Lots of homework', 'Passionate', 'Hard grading', 'Motivational', 'Moderate exams', 'Dedicated'],
+  },
+  {
+    id: 2,
+    name: 'Abdul Salam',
+    university: 'Lahore University',
+    department: 'Mathematics',
+    courses: ['MATH101', 'MATH201', 'MATH301'],
+    performance: 80, // == 80%
+    levelOfDifficulty: 3.5,
+    grade: 'A',
+    reviews: 34,
+    attributes: ['Lots of homework', 'Passionate', 'Hard grading', 'Motivational', 'Moderate exams', 'Dedicated'],
+  },
+  {
+    id: 3,
+    name: 'Abdul Sami',
+    university: 'Lahore University',
+    department: 'Mathematics',
+    courses: ['MATH101', 'MATH201', 'MATH301'],
+    performance: 80, // == 80%
+    levelOfDifficulty: 3.5,
+    grade: 'A',
+    reviews: 34,
+    attributes: ['Lots of homework', 'Passionate', 'Hard grading', 'Motivational', 'Moderate exams', 'Dedicated'],
+  },
+  {
+    id: 4,
+    name: 'Shaikh Saadi',
+    university: 'Lahore University',
+    department: 'Mathematics',
+    courses: ['MATH101', 'MATH201', 'MATH301'],
+    performance: 80, // == 80%
+    levelOfDifficulty: 3.5,
+    grade: 'A',
+    reviews: 34,
+    attributes: ['Lots of homework', 'Passionate', 'Hard grading', 'Motivational', 'Moderate exams', 'Dedicated'],
+  },
+  {
+    id: 5,
+    name: 'Salman Ali',
+    university: 'Lahore University',
+    department: 'Mathematics',
+    courses: ['MATH101', 'MATH201', 'MATH301'],
+    performance: 80, // == 80%
+    levelOfDifficulty: 3.5,
+    grade: 'A',
+    reviews: 34,
+    attributes: ['Lots of homework', 'Passionate', 'Hard grading', 'Motivational', 'Moderate exams', 'Dedicated'],
+  },
+  {
+    id: 6,
+    name: 'Mansoor Saleem',
+    university: 'Lahore University',
+    department: 'Mathematics',
+    courses: ['MATH101', 'MATH201', 'MATH301'],
+    performance: 80, // == 80%
+    levelOfDifficulty: 3.5,
+    grade: 'A',
+    reviews: 34,
+    attributes: ['Lots of homework', 'Passionate', 'Hard grading', 'Motivational', 'Moderate exams', 'Dedicated'],
+  },
+  {
+    id: 7,
+    name: 'Mansoor Ahmed',
+    university: 'Lahore University',
+    department: 'Mathematics',
+    courses: ['MATH101', 'MATH201', 'MATH301'],
+    performance: 80, // == 80%
+    levelOfDifficulty: 3.5,
+    grade: 'A',
+    reviews: 34,
+    attributes: ['Lots of homework', 'Passionate', 'Hard grading', 'Motivational', 'Moderate exams', 'Dedicated'],
+  },
+  {
+    id: 8,
+    name: 'Ahmed Ali',
+    university: 'Lahore University',
+    department: 'Mathematics',
+    courses: ['MATH101', 'MATH201', 'MATH301'],
+    performance: 80, // == 80%
+    levelOfDifficulty: 3.5,
+    grade: 'A',
+    reviews: 34,
+    attributes: ['Lots of homework', 'Passionate', 'Hard grading', 'Motivational', 'Moderate exams', 'Dedicated'],
+  },
+];
+
+function facultyReducer(state = initialState, action) {
+  switch (action.type) {
+    default: return state;
+  }
+}
+
+export default facultyReducer;
