@@ -20,7 +20,6 @@ export default function Faculty() {
   faculty = faculty.filter(
     (fac) => fac.university.toLowerCase().startsWith(state[0].toLowerCase()),
   );
-  console.log(faculty);
   const [isViewAll, setViewAll] = useState(false);
   return (
     <Grid container className="flex-grow">
