@@ -18,6 +18,8 @@ import SingUp from '../components/User/Pages/SignUp';
 import EmailVerification from '../components/User/Pages/SignUp/EmailVerification';
 import ForgetPassword from '../components/User/Pages/Login/ForgetPassword';
 import Faq from '../components/User/Pages/Faq';
+import StudentsFaq from '../components/User/Pages/Faq/StudentsFaq';
+import TeachersFaq from '../components/User/Pages/Faq/TeachersFaq';
 import AboutUs from '../components/User/Pages/AboutUs';
 
 export default function UserRoutes() {
@@ -51,6 +53,12 @@ export default function UserRoutes() {
           </Route>
           <Route exact path="/faq">
             <Faq />
+          </Route>
+          <Route exact path="/studentsFaq">
+            <StudentsFaq />
+          </Route>
+          <Route exact path="/teachersFaq">
+            <TeachersFaq />
           </Route>
           <Route exact path="/contact">
             <Contact />
