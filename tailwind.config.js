@@ -7,6 +7,7 @@ module.exports = {
         primary: '#5D5FEF',
         pageBg: 'rgba(93, 95, 239, 0.1)',
         primaryLight: '#7778F0',
+        activeTab: '#E0DBF8',
       },
     },
     screen: {

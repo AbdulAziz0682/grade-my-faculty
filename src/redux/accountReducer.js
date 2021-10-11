@@ -2,7 +2,7 @@ import { LOGIN } from './accountActionTypes';
 
 const initialState = {
   loggedIn: false,
-  role: 'user',
+  role: 'admin',
   person: {
     email: 'example@gmail.com',
   },

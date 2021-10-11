@@ -12,7 +12,7 @@ export default function AdminRoutes() {
   return (
     <Switch>
       <Grid container direction="column" className="min-h-screen">
-        <Grid item className="flex-grow flex flex-col" sx={{ marginTop: '86px' /* MaxHeight of Topbar */ }}>
+        <Grid item className="flex flex-col flex-grow">
           <Route path="/">
             <Admin />
           </Route>
