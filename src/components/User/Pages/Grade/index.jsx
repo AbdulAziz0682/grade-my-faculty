@@ -17,14 +17,15 @@ import unlike from '../../../../assets/unlike.svg';
 import media from '../../../../assets/media.svg';
 
 export default function Grade() {
-  const faculty = useHistory().location.state[0];
+  const history = useHistory();
+  const faculty = history.location.state[0];
   return (
     <Grid container className="flex-grow">
       <Container className="flex flex-col md:flex-row md:gap-9">
         <div className="flex flex-col w-full lg:w-9/12 py-14">
           <Typography variant="h3">{faculty.university}</Typography>
           <Typography variant="body1" className="font-bold">Dhaka, Bangladesh</Typography>
-          <Paper elevation={2} className="flex flex-col gap-2 p-4 mt-6 rounded-2xl lg:p-9 bg-gray-50">
+          <Paper elevation={2} className="flex flex-col gap-2 p-4 mt-6 rounded-2xl lg:px-16 lg:py-8 bg-gray-50">
             <Typography className="text-3xl font-bold text-primary">{faculty.name}</Typography>
             <Typography className="font-bold">{faculty.university}</Typography>
             <Typography>
@@ -84,11 +85,11 @@ export default function Grade() {
                 </div>
               </div>
               <div className="flex justify-center flex-grow">
-                <Button variant="contained" className="py-8 rounded-3xl h-9">Grade this faculty</Button>
+                <Button variant="contained" className="py-8 rounded-3xl h-9" onClick={() => history.push('/grading', [faculty])}>Grade this faculty</Button>
               </div>
             </div>
           </Paper>
-          <Paper elevation={2} className="flex flex-col gap-6 p-4 mt-24 rounded-2xl lg:p-9 bg-gray-50">
+          <Paper elevation={2} className="flex flex-col gap-6 p-4 mt-24 rounded-2xl lg:px-16 lg:pt-8 lg:pb-5 bg-gray-50">
             <Typography className="py-2 text-4xl border-b-2 border-black">Evaluations</Typography>
             {
               [1, 2, 3].map(
@@ -128,6 +129,9 @@ export default function Grade() {
                 ),
               )
             }
+            <div className="flex justify-end pt-6 border-t-2 border-black">
+              <Button variant="contained" className="px-6 rounded-lg">Load More</Button>
+            </div>
           </Paper>
         </div>
         <div className="flex-col hidden gap-10 lg:flex lg:w-3/12 h-9 py-14">

@@ -10,6 +10,7 @@ import Footer from '../components/User/Footer';
 import Home from '../components/User/Pages/Home';
 import Faculty from '../components/User/Pages/Faculty';
 import Grade from '../components/User/Pages/Grade';
+import GradingForm from '../components/User/Pages/Grade/GradingForm';
 import Blog from '../components/User/Pages/Blog';
 import Contact from '../components/User/Pages/Contact';
 import Login from '../components/User/Pages/Login';
@@ -38,6 +39,9 @@ export default function UserRoutes() {
           </Route>
           <Route exact path="/grade">
             <Grade />
+          </Route>
+          <Route exact path="/grading">
+            <GradingForm />
           </Route>
           <Route exact path="/blog">
             <Blog />
