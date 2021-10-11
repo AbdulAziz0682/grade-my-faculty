@@ -3,15 +3,23 @@ import React, { useState } from 'react';
 import {
   Box,
   Drawer,
-  Button,
+  IconButton,
   useMediaQuery,
 } from '@mui/material';
 
+import { Logout, Menu } from '@mui/icons-material';
+
+import { useSelector } from 'react-redux';
+
 import Sidebar from './Sidebar';
+import Users from './Users';
+import Institutes from './Institutes';
+import Blogs from './Blogs';
 
 export default function Admin() {
   const [open, setOpen] = useState(false);
   const isMediumOrLargerScreen = useMediaQuery((theme) => theme.breakpoints.up('md'));
+  const { admin } = useSelector((state) => state);
   return (
     <Box display="flex" width="100%">
       {
@@ -35,8 +43,27 @@ export default function Admin() {
             </Drawer>
           )
       }
-      <div id="cont" className="flex-grow">
-        <Button className="ml-36" variant="contained" onClick={() => setOpen(!open)}>Open</Button>
+      <div id="cont" className="flex flex-col flex-grow bg-gray-50">
+        <div className={`flex items-center px-6 bg-white h-14 ${isMediumOrLargerScreen ? 'justify-end' : 'justify-between'}`}>
+          { !isMediumOrLargerScreen
+            && (
+              <IconButton onClick={() => setOpen(!open)}>
+                <Menu />
+              </IconButton>
+            )}
+          <IconButton><Logout /></IconButton>
+        </div>
+        <div className="flex flex-col p-6">
+          {
+            admin.currentTab === 'users' && <Users />
+          }
+          {
+            admin.currentTab === 'institutes' && <Institutes />
+          }
+          {
+            admin.currentTab === 'blogs' && <Blogs />
+          }
+        </div>
       </div>
     </Box>
   );

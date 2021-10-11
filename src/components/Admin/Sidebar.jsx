@@ -63,13 +63,13 @@ export default function Sidebar({ setOpen, open }) {
           <ListItemIcon className={`${!open && 'flex justify-center'}`}><img sr={professor} alt="professors" className="w-8 h-8" /></ListItemIcon>
           <ListItemText className={`${!open && 'hidden'}`} primary="Professors" />
         </ListItemButton>
-        <ListItemButton className={`${currentTab === 'institute' && 'bg-activeTab'}`} onClick={() => dispatch(setCurrentTab('institute'))}>
+        <ListItemButton className={`${currentTab === 'institutes' && 'bg-activeTab'}`} onClick={() => dispatch(setCurrentTab('institutes'))}>
           <ListItemIcon className={`${!open && 'flex justify-center'}`}><Festival className="w-8 h-8" /></ListItemIcon>
-          <ListItemText className={`${!open && 'hidden'}`} primary="Institute" />
+          <ListItemText className={`${!open && 'hidden'}`} primary="Institutes" />
         </ListItemButton>
-        <ListItemButton className={`${currentTab === 'blog' && 'bg-activeTab'}`} onClick={() => dispatch(setCurrentTab('blog'))}>
+        <ListItemButton className={`${currentTab === 'blogs' && 'bg-activeTab'}`} onClick={() => dispatch(setCurrentTab('blogs'))}>
           <ListItemIcon className={`${!open && 'flex justify-center'}`}><Assignment className="w-8 h-8" /></ListItemIcon>
-          <ListItemText className={`${!open && 'hidden'}`} primary="Blog" />
+          <ListItemText className={`${!open && 'hidden'}`} primary="Blogs" />
         </ListItemButton>
       </List>
       <Divider />
