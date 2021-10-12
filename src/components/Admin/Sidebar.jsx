@@ -25,7 +25,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setCurrentTab } from '../../redux/adminActions';
 
 import man from '../../assets/man.png';
-import professor from '../../assets/professor.svg';
+import professor from '../../assets/prof.svg';
 
 export default function Sidebar({ setOpen, open }) {
   const { currentTab } = useSelector((state) => state.admin);
@@ -51,30 +51,30 @@ export default function Sidebar({ setOpen, open }) {
       </div>
       <Divider />
       <List>
-        <ListItemButton className={`${currentTab === 'dashboard' && 'bg-activeTab'}`} onClick={() => dispatch(setCurrentTab('dashboard'))}>
+        <ListItemButton className={`${currentTab.name === 'dashboard' && 'bg-activeTab'}`} onClick={() => dispatch(setCurrentTab({ name: 'dashboard', data: null }))}>
           <ListItemIcon className={`${!open && 'flex justify-center'}`}><Dashboard className="w-8 h-8" /></ListItemIcon>
           <ListItemText className={`${!open && 'hidden'}`} primary="Dasboard" />
         </ListItemButton>
-        <ListItemButton className={`${currentTab === 'users' && 'bg-activeTab'}`} onClick={() => dispatch(setCurrentTab('users'))}>
+        <ListItemButton className={`${currentTab.name === 'users' && 'bg-activeTab'}`} onClick={() => dispatch(setCurrentTab({ name: 'users', data: null }))}>
           <ListItemIcon className={`${!open && 'flex justify-center'}`}><People className="w-8 h-8" /></ListItemIcon>
           <ListItemText className={`${!open && 'hidden'}`} primary="Users" />
         </ListItemButton>
-        <ListItemButton className={`${currentTab === 'professors' && 'bg-activeTab'}`} onClick={() => dispatch(setCurrentTab('professors'))}>
-          <ListItemIcon className={`${!open && 'flex justify-center'}`}><img sr={professor} alt="professors" className="w-8 h-8" /></ListItemIcon>
+        <ListItemButton className={`${currentTab.name === 'professors' && 'bg-activeTab'}`} onClick={() => dispatch(setCurrentTab({ name: 'professors', data: null }))}>
+          <ListItemIcon className={`${!open && 'flex justify-center'}`}><img src={professor} alt="professors" className="w-8 h-8" /></ListItemIcon>
           <ListItemText className={`${!open && 'hidden'}`} primary="Professors" />
         </ListItemButton>
-        <ListItemButton className={`${currentTab === 'institutes' && 'bg-activeTab'}`} onClick={() => dispatch(setCurrentTab('institutes'))}>
+        <ListItemButton className={`${currentTab.name === 'institutes' && 'bg-activeTab'}`} onClick={() => dispatch(setCurrentTab({ name: 'institutes', data: null }))}>
           <ListItemIcon className={`${!open && 'flex justify-center'}`}><Festival className="w-8 h-8" /></ListItemIcon>
           <ListItemText className={`${!open && 'hidden'}`} primary="Institutes" />
         </ListItemButton>
-        <ListItemButton className={`${currentTab === 'blogs' && 'bg-activeTab'}`} onClick={() => dispatch(setCurrentTab('blogs'))}>
+        <ListItemButton className={`${currentTab.name === 'blogs' && 'bg-activeTab'}`} onClick={() => dispatch(setCurrentTab({ name: 'blogs', data: null }))}>
           <ListItemIcon className={`${!open && 'flex justify-center'}`}><Assignment className="w-8 h-8" /></ListItemIcon>
           <ListItemText className={`${!open && 'hidden'}`} primary="Blogs" />
         </ListItemButton>
       </List>
       <Divider />
       <List>
-        <ListItemButton className={`${currentTab === 'adminSettings' && 'bg-activeTab'}`} onClick={() => dispatch(setCurrentTab('adminSettings'))}>
+        <ListItemButton className={`${currentTab === 'adminSettings' && 'bg-activeTab'}`} onClick={() => dispatch(setCurrentTab({ name: 'adminSettings', data: null }))}>
           <ListItemIcon className={`${!open && 'flex justify-center'}`}><Settings className="w-8 h-8" /></ListItemIcon>
           <ListItemText className={`${!open && 'hidden'}`} primary="Admin Settings" />
         </ListItemButton>
