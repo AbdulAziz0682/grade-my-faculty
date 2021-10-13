@@ -83,7 +83,7 @@ export default function TopBar() {
   );
 
   return (
-    <Box className="order-first">
+    <Box className={`${pathname === '/admin' && 'hidden'} order-first`}>
       <AppBar position="fixed" color="default" className="bg-white">
         <Container sx={{ py: 1.7, maxHeight: 91 }}>
           <Toolbar style={{ paddingLeft: 0, paddingRight: 0 }}>

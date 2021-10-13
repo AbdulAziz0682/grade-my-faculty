@@ -15,7 +15,7 @@ import twitter from '../../../assets/twitter.svg';
 export default function Footer() {
   const history = useHistory();
   return (
-    <Box id="footer" sx={{ top: 'auto', bottom: 0, zIndex: 0 }}>
+    <Box id="footer" className={`${history.location.pathname === '/admin' && 'hidden'}`} sx={{ top: 'auto', bottom: 0, zIndex: 0 }}>
       <Box sx={{ bgcolor: 'primary.main', width: '100%' }}>
         <Container className="md:px-20" sx={{ py: '50px' }}>
           <Grid container justifyContent="space-between">

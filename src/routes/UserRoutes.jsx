@@ -2,6 +2,7 @@ import React from 'react';
 import {
   Switch,
   Route,
+  useLocation,
 } from 'react-router-dom';
 
 import Grid from '@mui/material/Grid';
@@ -21,15 +22,18 @@ import Faq from '../components/User/Pages/Faq';
 import StudentsFaq from '../components/User/Pages/Faq/StudentsFaq';
 import TeachersFaq from '../components/User/Pages/Faq/TeachersFaq';
 import AboutUs from '../components/User/Pages/AboutUs';
+// admin route
+import Admin from '../components/Admin';
 
 export default function UserRoutes() {
+  const location = useLocation();
   return (
     <Switch>
       <Grid container direction="column" className="min-h-screen">
         <Grid item>
           <TopBar />
         </Grid>
-        <Grid item className="flex flex-col flex-grow" sx={{ marginTop: '86px' /* MaxHeight of Topbar */ }}>
+        <Grid item className="flex flex-col flex-grow" sx={{ marginTop: location.pathname === '/admin' ? '0px' : '86px' /* MaxHeight of Topbar */ }}>
           <Route exact path="/">
             <Home />
           </Route>
@@ -74,6 +78,9 @@ export default function UserRoutes() {
           </Route>
           <Route exact path="/forgotPassword">
             <ForgetPassword />
+          </Route>
+          <Route exact path="/admin">
+            <Admin />
           </Route>
         </Grid>
         <Grid item>
