@@ -35,7 +35,7 @@ export default function Dashboard() {
     <div className="w-full px-4 pt-16">
       <Grid container rowSpacing={9} columnSpacing={4}>
         <Grid item xs={12} md={8} lg={9} className="flex flex-col gap-6">
-          <div className="flex justify-between gap-3">
+          <div className="flex flex-wrap justify-center gap-3 md:justify-between">
             <div className="flex flex-col items-center w-40 px-6 py-4 text-gray-500 bg-white border hover:bg-primary hover:text-white hover:shadow-lg">
               <People className="w-12 h-12" />
               <Typography className="text-3xl font-medium text-inherit">128</Typography>
@@ -58,7 +58,8 @@ export default function Dashboard() {
             </div>
           </div>
           <div className="w-full bg-white">
-            <div style={{ width: '100%', height: '400px' }}>
+            <Typography variant="h3">Review Chart</Typography>
+            <div className="w-full h-60 md:h-96">
               <Chart data={data} axes={axes} tooltip />
             </div>
           </div>

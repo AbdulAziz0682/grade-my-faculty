@@ -54,49 +54,49 @@ export default function Sidebar({ setOpen, open }) {
       </div>
       <Divider />
       <List>
-        <ListItemButton className={`${currentTab.name === 'dashboard' && 'bg-activeTab'}`} onClick={() => dispatch(setCurrentTab({ name: 'dashboard', data: null }))}>
-          <ListItemIcon className={`${!open && 'flex justify-center'}`}><Dashboard className="w-8 h-8" /></ListItemIcon>
+        <ListItemButton className={`${currentTab.name === 'dashboard' && 'bg-activeTab text-primary'}`} onClick={() => dispatch(setCurrentTab({ name: 'dashboard', data: null }))}>
+          <ListItemIcon className={`${!open && 'flex justify-center'}`}><Dashboard className={`${currentTab.name === 'dashboard' && 'bg-activeTab text-primary'} w-8 h-8`} /></ListItemIcon>
           <ListItemText className={`${!open && 'hidden'}`} primary="Dasboard" />
         </ListItemButton>
-        <ListItemButton className={`${currentTab.name === 'users' && 'bg-activeTab'}`} onClick={() => dispatch(setCurrentTab({ name: 'users', data: null }))}>
-          <ListItemIcon className={`${!open && 'flex justify-center'}`}><People className="w-8 h-8" /></ListItemIcon>
+        <ListItemButton className={`${currentTab.name === 'users' && 'bg-activeTab text-primary'}`} onClick={() => dispatch(setCurrentTab({ name: 'users', data: null }))}>
+          <ListItemIcon className={`${!open && 'flex justify-center'}`}><People className={`${currentTab.name === 'users' && 'bg-activeTab text-primary'} w-8 h-8`} /></ListItemIcon>
           <ListItemText className={`${!open && 'hidden'}`} primary="Users" />
         </ListItemButton>
-        <ListItemButton className={`${currentTab.name === 'professors' && 'bg-activeTab'}`} onClick={() => dispatch(setCurrentTab({ name: 'professors', data: null }))}>
-          <ListItemIcon className={`${!open && 'flex justify-center'}`}><img src={professor} alt="professors" className="w-8 h-8" /></ListItemIcon>
+        <ListItemButton className={`${currentTab.name === 'professors' && 'bg-activeTab text-primary'}`} onClick={() => dispatch(setCurrentTab({ name: 'professors', data: null }))}>
+          <ListItemIcon className={`${!open && 'flex justify-center'}`}><img src={professor} alt="professors" className={`${currentTab.name === 'professors' && 'bg-activeTab text-primary'} w-8 h-8`} /></ListItemIcon>
           <ListItemText className={`${!open && 'hidden'}`} primary="Professors" />
         </ListItemButton>
-        <ListItemButton className={`${currentTab.name === 'institutes' && 'bg-activeTab'}`} onClick={() => dispatch(setCurrentTab({ name: 'institutes', data: null }))}>
-          <ListItemIcon className={`${!open && 'flex justify-center'}`}><Festival className="w-8 h-8" /></ListItemIcon>
+        <ListItemButton className={`${currentTab.name === 'institutes' && 'bg-activeTab text-primary'}`} onClick={() => dispatch(setCurrentTab({ name: 'institutes', data: null }))}>
+          <ListItemIcon className={`${!open && 'flex justify-center'}`}><Festival className={`${currentTab.name === 'institutes' && 'bg-activeTab text-primary'} w-8 h-8`} /></ListItemIcon>
           <ListItemText className={`${!open && 'hidden'}`} primary="Institutes" />
         </ListItemButton>
-        <ListItemButton className={`${currentTab.name === 'blogs' && 'bg-activeTab'}`} onClick={() => dispatch(setCurrentTab({ name: 'blogs', data: null }))}>
-          <ListItemIcon className={`${!open && 'flex justify-center'}`}><Assignment className="w-8 h-8" /></ListItemIcon>
+        <ListItemButton className={`${currentTab.name === 'blogs' && 'bg-activeTab text-primary'}`} onClick={() => dispatch(setCurrentTab({ name: 'blogs', data: null }))}>
+          <ListItemIcon className={`${!open && 'flex justify-center'}`}><Assignment className={`${currentTab.name === 'blogs' && 'bg-activeTab text-primary'} w-8 h-8`} /></ListItemIcon>
           <ListItemText className={`${!open && 'hidden'}`} primary="Blogs" />
         </ListItemButton>
       </List>
       <Divider />
       <List>
-        <ListItemButton className={`${currentTab.name === 'adminSettings' && 'bg-activeTab'}`} onClick={() => dispatch(setCurrentTab({ name: 'adminSettings', data: null }))}>
-          <ListItemIcon className={`${!open && 'flex justify-center'}`}><Settings className="w-8 h-8" /></ListItemIcon>
+        <ListItemButton className={`${currentTab.name === 'adminSettings' && 'bg-activeTab text-primary'}`} onClick={() => dispatch(setCurrentTab({ name: 'adminSettings', data: null }))}>
+          <ListItemIcon className={`${!open && 'flex justify-center'}`}><Settings className={`${currentTab.name === 'adminSettings' && 'bg-activeTab text-primary'} w-8 h-8`} /></ListItemIcon>
           <ListItemText className={`${!open && 'hidden'}`} primary="Admin Settings" />
         </ListItemButton>
       </List>
       <List>
-        <ListItemButton className={`${currentTab.name === 'ads' && 'bg-activeTab'}`} onClick={() => dispatch(setCurrentTab({ name: 'ads', data: null }))}>
-          <ListItemIcon className={`${!open && 'flex justify-center'}`}><img src={ads} alt="advertisemnts" className="w-8 h-8" /></ListItemIcon>
+        <ListItemButton className={`${currentTab.name === 'ads' && 'bg-activeTab text-primary'}`} onClick={() => dispatch(setCurrentTab({ name: 'ads', data: null }))}>
+          <ListItemIcon className={`${!open && 'flex justify-center'}`}><img src={ads} alt="advertisemnts" className={`${currentTab.name === 'ads' && 'bg-activeTab text-primary'} w-8 h-8`} /></ListItemIcon>
           <ListItemText className={`${!open && 'hidden'}`} primary="Ads" />
         </ListItemButton>
       </List>
       <List>
-        <ListItemButton className={`${currentTab.name === 'allowedMails' && 'bg-activeTab'}`} onClick={() => dispatch(setCurrentTab({ name: 'allowedMails', data: null }))}>
-          <ListItemIcon className={`${!open && 'flex justify-center'}`}><MailOutline className="w-8 h-8" /></ListItemIcon>
+        <ListItemButton className={`${currentTab.name === 'allowedMails' && 'bg-activeTab text-primary'}`} onClick={() => dispatch(setCurrentTab({ name: 'allowedMails', data: null }))}>
+          <ListItemIcon className={`${!open && 'flex justify-center'}`}><MailOutline className={`${currentTab.name === 'allowedMails' && 'bg-activeTab text-primary'} w-8 h-8`} /></ListItemIcon>
           <ListItemText className={`${!open && 'hidden'}`} primary="Allowed Mails" />
         </ListItemButton>
       </List>
       <List>
-        <ListItemButton className={`${currentTab.name === 'faqs' && 'bg-activeTab'}`} onClick={() => dispatch(setCurrentTab({ name: 'faqs', data: null }))}>
-          <ListItemIcon className={`${!open && 'flex justify-center'}`}><img src={conversations} alt="faqs" className="w-8 h-8" /></ListItemIcon>
+        <ListItemButton className={`${currentTab.name === 'faqs' && 'bg-activeTab text-primary'}`} onClick={() => dispatch(setCurrentTab({ name: 'faqs', data: null }))}>
+          <ListItemIcon className={`${!open && 'flex justify-center'}`}><img src={conversations} alt="faqs" className={`${currentTab.name === 'faqs' && 'bg-activeTab text-primary'} w-8 h-8`} /></ListItemIcon>
           <ListItemText className={`${!open && 'hidden'}`} primary="Faq's" />
         </ListItemButton>
       </List>

@@ -30,6 +30,8 @@ import EditAdminSettings from './EditAdminSettings';
 import Ads from './Ads';
 import AllowedEmails from './AllowedEmails';
 import Faqs from './Faqs';
+import EditBlog from './EditBlog';
+import AddBlog from './AddBlog';
 
 export default function Admin() {
   const [open, setOpen] = useState(false);
@@ -112,7 +114,10 @@ export default function Admin() {
             admin.currentTab.name === 'blogs' && <Blogs />
           }
           {
-            // admin.currentTab.name === 'addBlog' && <AddBlog />
+            admin.currentTab.name === 'addBlog' && <AddBlog />
+          }
+          {
+            admin.currentTab.name === 'editBlog' && <EditBlog blog={admin.currentTab.data} />
           }
           {
             admin.currentTab.name === 'adminSettings' && <AdminSettings />

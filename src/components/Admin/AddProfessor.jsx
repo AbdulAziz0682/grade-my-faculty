@@ -5,7 +5,10 @@ import {
   Card,
   TextField,
   Button,
+  Chip,
 } from '@mui/material';
+
+import { Clear } from '@mui/icons-material';
 
 export default function AddProfessor() {
   return (
@@ -39,23 +42,18 @@ export default function AddProfessor() {
           label="Department"
           className="w-full"
         />
-        <TextField
-          variant="standard"
-          label="Courses"
-          className="w-full"
-        />
-        <TextField
-          variant="standard"
-          type="password"
-          label="Password"
-          className="w-full"
-        />
-        <TextField
-          variant="standard"
-          type="password"
-          label="Confirm Password"
-          className="w-full"
-        />
+        <div className="flex flex-wrap w-full gap-3 p-3">
+          <Typography className="w-full -ml-2 text-sm">Courses</Typography>
+          {
+            ['CSE101', 'CSE102'].map(
+              (tag) => <Chip label={tag} deleteIcon={<Clear />} onDelete={() => {}} />,
+            )
+          }
+          <TextField
+            fullWidth
+            variant="standard"
+          />
+        </div>
         <Button variant="contained" className="self-start w-3/12 py-3 px-9">Add</Button>
       </Card>
     </div>

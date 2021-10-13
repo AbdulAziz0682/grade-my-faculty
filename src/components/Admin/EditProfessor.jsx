@@ -6,13 +6,25 @@ import {
   Card,
   TextField,
   Button,
+  Rating,
+  Chip,
 } from '@mui/material';
+
+import { Clear } from '@mui/icons-material';
 
 export default function EditProfessor({ professor }) {
   return (
     <div className="flex flex-col w-full gap-3">
-      <div className="flex flex-col w-full gap-2 md:gap-9 md:flex-row md:items-center">
-        <Typography className="ml-16 text-4xl text-gray-500">Edit Professor</Typography>
+      <div className="flex flex-col items-center w-full mb-3 md:justify-between md:flex-row">
+        <Typography className="mr-2 text-4xl text-gray-400 md:ml-16">Edit Professor</Typography>
+        <Rating
+          size="large"
+          value={4}
+          classes={{ iconFilled: 'text-primary' }}
+        />
+        <Typography variant="h3" className="mx-2 text-primary">(4.0)</Typography>
+        <div className="flex-grow" />
+        <Button variant="contained" color="error" className="px-9">Delete Professor</Button>
       </div>
       <Card className="flex flex-col w-full gap-12 p-14" elevation={6}>
         <TextField
@@ -45,26 +57,18 @@ export default function EditProfessor({ professor }) {
           value={professor.department}
           className="w-full"
         />
-        <TextField
-          variant="standard"
-          label="Courses"
-          value={professor.courses}
-          className="w-full"
-        />
-        <TextField
-          variant="standard"
-          type="password"
-          label="Password"
-          value={professor.password}
-          className="w-full"
-        />
-        <TextField
-          variant="standard"
-          type="password"
-          label="Confirm Password"
-          value={professor.password}
-          className="w-full"
-        />
+        <div className="flex flex-wrap w-full gap-3 p-3">
+          <Typography className="w-full -ml-2 text-sm">Courses</Typography>
+          {
+            ['CSE101', 'CSE102'].map(
+              (tag) => <Chip label={tag} deleteIcon={<Clear />} onDelete={() => {}} />,
+            )
+          }
+          <TextField
+            fullWidth
+            variant="standard"
+          />
+        </div>
         <Button variant="contained" className="self-start w-3/12 py-3 px-9">Update</Button>
       </Card>
     </div>

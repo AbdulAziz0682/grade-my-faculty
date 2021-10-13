@@ -64,7 +64,7 @@ export default function Blogs() {
                   <TableCell className="font-semibold text-black">{blog.title}</TableCell>
                   <TableCell className="text-gray-400">{blog.register}</TableCell>
                   <TableCell className="text-center">
-                    <IconButton><Visibility /></IconButton>
+                    <IconButton onClick={() => dispatch(setCurrentTab({ name: 'editBlog', data: { title: 'blog', tags: ['t1', 't2'], content: 'contetn' } }))}><Visibility /></IconButton>
                     <IconButton><DeleteForever /></IconButton>
                   </TableCell>
                 </TableRow>
