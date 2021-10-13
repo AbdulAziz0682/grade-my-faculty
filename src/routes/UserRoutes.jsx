@@ -22,6 +22,7 @@ import Faq from '../components/User/Pages/Faq';
 import StudentsFaq from '../components/User/Pages/Faq/StudentsFaq';
 import TeachersFaq from '../components/User/Pages/Faq/TeachersFaq';
 import AboutUs from '../components/User/Pages/AboutUs';
+import Post from '../components/User/Pages/Post';
 // admin route
 import Admin from '../components/Admin';
 
@@ -51,6 +52,9 @@ export default function UserRoutes() {
           </Route>
           <Route exact path="/blog">
             <Blog />
+          </Route>
+          <Route exact path="/post">
+            <Post />
           </Route>
           <Route exact path="/aboutUs">
             <AboutUs />
