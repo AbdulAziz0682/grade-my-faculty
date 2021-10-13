@@ -6,6 +6,7 @@ import {
   Container,
   Paper,
   Icon,
+  Button,
 } from '@mui/material';
 
 import media from '../../../../assets/media.svg';
@@ -15,12 +16,13 @@ import instagram from '../../../../assets/primaryInstagram.svg';
 import twitter from '../../../../assets/primaryTwitter.svg';
 import startupIdea from '../../../../assets/startupIdea.png';
 import postAsset from '../../../../assets/postAsset.png';
+import banner2 from '../../../../assets/banner2.png';
 
 export default function Post() {
   return (
     <Grid container className="flex-grow">
-      <Container maxWidth="xl" className="flex flex-col md:flex-row md:gap-9">
-        <div className="flex flex-col w-full gap-6 lg:w-9/12 py-14">
+      <Container maxWidth="xl" className="flex flex-col md:flex-row md:gap-6" style={{ minHeight: '170vh' }}>
+        <div className="flex flex-col w-full h-auto gap-6 lg:w-9/12 py-14">
           <Typography variant="h3">
             Career with a BBA Degree is growing rapidly in all around the world,
             Let’s check the deep dive information about this.
@@ -50,7 +52,7 @@ export default function Post() {
             </div>
           </div>
           <img src={startupIdea} alt="startup idea" />
-          <Typography>
+          <Typography className="text-xl">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
             incididunt ut labore et dolore
             magna aliqua. Ut enim ad minim veniam,
@@ -69,7 +71,7 @@ export default function Post() {
           <div className="flex flex-col w-full p-14">
             <img src={postAsset} alt="post asset" />
           </div>
-          <Typography>
+          <Typography className="text-xl">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
             incididunt ut labore et dolore
             magna aliqua. Ut enim ad minim veniam,
@@ -86,7 +88,7 @@ export default function Post() {
             laborum.
           </Typography>
         </div>
-        <div className="flex-col hidden gap-10 lg:flex lg:w-3/12 h-9 py-14">
+        <div className="flex-col hidden gap-10 pb-2 lg:flex lg:w-3/12 pt-14">
           {
             [1, 2, 3].map(
               () => (
@@ -102,6 +104,16 @@ export default function Post() {
               ),
             )
           }
+          <div className="flex flex-col justify-center px-6">
+            <img className="self-center w-24" src={banner2} alt="banner" />
+            <span className="flex flex-col gap-3 px-9">
+              <Typography className="text-xs font-semibold">
+                SF Symbols were introduced during WWDC 2019 and are a
+                big present for us developers.
+              </Typography>
+            </span>
+            <Button variant="contained" className="h-6 p-4 text-white bg-blue-500 rounded-lg hover:bg-blue-800 mt-9">Download</Button>
+          </div>
         </div>
       </Container>
     </Grid>
