@@ -14,10 +14,21 @@ import Sidebar from './Sidebar';
 import Users from './Users';
 import AddUser from './AddUser';
 import EditUser from './EditUser';
+import Professors from './Professors';
 import Institutes from './Institutes';
+import ViewInstitute from './ViewInstitute';
+import EditInstitue from './EditInstitute';
+import AddInstitute from './AddInstitute';
 import Blogs from './Blogs';
 import AdminSettings from './AdminSettings';
 import ViewUser from './ViewUser';
+import EditProfessor from './EditProfessor';
+import ViewProfessor from './ViewProfessor';
+import AddProfessor from './AddProfessor';
+import EditAdminSettings from './EditAdminSettings';
+import Ads from './Ads';
+import AllowedEmails from './AllowedEmails';
+import Faqs from './Faqs';
 
 export default function Admin() {
   const [open, setOpen] = useState(false);
@@ -70,13 +81,49 @@ export default function Admin() {
             admin.currentTab.name === 'editUser' && <EditUser user={admin.currentTab.data} />
           }
           {
+            admin.currentTab.name === 'professors' && <Professors />
+          }
+          {
+            admin.currentTab.name === 'addProfessor' && <AddProfessor />
+          }
+          {
+            admin.currentTab.name === 'viewProfessor' && <ViewProfessor professor={admin.currentTab.data} />
+          }
+          {
+            admin.currentTab.name === 'editProfessor' && <EditProfessor professor={admin.currentTab.data} />
+          }
+          {
             admin.currentTab.name === 'institutes' && <Institutes />
+          }
+          {
+            admin.currentTab.name === 'viewInstitute' && <ViewInstitute institute={admin.currentTab.data} />
+          }
+          {
+            admin.currentTab.name === 'editInstitute' && <EditInstitue institute={admin.currentTab.data} />
+          }
+          {
+            admin.currentTab.name === 'addInstitute' && <AddInstitute />
           }
           {
             admin.currentTab.name === 'blogs' && <Blogs />
           }
           {
+            // admin.currentTab.name === 'addBlog' && <AddBlog />
+          }
+          {
             admin.currentTab.name === 'adminSettings' && <AdminSettings />
+          }
+          {
+            admin.currentTab.name === 'editAdminSettings' && <EditAdminSettings admin={admin.currentTab.data} />
+          }
+          {
+            admin.currentTab.name === 'ads' && <Ads />
+          }
+          {
+            admin.currentTab.name === 'allowedMails' && <AllowedEmails />
+          }
+          {
+            admin.currentTab.name === 'faqs' && <Faqs />
           }
         </div>
       </div>

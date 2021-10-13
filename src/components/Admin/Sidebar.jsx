@@ -19,6 +19,7 @@ import {
   Festival,
   People,
   Settings,
+  MailOutline,
 } from '@mui/icons-material';
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -26,6 +27,8 @@ import { setCurrentTab } from '../../redux/adminActions';
 
 import man from '../../assets/man.png';
 import professor from '../../assets/prof.svg';
+import ads from '../../assets/ads.svg';
+import conversations from '../../assets/conversations.svg';
 
 export default function Sidebar({ setOpen, open }) {
   const { currentTab } = useSelector((state) => state.admin);
@@ -74,9 +77,27 @@ export default function Sidebar({ setOpen, open }) {
       </List>
       <Divider />
       <List>
-        <ListItemButton className={`${currentTab === 'adminSettings' && 'bg-activeTab'}`} onClick={() => dispatch(setCurrentTab({ name: 'adminSettings', data: null }))}>
+        <ListItemButton className={`${currentTab.name === 'adminSettings' && 'bg-activeTab'}`} onClick={() => dispatch(setCurrentTab({ name: 'adminSettings', data: null }))}>
           <ListItemIcon className={`${!open && 'flex justify-center'}`}><Settings className="w-8 h-8" /></ListItemIcon>
           <ListItemText className={`${!open && 'hidden'}`} primary="Admin Settings" />
+        </ListItemButton>
+      </List>
+      <List>
+        <ListItemButton className={`${currentTab.name === 'ads' && 'bg-activeTab'}`} onClick={() => dispatch(setCurrentTab({ name: 'ads', data: null }))}>
+          <ListItemIcon className={`${!open && 'flex justify-center'}`}><img src={ads} alt="advertisemnts" className="w-8 h-8" /></ListItemIcon>
+          <ListItemText className={`${!open && 'hidden'}`} primary="Ads" />
+        </ListItemButton>
+      </List>
+      <List>
+        <ListItemButton className={`${currentTab.name === 'allowedMails' && 'bg-activeTab'}`} onClick={() => dispatch(setCurrentTab({ name: 'allowedMails', data: null }))}>
+          <ListItemIcon className={`${!open && 'flex justify-center'}`}><MailOutline className="w-8 h-8" /></ListItemIcon>
+          <ListItemText className={`${!open && 'hidden'}`} primary="Allowed Mails" />
+        </ListItemButton>
+      </List>
+      <List>
+        <ListItemButton className={`${currentTab.name === 'faqs' && 'bg-activeTab'}`} onClick={() => dispatch(setCurrentTab({ name: 'faqs', data: null }))}>
+          <ListItemIcon className={`${!open && 'flex justify-center'}`}><img src={conversations} alt="faqs" className="w-8 h-8" /></ListItemIcon>
+          <ListItemText className={`${!open && 'hidden'}`} primary="Faq's" />
         </ListItemButton>
       </List>
     </div>

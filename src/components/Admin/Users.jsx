@@ -5,7 +5,6 @@ import {
   InputAdornment,
   TextField,
   Typography,
-  // Paper,
   TableContainer,
   Table,
   TableRow,

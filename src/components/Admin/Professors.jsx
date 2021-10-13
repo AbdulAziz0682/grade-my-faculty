@@ -19,13 +19,13 @@ import { ChevronLeft, ChevronRight, Search } from '@mui/icons-material';
 import { useSelector, useDispatch } from 'react-redux';
 import { setCurrentTab } from '../../redux/adminActions';
 
-export default function Institutes() {
-  const { admin: { institutes } } = useSelector((state) => state);
+export default function Professors() {
+  const { admin: { professors } } = useSelector((state) => state);
   const dispatch = useDispatch();
   return (
     <div className="flex flex-col w-full gap-3">
       <div className="flex flex-col w-full gap-2 md:gap-9 md:flex-row md:items-center">
-        <Typography className="ml-16 text-4xl text-gray-500">Institutes</Typography>
+        <Typography className="ml-16 text-4xl text-gray-500">Professors</Typography>
         <div className="flex-grow" />
         <TextField
           variant="outlined"
@@ -38,7 +38,7 @@ export default function Institutes() {
             ),
           }}
         />
-        <Button variant="contained" className="h-full px-9" onClick={() => dispatch(setCurrentTab({ name: 'addInstitute', data: null }))}>Add Institutes</Button>
+        <Button variant="contained" className="h-full px-9" onClick={() => dispatch(setCurrentTab({ name: 'addProfessor', data: null }))}>Add professors</Button>
       </div>
       <TableContainer className="w-full max-h-full bg-white">
         <Table>
@@ -53,13 +53,13 @@ export default function Institutes() {
           </TableHead>
           <TableBody>
             {
-              institutes.map((inst) => (
-                <TableRow key={inst.id} className="hover:shadow-md">
-                  <TableCell className="text-gray-400">{inst.id}</TableCell>
-                  <TableCell className="font-semibold text-black">{inst.name}</TableCell>
-                  <TableCell className="text-gray-400">{inst.email}</TableCell>
-                  <TableCell className="text-gray-400">{inst.register}</TableCell>
-                  <TableCell className="cursor-pointer text-primary" onClick={() => dispatch(setCurrentTab({ name: 'viewInstitute', data: inst }))}>View more</TableCell>
+              professors.map((prof) => (
+                <TableRow key={prof.id} className="hover:shadow-md">
+                  <TableCell className="text-gray-400">{prof.id}</TableCell>
+                  <TableCell className="font-semibold text-black">{prof.name}</TableCell>
+                  <TableCell className="text-gray-400">{prof.email}</TableCell>
+                  <TableCell className="text-gray-400">{prof.university}</TableCell>
+                  <TableCell className="cursor-pointer text-primary" onClick={() => dispatch(setCurrentTab({ name: 'viewProfessor', data: prof }))}>View</TableCell>
                 </TableRow>
               ))
             }

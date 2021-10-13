@@ -22,6 +22,26 @@ const initialState = {
       register: '1 hr ago',
     },
   ],
+  professors: [
+    {
+      id: 1,
+      name: 'u1',
+      email: 'u1@email.com',
+      university: 'North South University',
+    },
+    {
+      id: 2,
+      name: 'u2',
+      email: 'u2@email.com',
+      university: 'North South University',
+    },
+    {
+      id: 3,
+      name: 'u3',
+      email: 'u3@email.com',
+      university: 'North South University',
+    },
+  ],
   institutes: [
     {
       id: 1,
