@@ -11,7 +11,7 @@ import FacultyProfile from './FacultyProfile';
 export default function AboutUs() {
   return (
     <Grid container className="bg-pageBg flex-grow">
-      <Container>
+      <Container maxWidth="xl">
         <Grid container direction="column" className="pt-16 pb-28 md:pb-60" rowGap={5}>
           <Grid item>
             <Typography variant="h2" align="center"> About Us </Typography>

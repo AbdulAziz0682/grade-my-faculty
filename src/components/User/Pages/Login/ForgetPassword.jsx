@@ -12,7 +12,7 @@ import {
 export default function ForgetPassword() {
   return (
     <Grid container className="bg-pageBg flex-grow">
-      <Container className="flex items-center justify-center py-3">
+      <Container maxWidth="xl" className="flex items-center justify-center py-3">
         <Paper component="form" className="sm:w-4/6 lg:w-2/6 p-2 md:p-5 rounded-xl">
           <Grid container direction="column" className="gap-3">
             <Grid item>

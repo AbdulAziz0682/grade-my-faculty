@@ -8,7 +8,7 @@ import Typography from '@mui/material/Typography';
 export default function EmailVerification() {
   return (
     <Grid container className="bg-pageBg flex-grow">
-      <Container className="flex items-center justify-center py-20">
+      <Container maxWidth="xl" className="flex items-center justify-center py-20">
         <Paper component="form" className="sm:w-4/6 lg:w-4/6 px-3 md:px-5 pb-16 pt-8 rounded-xl flex flex-col gap-6">
           <Typography variant="h5" style={{ fontFamily: 'montserrat' }}>Verify Your Email</Typography>
           <Typography variant="body1" style={{ fontFamily: 'montserrat' }}>

@@ -37,7 +37,7 @@ export default function Login() {
   // -----------------
   return (
     <Grid container className="bg-pageBg flex-grow">
-      <Container className="flex items-center justify-center py-3">
+      <Container maxWidth="xl" className="flex items-center justify-center py-3">
         <Paper
           component="form"
           className="w-full lg:w-3/6 p-8 md:px-12 py-10 rounded-xl"

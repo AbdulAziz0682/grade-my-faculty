@@ -21,7 +21,7 @@ export default function Grade() {
   const faculty = history.location.state[0];
   return (
     <Grid container className="flex-grow">
-      <Container className="flex flex-col md:flex-row md:gap-9">
+      <Container maxWidth="xl" className="flex flex-col md:flex-row md:gap-9">
         <div className="flex flex-col w-full lg:w-9/12 py-14">
           <Typography variant="h3">{faculty.university}</Typography>
           <Typography variant="body1" className="font-bold">Dhaka, Bangladesh</Typography>

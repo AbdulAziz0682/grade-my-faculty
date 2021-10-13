@@ -2,7 +2,7 @@ const initialState = [
   {
     id: 1,
     name: 'Abdul Kalam',
-    university: 'Nort South University',
+    university: 'North South University',
     department: 'Mathematics',
     courses: ['MATH101', 'MATH201', 'MATH301'],
     performance: 80, // == 80%
@@ -14,7 +14,7 @@ const initialState = [
   {
     id: 2,
     name: 'Abdul Salam',
-    university: 'Nort South University',
+    university: 'North South University',
     department: 'Mathematics',
     courses: ['MATH101', 'MATH201', 'MATH301'],
     performance: 80, // == 80%
@@ -26,7 +26,7 @@ const initialState = [
   {
     id: 3,
     name: 'Abdul Sami',
-    university: 'Nort South University',
+    university: 'North South University',
     department: 'Mathematics',
     courses: ['MATH101', 'MATH201', 'MATH301'],
     performance: 80, // == 80%
@@ -38,7 +38,7 @@ const initialState = [
   {
     id: 4,
     name: 'Shaikh Saadi',
-    university: 'Nort South University',
+    university: 'North South University',
     department: 'Mathematics',
     courses: ['MATH101', 'MATH201', 'MATH301'],
     performance: 80, // == 80%
@@ -50,7 +50,7 @@ const initialState = [
   {
     id: 5,
     name: 'Salman Ali',
-    university: 'Nort South University',
+    university: 'North South University',
     department: 'Mathematics',
     courses: ['MATH101', 'MATH201', 'MATH301'],
     performance: 80, // == 80%
@@ -62,7 +62,7 @@ const initialState = [
   {
     id: 6,
     name: 'Mansoor Saleem',
-    university: 'Nort South University',
+    university: 'North South University',
     department: 'Mathematics',
     courses: ['MATH101', 'MATH201', 'MATH301'],
     performance: 80, // == 80%
@@ -74,7 +74,7 @@ const initialState = [
   {
     id: 7,
     name: 'Mansoor Ahmed',
-    university: 'Nort South University',
+    university: 'North South University',
     department: 'Mathematics',
     courses: ['MATH101', 'MATH201', 'MATH301'],
     performance: 80, // == 80%
@@ -86,7 +86,7 @@ const initialState = [
   {
     id: 8,
     name: 'Ahmed Ali',
-    university: 'Nort South University',
+    university: 'North South University',
     department: 'Mathematics',
     courses: ['MATH101', 'MATH201', 'MATH301'],
     performance: 80, // == 80%

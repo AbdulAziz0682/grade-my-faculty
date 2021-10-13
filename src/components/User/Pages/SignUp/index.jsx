@@ -47,7 +47,7 @@ export default function SignUp() {
   // -----------------
   return (
     <Grid container className="bg-pageBg flex-grow">
-      <Container className="flex items-center justify-center py-20">
+      <Container maxWidth="xl" className="flex items-center justify-center py-20">
         <Paper component="form" onSubmit={formik.handleSubmit} className="w-full lg:w-11/12 p-2 md:px-12 lg:px-32 py-9 rounded-xl">
           <Grid container direction="column" className="gap-6">
             <Grid item>

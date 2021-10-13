@@ -13,7 +13,7 @@ import banner from '../../../../assets/banner.png';
 export default function AboutUs() {
   return (
     <div className="bg-pageBg flex-grow w-full">
-      <Container>
+      <Container maxWidth="xl">
         <Grid container direction="column" className="pt-16 pb-8">
           <Grid item className="w-full">
             <Typography variant="h2" align="center"> Our Blogs </Typography>
@@ -21,7 +21,7 @@ export default function AboutUs() {
         </Grid>
       </Container>
       <div className="w-full bg-primary">
-        <Container className="flex flex-wrap p-16 justify-between">
+        <Container maxWidth="xl" className="flex flex-wrap p-16 justify-between">
           <Card className="w-72 my-1 flex-col">
             <img className="w-auto" src={media} alt="media" />
             <Typography className="font-semibold mt-8 mx-8">
@@ -46,7 +46,7 @@ export default function AboutUs() {
         </Container>
       </div>
       <div className="w-full">
-        <Container className="flex flex-col pt-8 pb-16 gap-14">
+        <Container maxWidth="xl" className="flex flex-col pt-8 pb-16 gap-14">
           <div className="flex items-center justify-center">
             <Button
               variant="contained"

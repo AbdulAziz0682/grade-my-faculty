@@ -17,7 +17,7 @@ export default function Faq() {
   const history = useHistory();
   return (
     <Grid container className="flex-grow bg-pageBg">
-      <Container>
+      <Container maxWidth="xl">
         <Grid container direction="column" className="pt-16 pb-60">
           <Grid item className="w-full">
             <Typography variant="h1" align="center"> FAQ&apos;s </Typography>

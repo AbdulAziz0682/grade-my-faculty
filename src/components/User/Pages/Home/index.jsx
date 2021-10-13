@@ -64,7 +64,7 @@ export default function Home() {
   return (
     <>
       <Grid container className="flex-grow">
-        <Container>
+        <Container maxWidth="xl">
           <Grid container alignItems="center" className="pt-12 pb-60" columnSpacing={2}>
             <Grid item xs={12} md={8} className="flex flex-col justify-center h-full">
               <Typography style={{ lineHeight: '4rem' }} className="text-3xl font-bold md:text-5xl">
@@ -115,7 +115,7 @@ export default function Home() {
         </Container>
       </Grid>
       <Grid container className="flex-grow bg-primaryLight">
-        <Container className="flex justify-center p-16">
+        <Container maxWidth="xl" className="flex justify-center p-16">
           <Grid container spacing={6}>
             <Grid item md={4} className="flex flex-col items-center">
               <img src={help} alt="help others" className="w-24" />

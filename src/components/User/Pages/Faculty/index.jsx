@@ -23,7 +23,7 @@ export default function Faculty() {
   const [isViewAll, setViewAll] = useState(false);
   return (
     <Grid container className="flex-grow">
-      <Container className="flex flex-col py-14">
+      <Container maxWidth="xl" className="flex flex-col py-14">
         <Typography variant="h3" className="text-primary">{state[0]}</Typography>
         <p className="w-full text-lg font-bold text-primary">Dhaka, Bangladesh</p>
         <Paper elevation={2} className="flex flex-col w-full gap-3 p-6 mt-6 rounded-2xl bg-gray-50">
