@@ -44,21 +44,21 @@ export default function Institutes() {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell className="font-semibold text-gray-400">ID</TableCell>
-              <TableCell className="font-semibold text-gray-400">Name</TableCell>
-              <TableCell className="font-semibold text-gray-400">Email</TableCell>
-              <TableCell className="font-semibold text-gray-400">Register</TableCell>
-              <TableCell className="font-semibold text-gray-400">Reviews</TableCell>
+              <TableCell className="font-semibold leading-9 text-gray-400">ID</TableCell>
+              <TableCell className="font-semibold leading-9 text-gray-400">Name</TableCell>
+              <TableCell className="font-semibold leading-9 text-gray-400">Email</TableCell>
+              <TableCell className="font-semibold leading-9 text-gray-400">Register</TableCell>
+              <TableCell className="font-semibold leading-9 text-gray-400">Reviews</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {
               institutes.map((inst) => (
                 <TableRow key={inst.id} className="hover:shadow-md">
-                  <TableCell className="text-gray-400">{inst.id}</TableCell>
-                  <TableCell className="font-semibold text-black">{inst.name}</TableCell>
-                  <TableCell className="text-gray-400">{inst.email}</TableCell>
-                  <TableCell className="text-gray-400">{inst.register}</TableCell>
+                  <TableCell className="leading-9 text-gray-400">{inst.id}</TableCell>
+                  <TableCell className="text-lg font-semibold text-black">{inst.name}</TableCell>
+                  <TableCell className="leading-9 text-gray-400">{inst.email}</TableCell>
+                  <TableCell className="leading-9 text-gray-400">{inst.register}</TableCell>
                   <TableCell className="cursor-pointer text-primary" onClick={() => dispatch(setCurrentTab({ name: 'viewInstitute', data: inst }))}>View more</TableCell>
                 </TableRow>
               ))
@@ -68,10 +68,10 @@ export default function Institutes() {
       </TableContainer>
       <div className="flex justify-end w-full gap-12 mt-16">
         <IconButton className="bg-gray-400 rounded-none shadow-lg">
-          <ChevronLeft className="w-12 h-12" htmlColor="white" />
+          <ChevronLeft className="w-10 h-10" htmlColor="white" />
         </IconButton>
         <IconButton className="rounded-none shadow-lg bg-primary">
-          <ChevronRight className="w-12 h-12" htmlColor="white" />
+          <ChevronRight className="w-10 h-10" htmlColor="white" />
         </IconButton>
       </div>
     </div>

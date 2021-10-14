@@ -14,7 +14,7 @@ export default function AdminSettings() {
     <div className="flex flex-col w-full">
       <Grid container rowSpacing={5} columnSpacing={15}>
         <Grid item xs={12} md={6}>
-          <Typography variant="h2" className="text-gray-400 pb-9">Add Admin</Typography>
+          <Typography className="text-4xl font-medium text-gray-500 pb-9">Add Admin</Typography>
           <Card className="flex flex-col w-full gap-12 p-14" elevation={6}>
             <TextField
               variant="standard"
@@ -42,7 +42,7 @@ export default function AdminSettings() {
           </Card>
         </Grid>
         <Grid item xs={12} md={6}>
-          <Typography variant="h2" className="text-gray-400 pb-9">Update Password</Typography>
+          <Typography className="text-4xl font-medium text-gray-500 pb-9">Update Password</Typography>
           <Card className="flex flex-col w-full gap-12 p-14" elevation={6}>
             <TextField
               variant="standard"
@@ -66,7 +66,7 @@ export default function AdminSettings() {
         </Grid>
         <Grid item xs={12}>
           <Card elevation={6} className="flex flex-col gap-12 pt-6 pb-14 px-14">
-            <Typography variant="h4" className="text-gray-400">About Us</Typography>
+            <Typography className="text-4xl font-medium text-gray-500">About Us</Typography>
             <TextField
               variant="standard"
               label="Our Story"

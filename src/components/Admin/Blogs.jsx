@@ -51,7 +51,7 @@ export default function Blogs() {
           <TableHead>
             <TableRow>
               <TableCell className="font-semibold text-gray-400">ID</TableCell>
-              <TableCell className="font-semibold text-gray-400">Title</TableCell>
+              <TableCell className="text-lg font-semibold text-gray-400">Title</TableCell>
               <TableCell className="font-semibold text-gray-400">Register</TableCell>
               <TableCell className="font-semibold text-center text-gray-400">Action</TableCell>
             </TableRow>
@@ -61,7 +61,7 @@ export default function Blogs() {
               blogs.map((blog) => (
                 <TableRow key={blog.id} className="hover:shadow-md">
                   <TableCell className="text-gray-400">{blog.id}</TableCell>
-                  <TableCell className="font-semibold text-black">{blog.title}</TableCell>
+                  <TableCell className="text-lg font-semibold text-black">{blog.title}</TableCell>
                   <TableCell className="text-gray-400">{blog.register}</TableCell>
                   <TableCell className="text-center">
                     <IconButton onClick={() => dispatch(setCurrentTab({ name: 'editBlog', data: { title: 'blog', tags: ['t1', 't2'], content: 'contetn' } }))}><Visibility /></IconButton>
@@ -75,10 +75,10 @@ export default function Blogs() {
       </TableContainer>
       <div className="flex justify-end w-full gap-12 mt-16">
         <IconButton className="bg-gray-400 rounded-none shadow-lg">
-          <ChevronLeft className="w-12 h-12" htmlColor="white" />
+          <ChevronLeft className="w-10 h-10" htmlColor="white" />
         </IconButton>
         <IconButton className="rounded-none shadow-lg bg-primary">
-          <ChevronRight className="w-12 h-12" htmlColor="white" />
+          <ChevronRight className="w-10 h-10" htmlColor="white" />
         </IconButton>
       </div>
     </div>

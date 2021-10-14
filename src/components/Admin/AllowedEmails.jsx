@@ -62,7 +62,7 @@ export default function AllowedEmails() {
           <TableHead>
             <TableRow>
               <TableCell className="font-semibold text-gray-400">ID</TableCell>
-              <TableCell className="font-semibold text-gray-400">Email domain</TableCell>
+              <TableCell className="text-lg font-semibold text-gray-400">Email domain</TableCell>
               <TableCell className="font-semibold text-gray-400">Status</TableCell>
               <TableCell className="font-semibold text-center text-gray-400">Actions</TableCell>
             </TableRow>
@@ -72,9 +72,9 @@ export default function AllowedEmails() {
               [1, 2, 3, 4].map((u) => (
                 <TableRow key={u} className="hover:shadow-md" onClick={() => doUpdateEmail({ domain: 'domain.com', status: 'allowed' })}>
                   <TableCell className="text-gray-400">{u}</TableCell>
-                  <TableCell className="font-semibold text-black">This is ad title</TableCell>
+                  <TableCell className="text-lg font-semibold text-black">This is email domain</TableCell>
                   <TableCell className="text-gray-600">
-                    <select className="w-full bg-gray-200">
+                    <select className="w-full p-2 bg-gray-200">
                       {
                         [1, 2, 3].map((i) => <option ke={i}>{i}</option>)
                       }
@@ -92,10 +92,10 @@ export default function AllowedEmails() {
       </TableContainer>
       <div className="flex justify-end w-full gap-12 mt-16">
         <IconButton className="bg-gray-400 rounded-none shadow-lg">
-          <ChevronLeft className="w-12 h-12" htmlColor="white" />
+          <ChevronLeft className="w-10 h-10" htmlColor="white" />
         </IconButton>
         <IconButton className="rounded-none shadow-lg bg-primary">
-          <ChevronRight className="w-12 h-12" htmlColor="white" />
+          <ChevronRight className="w-10 h-10" htmlColor="white" />
         </IconButton>
       </div>
     </div>

@@ -15,10 +15,12 @@ import {
 
 import Calendar from 'react-calendar';
 
-import professor from '../../assets/prof.svg';
+import professorGray from '../../assets/prof.svg';
+import professorWhite from '../../assets/profWhite.svg';
 
 export default function Dashboard() {
   const [date, setDate] = useState(new Date());
+  const [professorIcon, setProfessorIcon] = useState(professorGray);
   const data = [
     {
       label: 'Series 1',
@@ -46,8 +48,12 @@ export default function Dashboard() {
               <Typography className="text-3xl font-medium text-inherit">32</Typography>
               <Typography className="text-sm text-inherit">Total Online</Typography>
             </div>
-            <div className="flex flex-col items-center w-40 px-6 py-4 text-gray-500 bg-white border hover:bg-primary hover:text-white hover:shadow-lg">
-              <img src={professor} alt="professor" className="w-12 h-12" />
+            <div
+              onMouseEnter={() => setProfessorIcon(professorWhite)}
+              onMouseLeave={() => setProfessorIcon(professorGray)}
+              className="flex flex-col items-center w-40 px-6 py-4 text-gray-500 bg-white border hover:bg-primary hover:text-white hover:shadow-lg"
+            >
+              <img src={professorIcon} alt="professor" className="w-12 h-12" />
               <Typography className="text-3xl font-medium text-inherit">2</Typography>
               <Typography className="text-sm text-inherit">Total Professors</Typography>
             </div>
@@ -69,7 +75,7 @@ export default function Dashboard() {
             value={date}
             onChange={setDate}
             tileClassName="hover:bg-primary hover:text-white rounded-full w-14 h-14"
-            className="p-2 bg-white border w-96"
+            className="px-4 py-4 bg-white border w-96"
           />
         </Grid>
       </Grid>

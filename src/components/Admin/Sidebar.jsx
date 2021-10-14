@@ -27,8 +27,10 @@ import { setCurrentTab } from '../../redux/adminActions';
 
 import man from '../../assets/man.png';
 import professor from '../../assets/prof.svg';
+import profBlue from '../../assets/profBlue.svg';
 import ads from '../../assets/ads.svg';
 import conversations from '../../assets/conversations.svg';
+import conversationGray from '../../assets/conversationGray.svg';
 
 export default function Sidebar({ setOpen, open }) {
   const { currentTab } = useSelector((state) => state.admin);
@@ -63,7 +65,7 @@ export default function Sidebar({ setOpen, open }) {
           <ListItemText className={`${!open && 'hidden'}`} primary="Users" />
         </ListItemButton>
         <ListItemButton className={`${currentTab.name === 'professors' && 'bg-activeTab text-primary'}`} onClick={() => dispatch(setCurrentTab({ name: 'professors', data: null }))}>
-          <ListItemIcon className={`${!open && 'flex justify-center'}`}><img src={professor} alt="professors" className={`${currentTab.name === 'professors' && 'bg-activeTab text-primary'} w-8 h-8`} /></ListItemIcon>
+          <ListItemIcon className={`${!open && 'flex justify-center'}`}><img src={currentTab.name === 'professors' ? profBlue : professor} alt="professors" className={`${currentTab.name === 'professors' && 'bg-activeTab text-primary'} w-8 h-8`} /></ListItemIcon>
           <ListItemText className={`${!open && 'hidden'}`} primary="Professors" />
         </ListItemButton>
         <ListItemButton className={`${currentTab.name === 'institutes' && 'bg-activeTab text-primary'}`} onClick={() => dispatch(setCurrentTab({ name: 'institutes', data: null }))}>
@@ -96,7 +98,7 @@ export default function Sidebar({ setOpen, open }) {
       </List>
       <List>
         <ListItemButton className={`${currentTab.name === 'faqs' && 'bg-activeTab text-primary'}`} onClick={() => dispatch(setCurrentTab({ name: 'faqs', data: null }))}>
-          <ListItemIcon className={`${!open && 'flex justify-center'}`}><img src={conversations} alt="faqs" className={`${currentTab.name === 'faqs' && 'bg-activeTab text-primary'} w-8 h-8`} /></ListItemIcon>
+          <ListItemIcon className={`${!open && 'flex justify-center'}`}><img src={currentTab.name === 'faqs' ? conversations : conversationGray} alt="faqs" className={`${currentTab.name === 'faqs' && 'bg-activeTab text-primary'} w-8 h-8`} /></ListItemIcon>
           <ListItemText className={`${!open && 'hidden'}`} primary="Faq's" />
         </ListItemButton>
       </List>
