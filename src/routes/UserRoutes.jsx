@@ -34,7 +34,7 @@ export default function UserRoutes() {
         <Grid item>
           <TopBar />
         </Grid>
-        <Grid item className="flex flex-col flex-grow" sx={{ marginTop: location.pathname === '/admin' ? '0px' : '86px' /* MaxHeight of Topbar */ }}>
+        <Grid item className="flex flex-col flex-grow w-full" sx={{ marginTop: location.pathname === '/admin' ? '0px' : '86px' /* MaxHeight of Topbar */ }}>
           <Route exact path="/">
             <Home />
           </Route>
