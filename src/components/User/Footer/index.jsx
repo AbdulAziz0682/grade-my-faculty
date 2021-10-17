@@ -17,8 +17,8 @@ export default function Footer() {
   return (
     <Box id="footer" className={`${history.location.pathname === '/admin' && 'hidden'}`} sx={{ top: 'auto', bottom: 0, zIndex: 0 }}>
       <Box sx={{ bgcolor: 'primary.main', width: '100%' }}>
-        <Container maxWidth="xl" className="md:px-20" sx={{ py: '50px' }}>
-          <Grid container justifyContent="space-between">
+        <Container maxWidth="xl" className="md:px-20" sx={{ py: '50px', height: '272px' }}>
+          <Grid container justifyContent="space-between" className="md:px-20">
             <Grid
               item
               xs={6}
@@ -27,11 +27,11 @@ export default function Footer() {
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'flex-start',
-                gap: 1,
+                gap: '1rem',
               }}
             >
               <Typography className="font-semibold" color="white">Grade My Faculty</Typography>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                 <Typography className="font-semibold cursor-pointer" color="white">
                   <span aria-hidden onClick={() => history.push('/faq')}>FAQ</span>
                 </Typography>
@@ -52,7 +52,7 @@ export default function Footer() {
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'flex-start',
-                gap: 1,
+                gap: '1rem',
               }}
             >
               <Typography color="white" className="font-semibold">Follow Us</Typography>
@@ -71,7 +71,7 @@ export default function Footer() {
           </Grid>
         </Container>
       </Box>
-      <Container maxWidth="xl" className="md:px-20" sx={{ py: 3, bgcolor: 'white' }}>
+      <Container maxWidth="xl" className="md:px-40" sx={{ py: 3, bgcolor: 'white' }}>
         <div className="w-full">
           <Typography color="gray" className="font-semibold">&copy; 2021 Grade My Faculty. All Rights Reserved</Typography>
         </div>

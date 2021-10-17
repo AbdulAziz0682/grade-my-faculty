@@ -36,11 +36,11 @@ export default function Login() {
   });
   // -----------------
   return (
-    <Grid container className="bg-pageBg flex-grow">
-      <Container maxWidth="xl" className="flex items-center justify-center py-3">
+    <Grid container className="flex-grow bg-pageBg">
+      <Container maxWidth="xl" className="flex items-center justify-center py-12">
         <Paper
           component="form"
-          className="w-full lg:w-3/6 p-8 md:px-12 py-10 rounded-xl"
+          className="w-full p-8 py-10 md:w-7/12 lg:w-5/12 md:px-12 rounded-xl"
           onSubmit={formik.handleSubmit}
         >
           <Grid container direction="column" className="gap-3">
@@ -48,7 +48,7 @@ export default function Login() {
               <Typography variant="body2" align="center" classes={{ root: 'font-extrabold text-2xl' }}>Sign In</Typography>
             </Grid>
             <Grid item>
-              <Typography variant="h6" className="font-semibold text-sm" style={{ fontFamily: 'montserrat' }}>Email Address *</Typography>
+              <Typography variant="h6" className="text-sm font-semibold" style={{ fontFamily: 'montserrat' }}>Email Address *</Typography>
               <TextField
                 fullWidth
                 required
@@ -66,7 +66,7 @@ export default function Login() {
               />
             </Grid>
             <Grid item>
-              <Typography variant="h6" className="font-semibold text-sm" style={{ fontFamily: 'montserrat' }}>Password *</Typography>
+              <Typography variant="h6" className="text-sm font-semibold" style={{ fontFamily: 'montserrat' }}>Password *</Typography>
               <TextField
                 fullWidth
                 required
@@ -85,36 +85,36 @@ export default function Login() {
               />
             </Grid>
             <Grid item className={`${!formik.isValid ? 'block' : 'hidden'} mt-3`}>
-              <p className="font-semibold text-sm text-red-700" style={{ fontFamily: 'montserrat' }}>There are some errors in form. Please try again.</p>
+              <p className="text-sm font-semibold text-red-700" style={{ fontFamily: 'montserrat' }}>There are some errors in form. Please try again.</p>
             </Grid>
-            <Grid item className="flex gap-3 my-3 justify-between items-center">
-              <div className="flex-grow flex gap-3 items-center">
+            <Grid item className="flex items-center justify-between gap-3 my-3">
+              <div className="flex items-center flex-grow gap-3 mt-6 mb-2">
                 <div className={`border rounded w-6 h-6 flex justify-center items-center ${checked ? 'bg-primary border-primary' : 'bg-transparent border-black'}`} aria-hidden onClick={() => setChecked(!checked)}>
                   <CheckSharp htmlColor="white" className="w-4" />
                 </div>
-                <Typography variant="h6" className="font-semibold text-sm" sx={{ fontFamily: 'montserrat' }}>Remember Me</Typography>
+                <Typography variant="h6" className="text-sm font-semibold" sx={{ fontFamily: 'montserrat' }}>Remember Me</Typography>
               </div>
-              <p className="font-semibold text-gray-400 text-sm" style={{ fontFamily: 'montserrat' }}>Forget Password</p>
+              <p className="text-sm font-semibold text-gray-400" style={{ fontFamily: 'montserrat' }}>Forget Password</p>
             </Grid>
             <Grid item className="my-5">
               <Button variant="contained" type="submit" className="py-4 text-xl" fullWidth>Sign In</Button>
             </Grid>
             <Grid item className="my-5">
-              <Typography className="font-semibold text-sm" align="center" style={{ fontFamily: 'montserrat' }}>or continue with</Typography>
+              <Typography className="text-sm font-semibold" align="center" style={{ fontFamily: 'montserrat' }}>or continue with</Typography>
             </Grid>
-            <Grid item className="mt-5 flex flex-col items-center">
+            <Grid item className="flex flex-col items-center mt-5">
               <Button
                 variant="contained"
-                className="bg-white hover:bg-white rounded-xl py-3"
+                className="py-3 bg-white hover:bg-white rounded-xl"
                 startIcon={
                   <img src={googleLogo} alt="google" />
                 }
               >
-                <Typography variant="body2" className="font-semibold text-xl md:text-2xl text-gray-400">Sign In with Google</Typography>
+                <Typography variant="body2" className="text-xl font-semibold text-gray-400 md:text-2xl">Sign In with Google</Typography>
               </Button>
             </Grid>
-            <Grid item className="mt-9 flex justify-center">
-              <p className="font-semibold text-sm" style={{ fontFamily: 'montserrat' }}>
+            <Grid item className="flex justify-center mt-9">
+              <p className="text-sm font-semibold" style={{ fontFamily: 'montserrat' }}>
                 Don&apos;t have an account?
                 <span className="text-primary mx-1.5 cursor-pointer" aria-hidden onClick={() => history.push('/signUp')}>Click here</span>
               </p>

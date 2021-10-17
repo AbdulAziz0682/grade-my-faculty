@@ -20,7 +20,7 @@ export default function StudentsFaq() {
             <Typography variant="h1" align="center"> Student&apos;s FAQ </Typography>
           </Grid>
           <Grid item className="w-full">
-            <Accordion>
+            <Accordion style={{ marginBottom: 0, marginTop: 0 }}>
               <AccordionSummary className="px-3 md:px-9" expandIcon={<ExpandMoreIcon htmlColor="white" sx={{ bgcolor: 'primary.main', width: '2.5rem', height: '2.5rem' }} />}>
                 <Typography variant="h4">First faq related to student will be here</Typography>
               </AccordionSummary>
@@ -42,7 +42,7 @@ export default function StudentsFaq() {
                 laborum.
               </AccordionDetails>
             </Accordion>
-            <Accordion>
+            <Accordion style={{ marginBottom: 0, marginTop: 0 }}>
               <AccordionSummary className="px-3 md:px-9" expandIcon={<ExpandMoreIcon htmlColor="white" sx={{ bgcolor: 'primary.main', width: '2.5rem', height: '2.5rem' }} />}>
                 <Typography variant="h4">Second faq related to student will be here</Typography>
               </AccordionSummary>
@@ -64,7 +64,7 @@ export default function StudentsFaq() {
                 laborum.
               </AccordionDetails>
             </Accordion>
-            <Accordion>
+            <Accordion style={{ marginBottom: 0, marginTop: 0 }}>
               <AccordionSummary className="px-3 md:px-9" expandIcon={<ExpandMoreIcon htmlColor="white" sx={{ bgcolor: 'primary.main', width: '2.5rem', height: '2.5rem' }} />}>
                 <Typography variant="h4">Third faq related to student will be here</Typography>
               </AccordionSummary>

@@ -14,8 +14,16 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Container from '@mui/material/Container';
 import ArrowForward from '@mui/icons-material/ArrowForward';
+import SearchIcon from '@mui/icons-material/Search';
 
 import { Link, useLocation, useHistory } from 'react-router-dom';
+import { InputAdornment, TextField } from '@mui/material';
+
+const isSearchFieldRoute = {
+  '/grade': true,
+  '/grading': true,
+  '/post': true,
+};
 
 export default function TopBar() {
   const history = useHistory();
@@ -85,8 +93,8 @@ export default function TopBar() {
   return (
     <Box className={`${pathname === '/admin' && 'hidden'} order-first`}>
       <AppBar position="fixed" color="default" className="bg-white">
-        <Container maxWidth="xl" sx={{ py: 1.7, maxHeight: 91 }}>
-          <Toolbar style={{ paddingLeft: 0, paddingRight: 0 }}>
+        <Container maxWidth="xl" sx={{ height: 98, py: '23px' }} className="flex flex-col justify-center">
+          <Toolbar disableGutters style={{ minHeight: '52px' }}>
             <Typography
               variant="h6"
               noWrap
@@ -98,11 +106,27 @@ export default function TopBar() {
                 px: 2,
                 textTransform: 'capitalize',
                 fontWeight: 800,
+                minWidth: 'fit-content',
               }}
             >
               Grade my faculty
             </Typography>
-            <Box sx={{ flexGrow: 1, minWidth: 15 }} />
+            {
+              !isSearchFieldRoute[pathname]
+                ? <Box sx={{ flexGrow: 1, minWidth: 15 }} />
+                : (
+                  <TextField
+                    className="flex-grow h-full ml-4 text-gray-500"
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <SearchIcon className="ml-2" />
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                )
+            }
             <Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center', height: '100%' }}>
               <List sx={{ display: 'flex' }}>
                 <ListItem>
@@ -127,8 +151,8 @@ export default function TopBar() {
                 </ListItem>
               </List>
             </Box>
-            <Box flexGrow={1} maxWidth="12%" />
-            <Box sx={{ display: { md: 'flex', xs: 'none' } }}>
+            { !isSearchFieldRoute[pathname] && <Box flexGrow={1} maxWidth="12%" />}
+            <Box sx={{ display: { md: 'flex', xs: 'none', alignSelf: 'stretch' } }}>
               <Button
                 variant="text"
                 onClick={() => history.push('/login')}
@@ -139,7 +163,7 @@ export default function TopBar() {
               <Button
                 variant="contained"
                 endIcon={<ArrowForward />}
-                sx={{ p: 1.5 }}
+                sx={{ px: 3 }}
                 onClick={() => history.push('/signUp')}
               >
                 Signup

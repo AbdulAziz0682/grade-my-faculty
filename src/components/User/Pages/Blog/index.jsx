@@ -16,12 +16,12 @@ export default function AboutUs() {
       <Container maxWidth="xl">
         <Grid container direction="column" className="pt-16 pb-8">
           <Grid item className="w-full">
-            <Typography variant="h2" align="center"> Our Blogs </Typography>
+            <Typography variant="h2" align="center" color="primary"> Our Blogs </Typography>
           </Grid>
         </Grid>
       </Container>
       <div className="w-full bg-primary">
-        <Container maxWidth="xl" className="flex flex-wrap justify-between p-16">
+        <Container maxWidth="xl" className="flex flex-wrap justify-center gap-1 p-16 lg:justify-between">
           <Card className="flex-col my-1 w-72">
             <img className="w-auto" src={media} alt="media" />
             <Typography className="mx-8 mt-8 font-semibold">
@@ -51,7 +51,7 @@ export default function AboutUs() {
             <Button
               variant="contained"
               color="primary"
-              className="p-4"
+              className="px-8 py-4"
               endIcon={<ArrowForward />}
             >
               Load More
@@ -59,13 +59,13 @@ export default function AboutUs() {
           </div>
           <div className="flex flex-col md:flex-row md:justify-center">
             <img className="w-auto" src={banner} alt="banner" />
-            <span className="flex flex-col gap-3 md:w-1/6 px-9">
+            <span className="flex flex-col gap-3 md:w-2/6 lg:w-1/6 px-9">
               <Typography className="text-lg font-bold text-white">Large Title</Typography>
               <Typography className="text-xs text-gray-600">
                 SF Symbols were introduced during WWDC 2019 and are a big present for us developers.
               </Typography>
             </span>
-            <Button variant="contained" className="h-6 p-4 text-white bg-blue-500 rounded-lg hover:bg-blue-800 mt-9">Download</Button>
+            <Button variant="contained" className="self-center h-6 p-4 text-white bg-blue-500 rounded-lg w-36 hover:bg-blue-800 mt-9">Download</Button>
           </div>
         </Container>
       </div>

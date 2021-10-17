@@ -10,7 +10,7 @@ import {
   Hidden,
 } from '@mui/material';
 
-import { Search } from '@mui/icons-material';
+import { Search, KeyboardArrowDown } from '@mui/icons-material';
 
 import { useSelector } from 'react-redux';
 
@@ -23,10 +23,10 @@ import homeImg from '../../../../assets/homeImg.svg';
 
 function getList(searchBy, universities, faculty, history) {
   if (searchBy === 'university') {
-    return [...universities.map((uni) => <MenuItem className="bg-gray-50" value={uni.name} onClick={() => history.push('/faculty', [uni.name])}>{uni.name}</MenuItem>)];
+    return [...universities.map((uni) => <MenuItem sx={{ border: '1px solid' }} className="py-3 text-gray-400 bg-gray-100 border-gray-200" value={uni.name} onClick={() => history.push('/faculty', [uni.name])}>{uni.name}</MenuItem>)];
   }
   return [...faculty.map((member) => (
-    <MenuItem value={member.name} className="bg-gray-50" onClick={() => history.push('/grade', [member])}>
+    <MenuItem value={member.name} sx={{ border: '1px solid' }} className="py-1 bg-gray-100 border-gray-200" onClick={() => history.push('/grade', [member])}>
       <div className="flex items-end justify-between gap-3 pb-2 overflow-auto" style={{ fontFamily: 'montserrat' }}>
         <div className="flex flex-col">
           <p className="text-gray-600">{member.name}</p>
@@ -64,10 +64,10 @@ export default function Home() {
   return (
     <>
       <Grid container className="flex-grow">
-        <Container maxWidth="xl">
+        <Container maxWidth="xl" className="pr-0">
           <Grid container alignItems="center" className="pt-12 pb-60" columnSpacing={2}>
-            <Grid item xs={12} md={8} className="flex flex-col justify-center h-full">
-              <Typography style={{ lineHeight: '4rem' }} className="text-3xl font-bold md:text-5xl">
+            <Grid item xs={12} md={8} className="flex flex-col justify-center h-full gap-11">
+              <Typography style={{ lineHeight: '5rem' }} className="text-4xl font-bold md:text-6xl">
                 View Evaluations and&nbsp;
                 <span className="text-primary">Grade</span>
                 &nbsp;Your Faculty Members
@@ -77,24 +77,40 @@ export default function Home() {
                   <Select
                     variant="outlined"
                     ref={ref}
-                    className="w-full text-white bg-primary h-14"
+                    className="w-full text-white rounded-r-none bg-primary h-14"
                     value={searchBy}
                     onChange={(e) => setSearchBy(e.target.value)}
-                    classes={{
-                      icon: 'text-white',
+                    IconComponent={KeyboardArrowDown}
+                    classes={{ icon: 'text-white' }}
+                    MenuProps={{
+                      PaperProps: {
+                        className: 'rounded-none shadow-none',
+                      },
+                      classes: {
+                        list: 'py-0',
+                      },
                     }}
                   >
-                    <MenuItem value="university">Search by University</MenuItem>
-                    <MenuItem value="name">Search by Faculty</MenuItem>
+                    <MenuItem value="university" style={{ border: '1px solid lightgray' }} className="py-3 text-gray-400 bg-gray-100">Search by University</MenuItem>
+                    <MenuItem value="name" style={{ border: '1px solid lightgray' }} className="py-3 text-gray-400 bg-gray-100">Search by Faculty</MenuItem>
                   </Select>
                 </Grid>
                 <Grid item xs={12} md={7} sx={{ order: { xs: 3, md: 2 } }} className="mt-1 md:mt-0">
                   <Select
                     variant="outlined"
-                    className="bg-gray-100 h-14"
+                    className="text-gray-400 bg-gray-100 rounded-none h-14"
                     fullWidth
                     value={value}
                     onChange={(e) => setValue(e.target.value)}
+                    IconComponent=""
+                    MenuProps={{
+                      PaperProps: {
+                        className: 'shadow-none rounded-none',
+                      },
+                      classes: {
+                        list: 'py-0',
+                      },
+                    }}
                   >
                     {getList(searchBy, universities, faculty, history)}
                   </Select>
@@ -115,11 +131,11 @@ export default function Home() {
         </Container>
       </Grid>
       <Grid container className="flex-grow bg-primaryLight">
-        <Container maxWidth="xl" className="flex justify-center p-16">
-          <Grid container spacing={6}>
+        <Container maxWidth="xl" className="flex justify-center px-24 py-20 md:px-36">
+          <Grid container spacing={16}>
             <Grid item md={4} className="flex flex-col items-center">
               <img src={help} alt="help others" className="w-24" />
-              <Typography className="py-3 font-bold text-center text-white capitalize">Help other students 100% anonymous</Typography>
+              <Typography className="py-3 font-bold text-center text-white capitalize" sx={{ minHeight: '64px' }}>Help other students 100% anonymous</Typography>
               <Typography className="flex flex-wrap text-white" align="center">
                 Lorem ipsum dolor sit amet,
                 eum et consul accusam urbanitas,
@@ -128,7 +144,7 @@ export default function Home() {
             </Grid>
             <Grid item md={4} className="flex flex-col items-center">
               <img src={evaluation} alt="help others" className="w-24" />
-              <Typography className="py-3 font-bold text-center text-white capitalize">Reliable evaluation from your peers</Typography>
+              <Typography className="py-3 font-bold text-center text-white capitalize" sx={{ minHeight: '64px' }}>Reliable evaluation from your peers</Typography>
               <Typography className="flex flex-wrap text-white" align="center">
                 Lorem ipsum dolor sit amet, eum et
                 consul accusam urbanitas, vel ne
@@ -138,7 +154,7 @@ export default function Home() {
             </Grid>
             <Grid item md={4} className="flex flex-col items-center">
               <img src={compare} alt="help others" className="w-24" />
-              <Typography className="py-3 font-bold text-center text-white capitalize">Compare faculty members</Typography>
+              <Typography className="py-3 font-bold text-center text-white capitalize" sx={{ minHeight: '64px' }}>Compare faculty members</Typography>
               <Typography className="flex flex-wrap text-white" align="center">
                 Lorem ipsum dolor sit amet, eum et
                 consul accusam urbanitas, vel ne

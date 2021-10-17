@@ -6,6 +6,7 @@ import {
   Typography,
   Paper,
   Button,
+  Chip,
 } from '@mui/material';
 
 import { useHistory } from 'react-router-dom';
@@ -14,18 +15,18 @@ import { useHistory } from 'react-router-dom';
 
 import like from '../../../../assets/like.svg';
 import unlike from '../../../../assets/unlike.svg';
-import media from '../../../../assets/media.svg';
+import media2 from '../../../../assets/media2.png';
 
 export default function Grade() {
   const history = useHistory();
   const faculty = history.location.state[0];
   return (
     <Grid container className="flex-grow w-full">
-      <Container maxWidth="xl" className="flex flex-col md:flex-row md:gap-9">
+      <Container maxWidth="xl" className="flex flex-col justify-between md:flex-row md:gap-9">
         <div className="flex flex-col w-full lg:w-9/12 py-14">
           <Typography variant="h3">{faculty.university}</Typography>
           <Typography variant="body1" className="font-bold">Dhaka, Bangladesh</Typography>
-          <Paper elevation={2} className="flex flex-col gap-2 p-4 mt-6 rounded-2xl lg:px-16 lg:py-8 bg-gray-50">
+          <Paper elevation={2} className="flex flex-col gap-2 p-4 mt-6 rounded-2xl lg:px-16 lg:pt-8 lg:pb-20 bg-gray-50">
             <Typography className="text-3xl font-bold text-primary">{faculty.name}</Typography>
             <Typography className="font-bold">{faculty.university}</Typography>
             <Typography>
@@ -46,51 +47,49 @@ export default function Grade() {
               &nbsp;
               and so on.
             </Typography>
-            <div className="flex gap-3">
-              <span className="self-center w-60">
-                <Typography className="w-full text-3xl font-extrabold text-center">
+            <div className="flex flex-col">
+              <div className="flex items-end gap-3">
+                <Typography className="w-3/12 text-4xl font-extrabold text-center">
                   {faculty.performance}
                   %
                 </Typography>
-                <Typography className="w-full mt-2 text-xs text-center">Would take again</Typography>
-              </span>
-              <span className="self-center w-36">
-                <Typography className="w-full text-3xl font-extrabold text-center">
+                <Typography className="w-3/12 text-4xl font-extrabold text-center">
                   {faculty.levelOfDifficulty}
                 </Typography>
-                <Typography className="w-full mt-2 text-xs text-center">Level of difficulty</Typography>
-              </span>
-              <span className="flex flex-col items-center self-center flex-grow">
-                <Typography className="w-full text-5xl font-extrabold text-center">
+                <Typography className="w-6/12 font-extrabold text-center text-7xl">
                   {faculty.grade}
                 </Typography>
-                <Typography className="w-5/6 mt-2 text-xs text-center">
+              </div>
+              <div className="flex gap-3">
+                <Typography className="w-3/12 mt-2 text-xs text-center">Would take again</Typography>
+                <Typography className="w-3/12 mt-2 text-xs text-center">Level of difficulty</Typography>
+                <Typography className="w-6/12 mt-2 text-xs text-center">
                   Based on&nbsp;
                   {faculty.reviews}
-                  &nbsp;students evaluations
+                  &nbsp;students
+                  <br />
+                  evaluations
                 </Typography>
-              </span>
+              </div>
             </div>
             <div className="flex gap-3 mt-6">
-              <div className="w-96">
+              <div className="w-1/2">
                 <Typography className="mb-12 text-3xl font-semibold">Attributes</Typography>
                 <div className="flex flex-wrap justify-between gap-3 w-72">
                   {
                     faculty.attributes.map((attr) => (
-                      <span className="px-2 bg-gray-200 rounded-lg">
-                        {attr}
-                      </span>
+                      <Chip variant="filled" label={attr} sx={{ minWidth: '95px' }} />
                     ))
                   }
                 </div>
               </div>
-              <div className="flex justify-center flex-grow">
-                <Button variant="contained" className="py-8 rounded-3xl h-9" onClick={() => history.push('/grading', [faculty])}>Grade this faculty</Button>
+              <div className="flex justify-center w-1/2">
+                <Button variant="contained" className="py-6 rounded-full h-9" onClick={() => history.push('/grading', [faculty])}>Grade this faculty</Button>
               </div>
             </div>
           </Paper>
-          <Paper elevation={2} className="flex flex-col gap-6 p-4 mt-24 rounded-2xl lg:px-16 lg:pt-8 lg:pb-5 bg-gray-50">
-            <Typography className="py-2 text-4xl border-b-2 border-black">Evaluations</Typography>
+          <Paper elevation={2} className="flex flex-col gap-6 p-4 px-4 mt-24 rounded-2xl lg:px-16 lg:pt-8 lg:pb-5 bg-gray-50">
+            <Typography className="py-2 text-4xl font-bold border-b-2 border-black">Evaluations</Typography>
             {
               [1, 2, 3].map(
                 () => (
@@ -103,22 +102,22 @@ export default function Grade() {
                       </Typography>
                       <Typography className="w-full text-xs text-center text-white">Level of Difficulty</Typography>
                     </Grid>
-                    <Grid item xs={12} sm={9} className="flex flex-col gap-2 pb-3 bg-white pt-9 px-9">
-                      <div className="flex justify-between w-full gap-2">
-                        <Typography>Date of grading</Typography>
-                        <Typography>Course Code</Typography>
+                    <Grid item xs={12} sm={9} className="flex flex-col gap-4 pb-3 bg-white pt-9 px-9">
+                      <div className="flex justify-between w-full gap-2 px-8">
+                        <Typography className="font-medium text-gray-500">Date of grading</Typography>
+                        <Typography className="font-medium text-gray-500">Course Code</Typography>
                       </div>
-                      <Typography variant="body1">
+                      <Typography className="text-lg">
                         Lorem ipsum dolor sit amet, äonsectetur adipiscing elit,
                         sed do eiusmod tempor incididunt
                         ut labore et dolore magna aliqua. Ut enim ad minim veniam
                       </Typography>
-                      <div className="flex flex-wrap justify-between w-full mt-4">
-                        <Typography className="px-10 py-2 text-sm bg-gray-200 rounded-3xl w-max">Top Tag</Typography>
-                        <Typography className="px-10 py-2 text-sm bg-gray-200 rounded-3xl w-max">Top Tag</Typography>
-                        <Typography className="px-10 py-2 text-sm bg-gray-200 rounded-3xl w-max">Top Tag</Typography>
+                      <div className="flex flex-wrap w-full gap-4 mt-12">
+                        <Chip variant="filled" label="Top Tag" sx={{ minWidth: '9rem', fontSize: '11px', color: 'gray' }} />
+                        <Chip variant="filled" label="Top Tag" sx={{ minWidth: '9rem', fontSize: '11px', color: 'gray' }} />
+                        <Chip variant="filled" label="Top Tag" sx={{ minWidth: '9rem', fontSize: '11px', color: 'gray' }} />
                       </div>
-                      <div className="flex items-center gap-2 mt-9">
+                      <div className="flex items-center gap-2 mt-1">
                         <img src={like} alt="like" className="w-4" />
                         <img src={unlike} alt="unlike" className="w-4" />
                         <span className="flex-grow" />
@@ -129,18 +128,18 @@ export default function Grade() {
                 ),
               )
             }
-            <div className="flex justify-end pt-6 border-t-2 border-black">
+            <div className="flex justify-end pt-6 mt-8 border-t-2 border-black">
               <Button variant="contained" className="px-6 rounded-lg">Load More</Button>
             </div>
           </Paper>
         </div>
-        <div className="flex-col hidden gap-10 lg:flex lg:w-3/12 h-9 py-14">
+        <div className="flex-col hidden gap-10 lg:flex lg:w-2/12 h-9 py-14">
           <Typography variant="h4">Our Blog</Typography>
           {
             [1, 2, 3].map(
               () => (
-                <div className="flex flex-col w-full gap-2">
-                  <img src={media} alt="blog" className="w-auto" />
+                <div className="flex flex-col w-full gap-4">
+                  <img src={media2} alt="blog" className="w-auto" />
                   <Typography className="text-sm text-gray-500">Course Item</Typography>
                   <Typography variant="h3">Content writer</Typography>
                   <Typography className="text-sm text-gray-500">Slate helps you see how many more days.</Typography>

@@ -17,19 +17,49 @@ import {
 
 import { useHistory } from 'react-router-dom';
 
-import media from '../../../../assets/media.svg';
+import media2 from '../../../../assets/media2.png';
 import CustomCheckBox from '../../../CustomCheckBox';
+
+function RadioCheckedIcon() {
+  return (
+    <span style={{ borderWidth: '6px' }} className="w-6 h-6 rounded-full border-primary" />
+  );
+}
+
+function RadioIcon() {
+  return (
+    <span style={{ borderWidth: '3px' }} className="w-6 h-6 border-gray-400 rounded-full" />
+  );
+}
+
+function CustomRadio(props) {
+  return (
+    <Radio
+      sx={{
+        '&:hover': {
+          bgcolor: 'transparent',
+        },
+      }}
+      disableRipple
+      color="default"
+      checkedIcon={<RadioCheckedIcon />}
+      icon={<RadioIcon />}
+      // eslint-disable-next-line react/jsx-props-no-spreading
+      {...props}
+    />
+  );
+}
 
 export default function GradingForm() {
   const faculty = useHistory().location.state[0];
   return (
     <Grid container className="flex-grow">
-      <Container maxWidth="xl" className="flex flex-col md:flex-row md:gap-9">
+      <Container maxWidth="xl" className="flex flex-col justify-between md:flex-row md:gap-9">
         <div className="flex flex-col w-full lg:w-9/12 py-14">
           <Typography variant="h3">Your turn to grade</Typography>
-          <Paper elevation={2} className="flex flex-col gap-2 p-4 mt-9 rounded-2xl lg:px-16 lg:py-8 bg-gray-50">
-            <Typography className="text-3xl font-bold">{faculty.name}</Typography>
-            <Typography className="text-sm">{faculty.university}</Typography>
+          <Paper elevation={5} className="flex flex-col gap-2 p-4 mt-9 rounded-2xl lg:px-16 lg:py-8 bg-gray-50">
+            <Typography className="text-3xl font-bold text-primary">{faculty.name}</Typography>
+            <Typography className="my-1 text-sm text-gray-600">{faculty.university}</Typography>
             <Typography>
               {faculty.department}
               &nbsp;Department
@@ -49,7 +79,7 @@ export default function GradingForm() {
               and so on.
             </Typography>
           </Paper>
-          <Paper elevation={2} className="flex flex-col gap-2 p-4 mt-9 rounded-2xl lg:px-16 lg:py-8 bg-gray-50">
+          <Paper elevation={5} className="flex flex-col gap-2 p-4 mt-9 rounded-2xl lg:px-16 lg:py-8 bg-gray-50">
             <Typography variant="h4" className="pb-3 border-b-2 border-black">Couple of Things to Remember</Typography>
             <Grid container className="mt-5" columnSpacing={3}>
               <Grid item xs={12} md={6} className="pr-9">
@@ -82,7 +112,7 @@ export default function GradingForm() {
               </Grid>
             </Grid>
           </Paper>
-          <Paper elevation={2} className="flex flex-col gap-6 p-4 mt-9 rounded-2xl lg:px-16 lg:py-8 bg-gray-50">
+          <Paper elevation={5} className="flex flex-col gap-6 p-4 mt-9 rounded-2xl lg:px-16 lg:py-8 bg-gray-50">
             <div className="flex flex-col gap-6 mx-2">
               <Typography variant="h4" className="pb-3 -mx-2 border-b-2 border-black">Let&apos;s start with basic questions</Typography>
               <Typography className="text-xl">1. What class did you take with this faculty member?</Typography>
@@ -111,11 +141,11 @@ export default function GradingForm() {
                   name="radio-buttons-group"
                   className="flex flex-row gap-3 -mt-2"
                 >
-                  <FormControlLabel value="1" control={<Radio />} label="1" />
-                  <FormControlLabel value="2" control={<Radio />} label="2" />
-                  <FormControlLabel value="3" control={<Radio />} label="3" />
-                  <FormControlLabel value="4" control={<Radio />} label="4" />
-                  <FormControlLabel value="5" control={<Radio />} label="5" />
+                  <FormControlLabel value="1" control={<CustomRadio />} label="1" />
+                  <FormControlLabel value="2" control={<CustomRadio />} label="2" />
+                  <FormControlLabel value="3" control={<CustomRadio />} label="3" />
+                  <FormControlLabel value="4" control={<CustomRadio />} label="4" />
+                  <FormControlLabel value="5" control={<CustomRadio />} label="5" />
                 </RadioGroup>
               </FormControl>
               <Typography className="text-xl">5. Difficulty Level?</Typography>
@@ -126,11 +156,11 @@ export default function GradingForm() {
                   name="radio-buttons-group"
                   className="flex flex-row gap-3 -mt-2"
                 >
-                  <FormControlLabel value="1" control={<Radio />} label="1" />
-                  <FormControlLabel value="2" control={<Radio />} label="2" />
-                  <FormControlLabel value="3" control={<Radio />} label="3" />
-                  <FormControlLabel value="4" control={<Radio />} label="4" />
-                  <FormControlLabel value="5" control={<Radio />} label="5" />
+                  <FormControlLabel value="1" control={<CustomRadio />} label="1" />
+                  <FormControlLabel value="2" control={<CustomRadio />} label="2" />
+                  <FormControlLabel value="3" control={<CustomRadio />} label="3" />
+                  <FormControlLabel value="4" control={<CustomRadio />} label="4" />
+                  <FormControlLabel value="5" control={<CustomRadio />} label="5" />
                 </RadioGroup>
               </FormControl>
               <Typography className="text-xl">6. Select the tags that describe the faculty</Typography>
@@ -162,8 +192,8 @@ export default function GradingForm() {
                   name="radio-buttons-group"
                   className="flex flex-row gap-3 -mt-2"
                 >
-                  <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
-                  <FormControlLabel value="No" control={<Radio />} label="No" />
+                  <FormControlLabel value="Yes" control={<CustomRadio />} label="Yes" />
+                  <FormControlLabel value="No" control={<CustomRadio />} label="No" />
                 </RadioGroup>
               </FormControl>
               <Typography className="text-xl">8. Is attendance manadatory?</Typography>
@@ -174,8 +204,8 @@ export default function GradingForm() {
                   name="radio-buttons-group"
                   className="flex flex-row gap-3 -mt-2"
                 >
-                  <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
-                  <FormControlLabel value="No" control={<Radio />} label="No" />
+                  <FormControlLabel value="Yes" control={<CustomRadio />} label="Yes" />
+                  <FormControlLabel value="No" control={<CustomRadio />} label="No" />
                 </RadioGroup>
               </FormControl>
               <Typography className="text-xl">Now, share your thoughts.</Typography>
@@ -183,19 +213,19 @@ export default function GradingForm() {
                 multiline
                 rows={4}
                 variant="outlined"
-                className="w-full md:w-5/6"
+                className="w-full md:w-4/6"
               />
-              <Button variant="contained" className="self-center px-16 py-3 rounded-lg">Submit</Button>
+              <Button variant="contained" className="self-center px-16 py-3 rounded-full">Submit</Button>
             </div>
           </Paper>
         </div>
-        <div className="flex-col hidden gap-10 lg:flex lg:w-3/12 h-9 py-14">
+        <div className="flex-col hidden gap-10 lg:flex lg:w-2/12 h-9 py-14">
           <Typography variant="h4">Our Blog</Typography>
           {
             [1, 2, 3].map(
               () => (
-                <div className="flex flex-col w-full gap-2">
-                  <img src={media} alt="blog" className="w-auto" />
+                <div className="flex flex-col w-full gap-4">
+                  <img src={media2} alt="blog" className="w-auto" />
                   <Typography className="text-sm text-gray-500">Course Item</Typography>
                   <Typography variant="h3">Content writer</Typography>
                   <Typography className="text-sm text-gray-500">Slate helps you see how many more days.</Typography>
