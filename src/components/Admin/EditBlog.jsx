@@ -25,9 +25,9 @@ export default function EditBlog({ blog }) {
       <Grid container justifyContent="center" rowSpacing={5} columnSpacing={15}>
         <Grid item xs={12} md={11}>
           <div className="flex flex-col items-center w-full mb-3 md:justify-between md:flex-row">
-            <Typography variant="h2" className="text-gray-400 pb-9">Edit Post</Typography>
+            <Typography className="text-3xl text-gray-400 pb-9">Edit Post</Typography>
             <div className="flex-grow" />
-            <Button variant="contained" color="error" className="px-9 shadow-redGlow">Delete Post</Button>
+            <Button variant="contained" color="error" className="self-start px-9 shadow-redGlow">Delete Post</Button>
           </div>
           <Card className="flex flex-col w-full gap-3 p-14" elevation={6}>
             <TextField

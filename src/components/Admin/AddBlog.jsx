@@ -22,7 +22,7 @@ export default function EditBlog() {
     <div className="flex flex-col w-full h-auto">
       <Grid container justifyContent="center" rowSpacing={5} columnSpacing={15}>
         <Grid item xs={12} md={11}>
-          <Typography variant="h2" className="text-gray-400 pb-9">Add Post</Typography>
+          <Typography className="text-3xl text-gray-400 pb-9">Add Post</Typography>
           <Card className="flex flex-col w-full gap-3 p-14" elevation={6}>
             <TextField
               label="Post title"

@@ -32,6 +32,34 @@ import ads from '../../assets/ads.svg';
 import conversations from '../../assets/conversations.svg';
 import conversationGray from '../../assets/conversationGray.svg';
 
+const UserTabs = {
+  users: true,
+  addUser: true,
+  viewUser: true,
+  editUser: true,
+};
+
+const ProfessorTabs = {
+  Professors: true,
+  addProfessor: true,
+  viewProfessor: true,
+  editProfessor: true,
+};
+
+const InstituteTabs = {
+  institutes: true,
+  addInstitute: true,
+  viewInstitute: true,
+  editInstitute: true,
+};
+
+const BlogTabs = {
+  blogs: true,
+  addBlog: true,
+  viewBlog: true,
+  editBlog: true,
+};
+
 export default function Sidebar({ setOpen, open }) {
   const { currentTab } = useSelector((state) => state.admin);
   const dispatch = useDispatch();
@@ -60,20 +88,20 @@ export default function Sidebar({ setOpen, open }) {
           <ListItemIcon className={`${!open && 'flex justify-center'}`}><Dashboard className={`${currentTab.name === 'dashboard' && 'bg-activeTab text-primary'} w-8 h-8`} /></ListItemIcon>
           <ListItemText className={`${!open && 'hidden'}`} primary="Dasboard" />
         </ListItemButton>
-        <ListItemButton className={`${currentTab.name === 'users' && 'bg-activeTab text-primary'}`} onClick={() => dispatch(setCurrentTab({ name: 'users', data: null }))}>
-          <ListItemIcon className={`${!open && 'flex justify-center'}`}><People className={`${currentTab.name === 'users' && 'bg-activeTab text-primary'} w-8 h-8`} /></ListItemIcon>
+        <ListItemButton className={`${UserTabs[currentTab.name] && 'bg-activeTab text-primary'}`} onClick={() => dispatch(setCurrentTab({ name: 'users', data: null }))}>
+          <ListItemIcon className={`${!open && 'flex justify-center'}`}><People className={`${UserTabs[currentTab.name] && 'bg-activeTab text-primary'} w-8 h-8`} /></ListItemIcon>
           <ListItemText className={`${!open && 'hidden'}`} primary="Users" />
         </ListItemButton>
-        <ListItemButton className={`${currentTab.name === 'professors' && 'bg-activeTab text-primary'}`} onClick={() => dispatch(setCurrentTab({ name: 'professors', data: null }))}>
-          <ListItemIcon className={`${!open && 'flex justify-center'}`}><img src={currentTab.name === 'professors' ? profBlue : professor} alt="professors" className={`${currentTab.name === 'professors' && 'bg-activeTab text-primary'} w-8 h-8`} /></ListItemIcon>
+        <ListItemButton className={`${ProfessorTabs[currentTab.name] && 'bg-activeTab text-primary'}`} onClick={() => dispatch(setCurrentTab({ name: 'professors', data: null }))}>
+          <ListItemIcon className={`${!open && 'flex justify-center'}`}><img src={ProfessorTabs[currentTab.name] ? profBlue : professor} alt="professors" className={`${currentTab.name === 'professors' && 'bg-activeTab text-primary'} w-8 h-8`} /></ListItemIcon>
           <ListItemText className={`${!open && 'hidden'}`} primary="Professors" />
         </ListItemButton>
-        <ListItemButton className={`${currentTab.name === 'institutes' && 'bg-activeTab text-primary'}`} onClick={() => dispatch(setCurrentTab({ name: 'institutes', data: null }))}>
-          <ListItemIcon className={`${!open && 'flex justify-center'}`}><Festival className={`${currentTab.name === 'institutes' && 'bg-activeTab text-primary'} w-8 h-8`} /></ListItemIcon>
+        <ListItemButton className={`${InstituteTabs[currentTab.name] && 'bg-activeTab text-primary'}`} onClick={() => dispatch(setCurrentTab({ name: 'institutes', data: null }))}>
+          <ListItemIcon className={`${!open && 'flex justify-center'}`}><Festival className={`${InstituteTabs[currentTab.name] && 'bg-activeTab text-primary'} w-8 h-8`} /></ListItemIcon>
           <ListItemText className={`${!open && 'hidden'}`} primary="Institutes" />
         </ListItemButton>
-        <ListItemButton className={`${currentTab.name === 'blogs' && 'bg-activeTab text-primary'}`} onClick={() => dispatch(setCurrentTab({ name: 'blogs', data: null }))}>
-          <ListItemIcon className={`${!open && 'flex justify-center'}`}><Assignment className={`${currentTab.name === 'blogs' && 'bg-activeTab text-primary'} w-8 h-8`} /></ListItemIcon>
+        <ListItemButton className={`${BlogTabs[currentTab.name] && 'bg-activeTab text-primary'}`} onClick={() => dispatch(setCurrentTab({ name: 'blogs', data: null }))}>
+          <ListItemIcon className={`${!open && 'flex justify-center'}`}><Assignment className={`${BlogTabs[currentTab.name] && 'bg-activeTab text-primary'} w-8 h-8`} /></ListItemIcon>
           <ListItemText className={`${!open && 'hidden'}`} primary="Blogs" />
         </ListItemButton>
       </List>
