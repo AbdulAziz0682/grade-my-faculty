@@ -38,7 +38,7 @@ export default function AdminSettings() {
               label="Confirm Password"
               className="w-full"
             />
-            <Button variant="contained" style={{ maxHeight: '38px' }} className="self-start w-3/12 py-3 px-9">Add</Button>
+            <Button variant="contained" style={{ maxHeight: '38px' }} className="self-start w-3/12 py-3 px-9 shadow-primaryGlow">Add</Button>
           </Card>
         </Grid>
         <Grid item xs={12} md={6}>
@@ -61,7 +61,7 @@ export default function AdminSettings() {
               label="Confirm Password"
               className="w-full"
             />
-            <Button variant="contained" style={{ maxHeight: '38px' }} className="self-start w-3/12 py-3 px-9">Update</Button>
+            <Button variant="contained" style={{ maxHeight: '38px' }} className="self-start w-3/12 py-3 px-9 shadow-primaryGlow">Update</Button>
           </Card>
         </Grid>
         <Grid item xs={12}>

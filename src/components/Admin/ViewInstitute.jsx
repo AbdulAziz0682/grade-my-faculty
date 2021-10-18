@@ -20,8 +20,8 @@ export default function viewInstitute({ institute }) {
       <div className="flex flex-col w-full gap-2 md:gap-9 md:flex-row md:items-center">
         <Typography className="ml-16 text-4xl text-gray-500">{`${institute.id} - ${institute.name}`}</Typography>
         <div className="flex-grow" />
-        <Button variant="contained" color="error" className="h-full px-9">Delete Institute</Button>
-        <Button variant="contained" className="h-full px-9" onClick={() => dispatch(setCurrentTab({ name: 'editInstitute', data: institute }))}>Edit Institute</Button>
+        <Button variant="contained" color="error" className="h-full px-9 shadow-redGlow">Delete Institute</Button>
+        <Button variant="contained" className="h-full px-9 shadow-primaryGlow" onClick={() => dispatch(setCurrentTab({ name: 'editInstitute', data: institute }))}>Edit Institute</Button>
       </div>
       <Card className="flex flex-col w-full gap-6 px-4 py-5 md:py-10 md:px-8" elevation={6}>
         {
@@ -38,7 +38,7 @@ export default function viewInstitute({ institute }) {
                 </div>
                 <div className="flex justify-between gap-3 mt-9">
                   <Typography className="text-sm font-medium text-gray-700">Abdul Kalam</Typography>
-                  <Button variant="contained" color="error" className="px-9">Delete</Button>
+                  <Button variant="contained" color="error" className="px-9 shadow-redGlow">Delete</Button>
                 </div>
               </div>
             ),

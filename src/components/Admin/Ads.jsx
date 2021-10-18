@@ -57,7 +57,7 @@ export default function Ads() {
             ),
           }}
         />
-        <Button variant="contained" className="h-full px-9" onClick={() => setOpenNewAdDialog(true)}>Add New Ad</Button>
+        <Button variant="contained" className="h-full px-9 shadow-primaryGlow" onClick={() => setOpenNewAdDialog(true)}>Add New Ad</Button>
       </div>
       <TableContainer className="w-full max-h-full bg-white">
         <Table>

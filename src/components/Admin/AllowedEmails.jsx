@@ -57,7 +57,7 @@ export default function AllowedEmails() {
             ),
           }}
         />
-        <Button variant="contained" className="h-full px-9" onClick={() => setOpenNewEmailDialog(true)}>Add New Email</Button>
+        <Button variant="contained" className="h-full px-9 shadow-primaryGlow" onClick={() => setOpenNewEmailDialog(true)}>Add New Email</Button>
       </div>
       <TableContainer className="w-full max-h-full bg-white">
         <Table>

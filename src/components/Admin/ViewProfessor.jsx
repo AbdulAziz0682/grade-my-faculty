@@ -20,8 +20,8 @@ export default function ViewProfessor({ professor }) {
       <div className="flex flex-col w-full gap-2 md:gap-9 md:flex-row md:items-center">
         <Typography className="ml-16 text-4xl text-gray-500">{`${professor.id} - ${professor.name}`}</Typography>
         <div className="flex-grow" />
-        <Button variant="contained" color="error" className="h-full px-9">Delete Professor</Button>
-        <Button variant="contained" className="h-full px-9" onClick={() => dispatch(setCurrentTab({ name: 'editProfessor', data: professor }))}>Edit Professor</Button>
+        <Button variant="contained" color="error" className="h-full px-9 shadow-redGlow">Delete Professor</Button>
+        <Button variant="contained" className="h-full px-9 shadow-primaryGlow" onClick={() => dispatch(setCurrentTab({ name: 'editProfessor', data: professor }))}>Edit Professor</Button>
       </div>
       <Card className="flex flex-col w-full gap-6 px-4 py-5 md:py-10 md:px-8" elevation={6}>
         {

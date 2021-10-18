@@ -57,7 +57,7 @@ export default function Faqs() {
             ),
           }}
         />
-        <Button variant="contained" className="h-full px-9" onClick={() => setOpenNewFaqDialog(true)}>Add New Faq</Button>
+        <Button variant="contained" className="h-full px-9 shadow-primaryGlow" onClick={() => setOpenNewFaqDialog(true)}>Add New Faq</Button>
       </div>
       <TableContainer className="w-full max-h-full bg-white">
         <Table>

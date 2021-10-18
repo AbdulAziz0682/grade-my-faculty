@@ -42,7 +42,7 @@ export default function AddFaqDialog({ open, handleClose, faq }) {
         />
       </DialogContent>
       <DialogActions className="flex justify-between w-full gap-9">
-        <Button variant="contained" style={{ maxHeight: '38px' }} className="md:w-1/3 lg:w-1/6">Update</Button>
+        <Button variant="contained" style={{ maxHeight: '38px' }} className="md:w-1/3 lg:w-1/6 shadow-primaryGlow">Update</Button>
       </DialogActions>
     </Dialog>
   );

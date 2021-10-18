@@ -41,7 +41,7 @@ export default function Professors() {
             ),
           }}
         />
-        <Button variant="contained" className="h-full px-9" onClick={() => dispatch(setCurrentTab({ name: 'addProfessor', data: null }))}>Add professors</Button>
+        <Button variant="contained" className="h-full px-9 shadow-primaryGlow" onClick={() => dispatch(setCurrentTab({ name: 'addProfessor', data: null }))}>Add professors</Button>
       </div>
       <TableContainer className="w-full max-h-full bg-white">
         <Table>

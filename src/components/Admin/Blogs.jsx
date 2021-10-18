@@ -46,7 +46,7 @@ export default function Blogs() {
             ),
           }}
         />
-        <Button variant="contained" className="h-full px-9" onClick={() => dispatch(setCurrentTab({ name: 'addBlog', data: null }))}>Add Post</Button>
+        <Button variant="contained" className="h-full px-9 shadow-primaryGlow" onClick={() => dispatch(setCurrentTab({ name: 'addBlog', data: null }))}>Add Post</Button>
       </div>
       <TableContainer className="w-full max-h-full bg-white">
         <Table>

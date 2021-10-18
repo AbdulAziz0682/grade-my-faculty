@@ -12,6 +12,10 @@ module.exports = {
       dropShadow: {
         '3xl': '0 35px 35px rgba(0, 0, 0, 0.03)',
       },
+      boxShadow: {
+        primaryGlow: '0 7px 7px rgba(93, 95, 239, 0.03), 0 7px 7px rgba(93, 95, 239, 0.15)',
+        redGlow: '0 7px 7px rgba(231, 64, 64, 0.03), 0 7px 7px rgba(231, 64, 64, 0.15)',
+      },
     },
     screen: {
       xs: '0px',

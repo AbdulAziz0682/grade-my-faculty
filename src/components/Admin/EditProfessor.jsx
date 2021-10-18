@@ -24,7 +24,7 @@ export default function EditProfessor({ professor }) {
         />
         <Typography variant="h3" className="mx-2 text-primary">(4.0)</Typography>
         <div className="flex-grow" />
-        <Button variant="contained" color="error" className="px-9">Delete Professor</Button>
+        <Button variant="contained" color="error" className="px-9 shadow-redGlow">Delete Professor</Button>
       </div>
       <Card className="flex flex-col w-full gap-12 p-14" elevation={6}>
         <TextField
@@ -69,7 +69,7 @@ export default function EditProfessor({ professor }) {
             variant="standard"
           />
         </div>
-        <Button variant="contained" style={{ maxHeight: '38px' }} className="self-start w-3/12 py-3 px-9">Update</Button>
+        <Button variant="contained" style={{ maxHeight: '38px' }} className="self-start w-3/12 py-3 px-9 shadow-primaryGlow">Update</Button>
       </Card>
     </div>
   );

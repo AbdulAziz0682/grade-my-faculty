@@ -27,7 +27,7 @@ export default function EditBlog({ blog }) {
           <div className="flex flex-col items-center w-full mb-3 md:justify-between md:flex-row">
             <Typography variant="h2" className="text-gray-400 pb-9">Edit Post</Typography>
             <div className="flex-grow" />
-            <Button variant="contained" color="error" className="px-9">Delete Post</Button>
+            <Button variant="contained" color="error" className="px-9 shadow-redGlow">Delete Post</Button>
           </div>
           <Card className="flex flex-col w-full gap-3 p-14" elevation={6}>
             <TextField
@@ -51,7 +51,7 @@ export default function EditBlog({ blog }) {
                 variant="standard"
               />
             </div>
-            <Button variant="contained" style={{ maxHeight: '38px' }} className="self-start w-3/12 py-3 px-9">Update</Button>
+            <Button variant="contained" style={{ maxHeight: '38px' }} className="self-start w-3/12 py-3 px-9 shadow-primaryGlow">Update</Button>
           </Card>
         </Grid>
       </Grid>

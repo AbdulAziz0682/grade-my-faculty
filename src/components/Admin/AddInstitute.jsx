@@ -29,7 +29,7 @@ export default function AddInstitute() {
           label="Courses"
           className="w-full"
         />
-        <Button variant="contained" style={{ maxHeight: '38px' }} className="self-start w-3/12 py-3 px-9">Add</Button>
+        <Button variant="contained" style={{ maxHeight: '38px' }} className="self-start w-3/12 py-3 px-9 shadow-primaryGlow">Add</Button>
       </Card>
     </div>
   );
