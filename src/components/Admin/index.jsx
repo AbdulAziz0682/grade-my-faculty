@@ -70,7 +70,7 @@ export default function Admin() {
             )}
           <IconButton><Logout /></IconButton>
         </div>
-        <div className="flex flex-col p-6 overflow-auto md:py-6 md:pl-6 md:pr-16" style={{ maxHeight: 'calc(100vh - 56px)', minHeight: 'calc(100vh - 56px)' }}>
+        <div className="flex flex-col p-6 overflow-auto md:py-6 md:pl-6 md:pr-10" style={{ maxHeight: 'calc(100vh - 56px)', minHeight: 'calc(100vh - 56px)' }}>
           {
             admin.currentTab.name === 'dashboard' && <Dashboard />
           }

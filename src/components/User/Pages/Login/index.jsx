@@ -94,7 +94,7 @@ export default function Login() {
                 </div>
                 <Typography variant="h6" className="text-sm font-semibold" sx={{ fontFamily: 'montserrat' }}>Remember Me</Typography>
               </div>
-              <p className="text-sm font-semibold text-gray-400" style={{ fontFamily: 'montserrat' }}>Forget Password</p>
+              <p className="text-sm font-semibold text-gray-400 cursor-pointer" aria-hidden onClick={() => history.push('/forgotPassword')} style={{ fontFamily: 'montserrat' }}>Forget Password</p>
             </Grid>
             <Grid item className="my-5">
               <Button variant="contained" type="submit" className="py-4 text-xl" fullWidth>Sign In</Button>
