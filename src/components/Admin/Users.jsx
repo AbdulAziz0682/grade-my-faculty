@@ -14,26 +14,29 @@ import {
   IconButton,
 } from '@mui/material';
 
-import { ChevronLeft, ChevronRight, Search } from '@mui/icons-material';
+import { ChevronLeft, ChevronRight } from '@mui/icons-material';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { setCurrentTab } from '../../redux/adminActions';
+
+import Search from '../../assets/Search.svg';
 
 export default function Users() {
   const { admin: { users } } = useSelector((state) => state);
   const dispatch = useDispatch();
   return (
-    <div className="flex flex-col w-full gap-3">
-      <div className="flex flex-col w-full gap-2 md:gap-9 md:flex-row md:items-center">
-        <Typography className="ml-16 text-4xl text-gray-500">Users</Typography>
+    <div className="flex flex-col w-full gap-9">
+      <div className="flex flex-col w-full gap-2 md:gap-9 md:flex-row md:items-center" style={{ maxHeight: '38px' }}>
+        <Typography className="ml-16 text-3xl text-gray-400">Users</Typography>
         <div className="flex-grow" />
         <TextField
           variant="outlined"
+          size="small"
           placeholder="Search..."
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
-                <Search className="w-9 h-9" />
+                <img src={Search} alt="search icon" className="h-8" />
               </InputAdornment>
             ),
           }}

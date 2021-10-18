@@ -54,7 +54,7 @@ export default function AddProfessor() {
             variant="standard"
           />
         </div>
-        <Button variant="contained" className="self-start w-3/12 py-3 px-9">Add</Button>
+        <Button variant="contained" style={{ maxHeight: '38px' }} className="self-start w-3/12 py-3 px-9">Add</Button>
       </Card>
     </div>
   );

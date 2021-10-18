@@ -11,7 +11,7 @@ import {
   MenuItem,
 } from '@mui/material';
 
-import { CheckSharp } from '@mui/icons-material';
+import { CheckSharp, KeyboardArrowDown } from '@mui/icons-material';
 
 import { useHistory } from 'react-router-dom';
 
@@ -37,7 +37,7 @@ export default function SignUp() {
       firstName: '',
       lastName: '',
       email: '',
-      role: 'student',
+      role: '',
       password: '',
       confirmPassword: '',
     },
@@ -46,16 +46,16 @@ export default function SignUp() {
   });
   // -----------------
   return (
-    <Grid container className="bg-pageBg flex-grow">
-      <Container maxWidth="xl" className="flex items-center justify-center py-20">
-        <Paper component="form" onSubmit={formik.handleSubmit} className="w-full lg:w-11/12 p-2 md:px-12 lg:px-32 py-9 rounded-xl">
-          <Grid container direction="column" className="gap-6">
+    <Grid container className="flex-grow bg-pageBg">
+      <Container maxWidth="xl" className="flex items-center justify-center pt-32 pb-16">
+        <Paper component="form" onSubmit={formik.handleSubmit} className="w-full p-2 lg:w-10/12 md:px-12 lg:px-32 py-9 rounded-xl">
+          <Grid container direction="column" className="gap-4">
             <Grid item>
               <Typography variant="body2" classes={{ root: 'font-extrabold text-2xl' }}>Sign Up</Typography>
             </Grid>
             <Grid container rowSpacing={3} columnSpacing={{ xs: 2, md: 6, lg: 12 }} className="mt-1">
               <Grid item xs={12} sm={6}>
-                <Typography variant="h6" className="font-semibold text-sm" style={{ fontFamily: 'montserrat' }}>First Name *</Typography>
+                <Typography variant="h6" className="text-sm font-semibold" style={{ fontFamily: 'montserrat' }}>First Name *</Typography>
                 <TextField
                   fullWidth
                   required
@@ -73,7 +73,7 @@ export default function SignUp() {
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
-                <Typography variant="h6" className="font-semibold text-sm" style={{ fontFamily: 'montserrat' }}>Last Name *</Typography>
+                <Typography variant="h6" className="text-sm font-semibold" style={{ fontFamily: 'montserrat' }}>Last Name *</Typography>
                 <TextField
                   fullWidth
                   required
@@ -83,15 +83,12 @@ export default function SignUp() {
                   error={formik.touched.lastName && Boolean(formik.errors.lastName)}
                   helperText={formik.touched.lastName && formik.errors.lastName}
                   placeholder="Last Name"
-                  className="mt-2"
-                  InputProps={{
-                    className: 'bg-gray-50',
-                  }}
+                  className="mt-2 bg-gray-50"
                   style={{ fontFamily: 'montserrat' }}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
-                <Typography variant="h6" className="font-semibold text-sm" style={{ fontFamily: 'montserrat' }}>Email *</Typography>
+                <Typography variant="h6" className="text-sm font-semibold" style={{ fontFamily: 'montserrat' }}>Email *</Typography>
                 <TextField
                   fullWidth
                   required
@@ -109,7 +106,7 @@ export default function SignUp() {
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
-                <Typography variant="h6" className="font-semibold text-sm" style={{ fontFamily: 'montserrat' }}>Role *</Typography>
+                <Typography variant="h6" className="text-sm font-semibold" style={{ fontFamily: 'montserrat' }}>Role *</Typography>
                 <Select
                   fullWidth
                   required
@@ -119,20 +116,21 @@ export default function SignUp() {
                   error={formik.touched.role && Boolean(formik.errors.role)}
                   placeholder="Role"
                   className="mt-2"
-                  InputProps={{
+                  inputProps={{
                     className: 'bg-gray-50',
                   }}
+                  IconComponent={KeyboardArrowDown}
                   style={{ fontFamily: 'montserrat' }}
                 >
-                  <MenuItem value="student">Student</MenuItem>
-                  <MenuItem value="admin">Admin</MenuItem>
+                  <MenuItem value="student" className="bg-gray-50">Student</MenuItem>
+                  <MenuItem value="admin" className="bg-gray-50">Admin</MenuItem>
                 </Select>
                 <Typography variant="caption" className={`${(formik.touched.role && formik.errors.role) ? 'block' : 'hidden'} text-red-500 px-3`}>
                   {formik.errors.role}
                 </Typography>
               </Grid>
               <Grid item xs={12} sm={6}>
-                <Typography variant="h6" className="font-semibold text-sm" style={{ fontFamily: 'montserrat' }}>Password *</Typography>
+                <Typography variant="h6" className="text-sm font-semibold" style={{ fontFamily: 'montserrat' }}>Password *</Typography>
                 <TextField
                   fullWidth
                   required
@@ -151,7 +149,7 @@ export default function SignUp() {
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
-                <Typography variant="h6" className="font-semibold text-sm" style={{ fontFamily: 'montserrat' }}>Confirm Password *</Typography>
+                <Typography variant="h6" className="text-sm font-semibold" style={{ fontFamily: 'montserrat' }}>Confirm Password *</Typography>
                 <TextField
                   fullWidth
                   required
@@ -171,38 +169,38 @@ export default function SignUp() {
               </Grid>
             </Grid>
             <Grid item className={`${!formik.isValid ? 'block' : 'hidden'} mt-3`}>
-              <p className="font-semibold text-sm text-red-700" style={{ fontFamily: 'montserrat' }}>There are some errors in form. Please try again.</p>
+              <p className="text-sm font-semibold text-red-700" style={{ fontFamily: 'montserrat' }}>There are some errors in form. Please try again.</p>
             </Grid>
-            <Grid item className="flex justify-between items-center">
-              <div className="flex-grow flex gap-3 items-center">
+            <Grid item className="flex items-center justify-between py-3">
+              <div className="flex items-center flex-grow gap-3">
                 <div className={`border rounded w-6 h-6 flex justify-center items-center ${checked ? 'bg-primary border-primary' : 'bg-transparent border-black'}`} aria-hidden onClick={() => setChecked(!checked)}>
                   <CheckSharp htmlColor="white" className="w-4" />
                 </div>
-                <Typography variant="h6" className="font-semibold text-sm" sx={{ fontFamily: 'montserrat' }}>Remember Me</Typography>
+                <Typography variant="h6" className="text-sm font-semibold" sx={{ fontFamily: 'montserrat' }}>Remember Me</Typography>
               </div>
-              <p className="font-semibold text-gray-400 text-sm" style={{ fontFamily: 'montserrat' }}>Forget Password</p>
+              <p className="text-sm font-semibold text-gray-400" style={{ fontFamily: 'montserrat' }}>Forget Password</p>
             </Grid>
             <Grid item>
               <Button variant="contained" type="submit" className="py-4 text-xl" fullWidth>Sign Up</Button>
             </Grid>
             <Grid item className="mt-5">
-              <Typography className="font-bold text-sm" align="center" style={{ fontFamily: 'montserrat' }}>or continue with</Typography>
+              <Typography className="text-sm font-bold" align="center" style={{ fontFamily: 'montserrat' }}>or continue with</Typography>
             </Grid>
-            <Grid item className="my-3 flex flex-col items-center">
+            <Grid item className="flex flex-col items-center my-3">
               <Button
                 variant="contained"
-                className="bg-white hover:bg-white rounded-xl py-3"
+                className="py-3 bg-white hover:bg-white rounded-xl"
                 startIcon={
                   <img src={googleLogo} alt="google" />
                 }
               >
-                <Typography variant="body2" className="font-semibold text-lg md:text-2xl text-gray-400">Sign Up with Google</Typography>
+                <Typography variant="body2" className="text-lg font-semibold text-gray-400 md:text-2xl">Sign Up with Google</Typography>
               </Button>
             </Grid>
-            <Grid item className="mt-3 flex justify-center">
-              <p className="font-bold text-sm lg:text-sm" style={{ fontFamily: 'montserrat' }}>
+            <Grid item className="flex justify-center mt-3">
+              <p className="text-sm font-bold lg:text-sm" style={{ fontFamily: 'montserrat' }}>
                 Already have an account?
-                <span className="text-primary mx-1 cursor-pointer" aria-hidden onClick={() => history.push('/login')}>Click here</span>
+                <span className="mx-1 cursor-pointer text-primary" aria-hidden onClick={() => history.push('/login')}>Click here</span>
               </p>
             </Grid>
           </Grid>

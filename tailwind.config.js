@@ -9,6 +9,9 @@ module.exports = {
         primaryLight: '#7778F0',
         activeTab: '#E0DBF8',
       },
+      dropShadow: {
+        '3xl': '0 35px 35px rgba(0, 0, 0, 0.03)',
+      },
     },
     screen: {
       xs: '0px',
@@ -20,7 +23,10 @@ module.exports = {
     },
   },
   variants: {
-    extend: {},
+    extend: {
+      dropShadow: ['hover'],
+      filter: ['hover'],
+    },
   },
   plugins: [],
 };

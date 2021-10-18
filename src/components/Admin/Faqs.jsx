@@ -17,10 +17,11 @@ import {
 import {
   ChevronLeft,
   ChevronRight,
-  Search,
   DeleteForever,
   Visibility,
 } from '@mui/icons-material';
+
+import Search from '../../assets/Search.svg';
 
 import AddFaqDialog from './AddFaqDialog';
 import EditFaqDialog from './EditFaqDialog';
@@ -34,23 +35,24 @@ export default function Faqs() {
     setUpdateFaq(faq);
   }
   return (
-    <div className="flex flex-col w-full gap-3">
+    <div className="flex flex-col w-full gap-9">
       <AddFaqDialog open={openNewFaqDialog} handleClose={() => setOpenNewFaqDialog(false)} />
       <EditFaqDialog
         open={openUpdateFaqDialog}
         handleClose={() => setOpenUpdateFaqDialog(false)}
         faq={updateFaq}
       />
-      <div className="flex flex-col w-full gap-2 md:gap-9 md:flex-row md:items-center">
-        <Typography className="ml-16 text-4xl text-gray-500">Faq&apos;s List</Typography>
+      <div className="flex flex-col w-full gap-2 md:gap-9 md:flex-row md:items-center" style={{ maxHeight: '38px' }}>
+        <Typography className="ml-16 text-3xl text-gray-400">Faq&apos;s List</Typography>
         <div className="flex-grow" />
         <TextField
           variant="outlined"
+          size="small"
           placeholder="Search..."
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
-                <Search className="w-9 h-9" />
+                <img src={Search} alt="search icon" className="h-9" />
               </InputAdornment>
             ),
           }}

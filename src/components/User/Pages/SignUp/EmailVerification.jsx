@@ -7,10 +7,10 @@ import Typography from '@mui/material/Typography';
 
 export default function EmailVerification() {
   return (
-    <Grid container className="bg-pageBg flex-grow">
+    <Grid container className="flex-grow bg-pageBg">
       <Container maxWidth="xl" className="flex items-center justify-center py-20">
-        <Paper component="form" className="sm:w-4/6 lg:w-4/6 px-3 md:px-5 pb-16 pt-8 rounded-xl flex flex-col gap-6">
-          <Typography variant="h5" style={{ fontFamily: 'montserrat' }}>Verify Your Email</Typography>
+        <Paper component="form" className="flex flex-col gap-6 px-3 pt-8 pb-16 sm:w-4/6 lg:w-4/6 md:px-16 rounded-xl">
+          <Typography variant="h5" style={{ fontFamily: 'montserrat', paddingInline: '1.5rem' }}>Verify Your Email</Typography>
           <Typography variant="body1" style={{ fontFamily: 'montserrat' }}>
             You have successfully signed up. Please check the link sent to your given email address
             to activate your account. Email was sent to &nbsp;
@@ -18,7 +18,7 @@ export default function EmailVerification() {
           </Typography>
           <Typography variant="body1" style={{ fontFamily: 'montserrat' }}>
             Wrong email?&nbsp;
-            <span className="text-primary cursor-pointer font-bold">Click here</span>
+            <span className="font-bold cursor-pointer text-primary">Click here</span>
             &nbsp;to correct.
           </Typography>
         </Paper>

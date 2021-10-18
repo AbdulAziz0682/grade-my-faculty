@@ -42,7 +42,7 @@ export default function EditAdminSettings({ admin }) {
               value={admin.password}
               className="w-full"
             />
-            <Button variant="contained" className="self-start w-3/12 py-3 px-9">Update</Button>
+            <Button variant="contained" style={{ maxHeight: '38px' }} className="self-start w-3/12 py-3 px-9">Update</Button>
           </Card>
         </Grid>
       </Grid>

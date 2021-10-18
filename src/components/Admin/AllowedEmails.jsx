@@ -17,13 +17,14 @@ import {
 import {
   ChevronLeft,
   ChevronRight,
-  Search,
   DeleteForever,
   Visibility,
 } from '@mui/icons-material';
 
 import AddEmailDialog from './AddEmailDialog';
 import EditEmailDialog from './EditEmailDialog';
+
+import Search from '../../assets/Search.svg';
 
 export default function AllowedEmails() {
   const [openNewEmailDialog, setOpenNewEmailDialog] = useState(false);
@@ -34,23 +35,24 @@ export default function AllowedEmails() {
     setUpdateEmail(email);
   }
   return (
-    <div className="flex flex-col w-full gap-3">
+    <div className="flex flex-col w-full gap-9">
       <AddEmailDialog open={openNewEmailDialog} handleClose={() => setOpenNewEmailDialog(false)} />
       <EditEmailDialog
         open={openUpdateEmailDialog}
         handleClose={() => setOpenUpdateEmailDialog(false)}
         email={updateEmail}
       />
-      <div className="flex flex-col w-full gap-2 md:gap-9 md:flex-row md:items-center">
-        <Typography className="ml-16 text-4xl text-gray-500">Allowed Emails</Typography>
+      <div className="flex flex-col w-full gap-2 md:gap-9 md:flex-row md:items-center" style={{ maxHeight: '38px' }}>
+        <Typography className="ml-16 text-3xl text-gray-400">Allowed Emails</Typography>
         <div className="flex-grow" />
         <TextField
           variant="outlined"
+          size="small"
           placeholder="Search..."
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
-                <Search className="w-9 h-9" />
+                <img src={Search} alt="search icon" className="h-9" />
               </InputAdornment>
             ),
           }}

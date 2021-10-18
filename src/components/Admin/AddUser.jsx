@@ -41,7 +41,7 @@ export default function AddUser() {
           label="Confirm Password"
           className="w-full"
         />
-        <Button variant="contained" className="self-start w-3/12 py-3 px-9">Add</Button>
+        <Button variant="contained" style={{ maxHeight: '38px' }} className="self-start w-3/12 py-3 px-9">Add</Button>
       </Card>
     </div>
   );

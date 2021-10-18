@@ -15,7 +15,7 @@ import {
 
 import Calendar from 'react-calendar';
 
-import professorGray from '../../assets/prof.svg';
+import professorGray from '../../assets/professorGray2.svg';
 import professorWhite from '../../assets/profWhite.svg';
 
 export default function Dashboard() {
@@ -36,14 +36,14 @@ export default function Dashboard() {
   return (
     <div className="w-full px-4 pt-16">
       <Grid container rowSpacing={9} columnSpacing={4}>
-        <Grid item xs={12} md={8} lg={9} className="flex flex-col gap-6">
+        <Grid item xs={12} md={7} lg={8} className="flex flex-col gap-6">
           <div className="flex flex-wrap justify-center gap-3 md:justify-between">
-            <div className="flex flex-col items-center w-40 px-6 py-4 text-gray-500 bg-white border hover:bg-primary hover:text-white hover:shadow-lg">
+            <div className="flex flex-col items-center w-40 px-6 py-4 text-gray-400 bg-white border hover:filter hover:drop-shadow-xl hover:bg-primary hover:text-white">
               <People className="w-12 h-12" />
               <Typography className="text-3xl font-medium text-inherit">128</Typography>
               <Typography className="text-sm text-inherit">Total Users</Typography>
             </div>
-            <div className="flex flex-col items-center w-40 px-6 py-4 text-gray-500 bg-white border hover:bg-primary hover:text-white hover:shadow-lg">
+            <div className="flex flex-col items-center w-40 px-6 py-4 text-gray-400 bg-white border hover:filter hover:drop-shadow-xl hover:bg-primary hover:text-white">
               <AssignmentTurnedIn className="w-12 h-12" />
               <Typography className="text-3xl font-medium text-inherit">32</Typography>
               <Typography className="text-sm text-inherit">Total Online</Typography>
@@ -51,13 +51,13 @@ export default function Dashboard() {
             <div
               onMouseEnter={() => setProfessorIcon(professorWhite)}
               onMouseLeave={() => setProfessorIcon(professorGray)}
-              className="flex flex-col items-center w-40 px-6 py-4 text-gray-500 bg-white border hover:bg-primary hover:text-white hover:shadow-lg"
+              className="flex flex-col items-center w-40 px-6 py-4 text-gray-400 bg-white border hover:filter hover:drop-shadow-xl hover:bg-primary hover:text-white"
             >
               <img src={professorIcon} alt="professor" className="w-12 h-12" />
               <Typography className="text-3xl font-medium text-inherit">2</Typography>
               <Typography className="text-sm text-inherit">Total Professors</Typography>
             </div>
-            <div className="flex flex-col items-center w-40 px-6 py-4 text-gray-500 bg-white border hover:bg-primary hover:text-white hover:shadow-lg">
+            <div className="flex flex-col items-center w-40 px-6 py-4 text-gray-400 bg-white border hover:filter hover:drop-shadow-xl hover:bg-primary hover:text-white">
               <Star className="w-12 h-12" />
               <Typography className="text-3xl font-medium text-inherit">4</Typography>
               <Typography className="text-sm text-inherit">Total Reviews</Typography>
@@ -70,13 +70,22 @@ export default function Dashboard() {
             </div>
           </div>
         </Grid>
-        <Grid item xs={12} md={4} lg={3} className="flex items-start justify-center">
-          <Calendar
-            value={date}
-            onChange={setDate}
-            tileClassName="hover:bg-primary hover:text-white rounded-full w-14 h-14"
-            className="px-4 py-4 bg-white border w-96"
-          />
+        <Grid item xs={12} md={5} lg={4} className="flex items-start justify-center">
+          <div
+            style={{
+              maxHeight: '350px',
+              maxWidth: '380px',
+              minWidth: '380px',
+              minHeight: '350px',
+            }}
+          >
+            <Calendar
+              value={date}
+              onChange={setDate}
+              tileClassName="hover:bg-primary hover:text-white rounded-full h-12"
+              className="w-full px-4 bg-white border"
+            />
+          </div>
         </Grid>
       </Grid>
     </div>

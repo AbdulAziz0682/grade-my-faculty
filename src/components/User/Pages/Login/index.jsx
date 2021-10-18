@@ -87,8 +87,8 @@ export default function Login() {
             <Grid item className={`${!formik.isValid ? 'block' : 'hidden'} mt-3`}>
               <p className="text-sm font-semibold text-red-700" style={{ fontFamily: 'montserrat' }}>There are some errors in form. Please try again.</p>
             </Grid>
-            <Grid item className="flex items-center justify-between gap-3 my-3">
-              <div className="flex items-center flex-grow gap-3 mt-6 mb-2">
+            <Grid item className="flex items-center justify-between gap-3 mb-2 mt-9">
+              <div className="flex items-center flex-grow gap-3">
                 <div className={`border rounded w-6 h-6 flex justify-center items-center ${checked ? 'bg-primary border-primary' : 'bg-transparent border-black'}`} aria-hidden onClick={() => setChecked(!checked)}>
                   <CheckSharp htmlColor="white" className="w-4" />
                 </div>

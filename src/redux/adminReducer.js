@@ -1,23 +1,23 @@
 import { SET_CURRENT_TAB } from './adminActionTypes';
 
 const initialState = {
-  currentTab: { name: 'addBlog', data: null },
+  currentTab: { name: 'dashboard', data: null },
   users: [
     {
       id: 1,
-      name: 'u1',
+      name: 'Linsi Stroud',
       email: 'u1@email.com',
       register: '5 min ago',
     },
     {
       id: 2,
-      name: 'u2',
+      name: 'Nicci Troaini',
       email: 'u2@email.com',
       register: '50 min ago',
     },
     {
       id: 3,
-      name: 'u3',
+      name: 'George Fields',
       email: 'u3@email.com',
       register: '1 hr ago',
     },
@@ -25,19 +25,19 @@ const initialState = {
   professors: [
     {
       id: 1,
-      name: 'u1',
+      name: 'Lindsi Stroud',
       email: 'u1@email.com',
       university: 'North South University',
     },
     {
       id: 2,
-      name: 'u2',
+      name: 'Nicci Troaini',
       email: 'u2@email.com',
       university: 'North South University',
     },
     {
       id: 3,
-      name: 'u3',
+      name: 'George Fields',
       email: 'u3@email.com',
       university: 'North South University',
     },
@@ -45,19 +45,19 @@ const initialState = {
   institutes: [
     {
       id: 1,
-      name: 'u1',
+      name: 'University of Dhaka',
       email: 'u1@email.com',
       register: '5 min ago',
     },
     {
       id: 2,
-      name: 'u2',
+      name: 'North South University',
       email: 'u2@email.com',
       register: '50 min ago',
     },
     {
       id: 3,
-      name: 'u3',
+      name: 'FAST',
       email: 'u3@email.com',
       register: '1 hr ago',
     },

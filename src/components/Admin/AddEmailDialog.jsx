@@ -35,7 +35,7 @@ export default function AddAdDialog({ open, handleClose }) {
         </span>
       </DialogContent>
       <DialogActions className="flex justify-between w-full gap-9">
-        <Button variant="contained" className="md:w-1/3 lg:w-1/6">Add</Button>
+        <Button variant="contained" style={{ maxHeight: '38px' }} className="md:w-1/3 lg:w-1/6">Add</Button>
       </DialogActions>
     </Dialog>
   );

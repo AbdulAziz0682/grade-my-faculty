@@ -69,7 +69,7 @@ export default function EditProfessor({ professor }) {
             variant="standard"
           />
         </div>
-        <Button variant="contained" className="self-start w-3/12 py-3 px-9">Update</Button>
+        <Button variant="contained" style={{ maxHeight: '38px' }} className="self-start w-3/12 py-3 px-9">Update</Button>
       </Card>
     </div>
   );
