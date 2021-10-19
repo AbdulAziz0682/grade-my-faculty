@@ -16,7 +16,7 @@ export default function EditProfessor({ professor }) {
   return (
     <div className="flex flex-col w-full gap-3">
       <div className="flex flex-col items-center w-full mb-3 md:justify-between md:flex-row">
-        <Typography className="mr-2 text-4xl text-gray-400 md:ml-16">Edit Professor</Typography>
+        <Typography className="mr-2 text-4xl text-gray-400 md:ml-16">{professor.firstName}</Typography>
         <Rating
           size="large"
           value={4}

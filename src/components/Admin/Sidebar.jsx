@@ -40,7 +40,7 @@ const UserTabs = {
 };
 
 const ProfessorTabs = {
-  Professors: true,
+  professors: true,
   addProfessor: true,
   viewProfessor: true,
   editProfessor: true,
@@ -58,6 +58,12 @@ const BlogTabs = {
   addBlog: true,
   viewBlog: true,
   editBlog: true,
+};
+
+const AdminTabs = {
+  admins: true,
+  addAdmin: true,
+  editAdmin: true,
 };
 
 export default function Sidebar({ setOpen, open }) {
@@ -107,8 +113,8 @@ export default function Sidebar({ setOpen, open }) {
       </List>
       <Divider />
       <List>
-        <ListItemButton className={`${currentTab.name === 'adminSettings' && 'bg-activeTab text-primary'}`} onClick={() => dispatch(setCurrentTab({ name: 'adminSettings', data: null }))}>
-          <ListItemIcon className={`${!open && 'flex justify-center'}`}><Settings className={`${currentTab.name === 'adminSettings' && 'bg-activeTab text-primary'} w-8 h-8`} /></ListItemIcon>
+        <ListItemButton className={`${AdminTabs[currentTab.name] && 'bg-activeTab text-primary'}`} onClick={() => dispatch(setCurrentTab({ name: 'admins', data: null }))}>
+          <ListItemIcon className={`${!open && 'flex justify-center'}`}><Settings className={`${AdminTabs[currentTab.name] && 'bg-activeTab text-primary'} w-8 h-8`} /></ListItemIcon>
           <ListItemText className={`${!open && 'hidden'}`} primary="Admin Settings" />
         </ListItemButton>
       </List>

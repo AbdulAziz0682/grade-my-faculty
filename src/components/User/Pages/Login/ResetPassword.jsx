@@ -12,7 +12,7 @@ import {
 export default function ResetPassword() {
   return (
     <Grid container className="flex-grow bg-pageBg">
-      <Container maxWidth="xl" className="flex items-center justify-center py-3">
+      <Container maxWidth="xl" className="flex items-center justify-center py-12">
         <Paper component="form" elevation={4} className="p-2 sm:w-4/6 lg:w-2/6 md:p-5 rounded-xl">
           <Grid container direction="column" rowSpacing={1}>
             <Grid item>

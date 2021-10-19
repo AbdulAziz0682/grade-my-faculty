@@ -1,7 +1,7 @@
 import { SET_CURRENT_TAB } from './adminActionTypes';
 
 const initialState = {
-  currentTab: { name: 'dashboard', data: null },
+  currentTab: { name: 'admins', data: null },
   users: [
     {
       id: 1,
@@ -25,19 +25,22 @@ const initialState = {
   professors: [
     {
       id: 1,
-      name: 'Lindsi Stroud',
+      firstName: 'Lindsi Stroud',
+      lastName: 'Giovani',
       email: 'u1@email.com',
       university: 'North South University',
     },
     {
       id: 2,
-      name: 'Nicci Troaini',
+      firstName: 'Nicci Troaini',
+      lastName: 'Giovani',
       email: 'u2@email.com',
       university: 'North South University',
     },
     {
       id: 3,
-      name: 'George Fields',
+      firstName: 'George Fields',
+      lastName: 'Giovani',
       email: 'u3@email.com',
       university: 'North South University',
     },
@@ -78,6 +81,26 @@ const initialState = {
       id: 3,
       title: 'This is blog post title',
       register: '1 hr ago',
+    },
+  ],
+  admins: [
+    {
+      id: 1,
+      name: 'admin1',
+      email: 'admin1@email.com',
+      register: '50 min ago',
+    },
+    {
+      id: 2,
+      name: 'admin2',
+      email: 'admin2@email.com',
+      register: '55 min ago',
+    },
+    {
+      id: 3,
+      name: 'admin3',
+      email: 'admin3@email.com',
+      register: '1 hour ago',
     },
   ],
 };

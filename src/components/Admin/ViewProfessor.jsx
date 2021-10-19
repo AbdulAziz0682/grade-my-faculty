@@ -18,7 +18,7 @@ export default function ViewProfessor({ professor }) {
   return (
     <div className="flex flex-col w-full gap-3">
       <div className="flex flex-col w-full gap-2 md:gap-9 md:flex-row md:items-center">
-        <Typography className="ml-16 text-4xl text-gray-500">{`${professor.id} - ${professor.name}`}</Typography>
+        <Typography className="ml-16 text-4xl text-gray-500">{`${professor.id} - ${professor.firstName}`}</Typography>
         <div className="flex-grow" />
         <Button variant="contained" color="error" className="h-full px-9 shadow-redGlow">Delete Professor</Button>
         <Button variant="contained" className="h-full px-9 shadow-primaryGlow" onClick={() => dispatch(setCurrentTab({ name: 'editProfessor', data: professor }))}>Edit Professor</Button>
@@ -59,7 +59,7 @@ export default function ViewProfessor({ professor }) {
 
 ViewProfessor.propTypes = {
   professor: PropTypes.shape({
-    name: PropTypes.string.isRequired,
+    firstName: PropTypes.string.isRequired,
     id: PropTypes.number.isRequired,
     lastName: PropTypes.string.isRequired,
     email: PropTypes.string.isRequired,

@@ -9,12 +9,12 @@ import {
   Typography,
 } from '@mui/material';
 
-export default function EditAdminSettings({ admin }) {
+export default function EditAdmin({ admin }) {
   return (
     <div className="flex flex-col w-full">
       <Grid container rowSpacing={5} columnSpacing={15}>
-        <Grid item xs={12} md={6}>
-          <Typography variant="h2" className="text-gray-400 pb-9">Update Admin</Typography>
+        <Grid item xs={12}>
+          <Typography className="text-4xl font-medium text-gray-500 pb-9">Update Admin Details</Typography>
           <Card className="flex flex-col w-full gap-12 p-14" elevation={6}>
             <TextField
               variant="standard"
@@ -50,7 +50,7 @@ export default function EditAdminSettings({ admin }) {
   );
 }
 
-EditAdminSettings.propTypes = {
+EditAdmin.propTypes = {
   admin: PropTypes.shape({
     name: PropTypes.string.isRequired,
     email: PropTypes.string.isRequired,

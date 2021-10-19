@@ -59,7 +59,7 @@ export default function Professors() {
               professors.map((prof) => (
                 <TableRow key={prof.id} className="hover:shadow-md">
                   <TableCell className="leading-9 text-gray-400">{prof.id}</TableCell>
-                  <TableCell className="text-lg font-semibold text-black">{prof.name}</TableCell>
+                  <TableCell className="text-lg font-semibold text-black">{prof.firstName}</TableCell>
                   <TableCell className="leading-9 text-gray-400">{prof.email}</TableCell>
                   <TableCell className="leading-9 text-gray-400">{prof.university}</TableCell>
                   <TableCell className="cursor-pointer text-primary" onClick={() => dispatch(setCurrentTab({ name: 'viewProfessor', data: prof }))}>View</TableCell>

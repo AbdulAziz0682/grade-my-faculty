@@ -21,17 +21,18 @@ import ViewInstitute from './ViewInstitute';
 import EditInstitue from './EditInstitute';
 import AddInstitute from './AddInstitute';
 import Blogs from './Blogs';
-import AdminSettings from './AdminSettings';
+import AddAdmin from './AddAdmin';
 import ViewUser from './ViewUser';
 import EditProfessor from './EditProfessor';
 import ViewProfessor from './ViewProfessor';
 import AddProfessor from './AddProfessor';
-import EditAdminSettings from './EditAdminSettings';
+import EditAdmin from './EditAdmin';
 import Ads from './Ads';
 import AllowedEmails from './AllowedEmails';
 import Faqs from './Faqs';
 import EditBlog from './EditBlog';
 import AddBlog from './AddBlog';
+import Admins from './Admins';
 
 export default function Admin() {
   const [open, setOpen] = useState(false);
@@ -44,7 +45,8 @@ export default function Admin() {
           ? (
             <div
               id="sidebar"
-              className={`h-screen ${open ? 'md:w-4/12 lg:w-3/12 xl:w-2/12' : 'w-24'} border-r`}
+              className={`h-screen ${open ? 'md:w-4/12 lg:w-3/12' : 'w-24'} border-r`}
+              style={{ maxWidth: '256px' }}
             >
               <Sidebar isMediumOrLargerScreen setOpen={setOpen} open={open} />
             </div>
@@ -120,10 +122,13 @@ export default function Admin() {
             admin.currentTab.name === 'editBlog' && <EditBlog blog={admin.currentTab.data} />
           }
           {
-            admin.currentTab.name === 'adminSettings' && <AdminSettings />
+            admin.currentTab.name === 'admins' && <Admins />
           }
           {
-            admin.currentTab.name === 'editAdminSettings' && <EditAdminSettings admin={admin.currentTab.data} />
+            admin.currentTab.name === 'addAdmin' && <AddAdmin />
+          }
+          {
+            admin.currentTab.name === 'editAdmin' && <EditAdmin admin={admin.currentTab.data} />
           }
           {
             admin.currentTab.name === 'ads' && <Ads />
