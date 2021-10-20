@@ -50,9 +50,9 @@ export default function Admins() {
                 ),
               }}
             />
-            <Button variant="contained" style={{ minHeight: '38px' }} className="h-full w-44 shadow-primaryGlow" onClick={() => dispatch(setCurrentTab({ name: 'addAdmin', data: null }))}>Add Admin</Button>
+            <Button variant="contained" className="h-full px-9 shadow-primaryGlow" onClick={() => dispatch(setCurrentTab({ name: 'addAdmin', data: null }))}>Add Admins</Button>
           </div>
-          <TableContainer className="w-full max-h-full bg-white">
+          <TableContainer className="w-full max-h-full bg-white md:mt-0 mt-14">
             <Table>
               <TableHead>
                 <TableRow>
