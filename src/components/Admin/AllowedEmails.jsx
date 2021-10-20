@@ -78,7 +78,7 @@ export default function AllowedEmails() {
                   <TableCell className="text-gray-600">
                     <select className="w-full p-2 bg-gray-200">
                       {
-                        [1, 2, 3].map((i) => <option ke={i}>{i}</option>)
+                        [1, 2, 3].map((i) => <option key={i}>{i}</option>)
                       }
                     </select>
                   </TableCell>

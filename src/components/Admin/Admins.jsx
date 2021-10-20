@@ -21,6 +21,7 @@ import {
   ChevronLeft,
   ChevronRight,
   DeleteForever,
+  Visibility,
 } from '@mui/icons-material';
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -32,7 +33,7 @@ export default function Admins() {
   const { admin: { admins } } = useSelector((state) => state);
   const dispatch = useDispatch();
   return (
-    <Grid container rowSpacing={2} columnSpacing={2}>
+    <Grid container rowSpacing={8} columnSpacing={8}>
       <Grid item xs={12} md={6}>
         <div className="flex flex-col w-full gap-9">
           <div className="flex flex-col w-full gap-2 md:gap-9 md:flex-row md:items-center" style={{ maxHeight: '38px' }}>
@@ -50,28 +51,32 @@ export default function Admins() {
                 ),
               }}
             />
-            <Button variant="contained" className="h-full px-9 shadow-primaryGlow" onClick={() => dispatch(setCurrentTab({ name: 'addAdmin', data: null }))}>Add Admins</Button>
+            <Button variant="contained" className="w-full h-full px-3 md:w-40 shadow-primaryGlow" onClick={() => dispatch(setCurrentTab({ name: 'addAdmin', data: null }))}>Add Admins</Button>
           </div>
-          <TableContainer className="w-full max-h-full bg-white md:mt-0 mt-14">
+          <TableContainer className="w-full max-h-full bg-white mt-14 md:mt-0">
             <Table>
               <TableHead>
                 <TableRow>
                   <TableCell className="font-semibold text-gray-400">ID</TableCell>
-                  <TableCell className="text-lg font-semibold text-gray-400">Name</TableCell>
-                  <TableCell className="font-semibold text-gray-400">Email</TableCell>
-                  <TableCell className="font-semibold text-gray-400">Register</TableCell>
-                  <TableCell className="font-semibold text-center text-gray-400">Action</TableCell>
+                  <TableCell className="text-lg font-semibold text-gray-400">Admin Email</TableCell>
+                  <TableCell className="font-semibold text-gray-400">Status</TableCell>
+                  <TableCell className="font-semibold text-center text-gray-400">Actions</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 {
                   admins.map((admin) => (
-                    <TableRow key={admin.id} className="hover:shadow-md">
+                    <TableRow key={admin} className="hover:shadow-md">
                       <TableCell className="text-gray-400">{admin.id}</TableCell>
-                      <TableCell className="text-lg font-semibold text-black cursor-pointer" onClick={() => dispatch(setCurrentTab({ name: 'editAdmin', data: admin }))}>{admin.name}</TableCell>
-                      <TableCell className="text-gray-400">{admin.email}</TableCell>
-                      <TableCell className="text-gray-400">{admin.register}</TableCell>
+                      <TableCell className="text-lg font-semibold text-black">{admin.email}</TableCell>
+                      <TableCell className="text-gray-600">
+                        <select className="w-24 min-w-full p-2 bg-gray-200">
+                          <option value="Active">Active</option>
+                          <option value="Inactive">Inactive</option>
+                        </select>
+                      </TableCell>
                       <TableCell className="text-center">
+                        <IconButton><Visibility onClick={() => dispatch(setCurrentTab({ name: 'editAdmin', data: admin }))} /></IconButton>
                         <IconButton><DeleteForever /></IconButton>
                       </TableCell>
                     </TableRow>
@@ -90,9 +95,9 @@ export default function Admins() {
           </div>
         </div>
       </Grid>
-      <Grid item xs={12} md={6}>
-        <Card elevation={1} className="flex flex-col gap-12 pb-14 px-14">
-          <Typography className="text-3xl text-gray-400">About Us</Typography>
+      <Grid item xs={12} md={6} className="flex flex-col gap-9">
+        <Typography className="text-3xl text-gray-400" style={{ minHeight: '38px' }}>About Us</Typography>
+        <Card elevation={1} className="flex flex-col gap-12 px-3 pb-14 md:px-14">
           <TextField
             variant="standard"
             label="Our Story"
