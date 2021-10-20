@@ -13,7 +13,14 @@ import {
   Star,
 } from '@mui/icons-material';
 
-import Calendar from 'react-calendar';
+import {
+  LocalizationProvider,
+  CalendarPicker,
+} from '@mui/lab';
+
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+
+// import Calendar from 'react-calendar';
 
 import professorGray from '../../assets/professorGray2.svg';
 import professorWhite from '../../assets/profWhite.svg';
@@ -79,12 +86,13 @@ export default function Dashboard() {
               minHeight: '350px',
             }}
           >
-            <Calendar
-              value={date}
-              onChange={setDate}
-              tileClassName="hover:bg-primary hover:text-white rounded-full h-12"
-              className="w-full px-4 bg-white border"
-            />
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <CalendarPicker
+                date={date}
+                onChange={(newDate) => setDate(newDate)}
+                className="bg-white"
+              />
+            </LocalizationProvider>
           </div>
         </Grid>
       </Grid>
