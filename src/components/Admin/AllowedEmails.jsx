@@ -43,7 +43,7 @@ export default function AllowedEmails() {
         email={updateEmail}
       />
       <div className="flex flex-col w-full gap-2 md:gap-9 md:flex-row md:items-center" style={{ maxHeight: '38px' }}>
-        <Typography className="ml-16 text-3xl text-gray-400">Allowed Emails</Typography>
+        <Typography className="text-3xl text-gray-400 md:ml-16">Allowed Emails</Typography>
         <div className="flex-grow" />
         <TextField
           variant="outlined"
@@ -76,7 +76,7 @@ export default function AllowedEmails() {
                   <TableCell className="text-gray-400">{u}</TableCell>
                   <TableCell className="text-lg font-semibold text-black">This is email domain</TableCell>
                   <TableCell className="text-gray-600">
-                    <select className="w-full p-2 bg-gray-200">
+                    <select className="w-24 min-w-full p-2 bg-gray-200">
                       {
                         [1, 2, 3].map((i) => <option key={i}>{i}</option>)
                       }
