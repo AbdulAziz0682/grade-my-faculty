@@ -36,7 +36,7 @@ export default function Admins() {
     <Grid container rowSpacing={8} columnSpacing={8}>
       <Grid item xs={12} md={6}>
         <div className="flex flex-col w-full gap-9">
-          <div className="flex flex-col w-full gap-2 md:gap-9 md:flex-row md:items-center" style={{ maxHeight: '38px' }}>
+          <div className="flex flex-col w-full gap-2 md:gap-6 md:flex-row md:items-center" style={{ maxHeight: '38px' }}>
             <Typography className="ml-16 text-3xl text-gray-400">Admins</Typography>
             <div className="flex-grow" />
             <TextField
@@ -51,7 +51,7 @@ export default function Admins() {
                 ),
               }}
             />
-            <Button variant="contained" className="w-full h-full px-3 md:w-40 shadow-primaryGlow" onClick={() => dispatch(setCurrentTab({ name: 'addAdmin', data: null }))}>Add Admins</Button>
+            <Button variant="contained" className="w-full h-full px-1 md:w-48 shadow-primaryGlow" onClick={() => dispatch(setCurrentTab({ name: 'addAdmin', data: null }))}>Add Admins</Button>
           </div>
           <TableContainer className="w-full max-h-full bg-white mt-14 md:mt-0">
             <Table>
