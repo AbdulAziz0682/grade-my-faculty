@@ -16,6 +16,11 @@ module.exports = {
         primaryGlow: '0 7px 7px rgba(93, 95, 239, 0.03), 0 7px 7px rgba(93, 95, 239, 0.15)',
         redGlow: '0 7px 7px rgba(231, 64, 64, 0.03), 0 7px 7px rgba(231, 64, 64, 0.15)',
       },
+      lineHeight: {
+        12: '3rem',
+        16: '4rem',
+        20: '5rem',
+      },
     },
     screen: {
       xs: '0px',

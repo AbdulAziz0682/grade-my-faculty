@@ -3,6 +3,7 @@ import {
   Switch,
   Route,
   useLocation,
+  useHistory,
 } from 'react-router-dom';
 
 import Grid from '@mui/material/Grid';
@@ -29,6 +30,8 @@ import ResetPassword from '../components/User/Pages/Login/ResetPassword';
 
 export default function UserRoutes() {
   const location = useLocation();
+  const history = useHistory();
+  history.listen(() => window.scrollTo(0, 0));
   return (
     <Switch>
       <Grid container direction="column" className="min-h-screen">
