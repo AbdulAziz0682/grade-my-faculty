@@ -34,6 +34,16 @@ export default function Ads() {
     setOpenUpdateAdDialog(true);
     setUpdateAd(ad);
   }
+  const ads = [
+    { title: 'ad1', id: 1 },
+    { title: 'ad2', id: 2 },
+    { title: 'ad3', id: 3 },
+  ];
+  const [list, setList] = React.useState(ads);
+  const [searchValue, setSearchValue] = React.useState('');
+  React.useEffect(() => {
+    setList(ads.filter((ad) => ad.title.toLowerCase().includes(searchValue.toLowerCase())));
+  }, [searchValue]);
   return (
     <div className="flex flex-col w-full gap-9">
       <AddAdDialog open={openNewAdDialog} handleClose={() => setOpenNewAdDialog(false)} />
@@ -48,6 +58,8 @@ export default function Ads() {
         <TextField
           variant="outlined"
           size="small"
+          value={searchValue}
+          onChange={(e) => setSearchValue(e.target.value)}
           placeholder="Search..."
           InputProps={{
             startAdornment: (
@@ -71,10 +83,10 @@ export default function Ads() {
           </TableHead>
           <TableBody>
             {
-              [1, 2, 3, 4].map((u) => (
-                <TableRow key={u} className="hover:shadow-md" onClick={() => doUpdateAd({ name: 'ad title', locationID: u, code: '<script>code here </script>' })}>
-                  <TableCell className="text-gray-400">{u}</TableCell>
-                  <TableCell className="text-lg font-semibold text-black">This is ad title</TableCell>
+              list.map((ad) => (
+                <TableRow key={ad.title} className="hover:shadow-md" onClick={() => doUpdateAd({ name: 'ad title', locationID: ad.id, code: '<script>code here </script>' })}>
+                  <TableCell className="text-gray-400">{ad.id}</TableCell>
+                  <TableCell className="text-lg font-semibold text-black">{ad.title}</TableCell>
                   <TableCell className="text-gray-600">
                     <select className="w-full p-2 bg-gray-200">
                       {

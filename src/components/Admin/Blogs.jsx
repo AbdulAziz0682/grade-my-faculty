@@ -29,6 +29,11 @@ import Search from '../../assets/Search.svg';
 export default function Blogs() {
   const { admin: { blogs } } = useSelector((state) => state);
   const dispatch = useDispatch();
+  const [list, setList] = React.useState(blogs);
+  const [searchValue, setSearchValue] = React.useState('');
+  React.useEffect(() => {
+    setList(blogs.filter((blog) => blog.title.toLowerCase().includes(searchValue.toLowerCase())));
+  }, [searchValue]);
   return (
     <div className="flex flex-col w-full gap-9">
       <div className="flex flex-col w-full gap-2 md:gap-9 md:flex-row md:items-center" style={{ maxHeight: '38px' }}>
@@ -37,6 +42,8 @@ export default function Blogs() {
         <TextField
           variant="outlined"
           size="small"
+          value={setSearchValue}
+          onChange={(e) => setSearchValue(e.target.value)}
           placeholder="Search..."
           InputProps={{
             startAdornment: (
@@ -60,7 +67,7 @@ export default function Blogs() {
           </TableHead>
           <TableBody>
             {
-              blogs.map((blog) => (
+              list.map((blog) => (
                 <TableRow key={blog.id} className="hover:shadow-md">
                   <TableCell className="text-gray-400">{blog.id}</TableCell>
                   <TableCell className="text-lg font-semibold text-black">{blog.title}</TableCell>

@@ -22,8 +22,13 @@ import { setCurrentTab } from '../../redux/adminActions';
 import Search from '../../assets/Search.svg';
 
 export default function Institutes() {
-  const { admin: { institutes } } = useSelector((state) => state);
+  const { admin: { institutes: insts } } = useSelector((state) => state);
   const dispatch = useDispatch();
+  const [list, setList] = React.useState(insts);
+  const [searchValue, setSearchValue] = React.useState('');
+  React.useEffect(() => {
+    setList(insts.filter((user) => user.name.toLowerCase().includes(searchValue.toLowerCase())));
+  }, [searchValue]);
   return (
     <div className="flex flex-col w-full gap-9">
       <div className="flex flex-col w-full gap-2 md:gap-9 md:flex-row md:items-center" style={{ maxHeight: '38px' }}>
@@ -32,6 +37,8 @@ export default function Institutes() {
         <TextField
           variant="outlined"
           size="small"
+          value={searchValue}
+          onChange={(e) => setSearchValue(e.target.value)}
           placeholder="Search..."
           InputProps={{
             startAdornment: (
@@ -56,7 +63,7 @@ export default function Institutes() {
           </TableHead>
           <TableBody>
             {
-              institutes.map((inst) => (
+              list.map((inst) => (
                 <TableRow key={inst.id} className="hover:shadow-md">
                   <TableCell className="leading-9 text-gray-400">{inst.id}</TableCell>
                   <TableCell className="text-lg font-semibold text-black">{inst.name}</TableCell>

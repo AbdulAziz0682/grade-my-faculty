@@ -34,6 +34,18 @@ export default function AllowedEmails() {
     setOpenUpdateEmailDialog(true);
     setUpdateEmail(email);
   }
+  const allowedEmails = [
+    { domain: 'domain1.com', status: 'allowed', id: 1 },
+    { domain: 'domain2.com', status: 'allowed', id: 2 },
+    { domain: 'domain3.com', status: 'allowed', id: 3 },
+  ];
+  const [list, setList] = React.useState(allowedEmails);
+  const [searchValue, setSearchValue] = React.useState('');
+  React.useEffect(() => {
+    setList(
+      allowedEmails.filter((em) => em.domain.toLowerCase().includes(searchValue.toLowerCase())),
+    );
+  }, [searchValue]);
   return (
     <div className="flex flex-col w-full gap-9">
       <AddEmailDialog open={openNewEmailDialog} handleClose={() => setOpenNewEmailDialog(false)} />
@@ -48,6 +60,8 @@ export default function AllowedEmails() {
         <TextField
           variant="outlined"
           size="small"
+          value={searchValue}
+          onChange={(e) => setSearchValue(e.target.value)}
           placeholder="Search..."
           InputProps={{
             startAdornment: (
@@ -71,10 +85,10 @@ export default function AllowedEmails() {
           </TableHead>
           <TableBody>
             {
-              [1, 2, 3, 4].map((u) => (
-                <TableRow key={u} className="hover:shadow-md" onClick={() => doUpdateEmail({ domain: 'domain.com', status: 'allowed' })}>
-                  <TableCell className="text-gray-400">{u}</TableCell>
-                  <TableCell className="text-lg font-semibold text-black">This is email domain</TableCell>
+              list.map((email) => (
+                <TableRow key={email.id} className="hover:shadow-md" onClick={() => doUpdateEmail({ domain: 'domain.com', status: 'allowed' })}>
+                  <TableCell className="text-gray-400">{email.id}</TableCell>
+                  <TableCell className="text-lg font-semibold text-black">{email.domain}</TableCell>
                   <TableCell className="text-gray-600">
                     <select className="w-24 min-w-full p-2 bg-gray-200">
                       {

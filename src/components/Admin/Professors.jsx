@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import {
   Button,
@@ -22,8 +22,13 @@ import { setCurrentTab } from '../../redux/adminActions';
 import Search from '../../assets/Search.svg';
 
 export default function Professors() {
-  const { admin: { professors } } = useSelector((state) => state);
+  const { admin: { professors: profs } } = useSelector((state) => state);
   const dispatch = useDispatch();
+  const [list, setList] = React.useState(profs);
+  const [searchValue, setSearchValue] = React.useState('');
+  useEffect(() => {
+    setList(profs.filter((p) => p.firstName.toLowerCase().includes(searchValue.toLowerCase())));
+  }, [searchValue]);
   return (
     <div className="flex flex-col w-full gap-9">
       <div className="flex flex-col w-full gap-2 md:gap-9 md:flex-row md:items-center" style={{ maxHeight: '38px' }}>
@@ -32,6 +37,8 @@ export default function Professors() {
         <TextField
           variant="outlined"
           size="small"
+          value={searchValue}
+          onChange={(e) => setSearchValue(e.target.value)}
           placeholder="Search..."
           InputProps={{
             startAdornment: (
@@ -56,7 +63,7 @@ export default function Professors() {
           </TableHead>
           <TableBody>
             {
-              professors.map((prof) => (
+              list.map((prof) => (
                 <TableRow key={prof.id} className="hover:shadow-md">
                   <TableCell className="leading-9 text-gray-400">{prof.id}</TableCell>
                   <TableCell className="text-lg font-semibold text-black">{prof.firstName}</TableCell>

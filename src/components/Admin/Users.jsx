@@ -24,6 +24,11 @@ import Search from '../../assets/Search.svg';
 export default function Users() {
   const { admin: { users } } = useSelector((state) => state);
   const dispatch = useDispatch();
+  const [list, setList] = React.useState(users);
+  const [searchValue, setSearchValue] = React.useState('');
+  React.useEffect(() => {
+    setList(users.filter((user) => user.name.toLowerCase().includes(searchValue.toLowerCase())));
+  }, [searchValue]);
   return (
     <div className="flex flex-col w-full gap-9">
       <div className="flex flex-col w-full gap-2 md:gap-9 md:flex-row md:items-center" style={{ maxHeight: '38px' }}>
@@ -32,6 +37,8 @@ export default function Users() {
         <TextField
           variant="outlined"
           size="small"
+          value={searchValue}
+          onChange={(e) => setSearchValue(e.target.value)}
           placeholder="Search..."
           InputProps={{
             startAdornment: (
@@ -56,7 +63,7 @@ export default function Users() {
           </TableHead>
           <TableBody>
             {
-              users.map((u) => (
+              list.map((u) => (
                 <TableRow key={u.id} className="hover:shadow-md">
                   <TableCell className="m-3 leading-9 text-gray-400">{u.id}</TableCell>
                   <TableCell className="text-lg font-semibold text-black">{u.name}</TableCell>

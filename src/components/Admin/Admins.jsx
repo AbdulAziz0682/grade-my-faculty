@@ -32,6 +32,11 @@ import Search from '../../assets/Search.svg';
 export default function Admins() {
   const { admin: { admins } } = useSelector((state) => state);
   const dispatch = useDispatch();
+  const [list, setList] = React.useState(admins);
+  const [searchValue, setSearchValue] = React.useState('');
+  React.useEffect(() => {
+    setList(admins.filter((admn) => admn.email.toLowerCase().includes(searchValue.toLowerCase())));
+  }, [searchValue]);
   return (
     <Grid container rowSpacing={8} columnSpacing={8}>
       <Grid item xs={12} md={6}>
@@ -42,6 +47,8 @@ export default function Admins() {
             <TextField
               variant="outlined"
               size="small"
+              value={searchValue}
+              onChange={(e) => setSearchValue(e.target.value)}
               placeholder="Search..."
               InputProps={{
                 startAdornment: (
@@ -65,7 +72,7 @@ export default function Admins() {
               </TableHead>
               <TableBody>
                 {
-                  admins.map((admin) => (
+                  list.map((admin) => (
                     <TableRow key={admin} className="hover:shadow-md">
                       <TableCell className="text-gray-400">{admin.id}</TableCell>
                       <TableCell className="text-lg font-semibold text-black">{admin.email}</TableCell>

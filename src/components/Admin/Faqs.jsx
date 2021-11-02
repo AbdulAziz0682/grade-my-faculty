@@ -34,6 +34,22 @@ export default function Faqs() {
     setOpenUpdateFaqDialog(true);
     setUpdateFaq(faq);
   }
+  const faqs = [
+    {
+      id: 1, title: 'faq1', category: 'student', answer: 'answer',
+    },
+    {
+      id: 2, title: 'faq2', category: 'teacher', answer: 'answer',
+    },
+    {
+      id: 3, title: 'faq3', category: 'student', answer: 'answer',
+    },
+  ];
+  const [list, setList] = React.useState(faqs);
+  const [searchValue, setSearchValue] = React.useState('');
+  React.useEffect(() => {
+    setList(faqs.filter((faq) => faq.title.toLowerCase().includes(searchValue.toLowerCase())));
+  }, [searchValue]);
   return (
     <div className="flex flex-col w-full gap-9">
       <AddFaqDialog open={openNewFaqDialog} handleClose={() => setOpenNewFaqDialog(false)} />
@@ -48,6 +64,8 @@ export default function Faqs() {
         <TextField
           variant="outlined"
           size="small"
+          value={searchValue}
+          onChange={(e) => setSearchValue(e.target.value)}
           placeholder="Search..."
           InputProps={{
             startAdornment: (
@@ -71,10 +89,10 @@ export default function Faqs() {
           </TableHead>
           <TableBody>
             {
-              [1, 2, 3, 4].map((u) => (
-                <TableRow key={u} className="hover:shadow-md" onClick={() => doUpdateFaq({ title: 'Faq title', category: 'student', answer: 'answer goes here' })}>
-                  <TableCell className="text-gray-400">{u}</TableCell>
-                  <TableCell className="text-lg font-semibold text-black">This is faq title</TableCell>
+              list.map((faq) => (
+                <TableRow key={faq.id} className="hover:shadow-md" onClick={() => doUpdateFaq({ title: 'Faq title', category: 'student', answer: 'answer goes here' })}>
+                  <TableCell className="text-gray-400">{faq.id}</TableCell>
+                  <TableCell className="text-lg font-semibold text-black">{faq.title}</TableCell>
                   <TableCell className="text-gray-600">
                     <select className="w-full p-2 bg-gray-200">
                       {
