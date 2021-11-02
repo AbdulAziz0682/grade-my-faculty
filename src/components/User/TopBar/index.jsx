@@ -7,7 +7,7 @@ import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import MenuItem from '@mui/material/MenuItem';
-import Menu from '@mui/material/Menu';
+// import Menu from '@mui/material/Menu';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import Button from '@mui/material/Button';
 import List from '@mui/material/List';
@@ -22,6 +22,7 @@ import { Link, useLocation, useHistory } from 'react-router-dom';
 import { /* InputAdornment */ TextField } from '@mui/material';
 
 import { useSelector } from 'react-redux';
+import MobileMenuDialog from './MobileMenuDialog';
 
 const isSearchFieldRoute = {
   '/grade': true,
@@ -32,7 +33,7 @@ const isSearchFieldRoute = {
 export default function TopBar() {
   const history = useHistory();
   const { pathname } = useLocation();
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  // const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const faculty = useSelector((state) => state.faculty);
   const universities = [
     { name: 'North South University' },
@@ -40,18 +41,18 @@ export default function TopBar() {
     { name: 'Karachi University' },
   ];
 
-  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+  // const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
-  const handleMobileMenuClose = () => {
+  /* const handleMobileMenuClose = () => {
     setMobileMoreAnchorEl(null);
-  };
+  }; */
 
-  const handleMobileMenuOpen = (event) => {
+  /* const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
-  };
-
+  }; */
+  const [openDialog, setOpenDialog] = React.useState(false);
   const mobileMenuId = 'primary-search-account-menu-mobile';
-  const renderMobileMenu = (
+  /* const renderMobileMenu = (
     <Menu
       anchorEl={mobileMoreAnchorEl}
       anchorOrigin={{
@@ -69,36 +70,46 @@ export default function TopBar() {
     >
       <MenuItem onClick={handleMobileMenuClose}>
         <Link to="/" style={{ textDecoration: 'none' }}>
-          <Typography variant="button" sx={{ color: pathname === '/' || pathname === '/' ? 'primary.main' : 'gray' }}>Home</Typography>
+          <Typography variant="button" sx={{ color: pathname === '/' ||
+          pathname === '/' ? 'primary.main' : 'gray' }}>Home</Typography>
         </Link>
       </MenuItem>
       <MenuItem onClick={handleMobileMenuClose}>
         <Link to="/blog" style={{ textDecoration: 'none' }}>
-          <Typography variant="button" sx={{ color: pathname === '/blog' || pathname === '/blog' ? 'primary.main' : 'gray' }}>Blog</Typography>
+          <Typography variant="button" sx={{ color: pathname === '/blog' ||
+          pathname === '/blog' ? 'primary.main' : 'gray' }}>Blog</Typography>
         </Link>
       </MenuItem>
       <MenuItem onClick={handleMobileMenuClose}>
         <Link to="/aboutUs" style={{ textDecoration: 'none' }}>
-          <Typography variant="button" sx={{ color: pathname === '/aboutUs' || pathname === '/aboutUs' ? 'primary.main' : 'gray' }}>About Us</Typography>
+          <Typography variant="button" sx={{ color: pathname === '/aboutUs' ||
+          pathname === '/aboutUs' ? 'primary.main' : 'gray' }}>About Us</Typography>
         </Link>
       </MenuItem>
       <MenuItem onClick={handleMobileMenuClose}>
         <Link to="/contact" style={{ textDecoration: 'none' }}>
-          <Typography variant="button" sx={{ color: pathname === '/contact' || pathname === '/contact' ? 'primary.main' : 'gray' }}>Contact</Typography>
+          <Typography variant="button"
+          sx={{ color: pathname === '/contact' || pathname === '/contact' ? 'primary.main'
+          : 'gray' }}>Contact</Typography>
         </Link>
       </MenuItem>
       <MenuItem onClick={handleMobileMenuClose}>
         <Link to="/login" style={{ textDecoration: 'none' }}>
-          <Typography variant="button" sx={{ color: pathname === '/login' || pathname === '/login' ? 'primary.main' : 'gray' }}>Login</Typography>
+          <Typography variant="button"
+          sx={{ color: pathname === '/login' || pathname === '/login' ? 'primary.main' : 'gray' }}
+          >Login</Typography>
         </Link>
       </MenuItem>
       <MenuItem onClick={handleMobileMenuClose}>
         <Link to="/signUp" style={{ textDecoration: 'none' }}>
-          <Typography variant="button" sx={{ color: pathname === '/signUp' || pathname === '/signUp' ? 'primary.main' : 'gray' }}>Sign Up</Typography>
+          <Typography variant="button"
+          sx={{ color: pathname === '/signUp' || pathname === '/signUp' ? 'primary.main' : 'gray' }}
+          >
+          Sign Up</Typography>
         </Link>
       </MenuItem>
     </Menu>
-  );
+  ); */
 
   return (
     <Box className={`${pathname === '/admin' && 'hidden'} order-first`}>
@@ -212,7 +223,7 @@ export default function TopBar() {
                 aria-controls={mobileMenuId}
                 aria-haspopup="true"
                 color="inherit"
-                onClick={handleMobileMenuOpen}
+                onClick={(/* e */) => { /* handleMobileMenuOpen(e); */ setOpenDialog(true); }}
               >
                 <MoreIcon />
               </IconButton>
@@ -220,7 +231,8 @@ export default function TopBar() {
           </Toolbar>
         </Container>
       </AppBar>
-      {renderMobileMenu}
+      <MobileMenuDialog open={openDialog} handleClose={() => setOpenDialog(false)} />
+      {/* renderMobileMenu */}
     </Box>
   );
 }
