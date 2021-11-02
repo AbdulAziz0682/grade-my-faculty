@@ -67,29 +67,30 @@ export default function Home() {
                       },
                     }}
                   >
-                    <MenuItem value="university" style={{ border: '1px solid lightgray' }} className="py-3 text-gray-400 bg-gray-100">Search by University</MenuItem>
-                    <MenuItem value="name" style={{ border: '1px solid lightgray' }} className="py-3 text-gray-400 bg-gray-100">Search by Faculty</MenuItem>
+                    <MenuItem value="university" style={{ border: '1px solid lightgray' }} className="py-3 font-semibold bg-gray-100">Search by University</MenuItem>
+                    <MenuItem value="name" style={{ border: '1px solid lightgray' }} className="py-3 font-semibold bg-gray-100">Search by Faculty</MenuItem>
                   </Select>
                 </Grid>
                 <Grid item xs={12} md={7} sx={{ order: { xs: 3, md: 2 } }} className="mt-1 md:mt-0">
                   <Autocomplete
                     value={value}
+                    disablePortal
                     onChange={(e, newVal) => setValue(newVal)}
                     classes={{ paper: 'rounded-none', listbox: 'py-0' }}
                     options={searchBy === 'university' ? universities : faculty}
-                    renderInput={(params) => <TextField {...params} className="text-gray-400 bg-gray-100 rounded-none" />}
+                    renderInput={(params) => <TextField {...params} className="font-semibold bg-gray-100 rounded-none" />}
                     getOptionLabel={(option) => option.name}
                     renderOption={(props, option) => {
                       if (searchBy === 'university') {
                         return (
-                          <MenuItem sx={{ border: '1px solid' }} className="py-3 text-gray-400 bg-gray-100 border-gray-200" value={option.name} onClick={() => history.push('/faculty', [option.name])}>{option.name}</MenuItem>
+                          <MenuItem sx={{ border: '1px solid' }} className="py-3 font-semibold bg-gray-100 border-gray-200" value={option.name} onClick={() => history.push('/faculty', [option.name])}>{option.name}</MenuItem>
                         );
                       }
                       return (
                         <MenuItem value={option.name} sx={{ border: '1px solid' }} className="py-1 bg-gray-100 border-gray-200" onClick={() => history.push('/grade', [option])}>
                           <div className="flex items-end justify-between gap-3 pb-2 overflow-auto" style={{ fontFamily: 'montserrat' }}>
                             <div className="flex flex-col">
-                              <p className="text-gray-600">{option.name}</p>
+                              <p className="font-semibold">{option.name}</p>
                               <span className="text-xs text-primary">
                                 {option.department}
                                 &nbsp;Department

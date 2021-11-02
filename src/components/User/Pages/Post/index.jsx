@@ -22,7 +22,7 @@ export default function Post() {
   return (
     <Grid container className="flex-grow bg-gray-50">
       <Container maxWidth="xl" className="flex flex-col justify-between md:flex-row md:gap-6" style={{ minHeight: '170vh' }}>
-        <div className="flex-grow w-10/12">
+        <div className="flex-grow w-full md:w-9/12">
           <div className="flex flex-col w-full h-auto gap-6 lg:w-11/12 py-14">
             <Typography variant="h3">
               Career with a BBA Degree is growing rapidly in all around the world,
@@ -90,11 +90,11 @@ export default function Post() {
             </Typography>
           </div>
         </div>
-        <div className="flex-col items-end hidden gap-10 pb-2 lg:flex lg:w-2/12 pt-14">
+        <div className="flex-col items-end w-full h-auto gap-10 pb-2 lg:flex md:w-3/12 pt-14">
           {
             [1, 2, 3].map(
               () => (
-                <Paper elevation={3} className="flex flex-col w-full gap-5 pb-3" style={{ maxWidth: '240px' }}>
+                <Paper elevation={3} className="flex flex-col w-full gap-5 pb-3 my-6 lg:my-0">
                   <img src={media3} alt="blog" className="w-full" />
                   <div className="flex flex-col w-full gap-5 px-6">
                     <Typography className="text-sm text-gray-500 uppercase">20 July 2019</Typography>

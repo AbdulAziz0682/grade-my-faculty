@@ -142,14 +142,14 @@ export default function TopBar() {
                     renderOption={(props, option) => {
                       if (!option.department) {
                         return (
-                          <MenuItem sx={{ border: '1px solid' }} className="py-3 text-gray-400 bg-gray-100 border-gray-200" value={option.name} onClick={() => history.push('/faculty', [option.name])}>{option.name}</MenuItem>
+                          <MenuItem sx={{ border: '1px solid' }} className="py-3 font-semibold bg-gray-100 border-gray-200" value={option.name} onClick={() => history.push('/faculty', [option.name])}>{option.name}</MenuItem>
                         );
                       }
                       return (
                         <MenuItem value={option.name} sx={{ border: '1px solid' }} className="py-1 bg-gray-100 border-gray-200" onClick={() => history.push('/grade', [option])}>
                           <div className="flex items-end justify-between gap-3 pb-2 overflow-auto" style={{ fontFamily: 'montserrat' }}>
                             <div className="flex flex-col">
-                              <p className="text-gray-600">{option.name}</p>
+                              <p className="font-semibold">{option.name}</p>
                               <span className="text-xs text-primary">
                                 {option.department}
                                 &nbsp;Department

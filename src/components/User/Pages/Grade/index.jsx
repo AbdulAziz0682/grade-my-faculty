@@ -95,12 +95,12 @@ export default function Grade() {
                 () => (
                   <Grid container>
                     <Grid item xs={12} sm={3} className="flex flex-row p-3 bg-primary md:flex-col">
-                      <Typography className="w-full text-3xl font-semibold text-center text-white">A</Typography>
+                      <Typography className="self-center w-full text-3xl font-semibold text-center text-white">A</Typography>
                       <span className="flex-grow" />
                       <Typography className="self-center text-3xl font-semibold text-center text-white w-min">
                         3.5
                       </Typography>
-                      <Typography className="w-full text-xs text-center text-white">Level of Difficulty</Typography>
+                      <Typography className="w-full text-center text-white md:text-xs">Level of Difficulty</Typography>
                     </Grid>
                     <Grid item xs={12} sm={9} className="flex flex-col gap-4 pb-3 bg-white pt-9 px-9">
                       <div className="flex justify-between w-full gap-2 px-8">
@@ -133,7 +133,7 @@ export default function Grade() {
             </div>
           </Paper>
         </div>
-        <div className="flex-col hidden gap-10 lg:flex lg:w-2/12 h-9 py-14">
+        <div className="flex flex-col h-auto gap-10 lg:w-2/12 py-14">
           <Typography variant="h4">Our Blog</Typography>
           {
             [1, 2, 3].map(

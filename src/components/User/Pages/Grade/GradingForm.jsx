@@ -219,7 +219,7 @@ export default function GradingForm() {
             </div>
           </Paper>
         </div>
-        <div className="flex-col hidden gap-10 lg:flex lg:w-2/12 h-9 py-14">
+        <div className="flex-col h-auto gap-10 lg:flex lg:w-2/12 py-14">
           <Typography variant="h4">Our Blog</Typography>
           {
             [1, 2, 3].map(
