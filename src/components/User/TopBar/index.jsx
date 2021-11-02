@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import * as React from 'react';
 
 import AppBar from '@mui/material/AppBar';
@@ -15,9 +16,12 @@ import ListItemText from '@mui/material/ListItemText';
 import Container from '@mui/material/Container';
 import ArrowForward from '@mui/icons-material/ArrowForward';
 import SearchIcon from '@mui/icons-material/Search';
+import Autocomplete from '@mui/material/Autocomplete';
 
 import { Link, useLocation, useHistory } from 'react-router-dom';
-import { InputAdornment, TextField } from '@mui/material';
+import { /* InputAdornment */ TextField } from '@mui/material';
+
+import { useSelector } from 'react-redux';
 
 const isSearchFieldRoute = {
   '/grade': true,
@@ -29,6 +33,12 @@ export default function TopBar() {
   const history = useHistory();
   const { pathname } = useLocation();
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const faculty = useSelector((state) => state.faculty);
+  const universities = [
+    { name: 'North South University' },
+    { name: 'Lahore University' },
+    { name: 'Karachi University' },
+  ];
 
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
@@ -115,14 +125,40 @@ export default function TopBar() {
               !isSearchFieldRoute[pathname]
                 ? <Box sx={{ flexGrow: 1, minWidth: 15 }} />
                 : (
-                  <TextField
+                  <Autocomplete
                     className="flex-grow h-full ml-4 text-gray-500"
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <SearchIcon className="ml-2" />
-                        </InputAdornment>
-                      ),
+                    getOptionLabel={(option) => option.name}
+                    options={[...faculty, ...universities]}
+                    classes={{ paper: 'rounded-none', listbox: 'py-0', popupIndicator: 'transform-none' }}
+                    popupIcon={<SearchIcon />}
+                    renderInput={(params) => (
+                      <TextField
+                        InputProps={{
+                          startAdornment: <SearchIcon />,
+                        }}
+                        {...params}
+                      />
+                    )}
+                    renderOption={(props, option) => {
+                      if (!option.department) {
+                        return (
+                          <MenuItem sx={{ border: '1px solid' }} className="py-3 text-gray-400 bg-gray-100 border-gray-200" value={option.name} onClick={() => history.push('/faculty', [option.name])}>{option.name}</MenuItem>
+                        );
+                      }
+                      return (
+                        <MenuItem value={option.name} sx={{ border: '1px solid' }} className="py-1 bg-gray-100 border-gray-200" onClick={() => history.push('/grade', [option])}>
+                          <div className="flex items-end justify-between gap-3 pb-2 overflow-auto" style={{ fontFamily: 'montserrat' }}>
+                            <div className="flex flex-col">
+                              <p className="text-gray-600">{option.name}</p>
+                              <span className="text-xs text-primary">
+                                {option.department}
+                                &nbsp;Department
+                              </span>
+                            </div>
+                            <p className="font-bold">{option.university}</p>
+                          </div>
+                        </MenuItem>
+                      );
                     }}
                   />
                 )
