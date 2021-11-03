@@ -9,7 +9,10 @@ import {
   List,
   ListItemButton,
   ListItemText,
+  IconButton,
 } from '@mui/material';
+
+import { Close } from '@mui/icons-material';
 
 import { useHistory, useLocation } from 'react-router-dom';
 
@@ -22,8 +25,9 @@ export default function MobileMenuDialog({ open, handleClose }) {
   const history = useHistory();
   return (
     <Dialog open={open} fullWidth handleClose={handleClose} classes={{ container: 'items-start mt-14', paper: 'w-full' }}>
-      <DialogTitle classes={{ root: 'text-xl' }}>
+      <DialogTitle classes={{ root: 'text-xl flex justify-between items-center' }}>
         Welcome to Grade my Faculty
+        <IconButton onClick={() => handleClose()}><Close /></IconButton>
       </DialogTitle>
       <DialogContent>
         <List>
