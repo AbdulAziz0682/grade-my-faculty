@@ -5,7 +5,7 @@ import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
+// import Typography from '@mui/material/Typography';
 import MenuItem from '@mui/material/MenuItem';
 // import Menu from '@mui/material/Menu';
 import MoreIcon from '@mui/icons-material/MoreVert';
@@ -23,6 +23,8 @@ import { /* InputAdornment */ TextField } from '@mui/material';
 
 import { useSelector } from 'react-redux';
 import MobileMenuDialog from './MobileMenuDialog';
+
+import logo from '../../../assets/logo.jpg';
 
 const isSearchFieldRoute = {
   '/grade': true,
@@ -116,7 +118,7 @@ export default function TopBar() {
       <AppBar position="fixed" color="default" className="bg-white">
         <Container maxWidth="xl" sx={{ height: 98, py: '23px' }} className="flex flex-col justify-center">
           <Toolbar disableGutters style={{ minHeight: '52px' }}>
-            <Typography
+            {/* <Typography
               variant="h6"
               noWrap
               component="div"
@@ -131,7 +133,8 @@ export default function TopBar() {
               }}
             >
               Grade my faculty
-            </Typography>
+            </Typography> */}
+            <img src={logo} alt="logo" className="w-44" />
             {
               !isSearchFieldRoute[pathname]
                 ? <Box sx={{ flexGrow: 1, minWidth: 15 }} />
