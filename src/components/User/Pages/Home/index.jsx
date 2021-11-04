@@ -79,7 +79,7 @@ export default function Home() {
                     suggestions={searchBy === 'university' ? universities : faculty}
                   />
                 </Grid>
-                <Grid item sx={{ order: { xs: 2, md: 3 }, flexGrow: 1 }}>
+                <Grid item xs={2} md={1} sx={{ order: { xs: 2, md: 3 } }}>
                   <span className="flex items-center justify-center px-3 rounded-r bg-primary" style={{ height: '57.4px' }}>
                     <Search htmlColor="white" />
                   </span>

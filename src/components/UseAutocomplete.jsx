@@ -102,10 +102,6 @@ const AutoComplete = ({ suggestions }) => {
       </ul>
     ) : (
       <div className="bg-gray-100 no-suggestions rounded-b-3xl">
-        <span role="img" aria-label="tear emoji">
-          😪
-        </span>
-        {' '}
         <em>sorry no suggestions</em>
       </div>
     );
