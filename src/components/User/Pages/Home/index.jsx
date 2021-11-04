@@ -8,15 +8,17 @@ import {
   MenuItem,
   Container,
   Hidden,
-  Autocomplete,
-  TextField,
+  // Autocomplete,
+  // TextField,
 } from '@mui/material';
 
 import { Search, KeyboardArrowDown } from '@mui/icons-material';
 
 import { useSelector } from 'react-redux';
 
-import { useHistory } from 'react-router-dom';
+// import { useHistory } from 'react-router-dom';
+
+import Autocomplete from '../../../UseAutocomplete';
 
 import help from '../../../../assets/help.svg';
 import evaluation from '../../../../assets/evaluation.svg';
@@ -25,7 +27,7 @@ import homeImg from '../../../../assets/homeImg.svg';
 
 export default function Home() {
   const ref = useRef();
-  const history = useHistory();
+  // const history = useHistory();
   const faculty = useSelector((state) => state.faculty);
   const [searchBy, setSearchBy] = React.useState('university');
   const universities = [
@@ -33,16 +35,17 @@ export default function Home() {
     { name: 'Lahore University' },
     { name: 'Karachi University' },
   ];
-  const [value, setValue] = React.useState('');
-  React.useEffect(() => {
-    setValue(searchBy === 'university' ? universities[universities.length - 1] : faculty[faculty.length - 1]);
-  }, [searchBy]);
+  // const [value, setValue] = React.useState('');
+  /* React.useEffect(() => {
+    setValue(searchBy === 'university' ?
+    universities[universities.length - 1] : faculty[faculty.length - 1]);
+  }, [searchBy]); */
   return (
     <>
       <Grid container className="flex-grow">
         <Container maxWidth="xl" className="md:pr-0">
-          <Grid container alignItems="center" className="pt-12 pb-60" columnSpacing={2}>
-            <Grid item xs={12} md={8} className="flex flex-col justify-center h-full gap-11">
+          <Grid container alignItems="start" className="pt-12 pb-60" columnSpacing={2}>
+            <Grid item xs={12} md={8} className="flex flex-col justify-center h-full gap-11 md:mt-9">
               <Typography className="text-4xl font-bold leading-12 md:leading-20 md:text-6xl">
                 View Evaluations and&nbsp;
                 <span className="text-primary">Grade</span>
@@ -73,38 +76,11 @@ export default function Home() {
                 </Grid>
                 <Grid item xs={12} md={7} sx={{ order: { xs: 3, md: 2 } }} className="mt-1 md:mt-0">
                   <Autocomplete
-                    value={value}
-                    disablePortal
-                    onChange={(e, newVal) => setValue(newVal)}
-                    classes={{ paper: 'rounded-none', listbox: 'py-0' }}
-                    options={searchBy === 'university' ? universities : faculty}
-                    renderInput={(params) => <TextField {...params} className="font-semibold bg-gray-100 rounded-none" />}
-                    getOptionLabel={(option) => option.name}
-                    renderOption={(props, option) => {
-                      if (searchBy === 'university') {
-                        return (
-                          <MenuItem sx={{ border: '1px solid' }} className="py-3 font-semibold bg-gray-100 border-gray-200" value={option.name} onClick={() => history.push('/faculty', [option.name])}>{option.name}</MenuItem>
-                        );
-                      }
-                      return (
-                        <MenuItem value={option.name} sx={{ border: '1px solid' }} className="py-1 bg-gray-100 border-gray-200" onClick={() => history.push('/grade', [option])}>
-                          <div className="flex items-end justify-between gap-3 pb-2 overflow-auto" style={{ fontFamily: 'montserrat' }}>
-                            <div className="flex flex-col">
-                              <p className="font-semibold">{option.name}</p>
-                              <span className="text-xs text-primary">
-                                {option.department}
-                                &nbsp;Department
-                              </span>
-                            </div>
-                            <p className="font-bold">{option.university}</p>
-                          </div>
-                        </MenuItem>
-                      );
-                    }}
+                    suggestions={searchBy === 'university' ? universities : faculty}
                   />
                 </Grid>
                 <Grid item sx={{ order: { xs: 2, md: 3 }, flexGrow: 1 }}>
-                  <span className="flex items-center justify-center h-full px-3 rounded-r bg-primary">
+                  <span className="flex items-center justify-center px-3 rounded-r bg-primary" style={{ height: '57.4px' }}>
                     <Search htmlColor="white" />
                   </span>
                 </Grid>
