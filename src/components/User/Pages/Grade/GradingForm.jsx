@@ -51,6 +51,7 @@ function CustomRadio(props) {
 }
 
 export default function GradingForm() {
+  const history = useHistory();
   const faculty = useHistory().location.state[0];
   return (
     <Grid container className="flex-grow">
@@ -219,22 +220,20 @@ export default function GradingForm() {
             </div>
           </Paper>
         </div>
-        <div className="flex-col h-auto gap-10 lg:flex lg:w-2/12 py-14">
+        <div className="flex-col h-auto gap-10 lg:flex lg:w-3/12 py-14">
           <Typography variant="h4">Our Blog</Typography>
           {
             [1, 2, 3].map(
               () => (
-                <div className="flex flex-col w-full gap-4">
-                  <img src={media2} alt="blog" className="w-auto" />
-                  <Typography className="text-sm text-gray-500">Course Item</Typography>
-                  <Typography variant="h3">Content writer</Typography>
-                  <Typography className="text-sm text-gray-500">Slate helps you see how many more days.</Typography>
-                  <Typography>
-                    <span className="text-gray-600">Full Time</span>
-                    <span className="text-gray-600">1 July 2019</span>
-                  </Typography>
-                  <Typography className="text-sm text-primary">View more</Typography>
-                </div>
+                <Paper elevation={3} className="flex flex-col w-full gap-5 pb-3 my-6 transition duration-500 transform lg:my-0 hover:scale-110">
+                  <img src={media2} alt="blog" className="w-full" />
+                  <div className="flex flex-col w-full gap-5 px-6">
+                    <Typography className="text-sm text-gray-500 uppercase">20 July 2019</Typography>
+                    <Typography variant="h4">Life tips from top ten adventure travelers</Typography>
+                    <Typography className="font-semibold text-gray-500">Slate helps you see how many more days you....</Typography>
+                    <Button variant="text" color="primary" className="self-start" onClick={() => history.push('/post')}>View more</Button>
+                  </div>
+                </Paper>
               ),
             )
           }

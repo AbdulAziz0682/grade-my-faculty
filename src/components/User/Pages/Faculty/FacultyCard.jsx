@@ -4,17 +4,21 @@ import PropTypes from 'prop-types';
 import {
   Card,
   Typography,
+  Button,
 } from '@mui/material';
 
+import { useHistory } from 'react-router-dom';
+
 export default function FacultyCard({ faculty }) {
+  const history = useHistory();
   return (
-    <Card elevation={3} className="flex flex-col w-full sm:w-5/12 p-6 gap-3">
+    <Card elevation={3} className="flex flex-col w-full gap-3 p-6 sm:w-5/12">
       <Typography className="text-lg font-semibold">{faculty.name}</Typography>
       <Typography className="">
         {faculty.department}
         &nbsp;Department
       </Typography>
-      <Typography className="text-primary font-bold text-lg">
+      <Typography className="text-lg font-bold text-primary">
         Grade&nbsp;(
         {faculty.levelOfDifficulty}
         )
@@ -23,7 +27,7 @@ export default function FacultyCard({ faculty }) {
         {faculty.reviews}
         &nbsp;Reviews
       </Typography>
-      <span className="text-primary" aria-hidden onClick={() => {}}>View More</span>
+      <Button variant="text" color="primary" className="self-start pl-0" onClick={() => history.push('/grading', [faculty])}>View More</Button>
     </Card>
   );
 }

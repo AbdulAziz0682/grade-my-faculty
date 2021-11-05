@@ -9,6 +9,8 @@ import {
   Button,
 } from '@mui/material';
 
+import { useHistory } from 'react-router-dom';
+
 import media3 from '../../../../assets/media3.png';
 import beardGuy from '../../../../assets/beardGuy.svg';
 import facebook from '../../../../assets/primaryFacebook.svg';
@@ -19,6 +21,7 @@ import postAsset from '../../../../assets/postAsset.png';
 import banner2 from '../../../../assets/banner2.png';
 
 export default function Post() {
+  const history = useHistory();
   return (
     <Grid container className="flex-grow bg-gray-50">
       <Container maxWidth="xl" className="flex flex-col justify-between md:flex-row md:gap-6" style={{ minHeight: '170vh' }}>
@@ -94,13 +97,13 @@ export default function Post() {
           {
             [1, 2, 3].map(
               () => (
-                <Paper elevation={3} className="flex flex-col w-full gap-5 pb-3 my-6 lg:my-0">
+                <Paper elevation={3} className="flex flex-col w-full gap-5 pb-3 my-6 transition duration-500 transform lg:my-0 hover:scale-110">
                   <img src={media3} alt="blog" className="w-full" />
                   <div className="flex flex-col w-full gap-5 px-6">
                     <Typography className="text-sm text-gray-500 uppercase">20 July 2019</Typography>
                     <Typography variant="h4">Life tips from top ten adventure travelers</Typography>
                     <Typography className="font-semibold text-gray-500">Slate helps you see how many more days you....</Typography>
-                    <Typography className="text-sm text-primary">View more</Typography>
+                    <Button variant="text" color="primary" className="self-start" onClick={() => history.push('/post')}>View more</Button>
                   </div>
                 </Paper>
               ),

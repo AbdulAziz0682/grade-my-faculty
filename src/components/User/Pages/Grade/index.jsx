@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React from 'react';
 
 import {
@@ -20,6 +22,8 @@ import media2 from '../../../../assets/media2.png';
 export default function Grade() {
   const history = useHistory();
   const faculty = history.location.state[0];
+  const [likes, setLikes] = React.useState(3);
+  const [dislikes, setDisLikes] = React.useState(1);
   return (
     <Grid container className="flex-grow w-full">
       <Container maxWidth="xl" className="flex flex-col justify-between md:flex-row md:gap-9">
@@ -102,8 +106,8 @@ export default function Grade() {
                       </Typography>
                       <Typography className="w-full text-center text-white md:text-xs">Level of Difficulty</Typography>
                     </Grid>
-                    <Grid item xs={12} sm={9} className="flex flex-col gap-4 pb-3 bg-white pt-9 px-9">
-                      <div className="flex justify-between w-full gap-2 px-8">
+                    <Grid item xs={12} sm={9} className="flex flex-col gap-4 px-2 pb-3 bg-white pt-9 md:px-9">
+                      <div className="flex justify-between w-full gap-2 md:px-8">
                         <Typography className="font-medium text-gray-500">Date of grading</Typography>
                         <Typography className="font-medium text-gray-500">Course Code</Typography>
                       </div>
@@ -118,8 +122,10 @@ export default function Grade() {
                         <Chip variant="filled" label="Top Tag" sx={{ minWidth: '9rem', fontSize: '11px', color: 'gray' }} />
                       </div>
                       <div className="flex items-center gap-2 mt-1">
-                        <img src={like} alt="like" className="w-4" />
-                        <img src={unlike} alt="unlike" className="w-4" />
+                        <img src={like} alt="like" className="w-4 transition duration-500 transform hover:scale-150" onClick={() => setLikes(likes + 1)} />
+                        <span className="text-sm text-gray-500">{likes}</span>
+                        <img src={unlike} alt="unlike" className="w-4 transition duration-500 transform hover:scale-150" onClick={() => setDisLikes(dislikes + 1)} />
+                        <span className="text-sm text-gray-500">{dislikes}</span>
                         <span className="flex-grow" />
                         <Typography variant="caption" color="error">Report this Rating</Typography>
                       </div>
@@ -133,22 +139,20 @@ export default function Grade() {
             </div>
           </Paper>
         </div>
-        <div className="flex flex-col h-auto gap-10 lg:w-2/12 py-14">
+        <div className="flex flex-col h-auto gap-10 lg:w-3/12 py-14">
           <Typography variant="h4">Our Blog</Typography>
           {
             [1, 2, 3].map(
               () => (
-                <div className="flex flex-col w-full gap-4">
-                  <img src={media2} alt="blog" className="w-auto" />
-                  <Typography className="text-sm text-gray-500">Course Item</Typography>
-                  <Typography variant="h3">Content writer</Typography>
-                  <Typography className="text-sm text-gray-500">Slate helps you see how many more days.</Typography>
-                  <Typography>
-                    <span className="text-gray-600">Full Time</span>
-                    <span className="text-gray-600">1 July 2019</span>
-                  </Typography>
-                  <Typography className="text-sm text-primary">View more</Typography>
-                </div>
+                <Paper elevation={3} className="flex flex-col w-full gap-5 pb-3 my-6 transition duration-500 transform lg:my-0 hover:scale-110">
+                  <img src={media2} alt="blog" className="w-full" />
+                  <div className="flex flex-col w-full gap-5 px-6">
+                    <Typography className="text-sm text-gray-500 uppercase">20 July 2019</Typography>
+                    <Typography variant="h4">Life tips from top ten adventure travelers</Typography>
+                    <Typography className="font-semibold text-gray-500">Slate helps you see how many more days you....</Typography>
+                    <Button variant="text" color="primary" className="self-start" onClick={() => history.push('/post')}>View more</Button>
+                  </div>
+                </Paper>
               ),
             )
           }

@@ -134,7 +134,7 @@ export default function TopBar() {
             >
               Grade my faculty
             </Typography> */}
-            <img src={logo} alt="logo" className="w-44" />
+            <img src={logo} alt="logo" className="w-32 md:w-44" />
             {
               !isSearchFieldRoute[pathname]
                 ? <Box sx={{ flexGrow: 1, minWidth: 15 }} />

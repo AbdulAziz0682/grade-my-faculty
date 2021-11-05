@@ -7,10 +7,14 @@ import { Button, Card } from '@mui/material';
 
 import { ArrowForward } from '@mui/icons-material';
 
+import { useHistory } from 'react-router-dom';
+
 import media from '../../../../assets/media.svg';
 import banner from '../../../../assets/banner.png';
 
 export default function AboutUs() {
+  const [list, setList] = React.useState([1, 2, 3]);
+  const history = useHistory();
   return (
     <div className="flex-grow w-full bg-pageBg">
       <Container maxWidth="xl">
@@ -21,28 +25,18 @@ export default function AboutUs() {
         </Grid>
       </Container>
       <div className="w-full bg-primary">
-        <Container maxWidth="xl" className="flex flex-wrap justify-center gap-1 p-16 lg:justify-between">
-          <Card className="flex-col my-1 w-72">
-            <img className="w-auto" src={media} alt="media" />
-            <Typography className="mx-8 mt-8 font-semibold">
-              Steve Jobs helped launch her career. Now, her startup bring millions
-            </Typography>
-            <Typography className="mx-8 my-4 text-primary">Brandon Games</Typography>
-          </Card>
-          <Card className="flex-col my-1 w-72">
-            <img className="w-auto" src={media} alt="media" />
-            <Typography className="mx-8 mt-8 font-semibold">
-              Steve Jobs helped launch her career. Now, her startup bring millions
-            </Typography>
-            <Typography className="mx-8 my-4 text-primary">Brandon Games</Typography>
-          </Card>
-          <Card className="flex-col my-1 w-72">
-            <img className="w-auto" src={media} alt="media" />
-            <Typography className="mx-8 mt-8 font-semibold">
-              Steve Jobs helped launch her career. Now, her startup bring millions
-            </Typography>
-            <Typography className="mx-8 my-4 text-primary">Brandon Games</Typography>
-          </Card>
+        <Container maxWidth="xl" className="flex flex-wrap justify-center gap-10 p-16 ">
+          {
+            list.map(() => (
+              <Card className="flex-col my-1 transition duration-500 transform w-80 hover:scale-110" onClick={() => history.push('/post')}>
+                <img className="w-auto" src={media} alt="media" />
+                <Typography className="mx-8 mt-8 font-semibold">
+                  Steve Jobs helped launch her career. Now, her startup bring millions
+                </Typography>
+                <Typography className="mx-8 my-4 text-primary">Brandon Games</Typography>
+              </Card>
+            ))
+          }
         </Container>
       </div>
       <div className="w-full">
@@ -53,6 +47,7 @@ export default function AboutUs() {
               color="primary"
               className="px-8 py-4"
               endIcon={<ArrowForward />}
+              onClick={() => setList([...list, ...list])}
             >
               Load More
             </Button>
