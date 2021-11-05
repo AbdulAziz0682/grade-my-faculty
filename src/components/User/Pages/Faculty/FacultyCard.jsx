@@ -27,7 +27,7 @@ export default function FacultyCard({ faculty }) {
         {faculty.reviews}
         &nbsp;Reviews
       </Typography>
-      <Button variant="text" color="primary" className="self-start pl-0" onClick={() => history.push('/grading', [faculty])}>View More</Button>
+      <Button variant="text" color="primary" className="self-start pl-0" onClick={() => history.push('/grade', [faculty])}>View More</Button>
     </Card>
   );
 }

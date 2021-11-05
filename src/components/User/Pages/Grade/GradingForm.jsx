@@ -231,7 +231,7 @@ export default function GradingForm() {
                     <Typography className="text-sm text-gray-500 uppercase">20 July 2019</Typography>
                     <Typography variant="h4">Life tips from top ten adventure travelers</Typography>
                     <Typography className="font-semibold text-gray-500">Slate helps you see how many more days you....</Typography>
-                    <Button variant="text" color="primary" className="self-start pl-0" onClick={() => history.push('/post')}>View more</Button>
+                    <Button variant="text" color="primary" className="self-start pl-0" onClick={() => history.push('/post')}>Read more</Button>
                   </div>
                 </Paper>
               ),
