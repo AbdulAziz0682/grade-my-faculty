@@ -28,7 +28,7 @@ export default function AboutUs() {
         <Container maxWidth="xl" className="flex flex-wrap justify-center gap-10 p-16 ">
           {
             list.map(() => (
-              <Card className="flex-col my-1 transition duration-500 transform w-80 hover:scale-110" onClick={() => history.push('/post')}>
+              <Card className="flex-col my-1 cursor-pointer w-80" onClick={() => history.push('/post')}>
                 <img className="w-auto" src={media} alt="media" />
                 <Typography className="mx-8 mt-8 font-semibold">
                   Steve Jobs helped launch her career. Now, her startup bring millions

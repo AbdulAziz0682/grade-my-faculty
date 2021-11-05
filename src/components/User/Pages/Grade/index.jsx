@@ -144,13 +144,13 @@ export default function Grade() {
           {
             [1, 2, 3].map(
               () => (
-                <Paper elevation={3} className="flex flex-col w-full gap-5 pb-3 my-6 transition duration-500 transform lg:my-0 hover:scale-110">
+                <Paper elevation={3} className="flex flex-col w-full gap-5 pb-3 my-6 lg:my-0">
                   <img src={media2} alt="blog" className="w-full" />
                   <div className="flex flex-col w-full gap-5 px-6">
                     <Typography className="text-sm text-gray-500 uppercase">20 July 2019</Typography>
                     <Typography variant="h4">Life tips from top ten adventure travelers</Typography>
                     <Typography className="font-semibold text-gray-500">Slate helps you see how many more days you....</Typography>
-                    <Button variant="text" color="primary" className="self-start" onClick={() => history.push('/post')}>View more</Button>
+                    <Button variant="text" color="primary" className="self-start pl-0" onClick={() => history.push('/post')}>View more</Button>
                   </div>
                 </Paper>
               ),
