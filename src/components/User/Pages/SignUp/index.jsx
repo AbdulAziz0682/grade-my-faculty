@@ -194,7 +194,7 @@ export default function SignUp() {
                   <img src={googleLogo} alt="google" />
                 }
               >
-                <Typography variant="body2" className="text-lg font-semibold text-gray-400 normal-case md:text-2xl">Sign Up with Google</Typography>
+                <Typography variant="body2" className="text-lg font-normal text-gray-400 normal-case md:text-2xl">Sign Up with Google</Typography>
               </Button>
             </Grid>
             <Grid item className="flex justify-center mt-3">

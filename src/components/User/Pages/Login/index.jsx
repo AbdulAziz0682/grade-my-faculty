@@ -110,7 +110,7 @@ export default function Login() {
                   <img src={googleLogo} alt="google" />
                 }
               >
-                <Typography variant="body2" className="text-xl font-semibold text-gray-400 normal-case md:text-2xl">Sign In with Google</Typography>
+                <Typography variant="body2" className="text-xl font-normal text-gray-400 normal-case md:text-2xl">Sign In with Google</Typography>
               </Button>
             </Grid>
             <Grid item className="flex justify-center mt-9">
