@@ -99,7 +99,7 @@ export default function Login() {
             <Grid item className="my-5">
               <Button variant="contained" type="submit" className="py-4 text-xl" fullWidth>Sign In</Button>
             </Grid>
-            <Grid item className="my-5">
+            <Grid item className="md:my-1">
               <Typography className="text-sm font-semibold" align="center" style={{ fontFamily: 'montserrat' }}>or continue with</Typography>
             </Grid>
             <Grid item className="flex flex-col items-center mt-5">

@@ -26,7 +26,7 @@ export default function Post() {
     <Grid container className="flex-grow bg-gray-50">
       <Container maxWidth="xl" className="flex flex-col justify-between md:flex-row md:gap-6" style={{ minHeight: '170vh' }}>
         <div className="flex-grow w-full md:w-9/12">
-          <div className="flex flex-col w-full h-auto gap-6 lg:w-11/12 py-14">
+          <div className="flex flex-col w-full h-auto gap-6 py-14">
             <Typography variant="h3">
               Career with a BBA Degree is growing rapidly in all around the world,
               Let’s check the deep dive information about this.

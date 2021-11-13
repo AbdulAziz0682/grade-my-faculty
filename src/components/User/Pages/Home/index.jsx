@@ -44,7 +44,7 @@ export default function Home() {
     <>
       <Grid container className="flex-grow">
         <Container maxWidth="xl" className="md:pr-0">
-          <Grid container alignItems="start" className="pt-12 pb-60" columnSpacing={2}>
+          <Grid container alignItems="start" className="pt-12 pb-20 lg:pb-40" columnSpacing={2}>
             <Grid item xs={12} md={8} className="flex flex-col justify-center h-full gap-11 md:mt-9">
               <Typography className="text-4xl font-bold leading-12 md:leading-20 md:text-6xl">
                 View Evaluations and&nbsp;

@@ -7,11 +7,11 @@ import Typography from '@mui/material/Typography';
 import {
   Button,
   TextField,
-  Select,
-  MenuItem,
+  // Select,
+  // MenuItem,
 } from '@mui/material';
 
-import { CheckSharp, KeyboardArrowDown } from '@mui/icons-material';
+import { CheckSharp /* KeyboardArrowDown */ } from '@mui/icons-material';
 
 import { useHistory } from 'react-router-dom';
 
@@ -28,7 +28,8 @@ export default function SignUp() {
     firstName: yup.string().required('First name is required').min(2, 'Enter at least 2 characters'),
     lastName: yup.string().required('Last name is required').min(2, 'Enter at least 2 characters'),
     email: yup.string().email('Enter a valid email').required('Email is required'),
-    role: yup.string().oneOf(['student', 'admin'], 'Role should be one of studet or admin').required('Role is required'),
+    // role: yup.string().oneOf(['student', 'admin'], 'Role should
+    // be one of studet or admin').required('Role is required'),
     password: yup.string().min(8, 'Password should be at least 8 characters long').required('Password is required'),
     confirmPassword: yup.string().oneOf([yup.ref('password'), null], 'Passwords must match').required('Confirm password is required'),
   });
@@ -87,7 +88,7 @@ export default function SignUp() {
                   style={{ fontFamily: 'montserrat' }}
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12}>
                 <Typography variant="h6" className="text-sm font-semibold" style={{ fontFamily: 'montserrat' }}>Email *</Typography>
                 <TextField
                   fullWidth
@@ -105,8 +106,9 @@ export default function SignUp() {
                   style={{ fontFamily: 'montserrat' }}
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
-                <Typography variant="h6" className="text-sm font-semibold" style={{ fontFamily: 'montserrat' }}>Role *</Typography>
+              {/* <Grid item xs={12} sm={6}>
+                <Typography variant="h6" className="text-sm font-semibold"
+                style={{ fontFamily: 'montserrat' }}>Role *</Typography>
                 <Select
                   fullWidth
                   required
@@ -125,10 +127,11 @@ export default function SignUp() {
                   <MenuItem value="student" className="bg-gray-50">Student</MenuItem>
                   <MenuItem value="admin" className="bg-gray-50">Admin</MenuItem>
                 </Select>
-                <Typography variant="caption" className={`${(formik.touched.role && formik.errors.role) ? 'block' : 'hidden'} text-red-500 px-3`}>
+                <Typography variant="caption" className={`${(formik.touched.role &&
+                  formik.errors.role) ?'block' : 'hidden'} text-red-500 px-3`}>
                   {formik.errors.role}
                 </Typography>
-              </Grid>
+              </Grid> */}
               <Grid item xs={12} sm={6}>
                 <Typography variant="h6" className="text-sm font-semibold" style={{ fontFamily: 'montserrat' }}>Password *</Typography>
                 <TextField
