@@ -27,6 +27,7 @@ import Post from '../components/User/Pages/Post';
 // admin route
 import Admin from '../components/Admin';
 import ResetPassword from '../components/User/Pages/Login/ResetPassword';
+import UserProfile from './UserProfile';
 
 export default function UserRoutes() {
   const location = useLocation();
@@ -92,6 +93,9 @@ export default function UserRoutes() {
           </Route>
           <Route exact path="/admin">
             <Admin />
+          </Route>
+          <Route exact path="/profile">
+            <UserProfile />
           </Route>
         </Grid>
         <Grid item>
