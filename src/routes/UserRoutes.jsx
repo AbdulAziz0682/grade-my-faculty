@@ -24,22 +24,31 @@ import StudentsFaq from '../components/User/Pages/Faq/StudentsFaq';
 import TeachersFaq from '../components/User/Pages/Faq/TeachersFaq';
 import AboutUs from '../components/User/Pages/AboutUs';
 import Post from '../components/User/Pages/Post';
-// admin route
-import Admin from '../components/Admin';
 import ResetPassword from '../components/User/Pages/Login/ResetPassword';
 import UserProfile from './UserProfile';
+// admin route
+import Admin from '../components/Admin';
+import AdminLogin from '../components/Admin/Login';
+import AdminForgetPassword from '../components/Admin/ForgetPassword';
+import AdminResetPassword from '../components/Admin/ResetPassword';
 
 export default function UserRoutes() {
   const location = useLocation();
   const history = useHistory();
   history.listen(() => window.scrollTo(0, 0));
+  const adminRoutes = {
+    '/admin': true,
+    '/adminLogin': true,
+    '/adminForgotPassword': true,
+    '/adminResetPassword': true,
+  };
   return (
     <Switch>
       <Grid container direction="column" className="min-h-screen">
         <Grid item>
-          <TopBar />
+          { !adminRoutes[location.pathname] && <TopBar /> }
         </Grid>
-        <Grid item className="flex flex-col flex-grow w-full" sx={{ marginTop: location.pathname === '/admin' ? '0px' : '86px' /* MaxHeight of Topbar */ }}>
+        <Grid item className="flex flex-col flex-grow w-full" sx={{ marginTop: adminRoutes[location.pathname] ? '0px' : '86px' /* MaxHeight of Topbar */ }}>
           <Route exact path="/">
             <Home />
           </Route>
@@ -91,6 +100,15 @@ export default function UserRoutes() {
           <Route exact path="/resetPassword">
             <ResetPassword />
           </Route>
+          <Route exact path="/adminLogin">
+            <AdminLogin />
+          </Route>
+          <Route exact path="/adminForgotPassword">
+            <AdminForgetPassword />
+          </Route>
+          <Route exact path="/adminResetPassword">
+            <AdminResetPassword />
+          </Route>
           <Route exact path="/admin">
             <Admin />
           </Route>
@@ -99,7 +117,7 @@ export default function UserRoutes() {
           </Route>
         </Grid>
         <Grid item>
-          <Footer />
+          { !adminRoutes[location.pathname] && <Footer /> }
         </Grid>
       </Grid>
     </Switch>
