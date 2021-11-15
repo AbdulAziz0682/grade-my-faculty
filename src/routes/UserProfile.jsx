@@ -9,6 +9,7 @@ import {
 } from '@mui/material';
 import Profile from '../components/User/Profile/Profile';
 import AccountSettings from '../components/User/Profile/AccountSettings';
+import SavedProfessors from '../components/User/Profile/SavedProfessors';
 
 export default function UserProfile() {
   const [value, setValue] = React.useState(0);
@@ -40,10 +41,12 @@ export default function UserProfile() {
               <AccountSettings />
             </div>
             <div className={`${value === 2 ? 'block' : 'hidden'}`}>
-              Ratings
+              <div className="w-full py-10">
+                <Typography variant="h4" align="center">No ratings yet</Typography>
+              </div>
             </div>
             <div className={`${value === 3 ? 'block' : 'hidden'}`}>
-              Saved
+              <SavedProfessors />
             </div>
           </Grid>
         </Grid>
