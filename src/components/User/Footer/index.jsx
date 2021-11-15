@@ -17,7 +17,7 @@ export default function Footer() {
   return (
     <Box id="footer" className={`${history.location.pathname === '/admin' && 'hidden'}`} sx={{ top: 'auto', bottom: 0, zIndex: 0 }}>
       <Box sx={{ bgcolor: 'primary.main', width: '100%' }}>
-        <Container maxWidth="xl" className="md:px-20" sx={{ py: '50px', height: '272px' }}>
+        <Container maxWidth="xl" className="md:px-20" sx={{ py: '20px', height: '200px' }}>
           <Grid container justifyContent="space-between" className="md:px-20">
             <Grid
               item
