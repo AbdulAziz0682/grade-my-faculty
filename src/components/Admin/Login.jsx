@@ -16,8 +16,6 @@ import { useHistory } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 
-import googleLogo from '../../assets/googleLogo.svg';
-
 export default function Login() {
   const history = useHistory();
   const [checked, setChecked] = useState(false);
@@ -95,24 +93,10 @@ export default function Login() {
                 </div>
                 <Typography variant="h6" className="text-sm font-semibold" sx={{ fontFamily: 'montserrat' }}>Remember Me</Typography>
               </div>
-              <p className="text-sm font-semibold text-gray-400 cursor-pointer" aria-hidden onClick={() => history.push('/adminForgotPassword')} style={{ fontFamily: 'montserrat' }}>Forget Password</p>
+              <p className="text-sm font-semibold text-gray-400 cursor-pointer" aria-hidden onClick={() => history.push('/adminforgotpassword')} style={{ fontFamily: 'montserrat' }}>Forget Password</p>
             </Grid>
             <Grid item className="my-5">
               <Button variant="contained" type="submit" className="py-4 text-xl" fullWidth>Sign In</Button>
-            </Grid>
-            <Grid item className="md:my-1">
-              <Typography className="text-sm font-semibold" align="center" style={{ fontFamily: 'montserrat' }}>or continue with</Typography>
-            </Grid>
-            <Grid item className="flex flex-col items-center mt-5">
-              <Button
-                variant="contained"
-                className="py-3 bg-white hover:bg-white rounded-xl"
-                startIcon={
-                  <img src={googleLogo} alt="google" />
-                }
-              >
-                <Typography variant="body2" className="text-xl font-normal text-gray-400 normal-case md:text-2xl">Sign In with Google</Typography>
-              </Button>
             </Grid>
           </Grid>
         </Paper>

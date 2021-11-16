@@ -38,9 +38,9 @@ export default function UserRoutes() {
   history.listen(() => window.scrollTo(0, 0));
   const adminRoutes = {
     '/admin': true,
-    '/adminLogin': true,
-    '/adminForgotPassword': true,
-    '/adminResetPassword': true,
+    '/adminlogin': true,
+    '/adminforgotpassword': true,
+    '/adminresetpassword': true,
   };
   return (
     <Switch>
@@ -100,13 +100,13 @@ export default function UserRoutes() {
           <Route exact path="/resetPassword">
             <ResetPassword />
           </Route>
-          <Route exact path="/adminLogin">
+          <Route exact path="/adminlogin">
             <AdminLogin />
           </Route>
-          <Route exact path="/adminForgotPassword">
+          <Route exact path="/adminforgotpassword">
             <AdminForgetPassword />
           </Route>
-          <Route exact path="/adminResetPassword">
+          <Route exact path="/adminresetpassword">
             <AdminResetPassword />
           </Route>
           <Route exact path="/admin">

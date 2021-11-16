@@ -9,6 +9,7 @@ import {
 } from '@mui/material';
 import Profile from '../components/User/Profile/Profile';
 import AccountSettings from '../components/User/Profile/AccountSettings';
+import Ratings from '../components/User/Profile/Ratings';
 import SavedProfessors from '../components/User/Profile/SavedProfessors';
 
 export default function UserProfile() {
@@ -41,9 +42,7 @@ export default function UserProfile() {
               <AccountSettings />
             </div>
             <div className={`${value === 2 ? 'block' : 'hidden'}`}>
-              <div className="w-full py-10">
-                <Typography variant="h4" align="center">No ratings yet</Typography>
-              </div>
+              <Ratings />
             </div>
             <div className={`${value === 3 ? 'block' : 'hidden'}`}>
               <SavedProfessors />

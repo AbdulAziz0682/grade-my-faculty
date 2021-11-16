@@ -32,7 +32,7 @@ export default function ForgetPassword() {
               <p className="text-sm font-semibold text-red-500" style={{ fontFamily: 'montserrat' }}>Incorrect email or password. Please try again.</p>
             </Grid>
             <Grid item className="mt-3">
-              <Button variant="contained" className="py-3" fullWidth onClick={() => history.push('/adminResetPassword')}>Reset Password</Button>
+              <Button variant="contained" className="py-3" fullWidth onClick={() => history.push('/adminresetpassword')}>Reset Password</Button>
             </Grid>
           </Grid>
         </Paper>
