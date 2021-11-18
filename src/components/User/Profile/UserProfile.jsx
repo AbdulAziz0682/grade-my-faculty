@@ -7,10 +7,10 @@ import {
   Tabs,
   Tab,
 } from '@mui/material';
-import Profile from '../components/User/Profile/Profile';
-import AccountSettings from '../components/User/Profile/AccountSettings';
-import Ratings from '../components/User/Profile/Ratings';
-import SavedProfessors from '../components/User/Profile/SavedProfessors';
+import Profile from './Profile';
+import AccountSettings from './AccountSettings';
+import Ratings from './Ratings';
+import SavedProfessors from './SavedProfessors';
 
 export default function UserProfile() {
   const [value, setValue] = React.useState(0);

@@ -13,8 +13,6 @@ import {
 
 import { useHistory } from 'react-router-dom';
 
-// import { useSelector } from 'react-redux';
-
 import like from '../../../../assets/like.svg';
 import unlike from '../../../../assets/unlike.svg';
 import media2 from '../../../../assets/media2.png';

@@ -25,14 +25,14 @@ import TeachersFaq from '../components/User/Pages/Faq/TeachersFaq';
 import AboutUs from '../components/User/Pages/AboutUs';
 import Post from '../components/User/Pages/Post';
 import ResetPassword from '../components/User/Pages/Login/ResetPassword';
-import UserProfile from './UserProfile';
+import UserProfile from '../components/User/Profile/UserProfile';
 // admin route
 import Admin from '../components/Admin';
 import AdminLogin from '../components/Admin/Login';
 import AdminForgetPassword from '../components/Admin/ForgetPassword';
 import AdminResetPassword from '../components/Admin/ResetPassword';
 
-export default function UserRoutes() {
+export default function Routes() {
   const location = useLocation();
   const history = useHistory();
   history.listen(() => window.scrollTo(0, 0));

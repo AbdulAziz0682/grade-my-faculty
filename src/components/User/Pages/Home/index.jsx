@@ -8,15 +8,11 @@ import {
   MenuItem,
   Container,
   Hidden,
-  // Autocomplete,
-  // TextField,
 } from '@mui/material';
 
 import { Search, KeyboardArrowDown } from '@mui/icons-material';
 
 import { useSelector } from 'react-redux';
-
-// import { useHistory } from 'react-router-dom';
 
 import Autocomplete from '../../../UseAutocomplete';
 
@@ -27,7 +23,6 @@ import homeImg from '../../../../assets/homeImg.svg';
 
 export default function Home() {
   const ref = useRef();
-  // const history = useHistory();
   const faculty = useSelector((state) => state.faculty);
   const [searchBy, setSearchBy] = React.useState('university');
   const universities = [
@@ -35,11 +30,6 @@ export default function Home() {
     { name: 'Lahore University' },
     { name: 'Karachi University' },
   ];
-  // const [value, setValue] = React.useState('');
-  /* React.useEffect(() => {
-    setValue(searchBy === 'university' ?
-    universities[universities.length - 1] : faculty[faculty.length - 1]);
-  }, [searchBy]); */
   return (
     <>
       <Grid container className="flex-grow">
