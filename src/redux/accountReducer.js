@@ -2,10 +2,6 @@ import { LOGIN } from './accountActionTypes';
 
 const initialState = {
   loggedIn: false,
-  role: 'user',
-  person: {
-    email: 'example@gmail.com',
-  },
 };
 
 function accountReducer(state = initialState, action) {
@@ -13,8 +9,7 @@ function accountReducer(state = initialState, action) {
     case LOGIN: return {
       ...state,
       loggedIn: true,
-      role: action.payload.user.role,
-      person: action.payload.user.person,
+      user: action.payload.user,
     };
     default: return state;
   }

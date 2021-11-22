@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@apollo/client": "^3.4.17",
     "@emotion/react": "^11.4.1",
     "@emotion/styled": "^11.3.0",
     "@mui/core": "^5.0.0-alpha.53",
@@ -18,6 +19,7 @@
     "date-fns": "^2.25.0",
     "draft-js": "^0.11.7",
     "formik": "^2.2.9",
+    "graphql": "^16.0.1",
     "jss": "^10.8.0",
     "jss-plugin-extend": "^10.8.0",
     "jss-rtl": "^0.3.0",

@@ -7,8 +7,7 @@ import Typography from '@mui/material/Typography';
 import {
   Button,
   TextField,
-  // Select,
-  // MenuItem,
+  CircularProgress,
 } from '@mui/material';
 
 import { CheckSharp /* KeyboardArrowDown */ } from '@mui/icons-material';
@@ -18,18 +17,30 @@ import { useHistory } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 
+import { gql, useMutation } from '@apollo/client';
+
 import googleLogo from '../../../../assets/googleLogo.svg';
+
+const NEW_USER = gql`
+  mutation NewUser($firstName:String! $lastName:String! $email:String! $password:String! $confirmPassword:String!) {
+    newUser(firstName:$firstName lastName:$lastName email:$email password:$password confirmPassword:$confirmPassword) {
+      firstName
+      lastName
+      email
+      password
+    }
+  }
+`;
 
 export default function SignUp() {
   const history = useHistory();
   const [checked, setChecked] = useState(false);
+  const [newUser, { loading, error }] = useMutation(NEW_USER);
   // Form requirements
   const schema = yup.object({
     firstName: yup.string().required('First name is required').min(2, 'Enter at least 2 characters'),
     lastName: yup.string().required('Last name is required').min(2, 'Enter at least 2 characters'),
     email: yup.string().email('Enter a valid email').required('Email is required'),
-    // role: yup.string().oneOf(['student', 'admin'], 'Role should
-    // be one of studet or admin').required('Role is required'),
     password: yup.string().min(8, 'Password should be at least 8 characters long').required('Password is required'),
     confirmPassword: yup.string().oneOf([yup.ref('password'), null], 'Passwords must match').required('Confirm password is required'),
   });
@@ -38,12 +49,11 @@ export default function SignUp() {
       firstName: '',
       lastName: '',
       email: '',
-      role: '',
       password: '',
       confirmPassword: '',
     },
     validationSchema: schema,
-    onSubmit: (values) => console.dir(values),
+    onSubmit: (values) => newUser({ variables: values }),
   });
   // -----------------
   return (
@@ -84,7 +94,10 @@ export default function SignUp() {
                   error={formik.touched.lastName && Boolean(formik.errors.lastName)}
                   helperText={formik.touched.lastName && formik.errors.lastName}
                   placeholder="Last Name"
-                  className="mt-2 bg-gray-50"
+                  className="mt-2"
+                  InputProps={{
+                    className: 'bg-gray-50',
+                  }}
                   style={{ fontFamily: 'montserrat' }}
                 />
               </Grid>
@@ -171,8 +184,8 @@ export default function SignUp() {
                 />
               </Grid>
             </Grid>
-            <Grid item className={`${!formik.isValid ? 'block' : 'hidden'} mt-3`}>
-              <p className="text-sm font-semibold text-red-700" style={{ fontFamily: 'montserrat' }}>There are some errors in form. Please try again.</p>
+            <Grid item className={`${error ? 'block' : 'hidden'} mt-3`}>
+              <p className="text-sm font-semibold text-red-700" style={{ fontFamily: 'montserrat' }}>{ error?.message }</p>
             </Grid>
             <Grid item className="flex items-center justify-between py-3">
               <div className="flex items-center flex-grow gap-3">
@@ -184,7 +197,13 @@ export default function SignUp() {
               <p className="text-sm font-semibold text-gray-400" style={{ fontFamily: 'montserrat' }}>Forget Password</p>
             </Grid>
             <Grid item>
-              <Button variant="contained" type="submit" className="py-4 text-xl" fullWidth>Sign Up</Button>
+              <Button variant="contained" disabled={loading} type="submit" className="py-4 text-xl" fullWidth>
+                {
+                  loading
+                    ? <CircularProgress />
+                    : 'Sign Up'
+                }
+              </Button>
             </Grid>
             <Grid item className="mt-5">
               <Typography className="text-sm font-bold" align="center" style={{ fontFamily: 'montserrat' }}>or continue with</Typography>

@@ -17,9 +17,10 @@ import Container from '@mui/material/Container';
 import ArrowForward from '@mui/icons-material/ArrowForward';
 import SearchIcon from '@mui/icons-material/Search';
 import Autocomplete from '@mui/material/Autocomplete';
+import { PersonOutlineRounded } from '@mui/icons-material';
 
 import { Link, useLocation, useHistory } from 'react-router-dom';
-import { /* InputAdornment */ TextField } from '@mui/material';
+import { TextField } from '@mui/material';
 
 import { useSelector } from 'react-redux';
 import MobileMenuDialog from './MobileMenuDialog';
@@ -35,105 +36,21 @@ const isSearchFieldRoute = {
 export default function TopBar() {
   const history = useHistory();
   const { pathname } = useLocation();
-  // const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const faculty = useSelector((state) => state.faculty);
+  const loggedIn = useSelector((state) => state.account.loggedIn);
   const universities = [
     { name: 'North South University' },
     { name: 'Lahore University' },
     { name: 'Karachi University' },
   ];
-
-  // const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-
-  /* const handleMobileMenuClose = () => {
-    setMobileMoreAnchorEl(null);
-  }; */
-
-  /* const handleMobileMenuOpen = (event) => {
-    setMobileMoreAnchorEl(event.currentTarget);
-  }; */
   const [openDialog, setOpenDialog] = React.useState(false);
   const mobileMenuId = 'primary-search-account-menu-mobile';
-  /* const renderMobileMenu = (
-    <Menu
-      anchorEl={mobileMoreAnchorEl}
-      anchorOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
-      }}
-      id={mobileMenuId}
-      keepMounted
-      transformOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
-      }}
-      open={isMobileMenuOpen}
-      onClose={handleMobileMenuClose}
-    >
-      <MenuItem onClick={handleMobileMenuClose}>
-        <Link to="/" style={{ textDecoration: 'none' }}>
-          <Typography variant="button" sx={{ color: pathname === '/' ||
-          pathname === '/' ? 'primary.main' : 'gray' }}>Home</Typography>
-        </Link>
-      </MenuItem>
-      <MenuItem onClick={handleMobileMenuClose}>
-        <Link to="/blog" style={{ textDecoration: 'none' }}>
-          <Typography variant="button" sx={{ color: pathname === '/blog' ||
-          pathname === '/blog' ? 'primary.main' : 'gray' }}>Blog</Typography>
-        </Link>
-      </MenuItem>
-      <MenuItem onClick={handleMobileMenuClose}>
-        <Link to="/aboutUs" style={{ textDecoration: 'none' }}>
-          <Typography variant="button" sx={{ color: pathname === '/aboutUs' ||
-          pathname === '/aboutUs' ? 'primary.main' : 'gray' }}>About Us</Typography>
-        </Link>
-      </MenuItem>
-      <MenuItem onClick={handleMobileMenuClose}>
-        <Link to="/contact" style={{ textDecoration: 'none' }}>
-          <Typography variant="button"
-          sx={{ color: pathname === '/contact' || pathname === '/contact' ? 'primary.main'
-          : 'gray' }}>Contact</Typography>
-        </Link>
-      </MenuItem>
-      <MenuItem onClick={handleMobileMenuClose}>
-        <Link to="/login" style={{ textDecoration: 'none' }}>
-          <Typography variant="button"
-          sx={{ color: pathname === '/login' || pathname === '/login' ? 'primary.main' : 'gray' }}
-          >Login</Typography>
-        </Link>
-      </MenuItem>
-      <MenuItem onClick={handleMobileMenuClose}>
-        <Link to="/signUp" style={{ textDecoration: 'none' }}>
-          <Typography variant="button"
-          sx={{ color: pathname === '/signUp' || pathname === '/signUp' ? 'primary.main' : 'gray' }}
-          >
-          Sign Up</Typography>
-        </Link>
-      </MenuItem>
-    </Menu>
-  ); */
 
   return (
     <Box className={`${pathname === '/admin' && 'hidden'} order-first`}>
       <AppBar position="fixed" color="default" className="bg-white">
         <Container maxWidth="xl" sx={{ height: 98, py: '23px' }} className="flex flex-col justify-center">
           <Toolbar disableGutters style={{ minHeight: '52px' }}>
-            {/* <Typography
-              variant="h6"
-              noWrap
-              component="div"
-              color="white"
-              aria-label="Nav bar brand"
-              sx={{
-                backgroundColor: 'primary.main',
-                px: 2,
-                textTransform: 'capitalize',
-                fontWeight: 800,
-                minWidth: 'fit-content',
-              }}
-            >
-              Grade my faculty
-            </Typography> */}
             <img src={logo} alt="logo" className="w-32 md:w-44" />
             {
               !isSearchFieldRoute[pathname]
@@ -202,23 +119,38 @@ export default function TopBar() {
               </List>
             </Box>
             { !isSearchFieldRoute[pathname] && <Box flexGrow={1} maxWidth="12%" />}
-            <Box sx={{ display: { md: 'flex', xs: 'none', alignSelf: 'stretch' } }}>
-              <Button
-                variant="text"
-                onClick={() => history.push('/login')}
-                sx={{ p: 1.5, mx: 3 }}
-              >
-                Login
-              </Button>
-              <Button
-                variant="contained"
-                endIcon={<ArrowForward />}
-                sx={{ px: 3 }}
-                onClick={() => history.push('/signUp')}
-              >
-                Signup
-              </Button>
-            </Box>
+            {
+              loggedIn
+                ? (
+                  <Button
+                    variant="contained"
+                    sx={{ px: 3 }}
+                    onClick={() => history.push('/profile')}
+                    startIcon={<PersonOutlineRounded />}
+                  >
+                    Profile
+                  </Button>
+                )
+                : (
+                  <Box sx={{ display: { md: 'flex', xs: 'none', alignSelf: 'stretch' } }}>
+                    <Button
+                      variant="text"
+                      onClick={() => history.push('/login')}
+                      sx={{ p: 1.5, mx: 3 }}
+                    >
+                      Login
+                    </Button>
+                    <Button
+                      variant="contained"
+                      endIcon={<ArrowForward />}
+                      sx={{ px: 3 }}
+                      onClick={() => history.push('/signUp')}
+                    >
+                      Signup
+                    </Button>
+                  </Box>
+                )
+            }
             <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
               <IconButton
                 size="large"
