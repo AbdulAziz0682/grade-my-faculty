@@ -11,25 +11,52 @@ import {
   InMemoryCache,
   ApolloProvider,
   HttpLink,
+  gql,
 } from '@apollo/client';
+
+import { useDispatch } from 'react-redux';
 
 import Routes from './routes/Routes';
 
 import themeOptions from './themeOptions';
+import { login } from './redux/accountActions';
 
 const theme = createTheme(themeOptions);
 
+const GET_LOGGEDIN_USER = gql`
+  query {
+    loggedUser {
+      user {
+        firstName
+        lastName
+        email
+        ratings
+        registeredAt
+      }
+      token
+    }
+  }
+`;
+
 export default function App() {
+  const dispatch = useDispatch();
   const link = new HttpLink({
     uri: 'http://localhost:4000/graphql',
     headers: {
-      Authentication: localStorage.getItem('token'),
+      Authentication: localStorage.getItem('token') || sessionStorage.getItem('token'),
     },
   });
   const client = new ApolloClient({
     cache: new InMemoryCache(),
     link,
   });
+  React.useEffect(() => {
+    client.query({
+      query: GET_LOGGEDIN_USER,
+    })
+      .then((r) => dispatch(login(r.data.loggedUser.user)))
+      .catch((e) => console.log(e));
+  }, []);
   return (
     <StyledEngineProvider injectFirst>
       <ThemeProvider theme={theme}>

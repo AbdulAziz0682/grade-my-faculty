@@ -19,6 +19,8 @@ import * as yup from 'yup';
 
 import { gql, useMutation } from '@apollo/client';
 
+import { useSelector } from 'react-redux';
+
 import googleLogo from '../../../../assets/googleLogo.svg';
 
 const NEW_USER = gql`
@@ -35,6 +37,7 @@ const NEW_USER = gql`
 export default function SignUp() {
   const history = useHistory();
   const [checked, setChecked] = useState(false);
+  const { user } = useSelector((state) => state.account);
   const [newUser, { loading, error }] = useMutation(NEW_USER);
   // Form requirements
   const schema = yup.object({
@@ -56,6 +59,7 @@ export default function SignUp() {
     onSubmit: (values) => newUser({ variables: values }),
   });
   // -----------------
+  if (user) return history.push('/');
   return (
     <Grid container className="flex-grow bg-pageBg">
       <Container maxWidth="xl" className="flex items-center justify-center pt-32 pb-16">
@@ -119,32 +123,6 @@ export default function SignUp() {
                   style={{ fontFamily: 'montserrat' }}
                 />
               </Grid>
-              {/* <Grid item xs={12} sm={6}>
-                <Typography variant="h6" className="text-sm font-semibold"
-                style={{ fontFamily: 'montserrat' }}>Role *</Typography>
-                <Select
-                  fullWidth
-                  required
-                  name="role"
-                  value={formik.values.role}
-                  onChange={formik.handleChange}
-                  error={formik.touched.role && Boolean(formik.errors.role)}
-                  placeholder="Role"
-                  className="mt-2"
-                  inputProps={{
-                    className: 'bg-gray-50',
-                  }}
-                  IconComponent={KeyboardArrowDown}
-                  style={{ fontFamily: 'montserrat' }}
-                >
-                  <MenuItem value="student" className="bg-gray-50">Student</MenuItem>
-                  <MenuItem value="admin" className="bg-gray-50">Admin</MenuItem>
-                </Select>
-                <Typography variant="caption" className={`${(formik.touched.role &&
-                  formik.errors.role) ?'block' : 'hidden'} text-red-500 px-3`}>
-                  {formik.errors.role}
-                </Typography>
-              </Grid> */}
               <Grid item xs={12} sm={6}>
                 <Typography variant="h6" className="text-sm font-semibold" style={{ fontFamily: 'montserrat' }}>Password *</Typography>
                 <TextField

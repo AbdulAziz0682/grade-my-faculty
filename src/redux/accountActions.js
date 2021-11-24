@@ -1,10 +1,10 @@
 import { LOGIN, LOGOUT } from './accountActionTypes';
 
-export function login(user) {
+export function login(data) {
   return {
     type: LOGIN,
     payload: {
-      user,
+      ...data,
     },
   };
 }

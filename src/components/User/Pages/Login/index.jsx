@@ -42,9 +42,9 @@ const LOGIN_USER = gql`
 export default function Login() {
   const history = useHistory();
   const dispatch = useDispatch();
-  const loggedIn = useSelector((state) => state.account.loggedIn);
+  const { user } = useSelector((state) => state.account);
   const [checked, setChecked] = useState(false);
-  const [loginUser, { loading, error, data }] = useMutation(LOGIN_USER);
+  const [loginUser, { loading, error }] = useMutation(LOGIN_USER);
   // Form requirements
   const schema = yup.object({
     email: yup.string().email('Enter a valid email').required('Email is required'),
@@ -56,18 +56,16 @@ export default function Login() {
       password: '',
     },
     validationSchema: schema,
-    onSubmit: (values) => loginUser({ variables: values }),
+    onSubmit: (values) => loginUser({ variables: values })
+      .then((res) => {
+        localStorage.setItem('token', res.data.loginUser.token);
+        sessionStorage.setItem('token', res.data.loginUser.token);
+        dispatch(login({ user: res.data.loginUser.user, role: 'user' }));
+      })
+      .catch((res) => console.log(res)),
   });
   // -----------------
-  console.log({ data });
-  if (data && checked) {
-    localStorage.setItem('token', data.token);
-  }
-  if (data) {
-    sessionStorage.setItem('token', data.token);
-    dispatch(login({ user: data.user }));
-  }
-  if (loggedIn) history.push('/');
+  if (user) history.push('/');
   return (
     <Grid container className="flex-grow bg-pageBg">
       <Container maxWidth="xl" className="flex items-center justify-center py-12">

@@ -7,6 +7,7 @@ import Typography from '@mui/material/Typography';
 import {
   Button,
   TextField,
+  CircularProgress,
 } from '@mui/material';
 
 import { CheckSharp } from '@mui/icons-material';
@@ -16,9 +17,30 @@ import { useHistory } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 
+import { gql, useMutation } from '@apollo/client';
+
+import { useSelector, useDispatch } from 'react-redux';
+import { login } from '../../redux/accountActions';
+
+const LOGIN_ADMIN = gql`
+  mutation LoginAdmin($email:String! $password:String!) {
+    loginAdmin(email:$email password:$password) {
+      admin {
+        name
+        email
+        status
+      }
+      token
+    }
+  }
+`;
+
 export default function Login() {
   const history = useHistory();
+  const dispatch = useDispatch();
+  const { admin } = useSelector((state) => state.account);
   const [checked, setChecked] = useState(false);
+  const [loginAdmin, { loading, error }] = useMutation(LOGIN_ADMIN);
   // Form requirements
   const schema = yup.object({
     email: yup.string().email('Enter a valid email').required('Email is required'),
@@ -30,9 +52,16 @@ export default function Login() {
       password: '',
     },
     validationSchema: schema,
-    onSubmit: () => history.push('/admin'),
+    onSubmit: (values) => loginAdmin({ variables: values })
+      .then((res) => {
+        if (checked) localStorage.setItem('token', res.data.loginAdmin.token);
+        sessionStorage.setItem('token', res.data.loginAdmin.token);
+        dispatch(login({ admin: res.data.loginAdmin.admin, role: 'admin' }));
+      })
+      .catch((res) => console.log(res)),
   });
   // -----------------
+  if (admin) history.push('/admin');
   return (
     <Grid container className="w-screen h-screen p-0 m-0 border-p">
       <Container maxWidth="xl" className="flex items-center justify-center py-12">
@@ -83,8 +112,8 @@ export default function Login() {
                 style={{ fontFamily: 'montserrat' }}
               />
             </Grid>
-            <Grid item className={`${!formik.isValid ? 'block' : 'hidden'} mt-3`}>
-              <p className="text-sm font-semibold text-red-700" style={{ fontFamily: 'montserrat' }}>There are some errors in form. Please try again.</p>
+            <Grid item className={`${error ? 'block' : 'hidden'} mt-3`}>
+              <p className="text-sm font-semibold text-red-700" style={{ fontFamily: 'montserrat' }}>{ error?.message }</p>
             </Grid>
             <Grid item className="flex items-center justify-between gap-3 mb-2 mt-9">
               <div className="flex items-center flex-grow gap-3">
@@ -96,7 +125,13 @@ export default function Login() {
               <p className="text-sm font-semibold text-gray-400 cursor-pointer" aria-hidden onClick={() => history.push('/adminforgotpassword')} style={{ fontFamily: 'montserrat' }}>Forget Password</p>
             </Grid>
             <Grid item className="my-5">
-              <Button variant="contained" type="submit" className="py-4 text-xl" fullWidth>Sign In</Button>
+              <Button variant="contained" disabled={loading} type="submit" className="py-4 text-xl" fullWidth>
+                {
+                  loading
+                    ? <CircularProgress />
+                    : 'Sign In'
+                }
+              </Button>
             </Grid>
           </Grid>
         </Paper>

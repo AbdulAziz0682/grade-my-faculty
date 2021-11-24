@@ -17,13 +17,15 @@ import Container from '@mui/material/Container';
 import ArrowForward from '@mui/icons-material/ArrowForward';
 import SearchIcon from '@mui/icons-material/Search';
 import Autocomplete from '@mui/material/Autocomplete';
-import { PersonOutlineRounded } from '@mui/icons-material';
+import Logout from '@mui/icons-material/Logout';
 
 import { Link, useLocation, useHistory } from 'react-router-dom';
 import { TextField } from '@mui/material';
 
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import MobileMenuDialog from './MobileMenuDialog';
+
+import { logout } from '../../../redux/accountActions';
 
 import logo from '../../../assets/logo.jpg';
 
@@ -37,7 +39,8 @@ export default function TopBar() {
   const history = useHistory();
   const { pathname } = useLocation();
   const faculty = useSelector((state) => state.faculty);
-  const loggedIn = useSelector((state) => state.account.loggedIn);
+  const { user } = useSelector((state) => state.account);
+  const dispatch = useDispatch();
   const universities = [
     { name: 'North South University' },
     { name: 'Lahore University' },
@@ -45,6 +48,11 @@ export default function TopBar() {
   ];
   const [openDialog, setOpenDialog] = React.useState(false);
   const mobileMenuId = 'primary-search-account-menu-mobile';
+  function userLogout() {
+    sessionStorage.removeItem('token');
+    localStorage.removeItem('token');
+    dispatch(logout());
+  }
 
   return (
     <Box className={`${pathname === '/admin' && 'hidden'} order-first`}>
@@ -120,15 +128,15 @@ export default function TopBar() {
             </Box>
             { !isSearchFieldRoute[pathname] && <Box flexGrow={1} maxWidth="12%" />}
             {
-              loggedIn
+              user
                 ? (
                   <Button
                     variant="contained"
-                    sx={{ px: 3 }}
-                    onClick={() => history.push('/profile')}
-                    startIcon={<PersonOutlineRounded />}
+                    sx={{ px: 3, display: { md: 'inline-flex', xs: 'none' } }}
+                    onClick={() => userLogout()}
+                    startIcon={<Logout />}
                   >
-                    Profile
+                    Logout
                   </Button>
                 )
                 : (
