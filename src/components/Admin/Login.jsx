@@ -12,7 +12,7 @@ import {
 
 import { CheckSharp } from '@mui/icons-material';
 
-import { useHistory } from 'react-router-dom';
+import { useHistory, Redirect } from 'react-router-dom';
 
 import { useFormik } from 'formik';
 import * as yup from 'yup';
@@ -61,7 +61,7 @@ export default function Login() {
       .catch((res) => console.log(res)),
   });
   // -----------------
-  if (admin) history.push('/admin');
+  if (admin) return <Redirect to="/admin" />;
   return (
     <Grid container className="w-screen h-screen p-0 m-0 border-p">
       <Container maxWidth="xl" className="flex items-center justify-center py-12">
