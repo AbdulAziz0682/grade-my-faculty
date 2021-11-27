@@ -8,7 +8,11 @@ import {
 
 import { Logout, Menu } from '@mui/icons-material';
 
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+
+import { Redirect } from 'react-router-dom';
+
+import { logout } from '../../redux/accountActions';
 
 import Sidebar from './Sidebar';
 import Dashboard from './Dashboard';
@@ -36,8 +40,15 @@ import Admins from './Admins';
 
 export default function Admin() {
   const [open, setOpen] = useState(false);
+  const dispatch = useDispatch();
   const isMediumOrLargerScreen = useMediaQuery((theme) => theme.breakpoints.up('md'));
-  const { admin } = useSelector((state) => state);
+  const { admin, account } = useSelector((state) => state);
+  function adminLogout() {
+    sessionStorage.removeItem('token');
+    localStorage.removeItem('token');
+    dispatch(logout());
+  }
+  if (!account.admin) return <Redirect push to="/adminlogin" />;
   return (
     <div className="flex w-full">
       {
@@ -70,7 +81,7 @@ export default function Admin() {
                 <Menu />
               </IconButton>
             )}
-          <IconButton><Logout /></IconButton>
+          <IconButton onClick={() => adminLogout()}><Logout /></IconButton>
         </div>
         <div className="flex flex-col p-6 overflow-auto md:py-6 md:pl-6 md:pr-10" style={{ maxHeight: 'calc(100vh - 56px)', minHeight: 'calc(100vh - 56px)' }}>
           {

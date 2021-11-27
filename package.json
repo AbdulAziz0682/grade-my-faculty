@@ -23,6 +23,7 @@
     "jss": "^10.8.0",
     "jss-plugin-extend": "^10.8.0",
     "jss-rtl": "^0.3.0",
+    "moment": "^2.29.1",
     "postcss": "^7.0.38",
     "prop-types": "^15.7.2",
     "react": "^17.0.2",

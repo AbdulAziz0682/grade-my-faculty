@@ -32,6 +32,8 @@ import AdminLogin from '../components/Admin/Login';
 import AdminForgetPassword from '../components/Admin/ForgetPassword';
 import AdminResetPassword from '../components/Admin/ResetPassword';
 
+import Toasts from '../components/Toasts';
+
 export default function Routes() {
   const location = useLocation();
   const history = useHistory();
@@ -43,83 +45,86 @@ export default function Routes() {
     '/adminresetpassword': true,
   };
   return (
-    <Switch>
-      <Grid container direction="column" className="min-h-screen">
-        <Grid item>
-          { !adminRoutes[location.pathname] && <TopBar /> }
+    <>
+      <Switch>
+        <Grid container direction="column" className="min-h-screen">
+          <Grid item>
+            { !adminRoutes[location.pathname] && <TopBar /> }
+          </Grid>
+          <Grid item className="flex flex-col flex-grow w-full" sx={{ marginTop: adminRoutes[location.pathname] ? '0px' : '86px' /* MaxHeight of Topbar */ }}>
+            <Route exact path="/">
+              <Home />
+            </Route>
+            <Route exact path="/home">
+              <Home />
+            </Route>
+            <Route exact path="/faculty">
+              <Faculty />
+            </Route>
+            <Route exact path="/grade">
+              <Grade />
+            </Route>
+            <Route exact path="/grading">
+              <GradingForm />
+            </Route>
+            <Route exact path="/blog">
+              <Blog />
+            </Route>
+            <Route exact path="/post">
+              <Post />
+            </Route>
+            <Route exact path="/aboutUs">
+              <AboutUs />
+            </Route>
+            <Route exact path="/faq">
+              <Faq />
+            </Route>
+            <Route exact path="/studentsFaq">
+              <StudentsFaq />
+            </Route>
+            <Route exact path="/teachersFaq">
+              <TeachersFaq />
+            </Route>
+            <Route exact path="/contact">
+              <Contact />
+            </Route>
+            <Route exact path="/login">
+              <Login />
+            </Route>
+            <Route exact path="/signUp">
+              <SingUp />
+            </Route>
+            <Route exact path="/emailVerification">
+              <EmailVerification />
+            </Route>
+            <Route exact path="/forgotPassword">
+              <ForgetPassword />
+            </Route>
+            <Route exact path="/resetPassword">
+              <ResetPassword />
+            </Route>
+            <Route exact path="/adminlogin">
+              <AdminLogin />
+            </Route>
+            <Route exact path="/adminforgotpassword">
+              <AdminForgetPassword />
+            </Route>
+            <Route exact path="/adminresetpassword">
+              <AdminResetPassword />
+            </Route>
+            <Route exact path="/admin">
+              <Admin />
+            </Route>
+            <Route exact path="/profile">
+              <UserProfile />
+            </Route>
+          </Grid>
+          <Grid item>
+            { !adminRoutes[location.pathname] && <Footer /> }
+          </Grid>
         </Grid>
-        <Grid item className="flex flex-col flex-grow w-full" sx={{ marginTop: adminRoutes[location.pathname] ? '0px' : '86px' /* MaxHeight of Topbar */ }}>
-          <Route exact path="/">
-            <Home />
-          </Route>
-          <Route exact path="/home">
-            <Home />
-          </Route>
-          <Route exact path="/faculty">
-            <Faculty />
-          </Route>
-          <Route exact path="/grade">
-            <Grade />
-          </Route>
-          <Route exact path="/grading">
-            <GradingForm />
-          </Route>
-          <Route exact path="/blog">
-            <Blog />
-          </Route>
-          <Route exact path="/post">
-            <Post />
-          </Route>
-          <Route exact path="/aboutUs">
-            <AboutUs />
-          </Route>
-          <Route exact path="/faq">
-            <Faq />
-          </Route>
-          <Route exact path="/studentsFaq">
-            <StudentsFaq />
-          </Route>
-          <Route exact path="/teachersFaq">
-            <TeachersFaq />
-          </Route>
-          <Route exact path="/contact">
-            <Contact />
-          </Route>
-          <Route exact path="/login">
-            <Login />
-          </Route>
-          <Route exact path="/signUp">
-            <SingUp />
-          </Route>
-          <Route exact path="/emailVerification">
-            <EmailVerification />
-          </Route>
-          <Route exact path="/forgotPassword">
-            <ForgetPassword />
-          </Route>
-          <Route exact path="/resetPassword">
-            <ResetPassword />
-          </Route>
-          <Route exact path="/adminlogin">
-            <AdminLogin />
-          </Route>
-          <Route exact path="/adminforgotpassword">
-            <AdminForgetPassword />
-          </Route>
-          <Route exact path="/adminresetpassword">
-            <AdminResetPassword />
-          </Route>
-          <Route exact path="/admin">
-            <Admin />
-          </Route>
-          <Route exact path="/profile">
-            <UserProfile />
-          </Route>
-        </Grid>
-        <Grid item>
-          { !adminRoutes[location.pathname] && <Footer /> }
-        </Grid>
-      </Grid>
-    </Switch>
+      </Switch>
+      <Toasts />
+    </>
   );
 }

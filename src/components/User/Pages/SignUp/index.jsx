@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
@@ -10,8 +10,6 @@ import {
   CircularProgress,
 } from '@mui/material';
 
-import { CheckSharp /* KeyboardArrowDown */ } from '@mui/icons-material';
-
 import { useHistory } from 'react-router-dom';
 
 import { useFormik } from 'formik';
@@ -19,7 +17,8 @@ import * as yup from 'yup';
 
 import { gql, useMutation } from '@apollo/client';
 
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { addToast } from '../../../../redux/toastsActions';
 
 import googleLogo from '../../../../assets/googleLogo.svg';
 
@@ -36,7 +35,7 @@ const NEW_USER = gql`
 
 export default function SignUp() {
   const history = useHistory();
-  const [checked, setChecked] = useState(false);
+  const dispatch = useDispatch();
   const { user } = useSelector((state) => state.account);
   const [newUser, { loading, error }] = useMutation(NEW_USER);
   // Form requirements
@@ -56,7 +55,8 @@ export default function SignUp() {
       confirmPassword: '',
     },
     validationSchema: schema,
-    onSubmit: (values) => newUser({ variables: values }),
+    onSubmit: (values) => newUser({ variables: values })
+      .then(() => dispatch(addToast({ message: 'Registered successfully', severity: 'success' }))),
   });
   // -----------------
   if (user) return history.push('/');
@@ -164,15 +164,6 @@ export default function SignUp() {
             </Grid>
             <Grid item className={`${error ? 'block' : 'hidden'} mt-3`}>
               <p className="text-sm font-semibold text-red-700" style={{ fontFamily: 'montserrat' }}>{ error?.message }</p>
-            </Grid>
-            <Grid item className="flex items-center justify-between py-3">
-              <div className="flex items-center flex-grow gap-3">
-                <div className={`border rounded w-6 h-6 flex justify-center items-center ${checked ? 'bg-primary border-primary' : 'bg-transparent border-black'}`} aria-hidden onClick={() => setChecked(!checked)}>
-                  <CheckSharp htmlColor="white" className="w-4" />
-                </div>
-                <Typography variant="h6" className="text-sm font-semibold" sx={{ fontFamily: 'montserrat' }}>Remember Me</Typography>
-              </div>
-              <p className="text-sm font-semibold text-gray-400" style={{ fontFamily: 'montserrat' }}>Forget Password</p>
             </Grid>
             <Grid item>
               <Button variant="contained" disabled={loading} type="submit" className="py-4 text-xl" fullWidth>

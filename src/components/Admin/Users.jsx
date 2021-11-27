@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import React from 'react';
 
 import {
@@ -12,23 +13,41 @@ import {
   TableCell,
   TableHead,
   IconButton,
+  CircularProgress,
 } from '@mui/material';
 
 import { ChevronLeft, ChevronRight } from '@mui/icons-material';
+
+import { gql, useQuery } from '@apollo/client';
+
+import moment from 'moment';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { setCurrentTab } from '../../redux/adminActions';
 
 import Search from '../../assets/Search.svg';
 
+const USERS = gql`
+  query {
+    users {
+      _id
+      firstName
+      email
+      registeredAt
+    }
+  }
+`;
+
 export default function Users() {
   const { admin: { users } } = useSelector((state) => state);
   const dispatch = useDispatch();
   const [list, setList] = React.useState(users);
   const [searchValue, setSearchValue] = React.useState('');
+  const { loading, data } = useQuery(USERS);
   React.useEffect(() => {
     setList(users.filter((user) => user.name.toLowerCase().includes(searchValue.toLowerCase())));
   }, [searchValue]);
+  console.log({ list });
   return (
     <div className="flex flex-col w-full gap-9">
       <div className="flex flex-col w-full gap-2 md:gap-9 md:flex-row md:items-center" style={{ maxHeight: '38px' }}>
@@ -61,19 +80,26 @@ export default function Users() {
               <TableCell className="font-semibold leading-9 text-gray-400">Reviews</TableCell>
             </TableRow>
           </TableHead>
-          <TableBody>
-            {
-              list.map((u) => (
-                <TableRow key={u.id} className="hover:shadow-md">
-                  <TableCell className="m-3 leading-9 text-gray-400">{u.id}</TableCell>
-                  <TableCell className="text-lg font-semibold text-black">{u.name}</TableCell>
-                  <TableCell className="leading-9 text-gray-400">{u.email}</TableCell>
-                  <TableCell className="leading-9 text-gray-400">{u.register}</TableCell>
-                  <TableCell className="cursor-pointer text-primary" onClick={() => dispatch(setCurrentTab({ name: 'viewUser', data: u }))}>View more</TableCell>
-                </TableRow>
-              ))
-            }
-          </TableBody>
+          {
+            !loading && data && (
+              <TableBody>
+                {
+                  data?.users.map((u) => (
+                    <TableRow key={u.id} className="hover:shadow-md">
+                      <TableCell className="m-3 leading-9 text-gray-400">{u._id}</TableCell>
+                      <TableCell className="text-lg font-semibold text-black">{u.firstName}</TableCell>
+                      <TableCell className="leading-9 text-gray-400">{u.email}</TableCell>
+                      <TableCell className="leading-9 text-gray-400">{moment().from(u.registeredAt)}</TableCell>
+                      <TableCell className="cursor-pointer text-primary" onClick={() => dispatch(setCurrentTab({ name: 'viewUser', data: u }))}>View more</TableCell>
+                    </TableRow>
+                  ))
+                }
+              </TableBody>
+            )
+          }
+          {
+            loading && <div className="absolute inset-x-0 flex items-center justify-center"><CircularProgress /></div>
+          }
         </Table>
       </TableContainer>
       <div className="flex justify-end w-full gap-12 mt-16">

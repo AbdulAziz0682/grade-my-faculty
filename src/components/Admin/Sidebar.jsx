@@ -68,14 +68,14 @@ const AdminTabs = {
 };
 
 export default function Sidebar({ setOpen, open }) {
-  const { currentTab } = useSelector((state) => state.admin);
+  const { admin: { currentTab }, account: { admin } } = useSelector((state) => state);
   const dispatch = useDispatch();
   return (
     <div className="flex flex-col w-full h-full">
       <div className="w-full p-3 mt-12">
         <img className="w-16" src={man} alt="man" />
         <span className={`flex items-center ${open ? 'justify-between' : 'justify-center'} w-full mt-6`}>
-          <Typography variant="h4" className={`${open ? 'block' : 'hidden'}`}>Aron Young</Typography>
+          <Typography variant="h4" className={`${open ? 'block' : 'hidden'}`}>{ admin.name }</Typography>
           <IconButton className="p-1 rounded-none bg-primary hover:bg-blue-800" onClick={() => setOpen(!open)}>
             {
               open

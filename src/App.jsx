@@ -14,7 +14,7 @@ import {
   gql,
 } from '@apollo/client';
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import Routes from './routes/Routes';
 
@@ -53,8 +53,6 @@ const GET_LOGGEDIN_ADMIN = gql`
 
 export default function App() {
   const dispatch = useDispatch();
-  const state = useSelector((s) => s);
-  console.log({ state });
   const link = new HttpLink({
     uri: 'http://localhost:4000/graphql',
     headers: {
@@ -70,12 +68,12 @@ export default function App() {
       query: GET_LOGGEDIN_USER,
     })
       .then(({ data }) => dispatch(login({ user: data.loggedUser.user, role: 'user' })))
-      .catch((e) => console.log(e));
+      .catch((error) => error);
     client.query({
       query: GET_LOGGEDIN_ADMIN,
     })
       .then(({ data }) => dispatch(login({ admin: data.loggedAdmin.admin, role: 'admin' })))
-      .catch((e) => console.log(e));
+      .catch((error) => error);
   }, []);
   return (
     <StyledEngineProvider injectFirst>
