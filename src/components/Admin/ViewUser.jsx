@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -6,21 +7,45 @@ import {
   Button,
   Card,
   IconButton,
+  CircularProgress,
 } from '@mui/material';
 
 import { ChevronLeft, ChevronRight } from '@mui/icons-material';
 
+import { useMutation } from '@apollo/client';
+
 import { useDispatch } from 'react-redux';
 import { setCurrentTab } from '../../redux/adminActions';
+import { addToast } from '../../redux/toastsActions';
+
+import { DELETE_USER, USERS } from '../../graphqlQueries';
 
 export default function ViewUser({ user }) {
   const dispatch = useDispatch();
+  const [deleteUser, { loading }] = useMutation(
+    DELETE_USER,
+    { refetchQueries: [{ query: USERS }] },
+  );
+  function handleDelete() {
+    deleteUser({ variables: { id: Number(user._id) } })
+      .then(() => {
+        dispatch(addToast({ message: 'Deleted User successfully', severity: 'success' }));
+        dispatch(setCurrentTab({ name: 'users', data: null }));
+      })
+      .catch((error) => dispatch(addToast({ message: error.message, severity: 'error' })));
+  }
   return (
     <div className="flex flex-col w-full gap-3">
       <div className="flex flex-col w-full gap-2 md:gap-9 md:flex-row md:items-center">
-        <Typography className="ml-16 text-4xl text-gray-500">{`${user.id} - ${user.name}`}</Typography>
+        <Typography className="ml-16 text-4xl text-gray-500">{`${user._id} - ${user.firstName} ${user.lastName}`}</Typography>
         <div className="flex-grow" />
-        <Button variant="contained" color="error" className="h-full px-9 shadow-redGlow">Delete User</Button>
+        <Button variant="contained" disabled={loading} onClick={() => handleDelete()} color="error" className="h-full px-9 shadow-redGlow">
+          {
+            loading
+              ? <CircularProgress />
+              : 'Delete User'
+          }
+        </Button>
         <Button variant="contained" className="h-full px-9 shadow-primaryGlow" onClick={() => dispatch(setCurrentTab({ name: 'editUser', data: user }))}>Edit User</Button>
       </div>
       <Card className="flex flex-col w-full gap-6 px-4 py-5 md:py-10 md:px-8" elevation={6}>
@@ -59,8 +84,8 @@ export default function ViewUser({ user }) {
 
 ViewUser.propTypes = {
   user: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    id: PropTypes.number.isRequired,
+    _id: PropTypes.number.isRequired,
+    firstName: PropTypes.string.isRequired,
     lastName: PropTypes.string.isRequired,
     email: PropTypes.string.isRequired,
     password: PropTypes.string.isRequired,

@@ -18,36 +18,21 @@ import {
 
 import { ChevronLeft, ChevronRight } from '@mui/icons-material';
 
-import { gql, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 
 import moment from 'moment';
 
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setCurrentTab } from '../../redux/adminActions';
 
 import Search from '../../assets/Search.svg';
 
-const USERS = gql`
-  query {
-    users {
-      _id
-      firstName
-      email
-      registeredAt
-    }
-  }
-`;
+import { USERS } from '../../graphqlQueries';
 
 export default function Users() {
-  const { admin: { users } } = useSelector((state) => state);
   const dispatch = useDispatch();
-  const [list, setList] = React.useState(users);
   const [searchValue, setSearchValue] = React.useState('');
   const { loading, data } = useQuery(USERS);
-  React.useEffect(() => {
-    setList(users.filter((user) => user.name.toLowerCase().includes(searchValue.toLowerCase())));
-  }, [searchValue]);
-  console.log({ list });
   return (
     <div className="flex flex-col w-full gap-9">
       <div className="flex flex-col w-full gap-2 md:gap-9 md:flex-row md:items-center" style={{ maxHeight: '38px' }}>
@@ -57,7 +42,7 @@ export default function Users() {
           variant="outlined"
           size="small"
           value={searchValue}
-          onChange={(e) => setSearchValue(e.target.value)}
+          onChange={(e) => setSearchValue(e.target.value.toLowerCase())}
           placeholder="Search..."
           InputProps={{
             startAdornment: (
@@ -84,7 +69,9 @@ export default function Users() {
             !loading && data && (
               <TableBody>
                 {
-                  data?.users.map((u) => (
+                  data?.users.filter(
+                    (usr) => usr.firstName.toLowerCase().includes(searchValue),
+                  ).map((u) => (
                     <TableRow key={u.id} className="hover:shadow-md">
                       <TableCell className="m-3 leading-9 text-gray-400">{u._id}</TableCell>
                       <TableCell className="text-lg font-semibold text-black">{u.firstName}</TableCell>

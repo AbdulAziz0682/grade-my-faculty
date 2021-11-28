@@ -9,7 +9,7 @@ import {
   CircularProgress,
 } from '@mui/material';
 
-import { gql, useMutation } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 
 import { useFormik } from 'formik';
 import * as yup from 'yup';
@@ -17,20 +17,11 @@ import * as yup from 'yup';
 import { useDispatch } from 'react-redux';
 import { addToast } from '../../redux/toastsActions';
 
-const NEW_USER = gql`
-  mutation NewUser($firstName:String! $lastName:String! $email:String! $password:String! $confirmPassword:String!) {
-    newUser(firstName:$firstName lastName:$lastName email:$email password:$password confirmPassword:$confirmPassword) {
-      firstName
-      lastName
-      email
-      password
-    }
-  }
-`;
+import { NEW_USER, USERS } from '../../graphqlQueries';
 
 export default function AddUser() {
   const dispatch = useDispatch();
-  const [newUser, { loading }] = useMutation(NEW_USER);
+  const [newUser, { loading }] = useMutation(NEW_USER, { refetchQueries: [{ query: USERS }] });
   // Form requirements
   const schema = yup.object({
     firstName: yup.string().required('First name is required').min(2, 'Enter at least 2 characters'),
