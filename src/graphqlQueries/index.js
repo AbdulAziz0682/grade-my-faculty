@@ -40,3 +40,45 @@ export const DELETE_USER = gql`
     deleteUser(_id:$id)
   }
 `;
+
+export const ADMINS = gql`
+  query Admins {
+    admins {
+      _id
+      name
+      email
+      password
+      status
+    }
+  }
+`;
+
+export const NEW_ADMIN = gql`
+  mutation NewAdmin($name:String! $email:String! $password:String! $confirmPassword:String!) {
+    newAdmin(name:$name email:$email password:$password confirmPassword:$confirmPassword) {
+      _id
+      name
+      email
+      password
+      status
+    }
+  }
+`;
+
+export const UPDATE_ADMIN = gql`
+  mutation UpdateAdmin($id:Int! $name:String! $email:String! $password:String! $confirmPassword:String! $status:String!) {
+    updateAdmin(_id:$id name:$name email:$email password:$password confirmPassword:$confirmPassword status:$status) {
+      _id
+      name
+      email
+      password
+      status
+    }
+  }
+`;
+
+export const DELETE_ADMIN = gql`
+  mutation DeleteAdmin($id:Int!) {
+    deleteAdmin(_id:$id)
+  }
+`;

@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import React from 'react';
 
 import {
@@ -15,6 +16,7 @@ import {
   Grid,
   Card,
   Switch,
+  CircularProgress,
 } from '@mui/material';
 
 import {
@@ -24,19 +26,38 @@ import {
   Visibility,
 } from '@mui/icons-material';
 
-import { useSelector, useDispatch } from 'react-redux';
+import { useQuery, useMutation } from '@apollo/client';
+
+import { useDispatch } from 'react-redux';
 import { setCurrentTab } from '../../redux/adminActions';
+import { addToast } from '../../redux/toastsActions';
 
 import Search from '../../assets/Search.svg';
 
+import { ADMINS, UPDATE_ADMIN, DELETE_ADMIN } from '../../graphqlQueries';
+
 export default function Admins() {
-  const { admin: { admins } } = useSelector((state) => state);
   const dispatch = useDispatch();
-  const [list, setList] = React.useState(admins);
+  const { loading, data } = useQuery(ADMINS);
+  const [updateAdmin] = useMutation(UPDATE_ADMIN, { refetchQueries: [{ query: ADMINS }] });
+  const [deleteAdmin] = useMutation(DELETE_ADMIN, { refetchQueries: [{ query: ADMINS }] });
   const [searchValue, setSearchValue] = React.useState('');
-  React.useEffect(() => {
-    setList(admins.filter((admn) => admn.email.toLowerCase().includes(searchValue.toLowerCase())));
-  }, [searchValue]);
+  function handleStatusChange(value, admin) {
+    const variables = {
+      ...admin,
+      confirmPassword: admin.password,
+      id: Number(admin._id),
+      status: value,
+    };
+    updateAdmin({ variables })
+      .then(() => dispatch(addToast({ message: 'Admin status updated successfully', severity: 'success' })))
+      .catch((r) => dispatch(addToast({ message: r.message, severity: 'error' })));
+  }
+  function handleDelete(_id) {
+    deleteAdmin({ variables: { id: Number(_id) } })
+      .then(() => dispatch(addToast({ message: 'Admin deleted successfully', severity: 'success' })))
+      .catch((r) => dispatch(addToast({ message: r.message, severity: 'error' })));
+  }
   return (
     <Grid container rowSpacing={8} columnSpacing={8}>
       <Grid item xs={12} md={6}>
@@ -70,26 +91,39 @@ export default function Admins() {
                   <TableCell className="font-semibold text-center text-gray-400">Actions</TableCell>
                 </TableRow>
               </TableHead>
-              <TableBody>
-                {
-                  list.map((admin) => (
-                    <TableRow key={admin} className="hover:shadow-md">
-                      <TableCell className="text-gray-400">{admin.id}</TableCell>
-                      <TableCell className="text-lg font-semibold text-black">{admin.email}</TableCell>
-                      <TableCell className="text-gray-600">
-                        <select className="w-24 min-w-full p-2 bg-gray-200">
-                          <option value="Active">Active</option>
-                          <option value="Inactive">Inactive</option>
-                        </select>
-                      </TableCell>
-                      <TableCell className="text-center">
-                        <IconButton><Visibility onClick={() => dispatch(setCurrentTab({ name: 'editAdmin', data: admin }))} /></IconButton>
-                        <IconButton><DeleteForever /></IconButton>
-                      </TableCell>
-                    </TableRow>
-                  ))
-                }
-              </TableBody>
+              {
+                !loading && data && (
+                  <TableBody>
+                    {
+                      data?.admins.filter(
+                        (adm) => adm.name.toLowerCase().includes(searchValue),
+                      ).map((admin) => (
+                        <TableRow key={admin} className="hover:shadow-md">
+                          <TableCell className="text-gray-400">{admin._id}</TableCell>
+                          <TableCell className="text-lg font-semibold text-black">{admin.email}</TableCell>
+                          <TableCell className="text-gray-600">
+                            <select value={admin.status} onChange={(event) => handleStatusChange(event.target.value, admin)} className="w-24 min-w-full p-2 bg-gray-200">
+                              <option value="Active">Active</option>
+                              <option value="Inactive">Inactive</option>
+                            </select>
+                          </TableCell>
+                          <TableCell className="text-center">
+                            <IconButton onClick={() => dispatch(setCurrentTab({ name: 'editAdmin', data: admin }))}>
+                              <Visibility />
+                            </IconButton>
+                            <IconButton onClick={() => handleDelete(admin._id)}>
+                              <DeleteForever />
+                            </IconButton>
+                          </TableCell>
+                        </TableRow>
+                      ))
+                    }
+                  </TableBody>
+                )
+              }
+              {
+                loading && <div className="absolute left-0 right-0 flex items-center justify-center lg:-left-1/2"><CircularProgress /></div>
+              }
             </Table>
           </TableContainer>
           <div className="flex justify-end w-full gap-12 mt-16">
