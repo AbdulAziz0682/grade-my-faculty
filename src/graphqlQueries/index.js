@@ -82,3 +82,79 @@ export const DELETE_ADMIN = gql`
     deleteAdmin(_id:$id)
   }
 `;
+
+export const INSTITUTES = gql`
+  query Institutes {
+    institutes {
+      _id
+      name
+      email
+      courses
+      faculties
+      createdAt
+    }
+  }
+`;
+
+export const NEW_INSTITUTE = gql`
+  mutation NewInstitute($name:String! $email:String! $courses:[String]!) {
+    newInstitute(name:$name email:$email courses:$courses) {
+      _id
+      name
+      email
+      courses
+    }
+  }
+`;
+
+export const FACULTIES = gql`
+  query Faculties {
+    faculties {
+      _id
+      firstName
+      lastName
+      email
+      institute
+      department
+      courses
+    }
+    institutes {
+      _id
+      name
+    }
+  }
+`;
+
+export const NEW_FACULTY = gql`
+  mutation NewFaculty($firstName:String! $lastName:String! $email:String! $institute:Int! $department:String! $courses:[String!]!) {
+    newFaculty(firstName:$firstName lastName:$lastName email:$email institute:$institute department:$department courses:$courses) {
+      _id
+      firstName
+      lastName
+      email
+      institute
+      department
+      courses
+    }
+  }
+`;
+
+export const UPDATE_FACULTY = gql`
+  mutation UpdateFaculty($id:Int! $firstName:String! $lastName:String! $email:String! $institute:Int! $department:String! $courses:[String!]!) {
+    updateFaculty(_id:$id firstName:$firstName lastName:$lastName email:$email institute:$institute department:$department courses:$courses) {
+      _id
+      firstName
+      lastName
+      email
+      institute
+      department
+      courses
+    }
+  }
+`;
+
+export const DELETE_FACULTY = gql`
+  mutation DeleteFaculty($id:Int!) {
+    deleteFaculty(_id:$id)
+  }
+`;

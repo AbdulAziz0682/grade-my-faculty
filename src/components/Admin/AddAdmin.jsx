@@ -21,7 +21,7 @@ import { ADMINS, NEW_ADMIN } from '../../graphqlQueries';
 
 export default function AddAdmin() {
   const dispatch = useDispatch();
-  const [updateAdmin, { loading }] = useMutation(
+  const [newAdmin, { loading }] = useMutation(
     NEW_ADMIN,
     { refetchQueries: [{ query: ADMINS }] },
   );
@@ -40,7 +40,7 @@ export default function AddAdmin() {
       confirmPassword: '',
     },
     validationSchema: schema,
-    onSubmit: (values) => updateAdmin({ variables: values })
+    onSubmit: (values) => newAdmin({ variables: values })
       .then(() => dispatch(addToast({ message: 'Admin added successfully', severity: 'success' })))
       .catch((r) => dispatch(addToast({ message: r.message, severity: 'error' }))),
   });

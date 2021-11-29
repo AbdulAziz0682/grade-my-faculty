@@ -1,3 +1,5 @@
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable react/forbid-prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -6,21 +8,45 @@ import {
   Button,
   Card,
   IconButton,
+  CircularProgress,
 } from '@mui/material';
 
 import { ChevronLeft, ChevronRight } from '@mui/icons-material';
 
+import { useMutation } from '@apollo/client';
+
 import { useDispatch } from 'react-redux';
 import { setCurrentTab } from '../../redux/adminActions';
+import { addToast } from '../../redux/toastsActions';
+
+import { DELETE_FACULTY, FACULTIES } from '../../graphqlQueries';
 
 export default function ViewProfessor({ professor }) {
   const dispatch = useDispatch();
+  const [deleteFaculty, { loading }] = useMutation(
+    DELETE_FACULTY,
+    { refetchQueries: [{ query: FACULTIES }] },
+  );
+  function handleDelete() {
+    deleteFaculty({ variables: { id: Number(professor._id) } })
+      .then(() => {
+        dispatch(addToast({ message: 'Deleted faculty successfully', severity: 'success' }));
+        dispatch(setCurrentTab({ name: 'professors', data: null }));
+      })
+      .catch((error) => dispatch(addToast({ message: error.message, severity: 'error' })));
+  }
   return (
     <div className="flex flex-col w-full gap-3">
       <div className="flex flex-col w-full gap-2 md:gap-9 md:flex-row md:items-center">
-        <Typography className="ml-16 text-4xl text-gray-500">{`${professor.id} - ${professor.firstName}`}</Typography>
+        <Typography className="ml-16 text-4xl text-gray-500">{`${professor._id} - ${professor.firstName}`}</Typography>
         <div className="flex-grow" />
-        <Button variant="contained" color="error" className="h-full px-9 shadow-redGlow">Delete Professor</Button>
+        <Button variant="contained" disabled={loading} onClick={() => handleDelete()} color="error" className="h-full px-9 shadow-redGlow">
+          {
+            loading
+              ? <CircularProgress />
+              : 'Delete Professor'
+          }
+        </Button>
         <Button variant="contained" className="h-full px-9 shadow-primaryGlow" onClick={() => dispatch(setCurrentTab({ name: 'editProfessor', data: professor }))}>Edit Professor</Button>
       </div>
       <Card className="flex flex-col w-full gap-6 px-4 py-5 md:py-10 md:px-8" elevation={6}>
@@ -59,11 +85,12 @@ export default function ViewProfessor({ professor }) {
 
 ViewProfessor.propTypes = {
   professor: PropTypes.shape({
+    _id: PropTypes.number.isRequired,
     firstName: PropTypes.string.isRequired,
-    id: PropTypes.number.isRequired,
     lastName: PropTypes.string.isRequired,
     email: PropTypes.string.isRequired,
-    password: PropTypes.string.isRequired,
-    confirmPassword: PropTypes.string.isRequired,
+    courses: PropTypes.array.isRequired,
+    department: PropTypes.string.isRequired,
+    institute: PropTypes.number.isRequired,
   }).isRequired,
 };

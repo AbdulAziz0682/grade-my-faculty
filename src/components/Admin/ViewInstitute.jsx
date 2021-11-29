@@ -1,3 +1,5 @@
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable react/forbid-prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -38,7 +40,7 @@ export default function viewInstitute({ institute }) {
   return (
     <div className="flex flex-col w-full gap-3">
       <div className="flex flex-col w-full gap-2 md:gap-9 md:flex-row md:items-center">
-        <Typography className="ml-16 text-4xl text-gray-500">{`${institute.id} - ${institute.name}`}</Typography>
+        <Typography className="ml-16 text-4xl text-gray-500">{`${institute._id} - ${institute.name}`}</Typography>
         <div className="flex-grow" />
         <Button variant="contained" color="error" className="h-full px-9 shadow-redGlow">Delete Institute</Button>
         <Button variant="contained" className="h-full px-9 shadow-primaryGlow" onClick={() => dispatch(setCurrentTab({ name: 'editInstitute', data: institute }))}>Edit Institute</Button>
@@ -107,11 +109,10 @@ export default function viewInstitute({ institute }) {
 
 viewInstitute.propTypes = {
   institute: PropTypes.shape({
-    firstName: PropTypes.string.isRequired,
-    id: PropTypes.number.isRequired,
-    lastName: PropTypes.string.isRequired,
+    _id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
     email: PropTypes.string.isRequired,
-    password: PropTypes.string.isRequired,
-    confirmPassword: PropTypes.string.isRequired,
+    courses: PropTypes.array.isRequired,
+    faculties: PropTypes.array.isRequired,
   }).isRequired,
 };
