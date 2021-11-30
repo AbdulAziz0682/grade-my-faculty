@@ -107,6 +107,23 @@ export const NEW_INSTITUTE = gql`
   }
 `;
 
+export const UPDATE_INSTITUTE = gql`
+  mutation UpdateInstitute($id:Int! $name:String! $email:String! $courses:[String]!) {
+    updateInstitute(_id:$id name:$name email:$email courses:$courses) {
+      _id
+      name
+      email
+      courses
+    }
+  }
+`;
+
+export const DELETE_INSTITUTE = gql`
+  mutation DeleteInstitute($id:Int!) {
+    deleteInstitute(_id:$id)
+  }
+`;
+
 export const FACULTIES = gql`
   query Faculties {
     faculties {
@@ -121,6 +138,20 @@ export const FACULTIES = gql`
     institutes {
       _id
       name
+    }
+  }
+`;
+
+export const FACULTIES_BY_INSTITUTE = gql`
+  query FacultiesByInstitute($institute:Int!) {
+    faculties(institute:$institute) {
+      _id
+      firstName
+      lastName
+      email
+      institute
+      department
+      courses
     }
   }
 `;
@@ -156,5 +187,46 @@ export const UPDATE_FACULTY = gql`
 export const DELETE_FACULTY = gql`
   mutation DeleteFaculty($id:Int!) {
     deleteFaculty(_id:$id)
+  }
+`;
+
+export const NEW_AD = gql`
+  mutation NewAd($title:String! $locationId:String! $code:String!) {
+    newAd(title:$title locationId:$locationId code:$code) {
+      _id
+      title
+      locationId
+      code
+    }
+  }
+`;
+
+export const UPDATE_AD = gql`
+  mutation UpdateAd($id:Int! $title:String! $locationId:String! $code:String! $status:String!) {
+    updateAd(_id:$id title:$title locationId:$locationId code:$code status:$status) {
+      _id
+      title
+      locationId
+      code
+    }
+  }
+`;
+
+export const ADS = gql`
+  query Ads {
+    ads {
+      _id
+      title
+      status
+      locationId
+      code
+      status
+    }
+  }
+`;
+
+export const DELETE_AD = gql`
+  mutation DeleteAd($id:Int!) {
+    deleteAd(_id:$id)
   }
 `;

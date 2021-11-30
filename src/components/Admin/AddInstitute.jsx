@@ -103,7 +103,7 @@ export default function AddInstitute() {
                   className="mb-0.5"
                   onClick={() => {
                     if (currentText === '') return;
-                    setCourses([...courses, currentText]);
+                    setCourses([...courses, currentText.trim()]);
                     setCurrentText('');
                   }}
                 >

@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import React, { useState } from 'react';
 
 import {
@@ -12,6 +13,7 @@ import {
   TableCell,
   TableHead,
   IconButton,
+  CircularProgress,
 } from '@mui/material';
 
 import {
@@ -21,37 +23,68 @@ import {
   Visibility,
 } from '@mui/icons-material';
 
-import AddAdDialog from './AddAdDialog';
-import EditAdDialog from './EditAdDialog';
+import { useQuery, useMutation } from '@apollo/client';
+
+import { useDispatch } from 'react-redux';
+// import { setCurrentTab } from '../../redux/adminActions';
+import { addToast } from '../../redux/toastsActions';
 
 import Search from '../../assets/Search.svg';
 
+import AddAdDialog from './AddAdDialog';
+import EditAdDialog from './EditAdDialog';
+
+import {
+  ADS,
+  UPDATE_AD,
+  DELETE_AD,
+} from '../../graphqlQueries';
+
 export default function Ads() {
   const [openNewAdDialog, setOpenNewAdDialog] = useState(false);
-  const [updateAd, setUpdateAd] = useState({ name: 'ad title', locationID: 3, code: '<script>the code goes here</script>' });
+  const [updateAd, setUpdateAd] = useState({});
   const [openUpdateAdDialog, setOpenUpdateAdDialog] = useState(false);
   function doUpdateAd(ad) {
+    setUpdateAd(() => ad);
     setOpenUpdateAdDialog(true);
-    setUpdateAd(ad);
   }
-  const ads = [
-    { title: 'ad1', id: 1 },
-    { title: 'ad2', id: 2 },
-    { title: 'ad3', id: 3 },
-  ];
-  const [list, setList] = React.useState(ads);
+  const dispatch = useDispatch();
+  const { loading, data } = useQuery(ADS);
+  const [update] = useMutation(UPDATE_AD, { refetchQueries: [{ query: ADS }] });
+  const [deleteAd] = useMutation(DELETE_AD, { refetchQueries: [{ query: ADS }] });
   const [searchValue, setSearchValue] = React.useState('');
-  React.useEffect(() => {
-    setList(ads.filter((ad) => ad.title.toLowerCase().includes(searchValue.toLowerCase())));
-  }, [searchValue]);
+  function handleUpdate(updatedAd) {
+    update({ variables: updatedAd })
+      .then(() => dispatch(addToast({ message: 'Ad updated successfully', severity: 'success' })))
+      .catch((r) => dispatch(addToast({ message: r.message, severity: 'error' })));
+  }
+  function handleStatusChange(value, ad) {
+    const variables = {
+      ...ad,
+      id: Number(ad._id),
+      status: value,
+    };
+    handleUpdate(variables);
+  }
+  function handleDelete(_id) {
+    deleteAd({ variables: { id: Number(_id) } })
+      .then(() => dispatch(addToast({ message: 'Ad deleted successfully', severity: 'success' })))
+      .catch((r) => dispatch(addToast({ message: r.message, severity: 'error' })));
+  }
   return (
     <div className="flex flex-col w-full gap-9">
       <AddAdDialog open={openNewAdDialog} handleClose={() => setOpenNewAdDialog(false)} />
-      <EditAdDialog
-        open={openUpdateAdDialog}
-        handleClose={() => setOpenUpdateAdDialog(false)}
-        ad={updateAd}
-      />
+      {
+        openUpdateAdDialog
+        && (
+          <EditAdDialog
+            open={openUpdateAdDialog}
+            handleClose={() => setOpenUpdateAdDialog(false)}
+            handleUpdate={(updatedAd) => handleUpdate(updatedAd)}
+            ad={{ ...updateAd, _id: Number(updateAd._id) }}
+          />
+        )
+      }
       <div className="flex flex-col w-full gap-2 md:gap-9 md:flex-row md:items-center" style={{ maxHeight: '38px' }}>
         <Typography className="ml-16 text-3xl text-gray-400">Ads</Typography>
         <div className="flex-grow" />
@@ -81,27 +114,39 @@ export default function Ads() {
               <TableCell className="font-semibold text-center text-gray-400">Actions</TableCell>
             </TableRow>
           </TableHead>
-          <TableBody>
-            {
-              list.map((ad) => (
-                <TableRow key={ad.title} className="hover:shadow-md" onClick={() => doUpdateAd({ name: 'ad title', locationID: ad.id, code: '<script>code here </script>' })}>
-                  <TableCell className="text-gray-400">{ad.id}</TableCell>
-                  <TableCell className="text-lg font-semibold text-black">{ad.title}</TableCell>
-                  <TableCell className="text-gray-600">
-                    <select className="w-full p-2 bg-gray-200">
-                      {
-                        [1, 2, 3].map((i) => <option key={i}>{i}</option>)
-                      }
-                    </select>
-                  </TableCell>
-                  <TableCell className="text-center">
-                    <IconButton><Visibility /></IconButton>
-                    <IconButton><DeleteForever /></IconButton>
-                  </TableCell>
-                </TableRow>
-              ))
-            }
-          </TableBody>
+          {
+            !loading && data && (
+              <TableBody>
+                {
+                  data?.ads.filter(
+                    (a) => a.title.toLowerCase().includes(searchValue),
+                  ).map((ad) => (
+                    <TableRow key={ad._id} className="hover:shadow-md">
+                      <TableCell className="text-gray-400">{ad._id}</TableCell>
+                      <TableCell className="text-lg font-semibold text-black">{ad.title}</TableCell>
+                      <TableCell className="text-gray-600">
+                        <select value={ad.status} onChange={(event) => handleStatusChange(event.target.value, ad)} className="w-24 min-w-full p-2 bg-gray-200">
+                          <option value="Active">Active</option>
+                          <option value="Inactive">Inactive</option>
+                        </select>
+                      </TableCell>
+                      <TableCell className="text-center">
+                        <IconButton onClick={() => doUpdateAd(ad)}>
+                          <Visibility />
+                        </IconButton>
+                        <IconButton onClick={() => handleDelete(ad._id)}>
+                          <DeleteForever />
+                        </IconButton>
+                      </TableCell>
+                    </TableRow>
+                  ))
+                }
+              </TableBody>
+            )
+          }
+          {
+            loading && <div className="absolute left-0 right-0 flex items-center justify-center lg:-left-1/2"><CircularProgress /></div>
+          }
         </Table>
       </TableContainer>
       <div className="flex justify-end w-full gap-12 mt-16">
