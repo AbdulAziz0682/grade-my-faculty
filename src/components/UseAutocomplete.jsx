@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable react/forbid-prop-types */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
@@ -12,7 +13,7 @@ import PropTypes from 'prop-types';
 
 import { useHistory } from 'react-router-dom';
 
-const AutoComplete = ({ suggestions }) => {
+const AutoComplete = ({ suggestions, disabled, data }) => {
   const [filteredSuggestions, setFilteredSuggestions] = useState([]);
   const [activeSuggestionIndex, setActiveSuggestionIndex] = useState(0);
   const [showSuggestions, setShowSuggestions] = useState(false);
@@ -24,7 +25,9 @@ const AutoComplete = ({ suggestions }) => {
     // Filter our suggestions that don't contain the user's input
     const unLinked = suggestions.filter(
       (suggestion) => (
-        suggestion.name.toLowerCase().indexOf(userInput.toLowerCase()) > -1
+        suggestion.name
+          ? suggestion.name.toLowerCase().indexOf(userInput.toLowerCase()) > -1
+          : suggestion.firstName.toLowerCase().indexOf(userInput.toLowerCase()) > -1
       ),
     );
 
@@ -78,23 +81,35 @@ const AutoComplete = ({ suggestions }) => {
             // className = 'suggestion-active';
           }
 
-          if (!suggestion.university) {
+          if (!suggestion.institute) {
             return (
-              <MenuItem sx={{ border: '1px solid' }} className="py-3 font-semibold bg-gray-100 border-l-0 border-r-0 border-gray-200" value={suggestion.name} onClick={() => history.push('/faculty', [suggestion.name])}>{suggestion.name}</MenuItem>
+              <MenuItem sx={{ border: '1px solid' }} className="py-3 font-semibold bg-gray-100 border-l-0 border-r-0 border-gray-200" value={suggestion.name} onClick={() => history.push('/faculty', [suggestion])}>{suggestion.name}</MenuItem>
             );
           }
 
           return (
-            <MenuItem value={suggestion.name} sx={{ border: '1px solid' }} className="py-1 bg-gray-100 border-l-0 border-r-0 border-gray-200" onClick={() => history.push('/grade', [suggestion])}>
+            <MenuItem
+              value={suggestion.firstName}
+              sx={{ border: '1px solid' }}
+              className="py-1 bg-gray-100 border-l-0 border-r-0 border-gray-200"
+              onClick={() => history.push('/grade', [{ ...suggestion, institute: data.institutes.find((i) => Number(i._id) === Number(suggestion.institute)) }])}
+            >
               <div className="flex items-end justify-between gap-3 pb-2 overflow-auto" style={{ fontFamily: 'montserrat' }}>
                 <div className="flex flex-col">
-                  <p className="font-semibold">{suggestion.name}</p>
+                  <p className="font-semibold">{suggestion.firstName}</p>
                   <span className="text-xs text-primary">
                     {suggestion.department}
                     &nbsp;Department
                   </span>
                 </div>
-                <p className="font-bold">{suggestion.university}</p>
+                <p className="font-bold">
+                  {
+                    data
+                    && (
+                      data.institutes.find((i) => i._id === suggestion.institute).name
+                    )
+                  }
+                </p>
               </div>
             </MenuItem>
           );
@@ -113,6 +128,8 @@ const AutoComplete = ({ suggestions }) => {
         type="text"
         onChange={onChange}
         onKeyDown={onKeyDown}
+        disabled={disabled}
+        placeholder={`${disabled ? 'Loading...' : ''}`}
         value={input}
         id="autocomplete"
         className={`${showSuggestions && input ? 'rounded-t-3xl md:rounded' : 'rounded'} border-2 border-gray-300 bg-gray-100`}
@@ -126,4 +143,6 @@ export default AutoComplete;
 
 AutoComplete.propTypes = {
   suggestions: PropTypes.array.isRequired,
+  disabled: PropTypes.bool.isRequired,
+  data: PropTypes.object.isRequired,
 };

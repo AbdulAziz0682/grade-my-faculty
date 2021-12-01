@@ -27,6 +27,7 @@ const GET_LOGGEDIN_USER = gql`
   query {
     loggedUser {
       user {
+        _id
         firstName
         lastName
         email

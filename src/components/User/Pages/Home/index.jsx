@@ -12,7 +12,10 @@ import {
 
 import { Search, KeyboardArrowDown } from '@mui/icons-material';
 
-import { useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
+
+import { useQuery } from '@apollo/client';
+import { FACULTIES_AND_INSTITUTES } from '../../../../graphqlQueries';
 
 import Autocomplete from '../../../UseAutocomplete';
 
@@ -23,13 +26,15 @@ import homeImg from '../../../../assets/homeImg.svg';
 
 export default function Home() {
   const ref = useRef();
-  const faculty = useSelector((state) => state.faculty);
+  const { loading, data } = useQuery(FACULTIES_AND_INSTITUTES);
+  console.log({ data });
+  // const faculty = useSelector((state) => state.faculty);
   const [searchBy, setSearchBy] = React.useState('university');
-  const universities = [
+  /* const universities = [
     { name: 'North South University' },
     { name: 'Lahore University' },
     { name: 'Karachi University' },
-  ];
+  ]; */
   return (
     <>
       <Grid container className="flex-grow">
@@ -66,7 +71,9 @@ export default function Home() {
                 </Grid>
                 <Grid item xs={12} md={7} sx={{ order: { xs: 3, md: 2 } }} className="mt-1 md:mt-0">
                   <Autocomplete
-                    suggestions={searchBy === 'university' ? universities : faculty}
+                    disabled={loading}
+                    suggestions={searchBy === 'university' ? data?.institutes : data?.faculties}
+                    data={data}
                   />
                 </Grid>
                 <Grid item xs={2} md={1} sx={{ order: { xs: 2, md: 3 } }}>

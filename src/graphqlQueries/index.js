@@ -142,6 +142,26 @@ export const FACULTIES = gql`
   }
 `;
 
+export const FACULTIES_AND_INSTITUTES = gql`
+  query Faculties {
+    faculties {
+      _id
+      firstName
+      lastName
+      email
+      institute
+      department
+      courses
+      attributes
+      ratings
+    }
+    institutes {
+      _id
+      name
+    }
+  }
+`;
+
 export const FACULTIES_BY_INSTITUTE = gql`
   query FacultiesByInstitute($institute:Int!) {
     faculties(institute:$institute) {
@@ -152,6 +172,8 @@ export const FACULTIES_BY_INSTITUTE = gql`
       institute
       department
       courses
+      attributes
+      ratings
     }
   }
 `;
@@ -228,5 +250,57 @@ export const ADS = gql`
 export const DELETE_AD = gql`
   mutation DeleteAd($id:Int!) {
     deleteAd(_id:$id)
+  }
+`;
+
+export const RATINGS = gql`
+  query Ratings($faculty:Int!) {
+    ratings(faculty:$faculty) {
+      _id
+      user
+      faculty
+      course
+      levelOfDifficulty
+      gradeOfUser
+      isAttendanceMandatory
+      overAllRating
+      semester
+      tags
+      thoughts
+      wouldTakeAgain
+      createdAt
+    }
+  }
+`;
+
+export const NEW_RATING = gql`
+  mutation NewRating(
+    $user:Int!
+    $faculty:Int!
+    $course:String!
+    $levelOfDifficulty:Int!
+    $gradeOfUser:String!
+    $isAttendanceMandatory:Boolean!
+    $overAllRating:Int!
+    $semester:String!
+    $tags:[String]!
+    $thoughts:String!
+    $wouldTakeAgain:Boolean!
+  ) {
+    newRating(
+      user: $user
+      faculty: $faculty
+      course: $course
+      levelOfDifficulty: $levelOfDifficulty
+      gradeOfUser: $gradeOfUser
+      isAttendanceMandatory: $isAttendanceMandatory
+      overAllRating: $overAllRating
+      semester: $semester
+      tags: $tags
+      thoughts: $thoughts
+      wouldTakeAgain: $wouldTakeAgain
+    ) {
+      _id
+    }
   }
 `;

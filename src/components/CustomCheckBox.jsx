@@ -14,10 +14,11 @@ export default function CustomCheckBox({
   checked,
   setChecked,
   labelClassName,
+  onClick,
 }) {
   return (
-    <div className={`flex gap-3 items-center ${className}`}>
-      <div className={`border rounded w-6 h-6 flex justify-center items-center ${checked ? 'bg-primary border-primary' : 'bg-transparent border-black'}`} aria-hidden onClick={() => setChecked(!checked)}>
+    <div className={`flex gap-3 items-center ${className}`} aria-hidden onClick={onClick}>
+      <div className={`border rounded w-6 h-6 flex justify-center items-center ${checked ? 'bg-primary border-primary' : 'bg-transparent border-black'}`} aria-hidden onClick={() => setChecked && setChecked(!checked)}>
         <CheckSharp htmlColor="white" className="w-4" />
       </div>
       <Typography variant="h6" className={`text-sm ${labelClassName}`} sx={{ fontFamily: 'montserrat' }}>{label}</Typography>
@@ -36,4 +37,5 @@ CustomCheckBox.propTypes = {
   label: PropTypes.string.isRequired,
   checked: PropTypes.bool.isRequired,
   setChecked: PropTypes.func.isRequired,
+  onClick: PropTypes.func.isRequired,
 };

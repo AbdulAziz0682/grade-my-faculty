@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import React from 'react';
 
 import {
@@ -13,12 +14,21 @@ import {
   Radio,
   RadioGroup,
   TextField,
+  CircularProgress,
 } from '@mui/material';
 
-import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { useMutation } from '@apollo/client';
+
+import { useHistory, Redirect } from 'react-router-dom';
+
+import { addToast } from '../../../../redux/toastsActions';
 
 import media2 from '../../../../assets/media2.png';
 import CustomCheckBox from '../../../CustomCheckBox';
+
+import { NEW_RATING, RATINGS } from '../../../../graphqlQueries';
 
 function RadioCheckedIcon() {
   return (
@@ -52,15 +62,51 @@ function CustomRadio(props) {
 
 export default function GradingForm() {
   const history = useHistory();
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.account.user);
   const faculty = useHistory().location.state[0];
+  const [newRating, { loading }] = useMutation(
+    NEW_RATING,
+    { refetchQueries: [{ query: RATINGS }] },
+  );
+  const [form, setForm] = React.useState({
+    course: faculty.courses[0],
+    semester: 'Summer 2021',
+    gradeOfUser: 'A+',
+    overAllRating: 1,
+    levelOfDifficulty: 1,
+    tags: [],
+    wouldTakeAgain: true,
+    isAttendanceMandatory: true,
+    thoughts: '',
+  });
+  function handleTagToggle(tag) {
+    if (form.tags.find((t) => t === tag)) {
+      setForm({ ...form, tags: form.tags.filter((t) => t !== tag) });
+    } else {
+      setForm({ ...form, tags: [...form.tags, tag] });
+    }
+  }
+  function findTag(tag) {
+    return form.tags.find((t) => t === tag) === tag;
+  }
+  function handleSubmit() {
+    newRating({ variables: { ...form, user: Number(user._id), faculty: Number(faculty._id) } })
+      .then(() => dispatch(addToast({ message: 'Rated successfully', severity: 'success' })))
+      .catch((r) => dispatch(addToast({ message: r.message, severity: 'error' })));
+  }
+  if (!user) {
+    dispatch(addToast({ message: 'Please login first', severity: 'error' }));
+    return <Redirect push to="/grade" />;
+  }
   return (
     <Grid container className="flex-grow">
       <Container maxWidth="xl" className="flex flex-col justify-between md:flex-row md:gap-9">
         <div className="flex flex-col w-full lg:w-9/12 py-14">
           <Typography variant="h3">Your turn to grade</Typography>
           <Paper elevation={5} className="flex flex-col gap-2 p-4 mt-9 rounded-2xl lg:px-16 lg:py-8 bg-gray-50">
-            <Typography className="text-3xl font-bold text-primary">{faculty.name}</Typography>
-            <Typography className="my-1 text-sm text-gray-600">{faculty.university}</Typography>
+            <Typography className="text-3xl font-bold text-primary">{faculty.firstName}</Typography>
+            <Typography className="my-1 text-sm text-gray-600">{faculty.institute.name}</Typography>
             <Typography>
               {faculty.department}
               &nbsp;Department
@@ -117,81 +163,88 @@ export default function GradingForm() {
             <div className="flex flex-col gap-6 mx-2">
               <Typography variant="h4" className="pb-3 -mx-2 border-b-2 border-black">Let&apos;s start with basic questions</Typography>
               <Typography className="text-xl">1. What class did you take with this faculty member?</Typography>
-              <Select variant="outlined" className="rounded-none w-60" value={faculty.courses[0]}>
+              <Select variant="outlined" className="rounded-none w-60" value={form.course} onChange={(e) => setForm({ ...form, course: e.target.value })}>
                 {
-                  faculty.courses.map((c) => <MenuItem value={c}>{c}</MenuItem>)
+                  faculty.courses.map((c) => <MenuItem key={c} value={c}>{c}</MenuItem>)
                 }
               </Select>
               <Typography className="text-xl">2. When did you take this class?</Typography>
-              <Select variant="outlined" className="rounded-none w-60" value="Summer 2021">
+              <Select variant="outlined" className="rounded-none w-60" value={form.semester} onChange={(e) => setForm({ ...form, semester: e.target.value })}>
                 <MenuItem value="Summer 2021">Summer 2021</MenuItem>
                 <MenuItem value="Spring 2021">Spring 2021</MenuItem>
               </Select>
               <Typography className="text-xl">3. What grade did you recieve?</Typography>
-              <Select variant="outlined" className="rounded-none w-60" value="N/A">
-                <MenuItem value="N/A">N/A</MenuItem>
+              <Select variant="outlined" className="rounded-none w-60" value={form.gradeOfUser} onChange={(e) => setForm({ ...form, gradeOfUser: e.target.value })}>
+                <MenuItem value="A+">A+</MenuItem>
                 <MenuItem value="A">A</MenuItem>
+                <MenuItem value="B+">B+</MenuItem>
                 <MenuItem value="B">B</MenuItem>
+                <MenuItem value="C+">C+</MenuItem>
+                <MenuItem value="C">C</MenuItem>
+                <MenuItem value="D">D</MenuItem>
               </Select>
               <Typography variant="h4" className="pb-3 -mx-2 border-b-2 border-black">Time to actually grade and evaluate your faculty</Typography>
               <Typography className="text-xl">4. Overall Rating?</Typography>
               <FormControl component="fieldset">
                 <RadioGroup
                   aria-label="gender"
-                  defaultValue="1"
                   name="radio-buttons-group"
                   className="flex flex-row gap-3 -mt-2"
+                  value={form.overAllRating}
+                  onChange={(e) => setForm({ ...form, overAllRating: Number(e.target.value) })}
                 >
-                  <FormControlLabel value="1" control={<CustomRadio />} label="1" />
-                  <FormControlLabel value="2" control={<CustomRadio />} label="2" />
-                  <FormControlLabel value="3" control={<CustomRadio />} label="3" />
-                  <FormControlLabel value="4" control={<CustomRadio />} label="4" />
-                  <FormControlLabel value="5" control={<CustomRadio />} label="5" />
+                  <FormControlLabel value={1} control={<CustomRadio />} label="1" />
+                  <FormControlLabel value={2} control={<CustomRadio />} label="2" />
+                  <FormControlLabel value={3} control={<CustomRadio />} label="3" />
+                  <FormControlLabel value={4} control={<CustomRadio />} label="4" />
+                  <FormControlLabel value={5} control={<CustomRadio />} label="5" />
                 </RadioGroup>
               </FormControl>
               <Typography className="text-xl">5. Difficulty Level?</Typography>
               <FormControl component="fieldset">
                 <RadioGroup
                   aria-label="gender"
-                  defaultValue="1"
                   name="radio-buttons-group"
                   className="flex flex-row gap-3 -mt-2"
+                  value={form.levelOfDifficulty}
+                  onChange={(e) => setForm({ ...form, levelOfDifficulty: Number(e.target.value) })}
                 >
-                  <FormControlLabel value="1" control={<CustomRadio />} label="1" />
-                  <FormControlLabel value="2" control={<CustomRadio />} label="2" />
-                  <FormControlLabel value="3" control={<CustomRadio />} label="3" />
-                  <FormControlLabel value="4" control={<CustomRadio />} label="4" />
-                  <FormControlLabel value="5" control={<CustomRadio />} label="5" />
+                  <FormControlLabel value={1} control={<CustomRadio />} label="1" />
+                  <FormControlLabel value={2} control={<CustomRadio />} label="2" />
+                  <FormControlLabel value={3} control={<CustomRadio />} label="3" />
+                  <FormControlLabel value={4} control={<CustomRadio />} label="4" />
+                  <FormControlLabel value={5} control={<CustomRadio />} label="5" />
                 </RadioGroup>
               </FormControl>
               <Typography className="text-xl">6. Select the tags that describe the faculty</Typography>
               <div className="flex flex-col gap-5 md:gap-0 md:flex-row">
                 <div className="flex flex-col w-full gap-2 md:w-1/3">
                   <Typography className="font-bold">Workload</Typography>
-                  <CustomCheckBox label="Lots of Homework" labelClassName="font-semibold text-gray-500" checked setChecked={() => false} />
-                  <CustomCheckBox label="Moderate exams" labelClassName="font-semibold text-gray-500" checked setChecked={() => false} />
-                  <CustomCheckBox label="Hard grading" labelClassName="font-semibold text-gray-500" setChecked={() => false} />
+                  <CustomCheckBox label="Lots of Homework" labelClassName="font-semibold text-gray-500" checked={findTag('Lots of Homework')} onClick={() => handleTagToggle('Lots of Homework')} />
+                  <CustomCheckBox label="Moderate exams" labelClassName="font-semibold text-gray-500" checked={findTag('Moderate Exams')} onClick={() => handleTagToggle('Moderate Exams')} />
+                  <CustomCheckBox label="Hard grading" labelClassName="font-semibold text-gray-500" checked={findTag('Hard grading')} onClick={() => handleTagToggle('Hard grading')} />
                 </div>
                 <div className="flex flex-col w-full gap-2 md:w-1/3">
                   <Typography className="font-bold">Personality</Typography>
-                  <CustomCheckBox label="Passionate" labelClassName="font-semibold text-gray-500" checked setChecked={() => false} />
-                  <CustomCheckBox label="Motivational" labelClassName="font-semibold text-gray-500" checked setChecked={() => false} />
-                  <CustomCheckBox label="Dedicated" labelClassName="font-semibold text-gray-500" setChecked={() => false} />
+                  <CustomCheckBox label="Passionate" labelClassName="font-semibold text-gray-500" checked={findTag('Passionate')} onClick={() => handleTagToggle('Passionate')} />
+                  <CustomCheckBox label="Motivational" labelClassName="font-semibold text-gray-500" checked={findTag('Motivational')} onClick={() => handleTagToggle('Motivational')} />
+                  <CustomCheckBox label="Dedicated" labelClassName="font-semibold text-gray-500" checked={findTag('Dedicated')} onClick={() => handleTagToggle('Dedicated')} />
                 </div>
                 <div className="flex flex-col w-full gap-2 md:w-1/3">
                   <Typography className="font-bold">Extra</Typography>
-                  <CustomCheckBox label="Caring" labelClassName="font-semibold text-gray-500" setChecked={() => false} />
-                  <CustomCheckBox label="Long classes" labelClassName="font-semibold text-gray-500" checked setChecked={() => false} />
-                  <CustomCheckBox label="Respected" labelClassName="font-semibold text-gray-500" setChecked={() => false} />
+                  <CustomCheckBox label="Caring" labelClassName="font-semibold text-gray-500" checked={findTag('Caring')} onClick={() => handleTagToggle('Caring')} />
+                  <CustomCheckBox label="Long classes" labelClassName="font-semibold text-gray-500" checked={findTag('Long classes')} onClick={() => handleTagToggle('Long classes')} />
+                  <CustomCheckBox label="Respected" labelClassName="font-semibold text-gray-500" checked={findTag('Respected')} onClick={() => handleTagToggle('Respected')} />
                 </div>
               </div>
               <Typography className="text-xl">7. Would you take a class with this faculty again?</Typography>
               <FormControl component="fieldset">
                 <RadioGroup
                   aria-label="gender"
-                  defaultValue="Yes"
                   name="radio-buttons-group"
                   className="flex flex-row gap-3 -mt-2"
+                  value={form.wouldTakeAgain ? 'Yes' : 'No'}
+                  onChange={(e) => setForm({ ...form, wouldTakeAgain: e.target.value === 'Yes' })}
                 >
                   <FormControlLabel value="Yes" control={<CustomRadio />} label="Yes" />
                   <FormControlLabel value="No" control={<CustomRadio />} label="No" />
@@ -201,9 +254,10 @@ export default function GradingForm() {
               <FormControl component="fieldset">
                 <RadioGroup
                   aria-label="gender"
-                  defaultValue="Yes"
                   name="radio-buttons-group"
                   className="flex flex-row gap-3 -mt-2"
+                  value={form.isAttendanceMandatory ? 'Yes' : 'No'}
+                  onChange={(e) => setForm({ ...form, isAttendanceMandatory: e.target.value === 'Yes' })}
                 >
                   <FormControlLabel value="Yes" control={<CustomRadio />} label="Yes" />
                   <FormControlLabel value="No" control={<CustomRadio />} label="No" />
@@ -215,8 +269,16 @@ export default function GradingForm() {
                 rows={4}
                 variant="outlined"
                 className="w-full md:w-4/6"
+                value={form.thoughts}
+                onChange={(e) => setForm({ ...form, thoughts: e.target.value })}
               />
-              <Button variant="contained" className="self-center px-16 py-3 rounded-full">Submit</Button>
+              <Button variant="contained" disabled={loading} className="self-center px-16 py-3 rounded-full" onClick={() => handleSubmit()}>
+                {
+                  loading
+                    ? <CircularProgress />
+                    : 'Submit'
+                }
+              </Button>
             </div>
           </Paper>
         </div>
