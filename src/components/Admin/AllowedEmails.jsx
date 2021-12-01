@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import React, { useState } from 'react';
 
 import {
@@ -12,6 +13,7 @@ import {
   TableCell,
   TableHead,
   IconButton,
+  CircularProgress,
 } from '@mui/material';
 
 import {
@@ -21,31 +23,51 @@ import {
   Visibility,
 } from '@mui/icons-material';
 
-import AddEmailDialog from './AddEmailDialog';
-import EditEmailDialog from './EditEmailDialog';
+import { useQuery/* , useMutation */ } from '@apollo/client';
+
+/* import { useDispatch } from 'react-redux';
+import { addToast } from '../../redux/toastsActions'; */
 
 import Search from '../../assets/Search.svg';
 
+import {
+  ALLOWED_EMAILS,
+} from '../../graphqlQueries';
+
+import AddEmailDialog from './AddEmailDialog';
+import EditEmailDialog from './EditEmailDialog';
+
 export default function AllowedEmails() {
+  // const dispatch = useDispatch();
   const [openNewEmailDialog, setOpenNewEmailDialog] = useState(false);
-  const [updateEmail, setUpdateEmail] = useState({ domain: 'domain.com', status: 'allowed' });
+  const [updateEmail, setUpdateEmail] = useState({});
   const [openUpdateEmailDialog, setOpenUpdateEmailDialog] = useState(false);
   function doUpdateEmail(email) {
+    setUpdateEmail(() => email);
     setOpenUpdateEmailDialog(true);
-    setUpdateEmail(email);
   }
-  const allowedEmails = [
-    { domain: 'domain1.com', status: 'allowed', id: 1 },
-    { domain: 'domain2.com', status: 'allowed', id: 2 },
-    { domain: 'domain3.com', status: 'allowed', id: 3 },
-  ];
-  const [list, setList] = React.useState(allowedEmails);
   const [searchValue, setSearchValue] = React.useState('');
-  React.useEffect(() => {
-    setList(
-      allowedEmails.filter((em) => em.domain.toLowerCase().includes(searchValue.toLowerCase())),
-    );
-  }, [searchValue]);
+  const { loading, data } = useQuery(ALLOWED_EMAILS);
+  // const [update] = useMutation(UPDATE_AD, { refetchQueries: [{ query: ADS }] });
+  // const [deleteAd] = useMutation(DELETE_AD, { refetchQueries: [{ query: ADS }] });
+  /* function handleUpdate(updatedAd) {
+    update({ variables: updatedAd })
+      .then(() => dispatch(addToast({ message: 'Ad updated successfully', severity: 'success' })))
+      .catch((r) => dispatch(addToast({ message: r.message, severity: 'error' })));
+  }
+  function handleStatusChange(value, ad) {
+    const variables = {
+      ...ad,
+      id: Number(ad._id),
+      status: value,
+    };
+    handleUpdate(variables);
+  }
+  function handleDelete(_id) {
+    deleteAd({ variables: { id: Number(_id) } })
+      .then(() => dispatch(addToast({ message: 'Ad deleted successfully', severity: 'success' })))
+      .catch((r) => dispatch(addToast({ message: r.message, severity: 'error' })));
+  } */
   return (
     <div className="flex flex-col w-full gap-9">
       <AddEmailDialog open={openNewEmailDialog} handleClose={() => setOpenNewEmailDialog(false)} />
@@ -83,27 +105,39 @@ export default function AllowedEmails() {
               <TableCell className="font-semibold text-center text-gray-400">Actions</TableCell>
             </TableRow>
           </TableHead>
-          <TableBody>
-            {
-              list.map((email) => (
-                <TableRow key={email.id} className="hover:shadow-md" onClick={() => doUpdateEmail({ domain: 'domain.com', status: 'allowed' })}>
-                  <TableCell className="text-gray-400">{email.id}</TableCell>
-                  <TableCell className="text-lg font-semibold text-black">{email.domain}</TableCell>
-                  <TableCell className="text-gray-600">
-                    <select className="w-24 min-w-full p-2 bg-gray-200">
-                      {
-                        [1, 2, 3].map((i) => <option key={i}>{i}</option>)
-                      }
-                    </select>
-                  </TableCell>
-                  <TableCell className="text-center">
-                    <IconButton><Visibility /></IconButton>
-                    <IconButton><DeleteForever /></IconButton>
-                  </TableCell>
-                </TableRow>
-              ))
-            }
-          </TableBody>
+          {
+            !loading && data && (
+              <TableBody>
+                {
+                  data?.allowedEmails.filter(
+                    (email) => email.emailDomain.toLowerCase().includes(searchValue),
+                  ).map((email) => (
+                    <TableRow key={email._id} className="hover:shadow-md">
+                      <TableCell className="text-gray-400">{email._id}</TableCell>
+                      <TableCell className="text-lg font-semibold text-black">{email.emailDomain}</TableCell>
+                      <TableCell className="text-gray-600">
+                        <select value={email.status} className="w-24 min-w-full p-2 bg-gray-200"/* onChange={(event) => handleStatusChange(event.target.value, ad)} */>
+                          <option value="Active">Active</option>
+                          <option value="Inactive">Inactive</option>
+                        </select>
+                      </TableCell>
+                      <TableCell className="text-center">
+                        <IconButton onClick={() => doUpdateEmail(email)}>
+                          <Visibility />
+                        </IconButton>
+                        <IconButton onClick={() => null/* handleDelete(ad._id) */}>
+                          <DeleteForever />
+                        </IconButton>
+                      </TableCell>
+                    </TableRow>
+                  ))
+                }
+              </TableBody>
+            )
+          }
+          {
+            loading && <div className="absolute inset-x-0 flex items-center justify-center"><CircularProgress /></div>
+          }
         </Table>
       </TableContainer>
       <div className="flex justify-end w-full gap-12 mt-16">

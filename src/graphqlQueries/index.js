@@ -304,3 +304,25 @@ export const NEW_RATING = gql`
     }
   }
 `;
+
+export const ALLOWED_EMAILS = gql`
+  query AllowedEmails {
+    allowedEmails {
+      _id
+      emailDomain
+      isAllowed
+      status
+    }
+  }
+`;
+
+export const NEW_ALLOWED_EMAIL = gql`
+  mutation NewAllowedEmail($emailDomain:String! $isAllowed:Boolean!) {
+    newAllowedEmail(emailDomain:$emailDomain isAllowed:$isAllowed) {
+      _id
+      emailDomain
+      isAllowed
+      status
+    }
+  }
+`;
