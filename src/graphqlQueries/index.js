@@ -316,6 +316,15 @@ export const ALLOWED_EMAILS = gql`
   }
 `;
 
+export const UPDATE_ALLOWED_EMAIL = gql`
+  mutation UpdateAllowedEmail($id:Int! $emailDomain:String! $isAllowed:Boolean! $status:String!) {
+    updateAllowedEmail(_id:$id emailDomain:$emailDomain isAllowed:$isAllowed status:$status) {
+      _id
+      emailDomain
+    }
+  }
+`;
+
 export const NEW_ALLOWED_EMAIL = gql`
   mutation NewAllowedEmail($emailDomain:String! $isAllowed:Boolean!) {
     newAllowedEmail(emailDomain:$emailDomain isAllowed:$isAllowed) {
@@ -324,5 +333,11 @@ export const NEW_ALLOWED_EMAIL = gql`
       isAllowed
       status
     }
+  }
+`;
+
+export const DELETE_EMAIL = gql`
+  mutation DeleteEmail($id:Int!) {
+    deleteEmail(_id:$id)
   }
 `;

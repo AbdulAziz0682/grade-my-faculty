@@ -23,22 +23,22 @@ import {
   Visibility,
 } from '@mui/icons-material';
 
-import { useQuery/* , useMutation */ } from '@apollo/client';
+import { useQuery, useMutation } from '@apollo/client';
 
-/* import { useDispatch } from 'react-redux';
-import { addToast } from '../../redux/toastsActions'; */
+import { useDispatch } from 'react-redux';
+import { addToast } from '../../redux/toastsActions';
 
 import Search from '../../assets/Search.svg';
 
 import {
-  ALLOWED_EMAILS,
+  ALLOWED_EMAILS, DELETE_EMAIL, UPDATE_ALLOWED_EMAIL,
 } from '../../graphqlQueries';
 
 import AddEmailDialog from './AddEmailDialog';
 import EditEmailDialog from './EditEmailDialog';
 
 export default function AllowedEmails() {
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const [openNewEmailDialog, setOpenNewEmailDialog] = useState(false);
   const [updateEmail, setUpdateEmail] = useState({});
   const [openUpdateEmailDialog, setOpenUpdateEmailDialog] = useState(false);
@@ -48,34 +48,43 @@ export default function AllowedEmails() {
   }
   const [searchValue, setSearchValue] = React.useState('');
   const { loading, data } = useQuery(ALLOWED_EMAILS);
-  // const [update] = useMutation(UPDATE_AD, { refetchQueries: [{ query: ADS }] });
-  // const [deleteAd] = useMutation(DELETE_AD, { refetchQueries: [{ query: ADS }] });
-  /* function handleUpdate(updatedAd) {
-    update({ variables: updatedAd })
+  const [update] = useMutation(
+    UPDATE_ALLOWED_EMAIL,
+    { refetchQueries: [{ query: ALLOWED_EMAILS }] },
+  );
+  const [deleteEmail] = useMutation(DELETE_EMAIL, { refetchQueries: [{ query: ALLOWED_EMAILS }] });
+  function handleUpdate(updatedEmail) {
+    update({ variables: updatedEmail })
       .then(() => dispatch(addToast({ message: 'Ad updated successfully', severity: 'success' })))
       .catch((r) => dispatch(addToast({ message: r.message, severity: 'error' })));
   }
-  function handleStatusChange(value, ad) {
+  function handleStatusChange(value, email) {
     const variables = {
-      ...ad,
-      id: Number(ad._id),
+      ...email,
+      id: Number(email._id),
       status: value,
     };
     handleUpdate(variables);
   }
   function handleDelete(_id) {
-    deleteAd({ variables: { id: Number(_id) } })
-      .then(() => dispatch(addToast({ message: 'Ad deleted successfully', severity: 'success' })))
+    deleteEmail({ variables: { id: Number(_id) } })
+      .then(() => dispatch(addToast({ message: 'Email domain deleted successfully', severity: 'success' })))
       .catch((r) => dispatch(addToast({ message: r.message, severity: 'error' })));
-  } */
+  }
   return (
     <div className="flex flex-col w-full gap-9">
       <AddEmailDialog open={openNewEmailDialog} handleClose={() => setOpenNewEmailDialog(false)} />
-      <EditEmailDialog
-        open={openUpdateEmailDialog}
-        handleClose={() => setOpenUpdateEmailDialog(false)}
-        email={updateEmail}
-      />
+      {
+        openUpdateEmailDialog
+        && (
+          <EditEmailDialog
+            open={openUpdateEmailDialog}
+            handleClose={() => setOpenUpdateEmailDialog(false)}
+            handleUpdate={(updatedEmail) => handleUpdate(updatedEmail)}
+            email={{ ...updateEmail, _id: Number(updateEmail._id) }}
+          />
+        )
+      }
       <div className="flex flex-col w-full gap-2 md:gap-9 md:flex-row md:items-center" style={{ maxHeight: '38px' }}>
         <Typography className="text-3xl text-gray-400 md:ml-16">Allowed Emails</Typography>
         <div className="flex-grow" />
@@ -116,7 +125,7 @@ export default function AllowedEmails() {
                       <TableCell className="text-gray-400">{email._id}</TableCell>
                       <TableCell className="text-lg font-semibold text-black">{email.emailDomain}</TableCell>
                       <TableCell className="text-gray-600">
-                        <select value={email.status} className="w-24 min-w-full p-2 bg-gray-200"/* onChange={(event) => handleStatusChange(event.target.value, ad)} */>
+                        <select value={email.status} className="w-24 min-w-full p-2 bg-gray-200" onChange={(event) => handleStatusChange(event.target.value, email)}>
                           <option value="Active">Active</option>
                           <option value="Inactive">Inactive</option>
                         </select>
@@ -125,7 +134,7 @@ export default function AllowedEmails() {
                         <IconButton onClick={() => doUpdateEmail(email)}>
                           <Visibility />
                         </IconButton>
-                        <IconButton onClick={() => null/* handleDelete(ad._id) */}>
+                        <IconButton onClick={() => handleDelete(email._id)}>
                           <DeleteForever />
                         </IconButton>
                       </TableCell>
