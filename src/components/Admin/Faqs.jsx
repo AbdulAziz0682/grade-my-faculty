@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import React, { useState } from 'react';
 
 import {
@@ -12,6 +13,7 @@ import {
   TableCell,
   TableHead,
   IconButton,
+  CircularProgress,
 } from '@mui/material';
 
 import {
@@ -21,43 +23,50 @@ import {
   Visibility,
 } from '@mui/icons-material';
 
+import { useQuery, useMutation } from '@apollo/client';
+
+import { useDispatch } from 'react-redux';
+import { addToast } from '../../redux/toastsActions';
+
 import Search from '../../assets/Search.svg';
+
+import {
+  FAQS,
+  DELETE_FAQ,
+} from '../../graphqlQueries';
 
 import AddFaqDialog from './AddFaqDialog';
 import EditFaqDialog from './EditFaqDialog';
 
 export default function Faqs() {
+  const dispatch = useDispatch();
   const [openNewFaqDialog, setOpenNewFaqDialog] = useState(false);
-  const [updateFaq, setUpdateFaq] = useState({ title: 'Faq title', category: 'student', answer: 'answer goes here' });
+  const [updateFaq, setUpdateFaq] = useState({});
   const [openUpdateFaqDialog, setOpenUpdateFaqDialog] = useState(false);
   function doUpdateFaq(faq) {
-    setOpenUpdateFaqDialog(true);
     setUpdateFaq(faq);
+    setOpenUpdateFaqDialog(true);
   }
-  const faqs = [
-    {
-      id: 1, title: 'faq1', category: 'student', answer: 'answer',
-    },
-    {
-      id: 2, title: 'faq2', category: 'teacher', answer: 'answer',
-    },
-    {
-      id: 3, title: 'faq3', category: 'student', answer: 'answer',
-    },
-  ];
-  const [list, setList] = React.useState(faqs);
+  const { loading, data } = useQuery(FAQS);
+  const [deleteFaq] = useMutation(DELETE_FAQ, { refetchQueries: [{ query: FAQS }] });
   const [searchValue, setSearchValue] = React.useState('');
-  React.useEffect(() => {
-    setList(faqs.filter((faq) => faq.title.toLowerCase().includes(searchValue.toLowerCase())));
-  }, [searchValue]);
+  function handleDelete(_id) {
+    deleteFaq({ variables: { id: Number(_id) } })
+      .then(() => dispatch(addToast({ message: 'Faq deleted successfully', severity: 'success' })))
+      .catch((r) => dispatch(addToast({ message: r.message, severity: 'error' })));
+  }
   return (
     <div className="flex flex-col w-full gap-9">
       <AddFaqDialog open={openNewFaqDialog} handleClose={() => setOpenNewFaqDialog(false)} />
-      <EditFaqDialog
-        open={openUpdateFaqDialog}
-        handleClose={() => setOpenUpdateFaqDialog(false)}
-        faq={updateFaq}
-      />
+      {
+        openUpdateFaqDialog && (
+          <EditFaqDialog
+            open={openUpdateFaqDialog}
+            handleClose={() => setOpenUpdateFaqDialog(false)}
+            faq={updateFaq}
+          />
+        )
+      }
       <div className="flex flex-col w-full gap-2 md:gap-9 md:flex-row md:items-center" style={{ maxHeight: '38px' }}>
         <Typography className="ml-16 text-3xl text-gray-400">Faq&apos;s List</Typography>
         <div className="flex-grow" />
@@ -87,27 +96,34 @@ export default function Faqs() {
               <TableCell className="font-semibold text-center text-gray-400">Actions</TableCell>
             </TableRow>
           </TableHead>
-          <TableBody>
-            {
-              list.map((faq) => (
-                <TableRow key={faq.id} className="hover:shadow-md" onClick={() => doUpdateFaq({ title: 'Faq title', category: 'student', answer: 'answer goes here' })}>
-                  <TableCell className="text-gray-400">{faq.id}</TableCell>
-                  <TableCell className="text-lg font-semibold text-black">{faq.title}</TableCell>
-                  <TableCell className="text-gray-600">
-                    <select className="w-full p-2 bg-gray-200">
-                      {
-                        [1, 2, 3].map((i) => <option key={i}>{i}</option>)
-                      }
-                    </select>
-                  </TableCell>
-                  <TableCell className="text-center">
-                    <IconButton><Visibility /></IconButton>
-                    <IconButton><DeleteForever /></IconButton>
-                  </TableCell>
-                </TableRow>
-              ))
-            }
-          </TableBody>
+          {
+            !loading && data && (
+              <TableBody>
+                {
+                  data?.faqs.filter(
+                    (faq) => faq.title.toLowerCase().includes(searchValue),
+                  ).map((faq) => (
+                    <TableRow key={faq._id} className="hover:shadow-md">
+                      <TableCell className="text-gray-400">{faq._id}</TableCell>
+                      <TableCell className="text-lg font-semibold text-black">{faq.title}</TableCell>
+                      <TableCell className="text-gray-400">{faq.category}</TableCell>
+                      <TableCell className="text-center">
+                        <IconButton onClick={() => doUpdateFaq(faq)}>
+                          <Visibility />
+                        </IconButton>
+                        <IconButton onClick={() => handleDelete(faq._id)}>
+                          <DeleteForever />
+                        </IconButton>
+                      </TableCell>
+                    </TableRow>
+                  ))
+                }
+              </TableBody>
+            )
+          }
+          {
+            loading && <div className="absolute inset-x-0 flex items-center justify-center"><CircularProgress /></div>
+          }
         </Table>
       </TableContainer>
       <div className="flex justify-end w-full gap-12 mt-16">

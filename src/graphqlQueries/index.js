@@ -341,3 +341,42 @@ export const DELETE_EMAIL = gql`
     deleteEmail(_id:$id)
   }
 `;
+
+export const FAQS = gql`
+  query Faqs {
+    faqs {
+      _id
+      title
+      category
+      answer
+    }
+  }
+`;
+
+export const NEW_FAQ = gql`
+  mutation NewFaq($title:String! $category:String! $answer:String!) {
+    newFaq(title:$title category:$category answer:$answer) {
+      _id
+      title
+      category
+      answer
+    }
+  }
+`;
+
+export const UPDATE_FAQ = gql`
+  mutation UpdateFaq($id:Int! $title:String! $category:String! $answer:String!) {
+    updateFaq(_id:$id title:$title category:$category answer:$answer) {
+      _id
+      title
+      category
+      answer
+    }
+  }
+`;
+
+export const DELETE_FAQ = gql`
+  mutation DeleteFaq($id:Int!) {
+    deleteFaq(_id:$id)
+  }
+`;
