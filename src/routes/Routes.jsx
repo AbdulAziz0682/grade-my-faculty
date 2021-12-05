@@ -22,6 +22,8 @@ import ForgetPassword from '../components/User/Pages/Login/ForgetPassword';
 import Faq from '../components/User/Pages/Faq';
 import StudentsFaq from '../components/User/Pages/Faq/StudentsFaq';
 import TeachersFaq from '../components/User/Pages/Faq/TeachersFaq';
+import GeneralFaq from '../components/User/Pages/Faq/GeneralFaq';
+import LegalFaq from '../components/User/Pages/Faq/LegalFaq';
 import AboutUs from '../components/User/Pages/AboutUs';
 import Post from '../components/User/Pages/Post';
 import ResetPassword from '../components/User/Pages/Login/ResetPassword';
@@ -84,6 +86,12 @@ export default function Routes() {
             </Route>
             <Route exact path="/teachersFaq">
               <TeachersFaq />
+            </Route>
+            <Route exact path="/generalFaq">
+              <GeneralFaq />
+            </Route>
+            <Route exact path="/legalFaq">
+              <LegalFaq />
             </Route>
             <Route exact path="/contact">
               <Contact />

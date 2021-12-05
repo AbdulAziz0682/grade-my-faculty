@@ -11,7 +11,11 @@ import {
 
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
+import { useHistory } from 'react-router-dom';
+
 export default function StudentsFaq() {
+  const history = useHistory();
+  const studentsFaq = history.location.state[history.location.state.length - 1];
   return (
     <Grid container className="flex-grow bg-pageBg">
       <Container maxWidth="xl">
@@ -20,72 +24,23 @@ export default function StudentsFaq() {
             <Typography variant="h1" align="center"> Student&apos;s FAQ </Typography>
           </Grid>
           <Grid item className="w-full">
-            <Accordion style={{ marginBottom: 0, marginTop: 0 }}>
-              <AccordionSummary className="px-3 md:px-9" expandIcon={<ExpandMoreIcon htmlColor="white" sx={{ bgcolor: 'primary.main', width: '2.5rem', height: '2.5rem' }} />}>
-                <Typography variant="h4">First faq related to student will be here</Typography>
-              </AccordionSummary>
-              <AccordionDetails className="px-3 bg-gray-200 md:px-9">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                sed do eiusmod tempor incididunt ut labore et dolore
-                magna aliqua. Ut enim ad minim veniam, quis nostrud
-                exercitation ullamco laboris nisi ut aliquip ex ea
-                commodo consequat. Duis aute irure dolor in reprehenderit
-                in voluptate velit esse cillum dolore eu fugiat nulla
-                pariatur. Excepteur sint occaecat cupidatat non proident,
-                sunt in culpa qui officia deserunt mollit anim id est
-                laborum.
-                <br />
-                Duis aute irure dolor in reprehenderit in voluptate velit
-                esse cillum dolore eu fugiat nulla
-                pariatur. Excepteur sint occaecat cupidatat non proident,
-                sunt in culpa qui officia deserunt mollit anim id est
-                laborum.
-              </AccordionDetails>
-            </Accordion>
-            <Accordion style={{ marginBottom: 0, marginTop: 0 }}>
-              <AccordionSummary className="px-3 md:px-9" expandIcon={<ExpandMoreIcon htmlColor="white" sx={{ bgcolor: 'primary.main', width: '2.5rem', height: '2.5rem' }} />}>
-                <Typography variant="h4">Second faq related to student will be here</Typography>
-              </AccordionSummary>
-              <AccordionDetails className="px-3 bg-gray-200 md:px-9">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                sed do eiusmod tempor incididunt ut labore et dolore
-                magna aliqua. Ut enim ad minim veniam, quis nostrud
-                exercitation ullamco laboris nisi ut aliquip ex ea
-                commodo consequat. Duis aute irure dolor in reprehenderit
-                in voluptate velit esse cillum dolore eu fugiat nulla
-                pariatur. Excepteur sint occaecat cupidatat non proident,
-                sunt in culpa qui officia deserunt mollit anim id est
-                laborum.
-                <br />
-                Duis aute irure dolor in reprehenderit in voluptate velit
-                esse cillum dolore eu fugiat nulla
-                pariatur. Excepteur sint occaecat cupidatat non proident,
-                sunt in culpa qui officia deserunt mollit anim id est
-                laborum.
-              </AccordionDetails>
-            </Accordion>
-            <Accordion style={{ marginBottom: 0, marginTop: 0 }}>
-              <AccordionSummary className="px-3 md:px-9" expandIcon={<ExpandMoreIcon htmlColor="white" sx={{ bgcolor: 'primary.main', width: '2.5rem', height: '2.5rem' }} />}>
-                <Typography variant="h4">Third faq related to student will be here</Typography>
-              </AccordionSummary>
-              <AccordionDetails className="px-3 bg-gray-200 md:px-9">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                sed do eiusmod tempor incididunt ut labore et dolore
-                magna aliqua. Ut enim ad minim veniam, quis nostrud
-                exercitation ullamco laboris nisi ut aliquip ex ea
-                commodo consequat. Duis aute irure dolor in reprehenderit
-                in voluptate velit esse cillum dolore eu fugiat nulla
-                pariatur. Excepteur sint occaecat cupidatat non proident,
-                sunt in culpa qui officia deserunt mollit anim id est
-                laborum.
-                <br />
-                Duis aute irure dolor in reprehenderit in voluptate velit
-                esse cillum dolore eu fugiat nulla
-                pariatur. Excepteur sint occaecat cupidatat non proident,
-                sunt in culpa qui officia deserunt mollit anim id est
-                laborum.
-              </AccordionDetails>
-            </Accordion>
+            {
+              studentsFaq.length === 0 && <Typography variant="h6" align="center" color="primary">No faqs added yet</Typography>
+            }
+            {
+              studentsFaq.length !== 0 && studentsFaq.map((faq) => (
+                <Accordion style={{ marginBottom: 0, marginTop: 0 }}>
+                  <AccordionSummary className="px-3 md:px-9" expandIcon={<ExpandMoreIcon htmlColor="white" sx={{ bgcolor: 'primary.main', width: '2.5rem', height: '2.5rem' }} />}>
+                    <Typography variant="h4">{faq.title}</Typography>
+                  </AccordionSummary>
+                  <AccordionDetails className="px-3 bg-gray-200 md:px-9">
+                    <Typography variant="body1">
+                      {faq.answer}
+                    </Typography>
+                  </AccordionDetails>
+                </Accordion>
+              ))
+            }
           </Grid>
         </Grid>
       </Container>

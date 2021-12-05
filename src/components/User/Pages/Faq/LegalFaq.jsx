@@ -13,22 +13,22 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 import { useHistory } from 'react-router-dom';
 
-export default function TeachersFaq() {
+export default function LegalFaq() {
   const history = useHistory();
-  const teachersFaq = history.location.state[history.location.state.length - 1];
+  const legalFaq = history.location.state[history.location.state.length - 1];
   return (
     <Grid container className="flex-grow bg-pageBg">
       <Container maxWidth="xl">
         <Grid container direction="column" className="pt-16 pb-60">
           <Grid item className="w-full">
-            <Typography variant="h1" align="center"> Teacher&apos;s FAQ </Typography>
+            <Typography variant="h1" align="center"> Legal FAQ </Typography>
           </Grid>
           <Grid item className="w-full">
             {
-              teachersFaq.length === 0 && <Typography variant="h6" align="center" color="primary">No faqs added yet</Typography>
+              legalFaq.length === 0 && <Typography variant="h6" align="center" color="primary">No faqs added yet</Typography>
             }
             {
-              teachersFaq.length !== 0 && teachersFaq.map((faq) => (
+              legalFaq.length !== 0 && legalFaq.map((faq) => (
                 <Accordion style={{ marginBottom: 0, marginTop: 0 }}>
                   <AccordionSummary className="px-3 md:px-9" expandIcon={<ExpandMoreIcon htmlColor="white" sx={{ bgcolor: 'primary.main', width: '2.5rem', height: '2.5rem' }} />}>
                     <Typography variant="h4">{faq.title}</Typography>
