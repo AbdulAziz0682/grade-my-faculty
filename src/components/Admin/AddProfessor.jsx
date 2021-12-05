@@ -22,7 +22,9 @@ import * as yup from 'yup';
 import { useDispatch } from 'react-redux';
 import { addToast } from '../../redux/toastsActions';
 
-import { NEW_FACULTY, INSTITUTES } from '../../graphqlQueries';
+import {
+  NEW_FACULTY, INSTITUTES, COUNT_ALL, FACULTIES,
+} from '../../graphqlQueries';
 
 export default function AddProfessor() {
   // Chip select requirements
@@ -34,7 +36,9 @@ export default function AddProfessor() {
   const [currentInstId, setCurrentInstId] = React.useState(0);
   const dispatch = useDispatch();
   const institutesQuery = useQuery(INSTITUTES);
-  const [newFaculty, { loading }] = useMutation(NEW_FACULTY);
+  const [newFaculty, { loading }] = useMutation(
+    NEW_FACULTY, { refetchQueries: [{ query: FACULTIES }, { query: COUNT_ALL }] },
+  );
   // Form requirements
   const schema = yup.object({
     firstName: yup.string().required('First name is required').min(2, 'Enter at least 2 characters'),

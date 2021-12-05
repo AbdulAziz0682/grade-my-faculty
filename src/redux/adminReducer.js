@@ -1,7 +1,7 @@
 import { SET_CURRENT_TAB } from './adminActionTypes';
 
 const initialState = {
-  currentTab: { name: 'admins', data: null },
+  currentTab: { name: 'dashboard', data: null },
   users: [
     {
       id: 1,

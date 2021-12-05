@@ -2,6 +2,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import Stack from '@mui/material/Stack';
+
 import { useSelector, useDispatch } from 'react-redux';
 import { removeToast } from '../redux/toastsActions';
 
@@ -11,14 +13,14 @@ export default function Toasts() {
   const dispatch = useDispatch();
   const toasts = useSelector((state) => state.toasts);
   return (
-    <ul style={{ display: 'flex', flexDirection: 'flex-column', gap: '1.5rem' }}>
+    <Stack>
       {toasts.map((toast) => {
         const { id } = toast;
         return (
           <Toast {...toast} key={id} onDismissClick={() => dispatch(removeToast(id))} />
         );
       })}
-    </ul>
+    </Stack>
   );
 }
 

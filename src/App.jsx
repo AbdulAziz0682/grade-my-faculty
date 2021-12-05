@@ -43,6 +43,7 @@ const GET_LOGGEDIN_ADMIN = gql`
   query {
     loggedAdmin {
       admin {
+        _id
         name
         email
         status

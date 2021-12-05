@@ -19,7 +19,7 @@ import * as yup from 'yup';
 import { useDispatch } from 'react-redux';
 import { addToast } from '../../redux/toastsActions';
 
-import { NEW_INSTITUTE, INSTITUTES } from '../../graphqlQueries';
+import { NEW_INSTITUTE, INSTITUTES, COUNT_ALL } from '../../graphqlQueries';
 
 export default function AddInstitute() {
   // Chip select requirements
@@ -32,7 +32,7 @@ export default function AddInstitute() {
   const dispatch = useDispatch();
   const [newInstitute, { loading }] = useMutation(
     NEW_INSTITUTE,
-    { refetchQueries: [{ query: INSTITUTES }] },
+    { refetchQueries: [{ query: INSTITUTES }, { query: COUNT_ALL }] },
   );
   // Form requirements
   const schema = yup.object({

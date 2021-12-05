@@ -1,5 +1,14 @@
 import { gql } from '@apollo/client';
 
+export const COUNT_ALL = gql`
+  query CountAll {
+    allFaculties
+    allUsers
+    allInstitutes
+    allRatings
+  }
+`;
+
 export const USERS = gql`
   query users($offset:Int $limit:Int) {
     users(offset:$offset limit:$limit) {

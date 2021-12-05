@@ -30,7 +30,7 @@ export default function AddFaqDialog({ open, handleClose }) {
   const schema = yup.object({
     title: yup.string().required('Title is required').min(2, 'Enter at least 2 characters'),
     answer: yup.string().required('Answer is required').min(2, 'Enter at least 2 characters'),
-    category: yup.mixed().oneOf(['Student', 'Teacher'], 'Please select one of Student or Teacher').required('Category is required'),
+    category: yup.mixed().oneOf(['Student', 'Teacher', 'General', 'Legals'], 'Please select one of Student or Teacher').required('Category is required'),
   });
   const formik = useFormik({
     initialValues: {
@@ -76,6 +76,8 @@ export default function AddFaqDialog({ open, handleClose }) {
             >
               <MenuItem value="Student">Student</MenuItem>
               <MenuItem value="Teacher">Teacher</MenuItem>
+              <MenuItem value="General">General</MenuItem>
+              <MenuItem value="Legals">Legals</MenuItem>
             </Select>
           </span>
           <TextField

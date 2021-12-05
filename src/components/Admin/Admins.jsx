@@ -28,7 +28,7 @@ import {
 
 import { useQuery, useMutation } from '@apollo/client';
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setCurrentTab } from '../../redux/adminActions';
 import { addToast } from '../../redux/toastsActions';
 
@@ -38,20 +38,25 @@ import { ADMINS, UPDATE_ADMIN, DELETE_ADMIN } from '../../graphqlQueries';
 
 export default function Admins() {
   const dispatch = useDispatch();
+  const currentAdmin = useSelector((state) => state.account.admin);
   const { loading, data } = useQuery(ADMINS);
   const [updateAdmin] = useMutation(UPDATE_ADMIN, { refetchQueries: [{ query: ADMINS }] });
   const [deleteAdmin] = useMutation(DELETE_ADMIN, { refetchQueries: [{ query: ADMINS }] });
   const [searchValue, setSearchValue] = React.useState('');
   function handleStatusChange(value, admin) {
-    const variables = {
-      ...admin,
-      confirmPassword: admin.password,
-      id: Number(admin._id),
-      status: value,
-    };
-    updateAdmin({ variables })
-      .then(() => dispatch(addToast({ message: 'Admin status updated successfully', severity: 'success' })))
-      .catch((r) => dispatch(addToast({ message: r.message, severity: 'error' })));
+    if (currentAdmin._id === admin._id) {
+      dispatch(addToast({ message: 'Sorry, you can not change your status', severity: 'error' }));
+    } else {
+      const variables = {
+        ...admin,
+        confirmPassword: admin.password,
+        id: Number(admin._id),
+        status: value,
+      };
+      updateAdmin({ variables })
+        .then(() => dispatch(addToast({ message: 'Admin status updated successfully', severity: 'success' })))
+        .catch((r) => dispatch(addToast({ message: r.message, severity: 'error' })));
+    }
   }
   function handleDelete(_id) {
     deleteAdmin({ variables: { id: Number(_id) } })

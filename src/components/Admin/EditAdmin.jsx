@@ -16,13 +16,16 @@ import { useMutation } from '@apollo/client';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addToast } from '../../redux/toastsActions';
+import { login, logout } from '../../redux/accountActions';
 
 import { ADMINS, UPDATE_ADMIN } from '../../graphqlQueries';
+import { setCurrentTab } from '../../redux/adminActions';
 
 export default function EditAdmin({ admin }) {
   const dispatch = useDispatch();
+  const currentAdmin = useSelector((state) => state.account.admin);
   const [updateAdmin, { loading }] = useMutation(
     UPDATE_ADMIN,
     { refetchQueries: [{ query: ADMINS }] },
@@ -45,7 +48,18 @@ export default function EditAdmin({ admin }) {
     onSubmit: (values) => updateAdmin(
       { variables: { ...values, id: Number(admin._id), status: admin.status } },
     )
-      .then(() => dispatch(addToast({ message: 'Admin updated successfully', severity: 'success' })))
+      .then((r) => {
+        if (currentAdmin._id === r.data.updateAdmin._id) {
+          if (currentAdmin.email !== r.data.updateAdmin.email) {
+            dispatch(addToast({ message: 'Email changed, please login again', severity: 'warning' }));
+            dispatch(setCurrentTab({ name: 'dashboard', data: null }));
+            dispatch(logout());
+          } else {
+            dispatch(addToast({ message: 'Admin updated successfully', severity: 'success' }));
+            dispatch(login({ admin: r.data.updateAdmin, role: 'admin' }));
+          }
+        }
+      })
       .catch((r) => dispatch(addToast({ message: r.message, severity: 'error' }))),
   });
   return (

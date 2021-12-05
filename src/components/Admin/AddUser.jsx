@@ -17,11 +17,13 @@ import * as yup from 'yup';
 import { useDispatch } from 'react-redux';
 import { addToast } from '../../redux/toastsActions';
 
-import { NEW_USER, USERS } from '../../graphqlQueries';
+import { NEW_USER, USERS, COUNT_ALL } from '../../graphqlQueries';
 
 export default function AddUser() {
   const dispatch = useDispatch();
-  const [newUser, { loading }] = useMutation(NEW_USER, { refetchQueries: [{ query: USERS }] });
+  const [newUser, { loading }] = useMutation(
+    NEW_USER, { refetchQueries: [{ query: USERS }, { query: COUNT_ALL }] },
+  );
   // Form requirements
   const schema = yup.object({
     firstName: yup.string().required('First name is required').min(2, 'Enter at least 2 characters'),
