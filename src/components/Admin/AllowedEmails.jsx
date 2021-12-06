@@ -39,6 +39,7 @@ import EditEmailDialog from './EditEmailDialog';
 
 export default function AllowedEmails() {
   const dispatch = useDispatch();
+  const [offset, setOffset] = React.useState(0);
   const [openNewEmailDialog, setOpenNewEmailDialog] = useState(false);
   const [updateEmail, setUpdateEmail] = useState({});
   const [openUpdateEmailDialog, setOpenUpdateEmailDialog] = useState(false);
@@ -47,7 +48,7 @@ export default function AllowedEmails() {
     setOpenUpdateEmailDialog(true);
   }
   const [searchValue, setSearchValue] = React.useState('');
-  const { loading, data } = useQuery(ALLOWED_EMAILS);
+  const { loading, data } = useQuery(ALLOWED_EMAILS, { fetchPolicy: 'cache-and-network', variables: { offset } });
   const [update] = useMutation(
     UPDATE_ALLOWED_EMAIL,
     { refetchQueries: [{ query: ALLOWED_EMAILS }] },
@@ -70,6 +71,16 @@ export default function AllowedEmails() {
     deleteEmail({ variables: { id: Number(_id) } })
       .then(() => dispatch(addToast({ message: 'Email domain deleted successfully', severity: 'success' })))
       .catch((r) => dispatch(addToast({ message: r.message, severity: 'error' })));
+  }
+  function nextPage() {
+    if (data && offset < data.allAllowedEmails) {
+      setOffset((off) => off + 10);
+    }
+  }
+  function prevPage() {
+    if (data && offset > 0) {
+      setOffset((off) => off - 10);
+    }
   }
   return (
     <div className="flex flex-col w-full gap-9">
@@ -150,10 +161,10 @@ export default function AllowedEmails() {
         </Table>
       </TableContainer>
       <div className="flex justify-end w-full gap-12 mt-16">
-        <IconButton className="bg-gray-400 rounded-none shadow-lg">
+        <IconButton className={`rounded-none shadow-lg ${(offset - 10) < 0 ? 'bg-gray-400' : 'bg-primary'}`} onClick={() => prevPage()}>
           <ChevronLeft className="w-10 h-10" htmlColor="white" />
         </IconButton>
-        <IconButton className="rounded-none shadow-lg bg-primary">
+        <IconButton className={`rounded-none shadow-lg ${(offset + 10) >= data?.allAllowedEmails ? 'bg-gray-400' : 'bg-primary'}`} onClick={() => nextPage()}>
           <ChevronRight className="w-10 h-10" htmlColor="white" />
         </IconButton>
       </div>

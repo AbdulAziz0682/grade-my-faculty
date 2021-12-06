@@ -31,8 +31,19 @@ import { INSTITUTES } from '../../graphqlQueries';
 
 export default function Institutes() {
   const dispatch = useDispatch();
-  const { loading, data } = useQuery(INSTITUTES);
+  const [offset, setOffset] = React.useState(0);
+  const { loading, data } = useQuery(INSTITUTES, { fetchPolicy: 'cache-and-network', variables: { offset } });
   const [searchValue, setSearchValue] = React.useState('');
+  function nextPage() {
+    if (data && offset < data.allInstitutes) {
+      setOffset((off) => off + 10);
+    }
+  }
+  function prevPage() {
+    if (data && offset > 0) {
+      setOffset((off) => off - 10);
+    }
+  }
   return (
     <div className="flex flex-col w-full gap-9">
       <div className="flex flex-col w-full gap-2 md:gap-9 md:flex-row md:items-center" style={{ maxHeight: '38px' }}>
@@ -90,10 +101,10 @@ export default function Institutes() {
         </Table>
       </TableContainer>
       <div className="flex justify-end w-full gap-12 mt-16">
-        <IconButton className="bg-gray-400 rounded-none shadow-lg">
+        <IconButton className={`rounded-none shadow-lg ${(offset - 10) < 0 ? 'bg-gray-400' : 'bg-primary'}`} onClick={() => prevPage()}>
           <ChevronLeft className="w-10 h-10" htmlColor="white" />
         </IconButton>
-        <IconButton className="rounded-none shadow-lg bg-primary">
+        <IconButton className={`rounded-none shadow-lg ${(offset + 10) >= data?.allInstitutes ? 'bg-gray-400' : 'bg-primary'}`} onClick={() => nextPage()}>
           <ChevronRight className="w-10 h-10" htmlColor="white" />
         </IconButton>
       </div>

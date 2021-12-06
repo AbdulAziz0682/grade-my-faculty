@@ -21,11 +21,11 @@ import legals from '../../../../assets/legals.svg';
 export default function Faq() {
   const history = useHistory();
   const { loading, data } = useQuery(FAQS);
+  if (loading) return <div className="absolute inset-x-0 flex items-center justify-center mt-16"><CircularProgress /></div>;
   const studentsFaq = data.faqs.filter((f) => f.category === 'Student');
   const teachersFaq = data.faqs.filter((f) => f.category === 'Teacher');
   const generalFaq = data.faqs.filter((f) => f.category === 'General');
-  const legalFaq = data.faqs.filter((f) => f.category === 'Legal');
-  if (loading) return <div className="absolute inset-x-0 flex items-center justify-center mt-16"><CircularProgress /></div>;
+  const legalFaq = data.faqs.filter((f) => f.category === 'Legals');
   return (
     <Grid container className="flex-grow bg-pageBg">
       <Container maxWidth="xl">

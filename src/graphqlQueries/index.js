@@ -19,6 +19,7 @@ export const USERS = gql`
       password
       registeredAt
     }
+    allUsers
   }
 `;
 
@@ -56,14 +57,15 @@ export const DELETE_USER = gql`
 `;
 
 export const ADMINS = gql`
-  query Admins {
-    admins {
+  query Admins($offset:Int $limit:Int) {
+    admins(offset:$offset limit:$limit) {
       _id
       name
       email
       password
       status
     }
+    allAdmins
   }
 `;
 
@@ -98,8 +100,8 @@ export const DELETE_ADMIN = gql`
 `;
 
 export const INSTITUTES = gql`
-  query Institutes {
-    institutes {
+  query Institutes($offset:Int $limit:Int) {
+    institutes(offset:$offset limit:$limit) {
       _id
       name
       email
@@ -107,6 +109,7 @@ export const INSTITUTES = gql`
       faculties
       createdAt
     }
+    allInstitutes
   }
 `;
 
@@ -139,8 +142,8 @@ export const DELETE_INSTITUTE = gql`
 `;
 
 export const FACULTIES = gql`
-  query Faculties {
-    faculties {
+  query Faculties($offset:Int $limit:Int) {
+    faculties(offset:$offset limit:$limit) {
       _id
       firstName
       lastName
@@ -149,12 +152,13 @@ export const FACULTIES = gql`
       department
       courses
     }
+    allFaculties
   }
 `;
 
 export const FACULTIES_AND_INSTITUTES = gql`
-  query Faculties {
-    faculties {
+  query Faculties($offset:Int $limit:Int) {
+    faculties(offset:$offset limit:$limit) {
       _id
       firstName
       lastName
@@ -165,6 +169,7 @@ export const FACULTIES_AND_INSTITUTES = gql`
       attributes
       ratings
     }
+    allFaculties
     institutes {
       _id
       name
@@ -245,8 +250,8 @@ export const UPDATE_AD = gql`
 `;
 
 export const ADS = gql`
-  query Ads {
-    ads {
+  query Ads($offset:Int $limit:Int) {
+    ads(offset:$offset limit:$limit) {
       _id
       title
       status
@@ -254,6 +259,7 @@ export const ADS = gql`
       code
       status
     }
+    allAds
   }
 `;
 
@@ -347,13 +353,14 @@ export const NEW_RATING = gql`
 `;
 
 export const ALLOWED_EMAILS = gql`
-  query AllowedEmails {
-    allowedEmails {
+  query AllowedEmails($offset:Int $limit:Int) {
+    allowedEmails(offset:$offset limit:$limit) {
       _id
       emailDomain
       isAllowed
       status
     }
+    allAllowedEmails
   }
 `;
 
@@ -384,13 +391,14 @@ export const DELETE_EMAIL = gql`
 `;
 
 export const FAQS = gql`
-  query Faqs {
-    faqs {
+  query Faqs($offset:Int $limit:Int) {
+    faqs(offset:$offset limit:$limit) {
       _id
       title
       category
       answer
     }
+    allFaqs
   }
 `;
 

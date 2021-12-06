@@ -42,8 +42,9 @@ import AboutUs from './AboutUs';
 
 export default function Admins() {
   const dispatch = useDispatch();
+  const [offset, setOffset] = React.useState(0);
   const currentAdmin = useSelector((state) => state.account.admin);
-  const { loading, data } = useQuery(ADMINS);
+  const { loading, data } = useQuery(ADMINS, { fetchPolicy: 'cache-and-network', variables: { offset } });
   const aboutUsQuery = useQuery(ABOUT_US);
   const [updateAdmin] = useMutation(UPDATE_ADMIN, { refetchQueries: [{ query: ADMINS }] });
   const [deleteAdmin] = useMutation(DELETE_ADMIN, { refetchQueries: [{ query: ADMINS }] });
@@ -67,6 +68,16 @@ export default function Admins() {
     deleteAdmin({ variables: { id: Number(_id) } })
       .then(() => dispatch(addToast({ message: 'Admin deleted successfully', severity: 'success' })))
       .catch((r) => dispatch(addToast({ message: r.message, severity: 'error' })));
+  }
+  function nextPage() {
+    if (data && offset < data.allAdmins) {
+      setOffset((off) => off + 10);
+    }
+  }
+  function prevPage() {
+    if (data && offset > 0) {
+      setOffset((off) => off - 10);
+    }
   }
   return (
     <Grid container rowSpacing={8} columnSpacing={8}>
@@ -137,10 +148,10 @@ export default function Admins() {
             </Table>
           </TableContainer>
           <div className="flex justify-end w-full gap-12 mt-16">
-            <IconButton className="bg-gray-400 rounded-none shadow-lg">
+            <IconButton className={`rounded-none shadow-lg ${(offset - 10) < 0 ? 'bg-gray-400' : 'bg-primary'}`} onClick={() => prevPage()}>
               <ChevronLeft className="w-10 h-10" htmlColor="white" />
             </IconButton>
-            <IconButton className="rounded-none shadow-lg bg-primary">
+            <IconButton className={`rounded-none shadow-lg ${(offset + 10) >= data?.allAdmins ? 'bg-gray-400' : 'bg-primary'}`} onClick={() => nextPage()}>
               <ChevronRight className="w-10 h-10" htmlColor="white" />
             </IconButton>
           </div>

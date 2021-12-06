@@ -41,6 +41,7 @@ import {
 } from '../../graphqlQueries';
 
 export default function Ads() {
+  const [offset, setOffset] = React.useState(0);
   const [openNewAdDialog, setOpenNewAdDialog] = useState(false);
   const [updateAd, setUpdateAd] = useState({});
   const [openUpdateAdDialog, setOpenUpdateAdDialog] = useState(false);
@@ -49,7 +50,7 @@ export default function Ads() {
     setOpenUpdateAdDialog(true);
   }
   const dispatch = useDispatch();
-  const { loading, data } = useQuery(ADS);
+  const { loading, data } = useQuery(ADS, { fetchPolicy: 'cache-and-network', variables: { offset } });
   const [update] = useMutation(UPDATE_AD, { refetchQueries: [{ query: ADS }] });
   const [deleteAd] = useMutation(DELETE_AD, { refetchQueries: [{ query: ADS }] });
   const [searchValue, setSearchValue] = React.useState('');
@@ -70,6 +71,16 @@ export default function Ads() {
     deleteAd({ variables: { id: Number(_id) } })
       .then(() => dispatch(addToast({ message: 'Ad deleted successfully', severity: 'success' })))
       .catch((r) => dispatch(addToast({ message: r.message, severity: 'error' })));
+  }
+  function nextPage() {
+    if (data && offset < data.allAds) {
+      setOffset((off) => off + 10);
+    }
+  }
+  function prevPage() {
+    if (data && offset > 0) {
+      setOffset((off) => off - 10);
+    }
   }
   return (
     <div className="flex flex-col w-full gap-9">
@@ -150,10 +161,10 @@ export default function Ads() {
         </Table>
       </TableContainer>
       <div className="flex justify-end w-full gap-12 mt-16">
-        <IconButton className="bg-gray-400 rounded-none shadow-lg">
+        <IconButton className={`rounded-none shadow-lg ${(offset - 10) < 0 ? 'bg-gray-400' : 'bg-primary'}`} onClick={() => prevPage()}>
           <ChevronLeft className="w-10 h-10" htmlColor="white" />
         </IconButton>
-        <IconButton className="rounded-none shadow-lg bg-primary">
+        <IconButton className={`rounded-none shadow-lg ${(offset + 10) >= data?.allAds ? 'bg-gray-400' : 'bg-primary'}`} onClick={() => nextPage()}>
           <ChevronRight className="w-10 h-10" htmlColor="white" />
         </IconButton>
       </div>

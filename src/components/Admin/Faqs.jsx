@@ -40,6 +40,7 @@ import EditFaqDialog from './EditFaqDialog';
 
 export default function Faqs() {
   const dispatch = useDispatch();
+  const [offset, setOffset] = React.useState(0);
   const [openNewFaqDialog, setOpenNewFaqDialog] = useState(false);
   const [updateFaq, setUpdateFaq] = useState({});
   const [openUpdateFaqDialog, setOpenUpdateFaqDialog] = useState(false);
@@ -47,13 +48,23 @@ export default function Faqs() {
     setUpdateFaq(faq);
     setOpenUpdateFaqDialog(true);
   }
-  const { loading, data } = useQuery(FAQS);
+  const { loading, data } = useQuery(FAQS, { fetchPolicy: 'cache-and-network', variables: { offset } });
   const [deleteFaq] = useMutation(DELETE_FAQ, { refetchQueries: [{ query: FAQS }] });
   const [searchValue, setSearchValue] = React.useState('');
   function handleDelete(_id) {
     deleteFaq({ variables: { id: Number(_id) } })
       .then(() => dispatch(addToast({ message: 'Faq deleted successfully', severity: 'success' })))
       .catch((r) => dispatch(addToast({ message: r.message, severity: 'error' })));
+  }
+  function nextPage() {
+    if (data && offset < data.allFaqs) {
+      setOffset((off) => off + 10);
+    }
+  }
+  function prevPage() {
+    if (data && offset > 0) {
+      setOffset((off) => off - 10);
+    }
   }
   return (
     <div className="flex flex-col w-full gap-9">
@@ -127,10 +138,10 @@ export default function Faqs() {
         </Table>
       </TableContainer>
       <div className="flex justify-end w-full gap-12 mt-16">
-        <IconButton className="bg-gray-400 rounded-none shadow-lg">
+        <IconButton className={`rounded-none shadow-lg ${(offset - 10) < 0 ? 'bg-gray-400' : 'bg-primary'}`} onClick={() => prevPage()}>
           <ChevronLeft className="w-10 h-10" htmlColor="white" />
         </IconButton>
-        <IconButton className="rounded-none shadow-lg bg-primary">
+        <IconButton className={`rounded-none shadow-lg ${(offset + 10) >= data?.allFaqs ? 'bg-gray-400' : 'bg-primary'}`} onClick={() => nextPage()}>
           <ChevronRight className="w-10 h-10" htmlColor="white" />
         </IconButton>
       </div>

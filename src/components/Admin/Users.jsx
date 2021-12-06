@@ -33,11 +33,22 @@ import {
 
 export default function Users() {
   const dispatch = useDispatch();
+  const [offset, setOffset] = React.useState(0);
   const [searchValue, setSearchValue] = React.useState('');
-  const { loading, data } = useQuery(USERS);
+  const { loading, data } = useQuery(USERS, { fetchPolicy: 'cache-and-network', variables: { offset } });
   const ratingsQuery = useQuery(RATINGS);
   const facultiesQuery = useQuery(FACULTIES);
   const institutesQuery = useQuery(INSTITUTES);
+  function nextPage() {
+    if (data && offset < data.allUsers) {
+      setOffset((off) => off + 10);
+    }
+  }
+  function prevPage() {
+    if (data && offset > 0) {
+      setOffset((off) => off - 10);
+    }
+  }
   return (
     <div className="flex flex-col w-full gap-9">
       <div className="flex flex-col w-full gap-2 md:gap-9 md:flex-row md:items-center" style={{ maxHeight: '38px' }}>
@@ -78,7 +89,7 @@ export default function Users() {
                   data?.users.filter(
                     (usr) => usr.firstName.toLowerCase().includes(searchValue),
                   ).map((u) => (
-                    <TableRow key={u.id} className="hover:shadow-md">
+                    <TableRow key={u._id} className="hover:shadow-md">
                       <TableCell className="m-3 leading-9 text-gray-400">{u._id}</TableCell>
                       <TableCell className="text-lg font-semibold text-black">{u.firstName}</TableCell>
                       <TableCell className="leading-9 text-gray-400">{u.email}</TableCell>
@@ -113,10 +124,10 @@ export default function Users() {
         </Table>
       </TableContainer>
       <div className="flex justify-end w-full gap-12 mt-16">
-        <IconButton className="bg-gray-400 rounded-none shadow-lg">
+        <IconButton className={`rounded-none shadow-lg ${(offset - 10) < 0 ? 'bg-gray-400' : 'bg-primary'}`} onClick={() => prevPage()}>
           <ChevronLeft className="w-10 h-10" htmlColor="white" />
         </IconButton>
-        <IconButton className="rounded-none shadow-lg bg-primary">
+        <IconButton className={`rounded-none shadow-lg ${(offset + 10) >= data?.allUsers ? 'bg-gray-400' : 'bg-primary'}`} onClick={() => nextPage()}>
           <ChevronRight className="w-10 h-10" htmlColor="white" />
         </IconButton>
       </div>
