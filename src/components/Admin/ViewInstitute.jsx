@@ -27,13 +27,17 @@ import { useDispatch } from 'react-redux';
 import { setCurrentTab } from '../../redux/adminActions';
 import { addToast } from '../../redux/toastsActions';
 
-import { FACULTIES_BY_INSTITUTE, DELETE_INSTITUTE, INSTITUTES } from '../../graphqlQueries';
+import {
+  FACULTIES_BY_INSTITUTE, DELETE_INSTITUTE, INSTITUTES,
+  RATINGS,
+} from '../../graphqlQueries';
 
 import Search from '../../assets/Search.svg';
 
 export default function viewInstitute({ institute }) {
   const dispatch = useDispatch();
   const [searchValue, setSearchValue] = React.useState('');
+  const ratingsQuery = useQuery(RATINGS);
   const { loading, data } = useQuery(
     FACULTIES_BY_INSTITUTE,
     { variables: { institute: Number(institute._id) } },
@@ -95,7 +99,7 @@ export default function viewInstitute({ institute }) {
                   </TableRow>
                 </TableHead>
                 {
-                  !loading && data && (
+                  !loading && !ratingsQuery.loading && data && (
                     <TableBody>
                       {
                         data?.faculties.filter(
@@ -110,7 +114,25 @@ export default function viewInstitute({ institute }) {
                                 institute.name
                               }
                             </TableCell>
-                            <TableCell className="cursor-pointer text-primary" onClick={() => dispatch(setCurrentTab({ name: 'viewProfessor', data: { ...faculty, institute: Number(faculty.institute) } }))}>View more</TableCell>
+                            <TableCell
+                              className="cursor-pointer text-primary"
+                              onClick={() => dispatch(setCurrentTab(
+                                {
+                                  name: 'viewProfessor',
+                                  data: {
+                                    ...faculty,
+                                    institute:
+                                    Number(faculty.institute),
+                                    instituteName: institute.name,
+                                    ratings: ratingsQuery.data.ratings.filter(
+                                      (r) => r.faculty === faculty._id,
+                                    ),
+                                  },
+                                },
+                              ))}
+                            >
+                              View more
+                            </TableCell>
                           </TableRow>
                         ))
                       }
@@ -118,7 +140,7 @@ export default function viewInstitute({ institute }) {
                   )
                 }
                 {
-                  loading && <div className="absolute inset-x-0 flex items-center justify-center"><CircularProgress /></div>
+                  loading && ratingsQuery.loading && <div className="absolute inset-x-0 flex items-center justify-center"><CircularProgress /></div>
                 }
               </Table>
             </TableContainer>

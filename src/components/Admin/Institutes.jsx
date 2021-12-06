@@ -30,14 +30,9 @@ import Search from '../../assets/Search.svg';
 import { INSTITUTES } from '../../graphqlQueries';
 
 export default function Institutes() {
-  // const { admin: { institutes: insts } } = useSelector((state) => state);
   const dispatch = useDispatch();
   const { loading, data } = useQuery(INSTITUTES);
-  // const [list, setList] = React.useState(insts);
   const [searchValue, setSearchValue] = React.useState('');
-  /* React.useEffect(() => {
-    setList(insts.filter((user) => user.name.toLowerCase().includes(searchValue.toLowerCase())));
-  }, [searchValue]); */
   return (
     <div className="flex flex-col w-full gap-9">
       <div className="flex flex-col w-full gap-2 md:gap-9 md:flex-row md:items-center" style={{ maxHeight: '38px' }}>
@@ -71,7 +66,7 @@ export default function Institutes() {
             </TableRow>
           </TableHead>
           {
-            !loading && data && (
+            !loading && (
               <TableBody>
                 {
                   data?.institutes.filter(
