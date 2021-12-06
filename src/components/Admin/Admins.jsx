@@ -14,8 +14,6 @@ import {
   TableHead,
   IconButton,
   Grid,
-  Card,
-  Switch,
   CircularProgress,
 } from '@mui/material';
 
@@ -34,12 +32,19 @@ import { addToast } from '../../redux/toastsActions';
 
 import Search from '../../assets/Search.svg';
 
-import { ADMINS, UPDATE_ADMIN, DELETE_ADMIN } from '../../graphqlQueries';
+import {
+  ADMINS,
+  UPDATE_ADMIN,
+  DELETE_ADMIN,
+  ABOUT_US,
+} from '../../graphqlQueries';
+import AboutUs from './AboutUs';
 
 export default function Admins() {
   const dispatch = useDispatch();
   const currentAdmin = useSelector((state) => state.account.admin);
   const { loading, data } = useQuery(ADMINS);
+  const aboutUsQuery = useQuery(ABOUT_US);
   const [updateAdmin] = useMutation(UPDATE_ADMIN, { refetchQueries: [{ query: ADMINS }] });
   const [deleteAdmin] = useMutation(DELETE_ADMIN, { refetchQueries: [{ query: ADMINS }] });
   const [searchValue, setSearchValue] = React.useState('');
@@ -143,21 +148,17 @@ export default function Admins() {
       </Grid>
       <Grid item xs={12} md={6} className="flex flex-col gap-9">
         <Typography className="text-3xl text-gray-400" style={{ minHeight: '38px' }}>About Us</Typography>
-        <Card elevation={1} className="flex flex-col gap-12 px-3 pb-14 md:px-14">
-          <TextField
-            variant="standard"
-            label="Our Story"
-            className="w-full"
-          />
-          <TextField
-            variant="standard"
-            label="Who we are?"
-            className="w-full"
-          />
-          <Switch
-            defaultChecked
-          />
-        </Card>
+        {
+          aboutUsQuery.loading && <div className="relative inset-0 flex items-center justify-center"><CircularProgress /></div>
+        }
+        {
+          !aboutUsQuery.loading && (
+            <AboutUs
+              ourStory={aboutUsQuery.data?.aboutUs.ourStory}
+              whoWeAre={aboutUsQuery.data?.aboutUs.whoWeAre}
+            />
+          )
+        }
       </Grid>
     </Grid>
   );

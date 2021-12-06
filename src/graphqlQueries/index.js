@@ -389,3 +389,21 @@ export const DELETE_FAQ = gql`
     deleteFaq(_id:$id)
   }
 `;
+
+export const ABOUT_US = gql`
+  query AboutUs {
+    aboutUs {
+      ourStory
+      whoWeAre
+    }
+  }
+`;
+
+export const UPDATE_ABOUT_US = gql`
+  mutation UpdateAboutUs($ourStory:String $whoWeAre:String) {
+    updateAboutUs(ourStory:$ourStory whoWeAre:$whoWeAre) {
+      ourStory
+      whoWeAre
+    }
+  }
+`;
