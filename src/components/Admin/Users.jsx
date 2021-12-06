@@ -27,12 +27,17 @@ import { setCurrentTab } from '../../redux/adminActions';
 
 import Search from '../../assets/Search.svg';
 
-import { USERS } from '../../graphqlQueries';
+import {
+  USERS, RATINGS, FACULTIES, INSTITUTES,
+} from '../../graphqlQueries';
 
 export default function Users() {
   const dispatch = useDispatch();
   const [searchValue, setSearchValue] = React.useState('');
   const { loading, data } = useQuery(USERS);
+  const ratingsQuery = useQuery(RATINGS);
+  const facultiesQuery = useQuery(FACULTIES);
+  const institutesQuery = useQuery(INSTITUTES);
   return (
     <div className="flex flex-col w-full gap-9">
       <div className="flex flex-col w-full gap-2 md:gap-9 md:flex-row md:items-center" style={{ maxHeight: '38px' }}>
@@ -66,7 +71,8 @@ export default function Users() {
             </TableRow>
           </TableHead>
           {
-            !loading && data && (
+            !loading && !ratingsQuery.loading && !institutesQuery.loading
+            && !facultiesQuery.loading && data && (
               <TableBody>
                 {
                   data?.users.filter(
@@ -77,7 +83,22 @@ export default function Users() {
                       <TableCell className="text-lg font-semibold text-black">{u.firstName}</TableCell>
                       <TableCell className="leading-9 text-gray-400">{u.email}</TableCell>
                       <TableCell className="leading-9 text-gray-400">{moment().from(u.registeredAt)}</TableCell>
-                      <TableCell className="cursor-pointer text-primary" onClick={() => dispatch(setCurrentTab({ name: 'viewUser', data: u }))}>View more</TableCell>
+                      <TableCell
+                        className="cursor-pointer text-primary"
+                        onClick={() => dispatch(setCurrentTab(
+                          {
+                            name: 'viewUser',
+                            data: {
+                              ...u,
+                              ratings: ratingsQuery.data.ratings.filter((r) => r.user === u._id),
+                              faculties: facultiesQuery.data.faculties,
+                              institutes: institutesQuery.data.institutes,
+                            },
+                          },
+                        ))}
+                      >
+                        View more
+                      </TableCell>
                     </TableRow>
                   ))
                 }

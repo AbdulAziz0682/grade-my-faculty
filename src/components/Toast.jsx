@@ -13,7 +13,7 @@ export default function Toast({
   message,
 }) {
   return (
-    <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center' }} variant="filled" autoHideDuration={50000} open={open} onClose={() => onDismissClick()}>
+    <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center' }} variant="filled" autoHideDuration={5000} open={open} onClose={() => onDismissClick()}>
       <Alert elevation={4} severity={severity} sx={{ width: '100%' }}>
         { message }
       </Alert>

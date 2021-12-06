@@ -144,10 +144,6 @@ export const FACULTIES = gql`
       department
       courses
     }
-    institutes {
-      _id
-      name
-    }
   }
 `;
 
@@ -263,7 +259,7 @@ export const DELETE_AD = gql`
 `;
 
 export const RATINGS = gql`
-  query Ratings($faculty:Int!) {
+  query Ratings($faculty:Int) {
     ratings(faculty:$faculty) {
       _id
       user
@@ -405,5 +401,11 @@ export const UPDATE_ABOUT_US = gql`
       ourStory
       whoWeAre
     }
+  }
+`;
+
+export const DELETE_RATING = gql`
+  mutation DeleteRating($id:Int!) {
+    deleteRating(_id:$id)
   }
 `;

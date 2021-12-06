@@ -25,12 +25,13 @@ import { setCurrentTab } from '../../redux/adminActions';
 
 import Search from '../../assets/Search.svg';
 
-import { FACULTIES } from '../../graphqlQueries';
+import { FACULTIES_AND_INSTITUTES, RATINGS } from '../../graphqlQueries';
 
 export default function Professors() {
   const dispatch = useDispatch();
   const [searchValue, setSearchValue] = React.useState('');
-  const { loading, data } = useQuery(FACULTIES);
+  const { loading, data } = useQuery(FACULTIES_AND_INSTITUTES);
+  const ratingsQuery = useQuery(RATINGS);
   return (
     <div className="flex flex-col w-full gap-9">
       <div className="flex flex-col w-full gap-2 md:gap-9 md:flex-row md:items-center" style={{ maxHeight: '38px' }}>
@@ -64,7 +65,7 @@ export default function Professors() {
             </TableRow>
           </TableHead>
           {
-            !loading && data && (
+            !loading && !ratingsQuery.loading && data && (
               <TableBody>
                 {
                   data?.faculties.filter(
@@ -81,7 +82,24 @@ export default function Professors() {
                           ).name
                         }
                       </TableCell>
-                      <TableCell className="cursor-pointer text-primary" onClick={() => dispatch(setCurrentTab({ name: 'viewProfessor', data: { ...faculty, institute: Number(faculty.institute) } }))}>View more</TableCell>
+                      <TableCell
+                        className="cursor-pointer text-primary"
+                        onClick={() => dispatch(setCurrentTab({
+                          name: 'viewProfessor',
+                          data: {
+                            ...faculty,
+                            institute: Number(faculty.institute),
+                            ratings: ratingsQuery.data.ratings.filter(
+                              (r) => r.faculty === faculty._id,
+                            ),
+                            instituteName: data.institutes.find(
+                              (i) => i._id === faculty.institute,
+                            ).name,
+                          },
+                        }))}
+                      >
+                        View more
+                      </TableCell>
                     </TableRow>
                   ))
                 }
