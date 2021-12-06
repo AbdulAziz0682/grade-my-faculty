@@ -32,7 +32,7 @@ import { INSTITUTES } from '../../graphqlQueries';
 export default function Institutes() {
   const dispatch = useDispatch();
   const [offset, setOffset] = React.useState(0);
-  const { loading, data } = useQuery(INSTITUTES, { fetchPolicy: 'cache-and-network', variables: { offset } });
+  const { loading, data } = useQuery(INSTITUTES, { fetchPolicy: 'cache-and-network', variables: { offset, limit: 10 } });
   const [searchValue, setSearchValue] = React.useState('');
   function nextPage() {
     if (data && offset < data.allInstitutes) {

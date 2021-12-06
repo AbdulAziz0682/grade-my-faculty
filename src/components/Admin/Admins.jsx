@@ -44,7 +44,7 @@ export default function Admins() {
   const dispatch = useDispatch();
   const [offset, setOffset] = React.useState(0);
   const currentAdmin = useSelector((state) => state.account.admin);
-  const { loading, data } = useQuery(ADMINS, { fetchPolicy: 'cache-and-network', variables: { offset } });
+  const { loading, data } = useQuery(ADMINS, { fetchPolicy: 'cache-and-network', variables: { offset, limit: 10 } });
   const aboutUsQuery = useQuery(ABOUT_US);
   const [updateAdmin] = useMutation(UPDATE_ADMIN, { refetchQueries: [{ query: ADMINS }] });
   const [deleteAdmin] = useMutation(DELETE_ADMIN, { refetchQueries: [{ query: ADMINS }] });

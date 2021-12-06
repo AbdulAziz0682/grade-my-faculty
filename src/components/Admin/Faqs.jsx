@@ -48,7 +48,7 @@ export default function Faqs() {
     setUpdateFaq(faq);
     setOpenUpdateFaqDialog(true);
   }
-  const { loading, data } = useQuery(FAQS, { fetchPolicy: 'cache-and-network', variables: { offset } });
+  const { loading, data } = useQuery(FAQS, { fetchPolicy: 'cache-and-network', variables: { offset, limit: 10 } });
   const [deleteFaq] = useMutation(DELETE_FAQ, { refetchQueries: [{ query: FAQS }] });
   const [searchValue, setSearchValue] = React.useState('');
   function handleDelete(_id) {

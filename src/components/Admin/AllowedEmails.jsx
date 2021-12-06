@@ -48,7 +48,7 @@ export default function AllowedEmails() {
     setOpenUpdateEmailDialog(true);
   }
   const [searchValue, setSearchValue] = React.useState('');
-  const { loading, data } = useQuery(ALLOWED_EMAILS, { fetchPolicy: 'cache-and-network', variables: { offset } });
+  const { loading, data } = useQuery(ALLOWED_EMAILS, { fetchPolicy: 'cache-and-network', variables: { offset, limit: 10 } });
   const [update] = useMutation(
     UPDATE_ALLOWED_EMAIL,
     { refetchQueries: [{ query: ALLOWED_EMAILS }] },

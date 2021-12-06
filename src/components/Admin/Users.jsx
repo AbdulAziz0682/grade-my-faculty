@@ -35,7 +35,7 @@ export default function Users() {
   const dispatch = useDispatch();
   const [offset, setOffset] = React.useState(0);
   const [searchValue, setSearchValue] = React.useState('');
-  const { loading, data } = useQuery(USERS, { fetchPolicy: 'cache-and-network', variables: { offset } });
+  const { loading, data } = useQuery(USERS, { fetchPolicy: 'cache-and-network', variables: { offset, limit: 10 } });
   const ratingsQuery = useQuery(RATINGS);
   const facultiesQuery = useQuery(FACULTIES);
   const institutesQuery = useQuery(INSTITUTES);

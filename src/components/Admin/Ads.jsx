@@ -50,7 +50,7 @@ export default function Ads() {
     setOpenUpdateAdDialog(true);
   }
   const dispatch = useDispatch();
-  const { loading, data } = useQuery(ADS, { fetchPolicy: 'cache-and-network', variables: { offset } });
+  const { loading, data } = useQuery(ADS, { fetchPolicy: 'cache-and-network', variables: { offset, limit: 10 } });
   const [update] = useMutation(UPDATE_AD, { refetchQueries: [{ query: ADS }] });
   const [deleteAd] = useMutation(DELETE_AD, { refetchQueries: [{ query: ADS }] });
   const [searchValue, setSearchValue] = React.useState('');

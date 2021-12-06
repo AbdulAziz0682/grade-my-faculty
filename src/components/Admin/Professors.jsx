@@ -31,7 +31,7 @@ export default function Professors() {
   const dispatch = useDispatch();
   const [offset, setOffset] = React.useState(0);
   const [searchValue, setSearchValue] = React.useState('');
-  const { loading, data } = useQuery(FACULTIES_AND_INSTITUTES, { variables: { offset }, fetchPolicy: 'cache-and-network' });
+  const { loading, data } = useQuery(FACULTIES_AND_INSTITUTES, { variables: { offset, limit: 10 }, fetchPolicy: 'cache-and-network' });
   const ratingsQuery = useQuery(RATINGS);
   function nextPage() {
     if (data && offset < data.allFaculties) {
