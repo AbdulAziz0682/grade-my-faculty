@@ -19,7 +19,7 @@ import { USER_RATINGS } from '../../../graphqlQueries';
 
 export default function Ratings() {
   const user = useSelector((state) => state.account.user);
-  const { loading, data } = useQuery(USER_RATINGS, { variables: { id: Number(user?._id) } });
+  const { loading, data } = useQuery(USER_RATINGS, { variables: { id: Number(user?._id) }, fetchPolicy: 'network-only' });
   if (!user) return <Redirect push to="/login" />;
   if (loading) return <div className="absolute inset-x-0 flex items-center justify-center mt-16"><CircularProgress /></div>;
   return (
