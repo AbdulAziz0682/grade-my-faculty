@@ -32,7 +32,11 @@ const GET_LOGGEDIN_USER = gql`
         lastName
         email
         ratings
+        savedFaculties
+        institute
+        graduationYear
         registeredAt
+        password
       }
       token
     }

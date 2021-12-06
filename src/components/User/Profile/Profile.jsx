@@ -1,37 +1,75 @@
+/* eslint-disable no-underscore-dangle */
 import React from 'react';
 
 import {
   Button,
+  CircularProgress,
+  Select,
   Stack,
   TextField,
   Typography,
+  MenuItem,
 } from '@mui/material';
 
 import { Edit } from '@mui/icons-material/';
 
+import { Redirect } from 'react-router-dom';
+
+import { useSelector, useDispatch } from 'react-redux';
+
+import { useMutation, useQuery } from '@apollo/client';
+
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 
+import { addToast } from '../../../redux/toastsActions';
+import { login } from '../../../redux/accountActions';
+
+import { UPDATE_USER, INSTITUTES } from '../../../graphqlQueries';
+
 export default function Profile() {
-  const [isEditing, setEditing] = React.useState(true);
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.account.user);
+  const [updateUser, { loading }] = useMutation(UPDATE_USER);
+  const institutesQuery = useQuery(INSTITUTES);
+  const [isEditing, setEditing] = React.useState(false);
   // Form requirements
   const schema = yup.object({
     firstName: yup.string().required('First name is required').min(2, 'Enter at least 2 characters'),
     lastName: yup.string().required('Last name is required').min(2, 'Enter at least 2 characters'),
-    institute: yup.string().required('Email is required').min(5, 'Enter at least 5 characters'),
+    institute: yup.string().required('Institute is required'),
     graduationYear: yup.number().required('Graduation Year is required').min((new Date()).getFullYear(), 'Enter valid value'),
   });
   const formik = useFormik({
     initialValues: {
-      firstName: '',
-      lastName: '',
-      institute: '',
-      graduationYear: new Date().getFullYear(),
+      firstName: user?.firstName,
+      lastName: user?.lastName,
+      institute: user?.institute,
+      graduationYear: new Date(user?.graduationYear).getFullYear(),
     },
     validationSchema: schema,
-    onSubmit: (values) => console.dir(values),
+    onSubmit: (values) => {
+      updateUser(
+        {
+          variables: {
+            ...user,
+            ...values,
+            institute: Number(values.institute),
+            id: Number(user._id),
+            confirmPassword: user.password,
+          },
+        },
+      )
+        .then((res) => {
+          dispatch(addToast({ message: 'Profile updated successfully', severity: 'success' }));
+          dispatch(login({ user: res.data.updateUser, role: 'user' }));
+        })
+        .catch((r) => dispatch(addToast({ message: r.message, severity: 'error' })));
+    },
   });
   //-------------------------
+  if (!user) return <Redirect push to="/login" />;
+  if (institutesQuery.loading) return <div className="absolute inset-x-0 flex items-center justify-center mt-16"><CircularProgress /></div>;
   return (
     !isEditing
       ? (
@@ -47,19 +85,25 @@ export default function Profile() {
           </div>
           <div className="flex gap-3">
             <Typography variant="h6" className="flex-grow">First Name:</Typography>
-            <Typography variant="body1" className="w-6/12 md:w-8/12">First</Typography>
+            <Typography variant="body1" className="w-6/12 md:w-8/12">{user.firstName}</Typography>
           </div>
           <div className="flex gap-3">
             <Typography variant="h6" className="flex-grow">Last Name:</Typography>
-            <Typography variant="body1" className="w-6/12 md:w-8/12">Last</Typography>
+            <Typography variant="body1" className="w-6/12 md:w-8/12">{user.lastName}</Typography>
           </div>
           <div className="flex gap-3">
             <Typography variant="h6" className="flex-grow">University:</Typography>
-            <Typography variant="body1" className="w-6/12 md:w-8/12">North South University</Typography>
+            <Typography variant="body1" className="w-6/12 md:w-8/12">
+              {
+                institutesQuery.data?.institutes.find(
+                  (i) => Number(i._id) === Number(user.institute),
+                ).name
+              }
+            </Typography>
           </div>
           <div className="flex gap-3">
             <Typography variant="h6" className="flex-grow">Expected Graduation Year:</Typography>
-            <Typography variant="body1" className="w-6/12 md:w-8/12">2022</Typography>
+            <Typography variant="body1" className="w-6/12 md:w-8/12">{user.graduationYear}</Typography>
           </div>
         </Stack>
       )
@@ -103,7 +147,7 @@ export default function Profile() {
           </div>
           <div className="flex items-center gap-3">
             <Typography variant="h6" className="w-6/12 md:w-4/12">University:</Typography>
-            <TextField
+            <Select
               required
               size="small"
               name="institute"
@@ -117,12 +161,19 @@ export default function Profile() {
                 className: 'bg-gray-50',
               }}
               style={{ fontFamily: 'montserrat' }}
-            />
+            >
+              {
+                institutesQuery.data?.institutes.map((i) => (
+                  <MenuItem value={i._id} key={i._id}>{i.name}</MenuItem>
+                ))
+              }
+            </Select>
           </div>
           <div className="flex items-center gap-3">
             <Typography variant="h6" className="w-6/12 md:w-4/12">Expected Graduation Year:</Typography>
             <TextField
               required
+              type="number"
               size="small"
               name="graduationYear"
               value={formik.values.graduationYear}
@@ -142,8 +193,13 @@ export default function Profile() {
             <Button
               variant="contained"
               type="submit"
+              disabled={loading}
             >
-              Save Changes
+              {
+                loading
+                  ? <CircularProgress />
+                  : 'Save Changes'
+              }
             </Button>
           </div>
         </Stack>

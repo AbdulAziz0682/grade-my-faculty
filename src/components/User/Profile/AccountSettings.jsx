@@ -1,7 +1,9 @@
+/* eslint-disable no-underscore-dangle */
 import React from 'react';
 
 import {
   Button,
+  CircularProgress,
   Stack,
   TextField,
   Typography,
@@ -9,11 +11,26 @@ import {
 
 import { Edit, Delete } from '@mui/icons-material/';
 
+import { useMutation } from '@apollo/client';
+
+import { useSelector, useDispatch } from 'react-redux';
+
+import { Redirect } from 'react-router-dom';
+
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 
+import { addToast } from '../../../redux/toastsActions';
+import { logout } from '../../../redux/accountActions';
+
+import { UPDATE_USER, DELETE_USER } from '../../../graphqlQueries';
+
 export default function AccountSettings() {
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.account.user);
   const [isEditing, setEditing] = React.useState(false);
+  const [updateUser, { loading }] = useMutation(UPDATE_USER);
+  const [deleteUser, deleteQuery] = useMutation(DELETE_USER);
   // Email Form requirements
   const schema = yup.object({
     email: yup.string().required('Email is required').email('Enter a valid email'),
@@ -21,11 +38,28 @@ export default function AccountSettings() {
   });
   const formik = useFormik({
     initialValues: {
-      email: '',
+      email: user?.email,
       password: '',
     },
     validationSchema: schema,
-    onSubmit: (values) => console.dir(values),
+    onSubmit: (values) => {
+      if (values.password !== user.password) return dispatch(addToast({ message: 'Incorrect password, please try again', severity: 'error' }));
+      const vars = {
+        ...user,
+        id: Number(user._id),
+        institute: Number(user.institute),
+        ...values,
+        confirmPassword: user.password,
+      };
+      return updateUser({
+        variables: vars,
+      })
+        .then(() => {
+          dispatch(addToast({ message: 'Email changed, please login again', severity: 'warning' }));
+          dispatch(logout());
+        })
+        .catch((r) => dispatch(addToast({ message: r.message, severity: 'error' })));
+    },
   });
   //-------------------------
   // Password Form requirements
@@ -39,9 +73,32 @@ export default function AccountSettings() {
       newPassword: '',
     },
     validationSchema: schema1,
-    onSubmit: (values) => console.dir(values),
+    onSubmit: (values) => {
+      if (values.password !== user.password) return dispatch(addToast({ message: 'Incorrect password, please try again', severity: 'error' }));
+      const vars = {
+        ...user,
+        id: Number(user._id),
+        institute: Number(user.institute),
+        password: values.newPassword,
+        confirmPassword: values.newPassword,
+      };
+      return updateUser({
+        variables: vars,
+      })
+        .then(() => dispatch(addToast({ message: 'Password changed successfully', severity: 'success' })))
+        .catch((r) => dispatch(addToast({ message: r.message, severity: 'error' })));
+    },
   });
   //-------------------------
+  function handleDelete(id) {
+    deleteUser({ variables: { id: Number(id) } })
+      .then(() => {
+        dispatch(addToast({ message: 'Account deleted successfully', severity: 'success' }));
+        dispatch(logout());
+      })
+      .catch((r) => dispatch(addToast({ message: r.message, severity: 'error' })));
+  }
+  if (!user) return <Redirect push to="/login" />;
   return (
     !isEditing
       ? (
@@ -57,7 +114,7 @@ export default function AccountSettings() {
           </div>
           <div className="flex gap-3">
             <Typography variant="h6" className="flex-grow">Email:</Typography>
-            <Typography variant="body1" className="w-8/12 md:w-9/12">user@email.com</Typography>
+            <Typography variant="body1" className="w-8/12 md:w-9/12">{user.email}</Typography>
           </div>
           <div className="flex gap-3">
             <Typography variant="h6" className="flex-grow">Password:</Typography>
@@ -111,6 +168,7 @@ export default function AccountSettings() {
               <Button
                 variant="contained"
                 type="submit"
+                disabled={loading}
               >
                 Update Email
               </Button>
@@ -161,6 +219,7 @@ export default function AccountSettings() {
               <Button
                 variant="contained"
                 type="submit"
+                disabled={loading}
               >
                 Update Password
               </Button>
@@ -168,7 +227,13 @@ export default function AccountSettings() {
           </Stack>
           <div className="flex items-center gap-9">
             <Typography variant="h3">Delete Account</Typography>
-            <Button variant="contained" color="error" startIcon={<Delete />}>Delete</Button>
+            <Button variant="contained" disabled={deleteQuery.loading} color="error" startIcon={<Delete />} onClick={() => handleDelete(user._id)}>
+              {
+                deleteQuery.loading
+                  ? <CircularProgress />
+                  : 'Delete'
+              }
+            </Button>
           </div>
         </Stack>
       )

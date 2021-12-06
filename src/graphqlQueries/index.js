@@ -34,11 +34,16 @@ export const NEW_USER = gql`
 `;
 
 export const UPDATE_USER = gql`
-  mutation UpdateUser($id:Int! $firstName:String! $lastName:String! $email:String! $password:String! $confirmPassword:String!) {
-    updateUser(_id:$id firstName:$firstName lastName:$lastName email:$email password:$password confirmPassword:$confirmPassword) {
+  mutation UpdateUser($id:Int! $firstName:String! $lastName:String! $email:String! $password:String! $confirmPassword:String! $institute:Int $graduationYear:Int $savedFaculties:[Int]) {
+    updateUser(_id:$id firstName:$firstName lastName:$lastName email:$email password:$password confirmPassword:$confirmPassword institute:$institute graduationYear:$graduationYear savedFaculties:$savedFaculties) {
+      _id
       firstName
       lastName
       email
+      ratings
+      savedFaculties
+      institute
+      graduationYear
       password
     }
   }

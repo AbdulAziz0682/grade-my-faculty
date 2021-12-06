@@ -33,6 +33,10 @@ const LOGIN_USER = gql`
         lastName
         email
         ratings
+        savedFaculties
+        institute
+        graduationYear
+        password
         registeredAt
       }
       token

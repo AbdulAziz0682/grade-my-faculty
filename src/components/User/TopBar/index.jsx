@@ -124,6 +124,15 @@ export default function TopBar() {
                     <ListItemText primary="Contact" primaryTypographyProps={{ variant: 'button', color: pathname === '/contact' ? 'primary.main' : 'gray' }} />
                   </Link>
                 </ListItem>
+                {
+                  user && (
+                    <ListItem>
+                      <Link to="/profile" style={{ textDecoration: 'none' }}>
+                        <ListItemText primary="Profile" primaryTypographyProps={{ variant: 'button', color: pathname === '/profile' ? 'primary.main' : 'gray' }} />
+                      </Link>
+                    </ListItem>
+                  )
+                }
               </List>
             </Box>
             { !isSearchFieldRoute[pathname] && <Box flexGrow={1} maxWidth="12%" />}
