@@ -56,7 +56,10 @@ export default function SignUp() {
     },
     validationSchema: schema,
     onSubmit: (values) => newUser({ variables: values })
-      .then(() => dispatch(addToast({ message: 'Registered successfully', severity: 'success' }))),
+      .then(() => {
+        dispatch(addToast({ message: 'Registered successfully', severity: 'success' }));
+        history.push('/emailVerification', [{ email: values.email }]);
+      }),
   });
   // -----------------
   if (user) return history.push('/');

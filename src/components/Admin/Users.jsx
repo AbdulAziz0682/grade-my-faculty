@@ -90,7 +90,9 @@ export default function Users() {
                             name: 'viewUser',
                             data: {
                               ...u,
-                              ratings: ratingsQuery.data.ratings.filter((r) => r.user === u._id),
+                              ratings: ratingsQuery.data?.ratings.filter(
+                                (r) => r.user === u._id,
+                              ) || [],
                               faculties: facultiesQuery.data.faculties,
                               institutes: institutesQuery.data.institutes,
                             },

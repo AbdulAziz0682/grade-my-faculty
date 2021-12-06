@@ -5,7 +5,10 @@ import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 
+import { useHistory } from 'react-router-dom';
+
 export default function EmailVerification() {
+  const history = useHistory();
   return (
     <Grid container className="flex-grow bg-pageBg">
       <Container maxWidth="xl" className="flex items-center justify-center py-20">
@@ -14,7 +17,7 @@ export default function EmailVerification() {
           <Typography variant="body1" style={{ fontFamily: 'montserrat' }}>
             You have successfully signed up. Please check the link sent to your given email address
             to activate your account. Email was sent to &nbsp;
-            <span className="text-primary">sukichan@gmail.com</span>
+            <span className="text-primary">{history.location.state[0].email || 'No email'}</span>
           </Typography>
           <Typography variant="body1" style={{ fontFamily: 'montserrat' }}>
             Wrong email?&nbsp;
