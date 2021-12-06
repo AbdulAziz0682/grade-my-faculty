@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import React from 'react';
 
 import {
@@ -5,58 +6,68 @@ import {
   Paper,
   Stack,
   Typography,
+  CircularProgress,
 } from '@mui/material';
 
+import { useSelector } from 'react-redux';
+
+import { Redirect } from 'react-router-dom';
+
+import { useQuery } from '@apollo/client';
+
+import { USER_RATINGS } from '../../../graphqlQueries';
+
 export default function Ratings() {
-  const savedProfs = [
-    {
-      name: 'John Brush',
-      department: 'Mathematics',
-      institute: 'North South University',
-      levelOfDifficulty: 2.6,
-      percent: 100,
-      yourRating: 4.8,
-      totalRatings: 4,
-      averageRating: 3.4,
-    },
-    {
-      name: 'John Smith',
-      department: 'Mathematics',
-      institute: 'North South University',
-      levelOfDifficulty: 2.6,
-      percent: 100,
-      yourRating: 4.8,
-      totalRatings: 4,
-      averageRating: 3.4,
-    },
-    {
-      name: 'John Doe',
-      department: 'Mathematics',
-      institute: 'North South University',
-      levelOfDifficulty: 2.6,
-      percent: 100,
-      yourRating: 4.8,
-      totalRatings: 4,
-      averageRating: 3.4,
-    },
-  ];
+  const user = useSelector((state) => state.account.user);
+  const { loading, data } = useQuery(USER_RATINGS, { variables: { id: Number(user?._id) } });
+  if (!user) return <Redirect push to="/login" />;
+  if (loading) return <div className="absolute inset-x-0 flex items-center justify-center mt-16"><CircularProgress /></div>;
   return (
     <div className="flex flex-col w-full gap-3 mt-3">
       {
-        savedProfs.map((prof) => (
+        data.faculties.filter(
+          (fac) => data.ratings.find((r) => r.faculty === fac._id),
+        ).length === 0 && <Typography variant="h6" color="primary" align="center">No ratings yet</Typography>
+      }
+      {
+        data.faculties.filter(
+          (fac) => data.ratings.find((r) => r.faculty === fac._id),
+        ).map((faculty) => (
           <Paper className="w-full py-4 pl-6 border-2 pr-9" elevation={0}>
             <div className="flex flex-col w-full md:flex-row md:justify-between">
               <Stack spacing={1}>
-                <Typography variant="h3">{prof.name}</Typography>
-                <Typography className="font-medium" color="gray">{prof.department}</Typography>
-                <Typography className="font-medium" color="gray">{prof.institute}</Typography>
+                <Typography variant="h3">{faculty.firstName}</Typography>
+                <Typography className="font-medium" color="gray">{faculty.department}</Typography>
+                <Typography className="font-medium" color="gray">
+                  {
+                    data.institutes.find((i) => i._id === faculty.institute)?.name
+                  }
+                </Typography>
                 <div className="flex w-full divide-x-2">
                   <Typography variant="h6" className="pr-3">
-                    {prof.percent}
+                    {
+                      (() => { // IIFE
+                        let total = 0;
+                        const reviews = data.ratings.filter((r) => r.faculty === faculty._id);
+                        reviews.forEach((rev) => {
+                          if (rev.wouldTakeAgain) total += 1;
+                        });
+                        return Number((total / reviews.length) * 100).toFixed(0);
+                      })()
+                    }
                     % will take again
                   </Typography>
                   <Typography variant="h6" className="pl-3">
-                    {prof.levelOfDifficulty}
+                    {
+                      (() => { // IIFE
+                        let total = 0;
+                        const reviews = data.ratings.filter((r) => r.faculty === faculty._id);
+                        reviews.forEach((rev) => {
+                          if (rev.levelOfDifficulty) total += rev.levelOfDifficulty;
+                        });
+                        return Number(total / reviews.length).toFixed(1);
+                      })()
+                    }
                     &nbsp;level of difficulty
                   </Typography>
                 </div>
@@ -65,11 +76,22 @@ export default function Ratings() {
                 <Typography variant="h5" align="center">Quality</Typography>
                 <div className="flex justify-center gap-5">
                   <div className="flex items-center justify-center w-20 h-16 px-4 py-1.5 text-2xl font-extrabold rounded-lg bg-pageBg">
-                    {prof.yourRating}
+                    {
+                      data.ratings.find((r) => r.faculty === faculty._id)?.gradeOfUser
+                    }
                   </div>
                   <Divider orientation="vertical" className="mt-1" sx={{ minHeight: '3.5rem', maxHeight: '3.5rem' }} />
                   <div className="flex items-center justify-center w-20 h-16 px-4 py-1.5 text-2xl font-extrabold rounded-lg bg-pageBg">
-                    {prof.averageRating}
+                    {
+                      (() => { // IIFE
+                        let total = 0;
+                        const reviews = data.ratings.filter((r) => r.faculty === faculty._id);
+                        reviews.forEach((rev) => {
+                          if (rev.overAllRating) total += rev.overAllRating;
+                        });
+                        return Number(total / reviews.length).toFixed(1);
+                      })()
+                    }
                   </div>
                 </div>
                 <div className="flex justify-center gap-10 md:gap-5 md:justify-between">
@@ -77,7 +99,7 @@ export default function Ratings() {
                   <Typography color="gray" className="w-24 text-xs text-center">
                     Total rating:
                     &nbsp;
-                    {prof.totalRatings}
+                    {data.ratings.filter((r) => r.faculty === faculty._id).length || 0}
                   </Typography>
                 </div>
               </Stack>

@@ -97,7 +97,7 @@ export default function Profile() {
               {
                 institutesQuery.data?.institutes.find(
                   (i) => Number(i._id) === Number(user.institute),
-                ).name
+                )?.name || ''
               }
             </Typography>
           </div>

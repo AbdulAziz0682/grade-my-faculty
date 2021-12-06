@@ -283,6 +283,37 @@ export const RATINGS = gql`
   }
 `;
 
+export const USER_RATINGS = gql`
+  query UserRatings($id:Int!) {
+    ratings(user:$id) {
+      _id
+      user
+      faculty
+      course
+      levelOfDifficulty
+      gradeOfUser
+      isAttendanceMandatory
+      overAllRating
+      semester
+      tags
+      thoughts
+      wouldTakeAgain
+      createdAt
+    }
+    faculties {
+      _id
+      firstName
+      lastName
+      department
+      institute
+    }
+    institutes {
+      _id
+      name
+    }
+  }
+`;
+
 export const NEW_RATING = gql`
   mutation NewRating(
     $user:Int!
