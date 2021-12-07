@@ -453,3 +453,47 @@ export const DELETE_RATING = gql`
     deleteRating(_id:$id)
   }
 `;
+
+export const BLOGS = gql`
+  query Blogs($offset:Int $limit:Int) {
+    blogs(offset:$offset limit:$limit) {
+      _id
+      title
+      content
+      createdAt
+      writtenBy
+      tags
+    }
+    allBlogs
+  }
+`;
+
+export const NEW_BLOG = gql`
+  mutation NewBlog($title:String! $content:String! $writtenBy:Int! $tags:[String]) {
+    newBlog(title:$title content:$content writtenBy:$writtenBy tags:$tags) {
+      _id
+      title
+      content
+      writtenBy
+      tags
+    }
+  }
+`;
+
+export const UPDATE_BLOG = gql`
+  mutation UpdateBlog($id:Int! $title:String! $content:String! $tags:[String]) {
+    updateBlog(_id:$id title:$title content:$content tags:$tags) {
+      _id
+      title
+      content
+      writtenBy
+      tags
+    }
+  }
+`;
+
+export const DELETE_BLOG = gql`
+  mutation DeleteBlog($id:Int!) {
+    deleteBlog(_id:$id)
+  }
+`;

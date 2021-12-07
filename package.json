@@ -20,6 +20,7 @@
     "draft-js": "^0.11.7",
     "formik": "^2.2.9",
     "graphql": "^16.0.1",
+    "jodit-react": "^1.1.15",
     "jss": "^10.8.0",
     "jss-plugin-extend": "^10.8.0",
     "jss-rtl": "^0.3.0",
