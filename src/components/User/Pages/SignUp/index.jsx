@@ -10,6 +10,8 @@ import {
   CircularProgress,
 } from '@mui/material';
 
+import GoogleLogin from 'react-google-login';
+
 import { useHistory } from 'react-router-dom';
 
 import { useFormik } from 'formik';
@@ -20,7 +22,7 @@ import { gql, useMutation } from '@apollo/client';
 import { useSelector, useDispatch } from 'react-redux';
 import { addToast } from '../../../../redux/toastsActions';
 
-import googleLogo from '../../../../assets/googleLogo.svg';
+// import googleLogo from '../../../../assets/googleLogo.svg';
 
 const NEW_USER = gql`
   mutation NewUser($firstName:String! $lastName:String! $email:String! $password:String! $confirmPassword:String!) {
@@ -62,6 +64,9 @@ export default function SignUp() {
       }),
   });
   // -----------------
+  function googleResponse(res) {
+    console.log({ res });
+  }
   if (user) return history.push('/');
   return (
     <Grid container className="flex-grow bg-pageBg">
@@ -181,15 +186,28 @@ export default function SignUp() {
               <Typography className="text-sm font-bold" align="center" style={{ fontFamily: 'montserrat' }}>or continue with</Typography>
             </Grid>
             <Grid item className="flex flex-col items-center my-3">
-              <Button
-                variant="contained"
-                className="py-3 bg-white hover:bg-white rounded-xl"
-                startIcon={
-                  <img src={googleLogo} alt="google" />
-                }
-              >
-                <Typography variant="body2" className="text-lg font-normal text-gray-400 normal-case md:text-2xl">Sign Up with Google</Typography>
-              </Button>
+              <GoogleLogin
+                // eslint-disable-next-line react/jsx-curly-brace-presence
+                clientId={'728667475500-03g9ge02ct4rn7rv985bekmcm5hdit88.apps.googleusercontent.com'}
+                onSuccess={(res) => googleResponse(res)}
+                onFailure={(res) => googleResponse(res)}
+                cookiePolicy="single_host_origin"
+                buttonText="Login"
+                /* render={(
+                  <Button
+                    variant="contained"
+                    className="py-3 bg-white hover:bg-white rounded-xl"
+                    startIcon={
+                      <img src={googleLogo} alt="google" />
+                    }
+                  >
+                    <Typography variant="body2"
+                    className
+                    ="text-lg font-normal text-gray-400 normal-case md:text-2xl"
+                    >Sign Up with Google</Typography>
+                  </Button>
+                )} */
+              />
             </Grid>
             <Grid item className="flex justify-center mt-3">
               <p className="text-sm font-bold lg:text-sm" style={{ fontFamily: 'montserrat' }}>
