@@ -468,7 +468,7 @@ export const BLOGS = gql`
   }
 `;
 
-export const BLOGS_AND_ADMINS = gql`
+export const BLOGS_AND_ADMINS_AND_ADS = gql`
   query BlogsAndAdmins($offset:Int $limit:Int) {
     blogs(offset:$offset limit:$limit) {
       _id
@@ -481,6 +481,12 @@ export const BLOGS_AND_ADMINS = gql`
     admins {
       _id
       name
+    }
+    ads {
+      _id
+      code
+      locationId
+      status
     }
   }
 `;

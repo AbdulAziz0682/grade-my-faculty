@@ -21,12 +21,13 @@ import instagram from '../../../../assets/primaryInstagram.svg';
 import twitter from '../../../../assets/primaryTwitter.svg';
 // import startupIdea from '../../../../assets/startupIdea.png';
 // import postAsset from '../../../../assets/postAsset.png';
-import banner2 from '../../../../assets/banner2.png';
+// import banner2 from '../../../../assets/banner2.png';
 
 export default function Post() {
   const history = useHistory();
   const blog = history.location.state[0];
   const blogs = history.location.state[1];
+  const ads = history.location.state[2];
   function getImgSrc(content) {
     const src = (/<img src="([^"]*([^"]*(?:[^\\"]|\\\\|\\")*)+)"/g).exec(content);
     return src ? src[0].slice(10, -1) : media3;
@@ -80,7 +81,7 @@ export default function Post() {
                   <Paper elevation={3} key={blg._id} className="flex flex-col w-full gap-5 pb-3 my-6 transform lg:my-0">
                     <img src={getImgSrc(blg.content)} alt="blog" className="w-full" style={{ maxHeight: '200px' }} />
                     <div className="flex flex-col w-full gap-5 px-6">
-                      <Typography className="text-sm text-gray-500 uppercase">20 July 2019</Typography>
+                      <Typography className="text-sm text-gray-500 uppercase">{ moment(blg.createdAt).format('DD MMMM YYYY') }</Typography>
                       <Typography variant="h4">{blg.title}</Typography>
                       <Typography className="overflow-hidden font-semibold text-gray-500 max-h-20">
                         <span
@@ -94,7 +95,15 @@ export default function Post() {
               },
             ).slice(-3)
           }
-          <div className="flex flex-col justify-center px-6">
+          {
+            ads.map((ad) => (
+              <div
+                dangerouslySetInnerHTML={{ __html: ad.code }}
+                className="flex flex-col justify-center px-6"
+              />
+            ))
+          }
+          {/* <div className="flex flex-col justify-center px-6">
             <img className="self-center w-32" src={banner2} alt="banner" />
             <span className="flex flex-col gap-3 mt-12 w-44 px-9">
               <Typography className="text-xs font-semibold">
@@ -102,8 +111,14 @@ export default function Post() {
                 big present for us developers.
               </Typography>
             </span>
-            <Button variant="contained" className="self-center w-32 h-6 p-4 mt-2 text-white bg-blue-500 rounded-lg hover:bg-blue-800">Download</Button>
-          </div>
+            <Button
+              variant="contained"
+              className
+              ="self-center w-32 h-6 p-4 mt-2 text-white bg-blue-500 rounded-lg hover:bg-blue-800"
+            >
+              Download
+            </Button>
+          </div> */}
         </div>
       </Container>
     </Grid>

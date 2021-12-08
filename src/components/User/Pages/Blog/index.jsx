@@ -13,17 +13,20 @@ import { useQuery } from '@apollo/client';
 import { useHistory } from 'react-router-dom';
 
 import media from '../../../../assets/media.svg';
-import banner from '../../../../assets/banner.png';
+// import banner from '../../../../assets/banner.png';
 
-import { BLOGS_AND_ADMINS } from '../../../../graphqlQueries';
+import { BLOGS_AND_ADMINS_AND_ADS } from '../../../../graphqlQueries';
 
 export default function AboutUs() {
   const history = useHistory();
-  const { loading, data } = useQuery(BLOGS_AND_ADMINS, { fetchPolicy: 'cache-and-network' });
+  const { loading, data } = useQuery(BLOGS_AND_ADMINS_AND_ADS, { fetchPolicy: 'cache-and-network' });
   if (loading) return <span className="absolute inset-x-0 flex justify-center mt-16"><CircularProgress /></span>;
   function getImgSrc(content) {
     const src = (/<img src="([^"]*([^"]*(?:[^\\"]|\\\\|\\")*)+)"/g).exec(content);
     return src ? src[0].slice(10, -1) : media;
+  }
+  function postPageAds() {
+    return data.ads.filter((a) => a.locationId === '/post');
   }
   return (
     <div className="flex-grow w-full bg-pageBg">
@@ -42,7 +45,7 @@ export default function AboutUs() {
                 { ...blg, writtenBy: data.admins.find((a) => Number(a._id) === blg.writtenBy) }
               ),
             ).map((blog, idx, arr) => (
-              <Card key={new Date()} className="flex-col my-1 cursor-pointer w-80" onClick={() => history.push('/post', [blog, arr])}>
+              <Card key={new Date()} className="flex-col my-1 cursor-pointer w-80" onClick={() => history.push('/post', [blog, arr, postPageAds()])}>
                 <img className="w-auto" style={{ maxHeight: '170px', width: '100%' }} src={getImgSrc(blog.content)} alt="media" />
                 <Typography className="mx-8 mt-8 font-semibold">
                   { blog.title }
@@ -68,7 +71,16 @@ export default function AboutUs() {
               Load More
             </Button>
           </div>
-          <div className="flex flex-col md:flex-row md:justify-center">
+          {
+            data.ads.filter((a) => a.locationId === '/blog')
+              .map((ad) => (
+                <div
+                  dangerouslySetInnerHTML={{ __html: ad.code }}
+                  className="flex flex-col md:flex-row md:justify-center"
+                />
+              ))
+          }
+          {/* <div className="flex flex-col md:flex-row md:justify-center">
             <img className="w-auto" src={banner} alt="banner" />
             <span className="flex flex-col gap-3 md:w-2/6 lg:w-1/6 px-9">
               <Typography className="text-lg font-bold text-white">Large Title</Typography>
@@ -76,8 +88,14 @@ export default function AboutUs() {
                 SF Symbols were introduced during WWDC 2019 and are a big present for us developers.
               </Typography>
             </span>
-            <Button variant="contained" className="self-center h-6 p-4 text-white bg-blue-500 rounded-lg w-36 hover:bg-blue-800 mt-9">Download</Button>
-          </div>
+            <Button
+              variant="contained"
+              className
+              ="self-center h-6 p-4 text-white bg-blue-500 rounded-lg w-36 hover:bg-blue-800 mt-9"
+            >
+              Download
+            </Button>
+        </div> */}
         </Container>
       </div>
     </div>

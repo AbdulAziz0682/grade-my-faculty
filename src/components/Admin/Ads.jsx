@@ -156,7 +156,7 @@ export default function Ads() {
             )
           }
           {
-            loading && <div className="absolute inset-0 flex items-center justify-center"><CircularProgress /></div>
+            loading && <div className="absolute inset-x-0 flex items-center justify-center"><CircularProgress /></div>
           }
         </Table>
       </TableContainer>

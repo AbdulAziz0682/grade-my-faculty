@@ -9,6 +9,8 @@ import {
   DialogContent,
   DialogTitle,
   TextField,
+  Select,
+  MenuItem,
 } from '@mui/material';
 
 import { useMutation } from '@apollo/client';
@@ -60,17 +62,20 @@ export default function AddAdDialog({ open, handleClose }) {
               error={formik.touched.title && Boolean(formik.errors.title)}
               helperText={formik.touched.title && formik.errors.title}
             />
-            <TextField
+            <Select
               variant="standard"
               label="Location ID"
+              placeholder="Location ID"
               className="md:w-3/6"
-              required
               name="locationId"
               value={formik.values.locationId}
               onChange={formik.handleChange}
               error={formik.touched.locationId && Boolean(formik.errors.locationId)}
-              helperText={formik.touched.locationId && formik.errors.locationId}
-            />
+            >
+              <MenuItem value="" disabled>Select Location</MenuItem>
+              <MenuItem value="/blog">Blog Page</MenuItem>
+              <MenuItem value="/post">Post Page</MenuItem>
+            </Select>
           </span>
           <TextField
             fullWidth
