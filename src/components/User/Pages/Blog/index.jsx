@@ -1,20 +1,30 @@
+/* eslint-disable no-underscore-dangle */
 import React from 'react';
 
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { Button, Card } from '@mui/material';
+import { Button, Card, CircularProgress } from '@mui/material';
 
 import { ArrowForward } from '@mui/icons-material';
+
+import { useQuery } from '@apollo/client';
 
 import { useHistory } from 'react-router-dom';
 
 import media from '../../../../assets/media.svg';
 import banner from '../../../../assets/banner.png';
 
+import { BLOGS_AND_ADMINS } from '../../../../graphqlQueries';
+
 export default function AboutUs() {
-  const [list, setList] = React.useState([1, 2, 3]);
   const history = useHistory();
+  const { loading, data } = useQuery(BLOGS_AND_ADMINS, { fetchPolicy: 'cache-and-network' });
+  if (loading) return <span className="absolute inset-x-0 flex justify-center mt-16"><CircularProgress /></span>;
+  function getImgSrc(content) {
+    const src = (/<img src="([^"]*([^"]*(?:[^\\"]|\\\\|\\")*)+)"/g).exec(content);
+    return src ? src[0].slice(10, -1) : media;
+  }
   return (
     <div className="flex-grow w-full bg-pageBg">
       <Container maxWidth="xl">
@@ -27,13 +37,19 @@ export default function AboutUs() {
       <div className="w-full bg-primary">
         <Container maxWidth="xl" className="flex flex-wrap justify-center gap-10 p-16 ">
           {
-            list.map(() => (
-              <Card className="flex-col my-1 cursor-pointer w-80" onClick={() => history.push('/post')}>
-                <img className="w-auto" src={media} alt="media" />
+            data.blogs.map(
+              (blg) => (
+                { ...blg, writtenBy: data.admins.find((a) => Number(a._id) === blg.writtenBy) }
+              ),
+            ).map((blog, idx, arr) => (
+              <Card key={new Date()} className="flex-col my-1 cursor-pointer w-80" onClick={() => history.push('/post', [blog, arr])}>
+                <img className="w-auto" style={{ maxHeight: '170px', width: '100%' }} src={getImgSrc(blog.content)} alt="media" />
                 <Typography className="mx-8 mt-8 font-semibold">
-                  Steve Jobs helped launch her career. Now, her startup bring millions
+                  { blog.title }
                 </Typography>
-                <Typography className="mx-8 my-4 text-primary">Brandon Games</Typography>
+                <Typography className="mx-8 my-4 text-primary">
+                  { blog.writtenBy.name }
+                </Typography>
               </Card>
             ))
           }
@@ -47,7 +63,7 @@ export default function AboutUs() {
               color="primary"
               className="px-8 py-4"
               endIcon={<ArrowForward />}
-              onClick={() => setList([...list, ...list])}
+              // onClick={() => setList([...list, ...list])}
             >
               Load More
             </Button>

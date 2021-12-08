@@ -468,6 +468,23 @@ export const BLOGS = gql`
   }
 `;
 
+export const BLOGS_AND_ADMINS = gql`
+  query BlogsAndAdmins($offset:Int $limit:Int) {
+    blogs(offset:$offset limit:$limit) {
+      _id
+      title
+      content
+      createdAt
+      writtenBy
+      tags
+    }
+    admins {
+      _id
+      name
+    }
+  }
+`;
+
 export const NEW_BLOG = gql`
   mutation NewBlog($title:String! $content:String! $writtenBy:Int! $tags:[String]) {
     newBlog(title:$title content:$content writtenBy:$writtenBy tags:$tags) {
