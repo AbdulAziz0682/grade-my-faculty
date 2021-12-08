@@ -19,7 +19,11 @@ import { BLOGS_AND_ADMINS_AND_ADS } from '../../../../graphqlQueries';
 
 export default function AboutUs() {
   const history = useHistory();
-  const { loading, data } = useQuery(BLOGS_AND_ADMINS_AND_ADS, { fetchPolicy: 'cache-and-network' });
+  const [limit, setLimit] = React.useState(3);
+  const { loading, data } = useQuery(
+    BLOGS_AND_ADMINS_AND_ADS,
+    { fetchPolicy: 'cache-and-network', variables: { limit } },
+  );
   if (loading) return <span className="absolute inset-x-0 flex justify-center mt-16"><CircularProgress /></span>;
   function getImgSrc(content) {
     const src = (/<img src="([^"]*([^"]*(?:[^\\"]|\\\\|\\")*)+)"/g).exec(content);
@@ -66,7 +70,8 @@ export default function AboutUs() {
               color="primary"
               className="px-8 py-4"
               endIcon={<ArrowForward />}
-              // onClick={() => setList([...list, ...list])}
+              disabled={data.allBlogs <= limit}
+              onClick={() => setLimit((lim) => lim + 3)}
             >
               Load More
             </Button>

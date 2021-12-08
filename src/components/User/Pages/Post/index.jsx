@@ -88,7 +88,7 @@ export default function Post() {
                           dangerouslySetInnerHTML={{ __html: getFirstPara(blg.content) }}
                         />
                       </Typography>
-                      <Button variant="text" color="primary" className="self-start pl-0" onClick={() => history.push('/post', [blg, arr])}>Read more</Button>
+                      <Button variant="text" color="primary" className="self-start pl-0" onClick={() => history.push('/post', [blg, arr, ads])}>Read more</Button>
                     </div>
                   </Paper>
                 );

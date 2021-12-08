@@ -478,6 +478,7 @@ export const BLOGS_AND_ADMINS_AND_ADS = gql`
       writtenBy
       tags
     }
+    allBlogs
     admins {
       _id
       name
