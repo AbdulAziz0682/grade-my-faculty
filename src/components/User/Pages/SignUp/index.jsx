@@ -23,6 +23,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { addToast } from '../../../../redux/toastsActions';
 
 import googleLogo from '../../../../assets/googleLogo.svg';
+// import { login } from '../../../../redux/accountActions';
 
 const NEW_USER = gql`
   mutation NewUser($firstName:String! $lastName:String! $email:String! $password:String! $confirmPassword:String!) {
@@ -72,7 +73,15 @@ export default function SignUp() {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(res),
-    });
+    })
+      .then((r) => r.json()).then((response) => {
+        console.log(response);
+        dispatch(addToast({ message: 'Registered successfully', severity: 'success' }));
+        // localStorage.setItem('token', response.token);
+        // sessionStorage.setItem('token', response.token);
+        // dispatch(login({ user: response.user, role: 'user' }));
+      })
+      .catch((e) => dispatch(addToast({ message: e.message, severity: 'error' })));
   }
   if (user) return history.push('/');
   return (
