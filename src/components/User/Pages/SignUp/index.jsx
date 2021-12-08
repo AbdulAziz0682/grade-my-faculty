@@ -22,7 +22,7 @@ import { gql, useMutation } from '@apollo/client';
 import { useSelector, useDispatch } from 'react-redux';
 import { addToast } from '../../../../redux/toastsActions';
 
-// import googleLogo from '../../../../assets/googleLogo.svg';
+import googleLogo from '../../../../assets/googleLogo.svg';
 
 const NEW_USER = gql`
   mutation NewUser($firstName:String! $lastName:String! $email:String! $password:String! $confirmPassword:String!) {
@@ -65,7 +65,14 @@ export default function SignUp() {
   });
   // -----------------
   function googleResponse(res) {
-    console.log({ res });
+    fetch('http://localhost:4000/googleSignup', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(res),
+    });
   }
   if (user) return history.push('/');
   return (
@@ -193,20 +200,24 @@ export default function SignUp() {
                 onFailure={(res) => googleResponse(res)}
                 cookiePolicy="single_host_origin"
                 buttonText="Login"
-                /* render={(
+                render={(renderProps) => (
                   <Button
+                    onClick={renderProps.onClick}
+                    disabled={renderProps.disabled}
                     variant="contained"
                     className="py-3 bg-white hover:bg-white rounded-xl"
                     startIcon={
                       <img src={googleLogo} alt="google" />
                     }
                   >
-                    <Typography variant="body2"
-                    className
-                    ="text-lg font-normal text-gray-400 normal-case md:text-2xl"
-                    >Sign Up with Google</Typography>
+                    <Typography
+                      variant="body2"
+                      className="text-lg font-normal text-gray-400 normal-case md:text-2xl"
+                    >
+                      Sign Up with Google
+                    </Typography>
                   </Button>
-                )} */
+                )}
               />
             </Grid>
             <Grid item className="flex justify-center mt-3">
