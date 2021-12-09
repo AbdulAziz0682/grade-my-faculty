@@ -13,18 +13,20 @@ import {
   CircularProgress,
 } from '@mui/material';
 
+import moment from 'moment';
+
 import { useSelector, useDispatch } from 'react-redux';
 
 import { useHistory, Redirect } from 'react-router-dom';
 
 import { useQuery } from '@apollo/client';
-import { RATINGS } from '../../../../graphqlQueries';
+import { RATINGS, BLOGS_AND_ADMINS_AND_ADS } from '../../../../graphqlQueries';
 
 import { addToast } from '../../../../redux/toastsActions';
 
 import like from '../../../../assets/like.svg';
 import unlike from '../../../../assets/unlike.svg';
-import media2 from '../../../../assets/media2.png';
+import media from '../../../../assets/media.svg';
 
 export default function Grade() {
   const history = useHistory();
@@ -39,12 +41,27 @@ export default function Grade() {
     RATINGS,
     { variables: { faculty: Number(faculty._id) }, fetchPolicy: 'network-only' },
   );
+  const blogsQuery = useQuery(
+    BLOGS_AND_ADMINS_AND_ADS,
+    { fetchPolicy: 'cache-and-network' },
+  );
   function calculateLevelOfDifficulty() {
     const { ratings } = data;
     let total = 0;
     ratings.forEach((r) => { total += r.levelOfDifficulty; });
     if (total === 0) return 0;
     return Number(total / ratings.length).toFixed(1);
+  }
+  function getImgSrc(content) {
+    const src = (/<img src="([^"]*([^"]*(?:[^\\"]|\\\\|\\")*)+)"/g).exec(content);
+    return src ? src[0].slice(10, -1) : media;
+  }
+  function postPageAds(ads) {
+    return ads.filter((ad) => ad.locationId === '/post');
+  }
+  function getFirstPara(content) {
+    const para = String(content);
+    return para.replaceAll('<img', '<imx');
   }
   return (
     <Grid container className="flex-grow w-full">
@@ -142,10 +159,10 @@ export default function Grade() {
                 (rate) => (
                   <Grid container>
                     <Grid item xs={12} sm={3} className="flex flex-row p-3 bg-primary md:flex-col">
-                      <Typography className="self-center w-full text-3xl font-semibold text-center text-white">A</Typography>
+                      <Typography className="self-center w-full text-3xl font-semibold text-center text-white">{rate.gradeOfUser}</Typography>
                       <span className="flex-grow" />
                       <Typography className="self-center text-3xl font-semibold text-center text-white w-min">
-                        { calculateLevelOfDifficulty() }
+                        { Number(rate.levelOfDifficulty).toFixed(1) }
                       </Typography>
                       <Typography className="w-full text-center text-white md:text-xs">Level of Difficulty</Typography>
                     </Grid>
@@ -207,19 +224,30 @@ export default function Grade() {
         <div className="flex flex-col h-auto gap-10 lg:w-3/12 py-14">
           <Typography variant="h4">Our Blog</Typography>
           {
-            [1, 2, 3].map(
-              () => (
-                <Paper elevation={3} className="flex flex-col w-full gap-5 pb-3 my-6 lg:my-0">
-                  <img src={media2} alt="blog" className="w-full" />
-                  <div className="flex flex-col w-full gap-5 px-6">
-                    <Typography className="text-sm text-gray-500 uppercase">20 July 2019</Typography>
-                    <Typography variant="h4">Life tips from top ten adventure travelers</Typography>
-                    <Typography className="font-semibold text-gray-500">Slate helps you see how many more days you....</Typography>
-                    <Button variant="text" color="primary" className="self-start pl-0" onClick={() => history.push('/post')}>Read more</Button>
-                  </div>
-                </Paper>
+            !blogsQuery.loading && blogsQuery.data.blogs.map(
+              (blog) => (
+                {
+                  ...blog,
+                  writtenBy: blogsQuery.data.admins.find(
+                    (a) => Number(a._id) === Number(blog.writtenBy),
+                  ),
+                }
               ),
-            )
+            ).map((blg, idx, arr) => (
+              <Paper elevation={3} key={blg._id} className="flex flex-col w-full gap-5 pb-3 my-6 transform lg:my-0">
+                <img src={getImgSrc(blg.content)} alt="blog" className="w-full" style={{ maxHeight: '200px' }} />
+                <div className="flex flex-col w-full gap-5 px-6">
+                  <Typography className="text-sm text-gray-500 uppercase">{ moment(blg.createdAt).format('DD MMMM YYYY') }</Typography>
+                  <Typography variant="h4">{blg.title}</Typography>
+                  <Typography className="overflow-hidden font-semibold text-gray-500 max-h-20">
+                    <span
+                      dangerouslySetInnerHTML={{ __html: getFirstPara(blg.content) }}
+                    />
+                  </Typography>
+                  <Button variant="text" color="primary" className="self-start pl-0" onClick={() => history.push('/post', [blg, arr, postPageAds(blogsQuery.data.ads)])}>Read more</Button>
+                </div>
+              </Paper>
+            )).slice(-3)
           }
         </div>
       </Container>

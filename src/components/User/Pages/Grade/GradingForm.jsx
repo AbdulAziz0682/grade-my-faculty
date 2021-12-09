@@ -17,18 +17,20 @@ import {
   CircularProgress,
 } from '@mui/material';
 
+import moment from 'moment';
+
 import { useDispatch, useSelector } from 'react-redux';
 
-import { useMutation } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 
 import { useHistory, Redirect } from 'react-router-dom';
 
 import { addToast } from '../../../../redux/toastsActions';
 
-import media2 from '../../../../assets/media2.png';
+import media from '../../../../assets/media.svg';
 import CustomCheckBox from '../../../CustomCheckBox';
 
-import { NEW_RATING, RATINGS } from '../../../../graphqlQueries';
+import { NEW_RATING, RATINGS, BLOGS_AND_ADMINS_AND_ADS } from '../../../../graphqlQueries';
 
 function RadioCheckedIcon() {
   return (
@@ -100,6 +102,21 @@ export default function GradingForm() {
   if (!user) {
     dispatch(addToast({ message: 'Please login first', severity: 'error' }));
     return <Redirect push to="/grade" />;
+  }
+  const blogsQuery = useQuery(
+    BLOGS_AND_ADMINS_AND_ADS,
+    { fetchPolicy: 'cache-and-network' },
+  );
+  function getImgSrc(content) {
+    const src = (/<img src="([^"]*([^"]*(?:[^\\"]|\\\\|\\")*)+)"/g).exec(content);
+    return src ? src[0].slice(10, -1) : media;
+  }
+  function postPageAds(ads) {
+    return ads.filter((ad) => ad.locationId === '/post');
+  }
+  function getFirstPara(content) {
+    const para = String(content);
+    return para.replaceAll('<img', '<imx');
   }
   return (
     <Grid container className="flex-grow">
@@ -287,19 +304,30 @@ export default function GradingForm() {
         <div className="flex-col h-auto gap-10 lg:flex lg:w-3/12 py-14">
           <Typography variant="h4">Our Blog</Typography>
           {
-            [1, 2, 3].map(
-              () => (
-                <Paper elevation={3} className="flex flex-col w-full gap-5 pb-3 my-6 lg:my-0">
-                  <img src={media2} alt="blog" className="w-full" />
-                  <div className="flex flex-col w-full gap-5 px-6">
-                    <Typography className="text-sm text-gray-500 uppercase">20 July 2019</Typography>
-                    <Typography variant="h4">Life tips from top ten adventure travelers</Typography>
-                    <Typography className="font-semibold text-gray-500">Slate helps you see how many more days you....</Typography>
-                    <Button variant="text" color="primary" className="self-start pl-0" onClick={() => history.push('/post')}>Read more</Button>
-                  </div>
-                </Paper>
+            !blogsQuery.loading && blogsQuery.data.blogs.map(
+              (blog) => (
+                {
+                  ...blog,
+                  writtenBy: blogsQuery.data.admins.find(
+                    (a) => Number(a._id) === Number(blog.writtenBy),
+                  ),
+                }
               ),
-            )
+            ).map((blg, idx, arr) => (
+              <Paper elevation={3} key={blg._id} className="flex flex-col w-full gap-5 pb-3 my-6 transform lg:my-0">
+                <img src={getImgSrc(blg.content)} alt="blog" className="w-full" style={{ maxHeight: '200px' }} />
+                <div className="flex flex-col w-full gap-5 px-6">
+                  <Typography className="text-sm text-gray-500 uppercase">{ moment(blg.createdAt).format('DD MMMM YYYY') }</Typography>
+                  <Typography variant="h4">{blg.title}</Typography>
+                  <Typography className="overflow-hidden font-semibold text-gray-500 max-h-20">
+                    <span
+                      dangerouslySetInnerHTML={{ __html: getFirstPara(blg.content) }}
+                    />
+                  </Typography>
+                  <Button variant="text" color="primary" className="self-start pl-0" onClick={() => history.push('/post', [blg, arr, postPageAds(blogsQuery.data.ads)])}>Read more</Button>
+                </div>
+              </Paper>
+            )).slice(-3)
           }
         </div>
       </Container>
