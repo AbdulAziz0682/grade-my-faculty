@@ -66,7 +66,7 @@ export default function SignUp() {
   });
   // -----------------
   function googleResponse(res) {
-    fetch('http://localhost:4000/googleSignup', {
+    fetch('https://grade-my-faculty-backend.herokuapp.com/googleSignup', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -75,22 +75,18 @@ export default function SignUp() {
       body: JSON.stringify(res),
     })
       .then((r) => r.json()).then((response) => {
-        console.log(response);
         if (response.error) {
           dispatch(addToast({ message: response.error, severity: 'error' }));
-        }
-        if (!response.token) {
+        } else if (!response.token) {
           dispatch(addToast({ message: 'Registered successfully', severity: 'success' }));
           history.push('/emailVerification', [{ email: response.user.email }]);
-        }
-        if (response.user && response.token) {
+        } else if (response.user && response.token) {
           localStorage.setItem('token', response.token);
           sessionStorage.setItem('token', response.token);
           dispatch(login({ user: response.user, role: 'user' }));
         }
       });
   }
-  window.googleResponse = googleResponse;
   if (user) return history.push('/');
   return (
     <Grid container className="flex-grow bg-pageBg">

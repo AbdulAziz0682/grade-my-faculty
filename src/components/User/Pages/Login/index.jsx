@@ -12,6 +12,8 @@ import {
 
 import { CheckSharp } from '@mui/icons-material';
 
+import GoogleLogin from 'react-google-login';
+
 import { useHistory } from 'react-router-dom';
 
 import { useFormik } from 'formik';
@@ -21,6 +23,7 @@ import { gql, useMutation } from '@apollo/client';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { login } from '../../../../redux/accountActions';
+import { addToast } from '../../../../redux/toastsActions';
 
 import googleLogo from '../../../../assets/googleLogo.svg';
 
@@ -70,6 +73,28 @@ export default function Login() {
       .catch((res) => console.log(res)),
   });
   // -----------------
+  function googleResponse(res) {
+    fetch('https://grade-my-faculty-backend.herokuapp.com/googleSignup', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(res),
+    })
+      .then((r) => r.json()).then((response) => {
+        if (response.error) {
+          dispatch(addToast({ message: response.error, severity: 'error' }));
+        } else if (!response.token) {
+          dispatch(addToast({ message: 'Registered successfully', severity: 'success' }));
+          history.push('/emailVerification', [{ email: response.user.email }]);
+        } else if (response.user && response.token) {
+          localStorage.setItem('token', response.token);
+          sessionStorage.setItem('token', response.token);
+          dispatch(login({ user: response.user, role: 'user' }));
+        }
+      });
+  }
   if (user) history.push('/');
   return (
     <Grid container className="flex-grow bg-pageBg">
@@ -145,15 +170,32 @@ export default function Login() {
               <Typography className="text-sm font-semibold" align="center" style={{ fontFamily: 'montserrat' }}>or continue with</Typography>
             </Grid>
             <Grid item className="flex flex-col items-center mt-5">
-              <Button
-                variant="contained"
-                className="py-3 bg-white hover:bg-white rounded-xl"
-                startIcon={
-                  <img src={googleLogo} alt="google" />
-                }
-              >
-                <Typography variant="body2" className="text-xl font-normal text-gray-400 normal-case md:text-2xl">Sign In with Google</Typography>
-              </Button>
+              <GoogleLogin
+                // eslint-disable-next-line react/jsx-curly-brace-presence
+                clientId={'728667475500-03g9ge02ct4rn7rv985bekmcm5hdit88.apps.googleusercontent.com'}
+                onSuccess={(res) => googleResponse(res)}
+                onFailure={(res) => googleResponse(res)}
+                cookiePolicy="single_host_origin"
+                buttonText="Login"
+                render={(renderProps) => (
+                  <Button
+                    onClick={renderProps.onClick}
+                    disabled={renderProps.disabled}
+                    variant="contained"
+                    className="py-3 bg-white hover:bg-white rounded-xl"
+                    startIcon={
+                      <img src={googleLogo} alt="google" />
+                    }
+                  >
+                    <Typography
+                      variant="body2"
+                      className="text-lg font-normal text-gray-400 normal-case md:text-2xl"
+                    >
+                      Sign Up with Google
+                    </Typography>
+                  </Button>
+                )}
+              />
             </Grid>
             <Grid item className="flex justify-center mt-9">
               <p className="text-sm font-semibold" style={{ fontFamily: 'montserrat' }}>
