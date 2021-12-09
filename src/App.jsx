@@ -20,6 +20,7 @@ import Routes from './routes/Routes';
 
 import themeOptions from './themeOptions';
 import { login } from './redux/accountActions';
+import ErrorBoundary from './components/ErrorBoundary';
 
 const theme = createTheme(themeOptions);
 
@@ -84,11 +85,13 @@ export default function App() {
   return (
     <StyledEngineProvider injectFirst>
       <ThemeProvider theme={theme}>
-        <ApolloProvider client={client}>
-          <BrowserRouter>
-            <Routes />
-          </BrowserRouter>
-        </ApolloProvider>
+        <ErrorBoundary>
+          <ApolloProvider client={client}>
+            <BrowserRouter>
+              <Routes />
+            </BrowserRouter>
+          </ApolloProvider>
+        </ErrorBoundary>
       </ThemeProvider>
     </StyledEngineProvider>
   );
