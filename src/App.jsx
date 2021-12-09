@@ -65,7 +65,7 @@ export default function App() {
   const dispatch = useDispatch();
   const [loading, setLoading] = React.useState(true);
   const link = new HttpLink({
-    uri: 'http://localhost:4000/graphql',
+    uri: 'https://grade-my-faculty-backend.herokuapp.com/graphql',
     headers: {
       Authentication: localStorage.getItem('token') || sessionStorage.getItem('token'),
     },
