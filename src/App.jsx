@@ -95,7 +95,7 @@ export default function App() {
   if (loading) {
     return (
       <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <Typography variant="h1" align="center" color="primary">
+        <Typography variant="h3" align="center" color="primary">
           Grade My Faculty
           <LinearProgress className="w-full" />
         </Typography>
