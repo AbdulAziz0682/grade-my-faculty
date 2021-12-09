@@ -23,7 +23,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { addToast } from '../../../../redux/toastsActions';
 
 import googleLogo from '../../../../assets/googleLogo.svg';
-// import { login } from '../../../../redux/accountActions';
+import { login } from '../../../../redux/accountActions';
 
 const NEW_USER = gql`
   mutation NewUser($firstName:String! $lastName:String! $email:String! $password:String! $confirmPassword:String!) {
@@ -76,14 +76,18 @@ export default function SignUp() {
     })
       .then((r) => r.json()).then((response) => {
         console.log(response);
-        dispatch(addToast({ message: 'Registered successfully', severity: 'success' }));
-        // localStorage.setItem('token', response.token);
-        // sessionStorage.setItem('token', response.token);
-        // dispatch(login({ user: response.user, role: 'user' }));
-      })
-      .catch((e) => {
-        console.log({ e });
-        dispatch(addToast({ message: e.message, severity: 'error' }));
+        if (response.error) {
+          dispatch(addToast({ message: response.error, severity: 'error' }));
+        }
+        if (!response.token) {
+          dispatch(addToast({ message: 'Registered successfully', severity: 'success' }));
+          history.push('/emailVerification', [{ email: response.user.email }]);
+        }
+        if (response.user && response.token) {
+          localStorage.setItem('token', response.token);
+          sessionStorage.setItem('token', response.token);
+          dispatch(login({ user: response.user, role: 'user' }));
+        }
       });
   }
   window.googleResponse = googleResponse;
