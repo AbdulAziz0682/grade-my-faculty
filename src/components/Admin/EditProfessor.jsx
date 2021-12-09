@@ -25,7 +25,9 @@ import * as yup from 'yup';
 import { useDispatch } from 'react-redux';
 import { addToast } from '../../redux/toastsActions';
 
-import { UPDATE_FACULTY, FACULTIES, INSTITUTES } from '../../graphqlQueries';
+import {
+  UPDATE_FACULTY, FACULTIES, INSTITUTES, RATINGS,
+} from '../../graphqlQueries';
 
 export default function EditProfessor({ professor }) {
   // Chip select requirements
@@ -37,6 +39,8 @@ export default function EditProfessor({ professor }) {
   const [currentInstId, setCurrentInstId] = React.useState(Number(professor.institute));
   const dispatch = useDispatch();
   const institutesQuery = useQuery(INSTITUTES);
+  const ratingsQuery = useQuery(RATINGS, { variables: { faculty: Number(professor._id) } });
+  console.log({ ratingsQuery });
   const [updateFaculty, { loading }] = useMutation(
     UPDATE_FACULTY,
     { refetchQueries: [{ query: FACULTIES }] },
@@ -69,6 +73,13 @@ export default function EditProfessor({ professor }) {
       .then(() => dispatch(addToast({ message: 'Faculty updated successfully', severity: 'success' })))
       .catch((r) => dispatch(addToast({ message: r.message, severity: 'error' }))),
   });
+  function calculateRatings(ratings) {
+    let total = 0;
+    ratings.forEach((r) => {
+      total += r.overAllRating;
+    });
+    return Number(total / ratings.length).toFixed(1);
+  }
   React.useEffect(() => {
     if (currentInstId === Number(professor.institute)) {
       setCourses(professor.courses);
@@ -79,14 +90,20 @@ export default function EditProfessor({ professor }) {
   }, [currentInstId]);
   return (
     <div className="flex flex-col w-full gap-3">
-      <div className="flex flex-col items-center w-full mb-3 md:justify-between md:flex-row">
+      <div className="flex flex-col items-center justify-start w-full mb-3 md:flex-row">
         <Typography className="mr-2 text-4xl text-gray-400 md:ml-16">{professor.firstName}</Typography>
         <Rating
           size="large"
-          value={4}
+          value={ratingsQuery.loading ? 0 : calculateRatings(ratingsQuery.data.ratings)}
           classes={{ iconFilled: 'text-primary' }}
         />
-        <Typography variant="h3" className="mx-2 text-primary">(4.0)</Typography>
+        <Typography variant="h3" className="mx-2 text-primary">
+          (
+          {
+          ratingsQuery.loading ? 0 : calculateRatings(ratingsQuery.data.ratings)
+          }
+          )
+        </Typography>
       </div>
       <Card className="flex flex-col w-full gap-12 p-14" elevation={6} component="form" onSubmit={formik.handleSubmit}>
         <TextField
