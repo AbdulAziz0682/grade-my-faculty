@@ -285,6 +285,8 @@ export const RATINGS = gql`
       thoughts
       wouldTakeAgain
       createdAt
+      likes
+      disLikes
     }
   }
 `;
@@ -305,6 +307,8 @@ export const USER_RATINGS = gql`
       thoughts
       wouldTakeAgain
       createdAt
+      likes
+      disLikes
     }
     faculties {
       _id
@@ -349,6 +353,18 @@ export const NEW_RATING = gql`
     ) {
       _id
     }
+  }
+`;
+
+export const ADD_LIKE = gql`
+  mutation AddLike($user:Int! $rating:Int!) {
+    addLike(user:$user rating:$rating)
+  }
+`;
+
+export const ADD_DISLIKE = gql`
+  mutation AddDisLike($user:Int! $rating:Int!) {
+    addDisLike(user:$user rating:$rating)
   }
 `;
 

@@ -19,8 +19,10 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { useHistory, Redirect } from 'react-router-dom';
 
-import { useQuery } from '@apollo/client';
-import { RATINGS, BLOGS_AND_ADMINS_AND_ADS } from '../../../../graphqlQueries';
+import { useQuery, useMutation } from '@apollo/client';
+import {
+  RATINGS, BLOGS_AND_ADMINS_AND_ADS, ADD_LIKE, ADD_DISLIKE,
+} from '../../../../graphqlQueries';
 
 import { addToast } from '../../../../redux/toastsActions';
 
@@ -35,8 +37,6 @@ export default function Grade() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.account.user);
   const faculty = location.state[location.state.length - 1];
-  const [likes, setLikes] = React.useState(3);
-  const [dislikes, setDisLikes] = React.useState(1);
   const { loading, data } = useQuery(
     RATINGS,
     { variables: { faculty: Number(faculty._id) }, fetchPolicy: 'network-only' },
@@ -45,6 +45,24 @@ export default function Grade() {
     BLOGS_AND_ADMINS_AND_ADS,
     { fetchPolicy: 'cache-and-network' },
   );
+  const [addLike] = useMutation(ADD_LIKE, { refetchQueries: [{ query: RATINGS }] });
+  const [addDisLike] = useMutation(ADD_DISLIKE, { refetchQueries: [{ query: RATINGS }] });
+  function onLike(rating) {
+    if (!user) dispatch(addToast({ message: 'Please login first', severity: 'error' }));
+    else {
+      addLike({ variables: { user: Number(user._id), rating: Number(rating) } })
+        .then(() => dispatch(addToast({ message: 'Like added successfully', severity: 'success' })))
+        .catch((r) => dispatch(addToast({ message: r.message, severity: 'error' })));
+    }
+  }
+  function onDisLike(rating) {
+    if (!user) dispatch(addToast({ message: 'Please login first', severity: 'error' }));
+    else {
+      addDisLike({ variables: { user: Number(user._id), rating: Number(rating) } })
+        .then(() => dispatch(addToast({ message: 'Dislike added successfully', severity: 'success' })))
+        .catch((r) => dispatch(addToast({ message: r.message, severity: 'error' })));
+    }
+  }
   function calculateLevelOfDifficulty() {
     const { ratings } = data;
     let total = 0;
@@ -195,12 +213,15 @@ export default function Grade() {
                         }
                       </div>
                       <div className="flex items-center gap-2 mt-1">
-                        <img src={like} alt="like" className="w-4 transition duration-500 transform hover:scale-150" onClick={() => setLikes(likes + 1)} />
-                        <span className="text-sm text-gray-500">{likes}</span>
-                        <img src={unlike} alt="unlike" className="w-4 transition duration-500 transform hover:scale-150" onClick={() => setDisLikes(dislikes + 1)} />
-                        <span className="text-sm text-gray-500">{dislikes}</span>
+                        <img src={like} alt="like" className="w-4 transition duration-500 transform hover:scale-150" onClick={() => onLike(rate._id)} />
+                        <span className="text-sm text-gray-500">{rate.likes.length || 0}</span>
+                        <img src={unlike} alt="unlike" className="w-4 transition duration-500 transform hover:scale-150" onClick={() => onDisLike(rate._id)} />
+                        <span className="text-sm text-gray-500">{rate.disLikes.length || 0}</span>
                         <span className="flex-grow" />
-                        <Typography variant="caption" color="error">Report this Rating</Typography>
+                        {/*
+                          <Typography variant="caption"
+                          color="error">Report this Rating</Typography>
+                        */}
                       </div>
                     </Grid>
                   </Grid>
