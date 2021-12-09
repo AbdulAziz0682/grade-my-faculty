@@ -52,7 +52,6 @@ export default function Grade() {
     if (!user) dispatch(addToast({ message: 'Please login first', severity: 'error' }));
     else {
       addLike({ variables: { user: Number(user._id), rating: Number(rating) } })
-        .then(() => dispatch(addToast({ message: 'Like added successfully', severity: 'success' })))
         .catch((r) => dispatch(addToast({ message: r.message, severity: 'error' })));
     }
   }
@@ -60,7 +59,6 @@ export default function Grade() {
     if (!user) dispatch(addToast({ message: 'Please login first', severity: 'error' }));
     else {
       addDisLike({ variables: { user: Number(user._id), rating: Number(rating) } })
-        .then(() => dispatch(addToast({ message: 'Dislike added successfully', severity: 'success' })))
         .catch((r) => dispatch(addToast({ message: r.message, severity: 'error' })));
     }
   }
