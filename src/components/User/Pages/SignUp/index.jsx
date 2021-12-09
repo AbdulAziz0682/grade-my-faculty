@@ -81,8 +81,12 @@ export default function SignUp() {
         // sessionStorage.setItem('token', response.token);
         // dispatch(login({ user: response.user, role: 'user' }));
       })
-      .catch((e) => dispatch(addToast({ message: e.message, severity: 'error' })));
+      .catch((e) => {
+        console.log({ e });
+        dispatch(addToast({ message: e.message, severity: 'error' }));
+      });
   }
+  window.googleResponse = googleResponse;
   if (user) return history.push('/');
   return (
     <Grid container className="flex-grow bg-pageBg">
