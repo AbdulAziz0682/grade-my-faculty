@@ -83,7 +83,7 @@ export default function Grade() {
                       if (r.wouldTakeAgain) total += 1;
                     });
                     if (total === 0) return 0;
-                    return Number((total / ratings.length) * 100).toFixed(1);
+                    return Number((total / ratings.length) * 100).toFixed(0);
                   })()}
                   %
                 </Typography>

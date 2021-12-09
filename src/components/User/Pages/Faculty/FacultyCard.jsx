@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 
 import {
   Card,
+  CircularProgress,
   Typography,
 } from '@mui/material';
 
@@ -19,6 +20,7 @@ export default function FacultyCard({ faculty, institute }) {
     RATINGS,
     { variables: { faculty: Number(faculty._id) }, fetchPolicy: 'network-only' },
   );
+  if (loading) return <span className="absolute inset-x-0 flex items-center justify-center"><CircularProgress /></span>;
   return (
     <Card elevation={3} className="flex flex-col w-full gap-3 p-6 cursor-pointer sm:w-5/12 hover:shadow-lg" onClick={() => history.push('/grade', [{ ...faculty, institute, ratings: [] || data.ratings }])}>
       <Typography className="text-lg font-semibold">{faculty.firstName}</Typography>
@@ -28,7 +30,17 @@ export default function FacultyCard({ faculty, institute }) {
       </Typography>
       <Typography className="text-lg font-bold text-primary">
         Grade&nbsp;(
-        {faculty.levelOfDifficulty}
+        {
+          (() => {
+            let total = 0;
+            const ratings = data.ratings.filter((r) => Number(r.faculty) === Number(faculty._id));
+            if (ratings.length === 0) return 0;
+            ratings.forEach((r) => {
+              total += r.levelOfDifficulty;
+            });
+            return Number(total / ratings.length).toFixed(1);
+          })()
+        }
         )
       </Typography>
       <Typography>
