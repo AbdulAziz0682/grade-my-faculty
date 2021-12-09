@@ -35,6 +35,7 @@ export default function Grade() {
   const { location } = history;
   if (!location.state || !location.state[0]) return <Redirect push to="/" />;
   const dispatch = useDispatch();
+  const [loadMore, setLoadMore] = React.useState(false);
   const user = useSelector((state) => state.account.user);
   const faculty = location.state[location.state.length - 1];
   const { loading, data } = useQuery(
@@ -226,13 +227,13 @@ export default function Grade() {
                     </Grid>
                   </Grid>
                 ),
-              )
+              ).slice(loadMore ? 0 : -3)
             }
             {
-              !loading && data.ratings.length < 0 && data.ratings.length > 3
+              !loadMore && !loading && (data.ratings.length > 3)
                 ? (
                   <div className="flex justify-end pt-6 mt-8 border-t-2 border-black">
-                    <Button variant="contained" className="px-6 rounded-lg">Load More</Button>
+                    <Button variant="contained" className="px-6 rounded-lg" onClick={() => setLoadMore(true)}>Load More</Button>
                   </div>
                 )
                 : ''
