@@ -14,7 +14,7 @@ import {
 
 import { useQuery } from '@apollo/client';
 
-import { useHistory } from 'react-router-dom';
+import { useHistory, Redirect } from 'react-router-dom';
 
 import FacultyCard from './FacultyCard';
 
@@ -22,6 +22,7 @@ import { FACULTIES_BY_INSTITUTE } from '../../../../graphqlQueries';
 
 export default function Faculty() {
   const { location: { state } } = useHistory();
+  if (!state || !state[0]) return <Redirect push to="/" />;
   const { loading, data } = useQuery(
     FACULTIES_BY_INSTITUTE,
     { variables: { institute: Number(state[0]._id) }, fetchPolicy: 'network-only' },

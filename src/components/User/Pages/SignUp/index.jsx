@@ -12,7 +12,7 @@ import {
 
 import GoogleLogin from 'react-google-login';
 
-import { useHistory } from 'react-router-dom';
+import { useHistory, Redirect } from 'react-router-dom';
 
 import { useFormik } from 'formik';
 import * as yup from 'yup';
@@ -87,7 +87,7 @@ export default function SignUp() {
         }
       });
   }
-  if (user) return history.push('/');
+  if (user) return <Redirect push to="/" />;
   return (
     <Grid container className="flex-grow bg-pageBg">
       <Container maxWidth="xl" className="flex items-center justify-center pt-32 pb-16">

@@ -62,6 +62,8 @@ function CustomRadio(props) {
 
 export default function GradingForm() {
   const history = useHistory();
+  const { location } = history;
+  if (!location.state || !location.state[0]) return <Redirect push to="/" />;
   const dispatch = useDispatch();
   const user = useSelector((state) => state.account.user);
   const faculty = useHistory().location.state[0];

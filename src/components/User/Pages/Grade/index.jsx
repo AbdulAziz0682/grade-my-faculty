@@ -15,7 +15,7 @@ import {
 
 import { useSelector, useDispatch } from 'react-redux';
 
-import { useHistory } from 'react-router-dom';
+import { useHistory, Redirect } from 'react-router-dom';
 
 import { useQuery } from '@apollo/client';
 import { RATINGS } from '../../../../graphqlQueries';
@@ -28,9 +28,11 @@ import media2 from '../../../../assets/media2.png';
 
 export default function Grade() {
   const history = useHistory();
+  const { location } = history;
+  if (!location.state || !location.state[0]) return <Redirect push to="/" />;
   const dispatch = useDispatch();
   const user = useSelector((state) => state.account.user);
-  const faculty = history.location.state[history.location.state.length - 1];
+  const faculty = location.state[location.state.length - 1];
   const [likes, setLikes] = React.useState(3);
   const [dislikes, setDisLikes] = React.useState(1);
   const { loading, data } = useQuery(

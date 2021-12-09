@@ -14,13 +14,16 @@ import {
   gql,
 } from '@apollo/client';
 
+import { LinearProgress, Typography } from '@mui/material';
+
 import { useDispatch } from 'react-redux';
+
+import ErrorBoundary from './components/ErrorBoundary';
 
 import Routes from './routes/Routes';
 
 import themeOptions from './themeOptions';
 import { login } from './redux/accountActions';
-import ErrorBoundary from './components/ErrorBoundary';
 
 const theme = createTheme(themeOptions);
 
@@ -60,6 +63,7 @@ const GET_LOGGEDIN_ADMIN = gql`
 
 export default function App() {
   const dispatch = useDispatch();
+  const [loading, setLoading] = React.useState(true);
   const link = new HttpLink({
     uri: 'https://grade-my-faculty-backend.herokuapp.com/graphql',
     headers: {
@@ -74,14 +78,30 @@ export default function App() {
     client.query({
       query: GET_LOGGEDIN_USER,
     })
-      .then(({ data }) => dispatch(login({ user: data.loggedUser.user, role: 'user' })))
-      .catch((error) => error);
+      .then(({ data }) => {
+        dispatch(login({ user: data.loggedUser.user, role: 'user' }));
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
     client.query({
       query: GET_LOGGEDIN_ADMIN,
     })
-      .then(({ data }) => dispatch(login({ admin: data.loggedAdmin.admin, role: 'admin' })))
-      .catch((error) => error);
+      .then(({ data }) => {
+        dispatch(login({ admin: data.loggedAdmin.admin, role: 'admin' }));
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
   }, []);
+  if (loading) {
+    return (
+      <div className="absolute inset-0 flex flex-col items-center justify-center">
+        <Typography variant="h1" align="center" color="primary">
+          Grade My Faculty
+          <LinearProgress className="w-full" />
+        </Typography>
+      </div>
+    );
+  }
   return (
     <StyledEngineProvider injectFirst>
       <ThemeProvider theme={theme}>

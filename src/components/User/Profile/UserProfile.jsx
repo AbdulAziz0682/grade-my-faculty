@@ -7,6 +7,11 @@ import {
   Tabs,
   Tab,
 } from '@mui/material';
+
+import { useSelector } from 'react-redux';
+
+import { Redirect } from 'react-router-dom';
+
 import Profile from './Profile';
 import AccountSettings from './AccountSettings';
 import Ratings from './Ratings';
@@ -14,6 +19,8 @@ import SavedProfessors from './SavedProfessors';
 
 export default function UserProfile() {
   const [value, setValue] = React.useState(0);
+  const user = useSelector((state) => state.account.user);
+  if (!user) return <Redirect push to="/" />;
   return (
     <Grid container className="flex-grow w-full">
       <Container maxWidth="xl" className="flex flex-col justify-between md:flex-row md:gap-9">
