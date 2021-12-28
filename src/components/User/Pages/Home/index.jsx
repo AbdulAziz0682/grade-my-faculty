@@ -27,7 +27,6 @@ import homeImg from '../../../../assets/homeImg.svg';
 export default function Home() {
   const ref = useRef();
   const { loading, data } = useQuery(FACULTIES_AND_INSTITUTES);
-  console.log({ data });
   // const faculty = useSelector((state) => state.faculty);
   const [searchBy, setSearchBy] = React.useState('university');
   /* const universities = [

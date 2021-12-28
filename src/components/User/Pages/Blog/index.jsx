@@ -55,7 +55,7 @@ export default function AboutUs() {
                   { blog.title }
                 </Typography>
                 <Typography className="mx-8 my-4 text-primary">
-                  { blog.writtenBy.name }
+                  { blog?.writtenBy?.name || 'N/A' }
                 </Typography>
               </Card>
             ))

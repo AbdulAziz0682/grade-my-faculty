@@ -20,6 +20,24 @@ export default function FacultyCard({ faculty, institute }) {
     RATINGS,
     { variables: { faculty: Number(faculty._id) }, fetchPolicy: 'network-only' },
   );
+
+  function calculateOverAllRating() {
+    const ratings = data.ratings.filter((r) => r.faculty === faculty._id);
+    if (ratings.length === 0 || loading) return 'N/A';
+    let total = 0;
+    ratings.forEach((r) => {
+      total += r.overAllRating;
+    });
+    const average = total / ratings.length;
+    if (average >= 4.5) return 'A+';
+    if (average >= 4.0 && average < 4.5) return 'A';
+    if (average >= 3.5 && average < 4.0) return 'B+';
+    if (average >= 3.0 && average < 3.5) return 'B';
+    if (average >= 2.5 && average < 3.0) return 'C';
+    if (average >= 2 && average < 2.5) return 'D';
+    if (average >= 1.5 && average < 2) return 'E';
+    return 'F';
+  }
   if (loading) return <span className="absolute inset-x-0 flex items-center justify-center"><CircularProgress /></span>;
   return (
     <Card elevation={3} className="flex flex-col w-full gap-3 p-6 cursor-pointer sm:w-5/12 hover:shadow-lg" onClick={() => history.push('/grade', [{ ...faculty, institute, ratings: [] || data.ratings }])}>
@@ -30,17 +48,7 @@ export default function FacultyCard({ faculty, institute }) {
       </Typography>
       <Typography className="text-lg font-bold text-primary">
         Grade&nbsp;(
-        {
-          (() => {
-            let total = 0;
-            const ratings = data.ratings.filter((r) => Number(r.faculty) === Number(faculty._id));
-            if (ratings.length === 0) return 0;
-            ratings.forEach((r) => {
-              total += r.levelOfDifficulty;
-            });
-            return Number(total / ratings.length).toFixed(1);
-          })()
-        }
+        { calculateOverAllRating() }
         )
       </Typography>
       <Typography>

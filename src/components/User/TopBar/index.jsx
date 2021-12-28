@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable react/jsx-props-no-spreading */
 import * as React from 'react';
 
@@ -22,8 +23,12 @@ import Logout from '@mui/icons-material/Logout';
 import { Link, useLocation, useHistory } from 'react-router-dom';
 import { TextField } from '@mui/material';
 
+import { useQuery } from '@apollo/client';
+
 import { useSelector, useDispatch } from 'react-redux';
 import MobileMenuDialog from './MobileMenuDialog';
+
+import { FACULTIES_AND_INSTITUTES } from '../../../graphqlQueries';
 
 import { logout } from '../../../redux/accountActions';
 
@@ -38,14 +43,9 @@ const isSearchFieldRoute = {
 export default function TopBar() {
   const history = useHistory();
   const { pathname } = useLocation();
-  const faculty = useSelector((state) => state.faculty);
   const { user } = useSelector((state) => state.account);
   const dispatch = useDispatch();
-  const universities = [
-    { name: 'North South University' },
-    { name: 'Lahore University' },
-    { name: 'Karachi University' },
-  ];
+  const { loading, data } = useQuery(FACULTIES_AND_INSTITUTES, { fetchPolicy: 'cache-and-network' });
   const [openDialog, setOpenDialog] = React.useState(false);
   const mobileMenuId = 'primary-search-account-menu-mobile';
   function userLogout() {
@@ -53,21 +53,28 @@ export default function TopBar() {
     localStorage.removeItem('token');
     dispatch(logout());
   }
-
   return (
     <Box className={`${pathname === '/admin' && 'hidden'} order-first`}>
       <AppBar position="fixed" color="default" className="bg-white">
         <Container maxWidth="xl" sx={{ height: 98, py: '23px' }} className="flex flex-col justify-center">
           <Toolbar disableGutters style={{ minHeight: '52px' }}>
-            <img src={logo} alt="logo" className="w-32 md:w-44" />
+            <img
+              src={logo}
+              alt="logo"
+              className="w-32 cursor-pointer md:w-44"
+              onClick={() => history.push('/')}
+              aria-hidden
+            />
             {
               !isSearchFieldRoute[pathname]
                 ? <Box sx={{ flexGrow: 1, minWidth: 15 }} />
                 : (
                   <Autocomplete
                     className="flex-grow h-full ml-4 text-gray-500"
-                    getOptionLabel={(option) => option.name}
-                    options={[...faculty, ...universities]}
+                    getOptionLabel={(option) => option.name || option.firstName}
+                    disabled={loading}
+                    placeholder={loading ? 'Loading...' : ''}
+                    options={!loading ? [...data.faculties, ...data.institutes] : []}
                     classes={{ paper: 'rounded-none', listbox: 'py-0', popupIndicator: 'transform-none' }}
                     popupIcon={<SearchIcon />}
                     renderInput={(params) => (
@@ -79,22 +86,29 @@ export default function TopBar() {
                       />
                     )}
                     renderOption={(props, option) => {
-                      if (!option.department) {
+                      if (!option.institute) {
                         return (
-                          <MenuItem sx={{ border: '1px solid' }} className="py-3 font-semibold bg-gray-100 border-gray-200" value={option.name} onClick={() => history.push('/faculty', [option.name])}>{option.name}</MenuItem>
+                          <MenuItem sx={{ border: '1px solid' }} className="py-3 font-semibold bg-gray-100 border-gray-200" value={option.name} onClick={() => history.push('/faculty', [option])}>{option.name}</MenuItem>
                         );
                       }
                       return (
-                        <MenuItem value={option.name} sx={{ border: '1px solid' }} className="py-1 bg-gray-100 border-gray-200" onClick={() => history.push('/grade', [option])}>
+                        <MenuItem value={option.firstName} sx={{ border: '1px solid' }} className="py-1 bg-gray-100 border-gray-200" onClick={() => history.push('/grade', [{ ...option, institute: data.institutes.find((i) => i._id === option.institute) }])}>
                           <div className="flex items-end justify-between gap-3 pb-2 overflow-auto" style={{ fontFamily: 'montserrat' }}>
                             <div className="flex flex-col">
-                              <p className="font-semibold">{option.name}</p>
+                              <p className="font-semibold">{option.firstName}</p>
                               <span className="text-xs text-primary">
                                 {option.department}
                                 &nbsp;Department
                               </span>
                             </div>
-                            <p className="font-bold">{option.university}</p>
+                            <p className="font-bold">
+                              {
+                                data
+                                && (
+                                  data.institutes.find((i) => i._id === option.institute).name
+                                )
+                              }
+                            </p>
                           </div>
                         </MenuItem>
                       );

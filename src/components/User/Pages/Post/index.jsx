@@ -52,7 +52,7 @@ export default function Post() {
               <div className="flex items-center gap-3">
                 <img src={beardGuy} alt="faculty profile" className="w-12 h-12" />
                 <div className="flex flex-col">
-                  <Typography className="font-semibold">{ blog.writtenBy.name }</Typography>
+                  <Typography className="font-semibold">{ blog?.writtenBy?.name || 'N/A' }</Typography>
                   <Typography className="text-sm">{ moment(blog.createdAt).format('DD-MM-YYYY') }</Typography>
                 </div>
               </div>

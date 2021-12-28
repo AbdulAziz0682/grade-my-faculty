@@ -96,7 +96,10 @@ export default function GradingForm() {
   }
   function handleSubmit() {
     newRating({ variables: { ...form, user: Number(user._id), faculty: Number(faculty._id) } })
-      .then(() => dispatch(addToast({ message: 'Rated successfully', severity: 'success' })))
+      .then(() => {
+        dispatch(addToast({ message: 'Rated successfully', severity: 'success' }));
+        history.goBack();
+      })
       .catch((r) => dispatch(addToast({ message: r.message, severity: 'error' })));
   }
   if (!user) {
@@ -196,11 +199,15 @@ export default function GradingForm() {
               <Select variant="outlined" className="rounded-none w-60" value={form.gradeOfUser} onChange={(e) => setForm({ ...form, gradeOfUser: e.target.value })}>
                 <MenuItem value="A+">A+</MenuItem>
                 <MenuItem value="A">A</MenuItem>
+                <MenuItem value="A-">A-</MenuItem>
                 <MenuItem value="B+">B+</MenuItem>
                 <MenuItem value="B">B</MenuItem>
+                <MenuItem value="B-">B-</MenuItem>
                 <MenuItem value="C+">C+</MenuItem>
                 <MenuItem value="C">C</MenuItem>
                 <MenuItem value="D">D</MenuItem>
+                <MenuItem value="E">E</MenuItem>
+                <MenuItem value="F">F</MenuItem>
               </Select>
               <Typography variant="h4" className="pb-3 -mx-2 border-b-2 border-black">Time to actually grade and evaluate your faculty</Typography>
               <Typography className="text-xl">4. Overall Rating?</Typography>

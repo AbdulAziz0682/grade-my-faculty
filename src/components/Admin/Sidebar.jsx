@@ -25,7 +25,7 @@ import {
 import { useSelector, useDispatch } from 'react-redux';
 import { setCurrentTab } from '../../redux/adminActions';
 
-import man from '../../assets/man.png';
+import beardGuy from '../../assets/beardGuy.svg';
 import professor from '../../assets/prof.svg';
 import profBlue from '../../assets/profBlue.svg';
 import ads from '../../assets/ads.svg';
@@ -73,7 +73,7 @@ export default function Sidebar({ setOpen, open }) {
   return (
     <div className="flex flex-col w-full h-full">
       <div className="w-full p-3 mt-12">
-        <img className="w-16" src={man} alt="man" />
+        <img className="w-16" src={beardGuy} alt="man" />
         <span className={`flex items-center ${open ? 'justify-between' : 'justify-center'} w-full mt-6`}>
           <Typography variant="h4" className={`${open ? 'block' : 'hidden'}`}>{ admin.name }</Typography>
           <IconButton className="p-1 rounded-none bg-primary hover:bg-blue-800" onClick={() => setOpen(!open)}>

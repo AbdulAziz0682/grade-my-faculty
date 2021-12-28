@@ -310,6 +310,23 @@ export const USER_RATINGS = gql`
       likes
       disLikes
     }
+    totalRatings: ratings {
+      _id
+      user
+      faculty
+      course
+      levelOfDifficulty
+      gradeOfUser
+      isAttendanceMandatory
+      overAllRating
+      semester
+      tags
+      thoughts
+      wouldTakeAgain
+      createdAt
+      likes
+      disLikes
+    }
     faculties {
       _id
       firstName

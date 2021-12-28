@@ -26,15 +26,11 @@ export default function Ratings() {
   const { loading, data } = useQuery(USER_RATINGS, { variables: { id: Number(user?._id) }, fetchPolicy: 'network-only' });
   const [deleteRating, deleteMutation] = useMutation(
     DELETE_RATING,
-    {
-      refetchQueries: [{ query: USER_RATINGS, variables: { id: Number(user?._id) } }],
-    },
+    { refetchQueries: [{ query: USER_RATINGS }] },
   );
   function handleDeleteRating(id) {
-    deleteRating({ variables: { id: Number(id) } })
-      .then(() => {
-        dispatch(addToast({ message: 'Rating deleted successfully', severity: 'success' }));
-      })
+    deleteRating({ id: Number(id) })
+      .then(() => dispatch(addToast({ message: 'Rating deleted successfully', severity: 'success' })))
       .catch((e) => dispatch(addToast({ message: e.message, severity: 'error' })));
   }
   if (!user) return <Redirect push to="/login" />;
@@ -42,75 +38,48 @@ export default function Ratings() {
   return (
     <div className="flex flex-col w-full gap-3 mt-3">
       {
-        data.ratings.filter(
-          (rt) => Number(rt.user) === Number(user._id),
+        data.faculties.filter(
+          (fac) => data.ratings.find((r) => r.faculty === fac._id),
         ).length === 0 && <Typography variant="h6" color="primary" align="center">No ratings yet</Typography>
       }
       {
-        data.ratings.map((r) => {
-          const faculty = data.faculties.find((f) => Number(f._id) === Number(r.faculty));
-          return {
-            ...r,
-            faculty: {
-              ...faculty,
-              willTakeAgain: (() => { // IIFE
-                let total = 0;
-                const reviews = data.totalRatings.filter(
-                  (rt) => Number(rt.faculty) === Number(faculty._id),
-                );
-                reviews.forEach((rev) => {
-                  if (rev.wouldTakeAgain) total += 1;
-                });
-                return Number((total / reviews.length) * 100).toFixed(0);
-              })(),
-              levelOfDifficulty: (() => { // IIFE
-                let total = 0;
-                const reviews = data.totalRatings.filter(
-                  (rt) => Number(rt.faculty) === Number(faculty._id),
-                );
-                reviews.forEach((rev) => {
-                  if (rev.levelOfDifficulty) total += rev.levelOfDifficulty;
-                });
-                return Number(total / reviews.length).toFixed(1);
-              })(),
-              averageRating: (() => { // IIFE
-                let total = 0;
-                const reviews = data.totalRatings.filter(
-                  (rt) => Number(rt.faculty) === Number(faculty._id),
-                );
-                reviews.forEach((rev) => {
-                  if (rev.overAllRating) total += rev.overAllRating;
-                });
-                return Number(total / reviews.length).toFixed(1);
-              })(),
-            },
-          };
-        }).map((rating) => (
+        data.faculties.filter(
+          (fac) => data.ratings.find((r) => r.faculty === fac._id),
+        ).map((faculty) => (
           <Paper className="w-full py-4 pl-6 border-2 pr-9" elevation={0}>
             <div className="flex flex-col w-full md:flex-row md:justify-between">
               <Stack spacing={1}>
-                <Typography variant="h3">{rating.faculty.firstName}</Typography>
-                <Typography className="font-medium" color="gray">{rating.faculty.department}</Typography>
+                <Typography variant="h3">{faculty.firstName}</Typography>
+                <Typography className="font-medium" color="gray">{faculty.department}</Typography>
                 <Typography className="font-medium" color="gray">
                   {
-                    data.institutes.find((i) => i._id === rating.faculty.institute)?.name
+                    data.institutes.find((i) => i._id === faculty.institute)?.name
                   }
-                </Typography>
-                <Typography className="font-medium" color="gray">
-                  {rating.course}
-                  ,&nbsp;
-                  {rating.semester}
                 </Typography>
                 <div className="flex w-full divide-x-2">
                   <Typography variant="h6" className="pr-3">
                     {
-                      rating.faculty.willTakeAgain
+                      (() => { // IIFE
+                        let total = 0;
+                        const reviews = data.ratings.filter((r) => r.faculty === faculty._id);
+                        reviews.forEach((rev) => {
+                          if (rev.wouldTakeAgain) total += 1;
+                        });
+                        return Number((total / reviews.length) * 100).toFixed(0);
+                      })()
                     }
                     % will take again
                   </Typography>
                   <Typography variant="h6" className="pl-3">
                     {
-                      rating.faculty.levelOfDifficulty
+                      (() => { // IIFE
+                        let total = 0;
+                        const reviews = data.ratings.filter((r) => r.faculty === faculty._id);
+                        reviews.forEach((rev) => {
+                          if (rev.levelOfDifficulty) total += rev.levelOfDifficulty;
+                        });
+                        return Number(total / reviews.length).toFixed(1);
+                      })()
                     }
                     &nbsp;level of difficulty
                   </Typography>
@@ -121,13 +90,20 @@ export default function Ratings() {
                 <div className="flex justify-center gap-5">
                   <div className="flex items-center justify-center w-20 h-16 px-4 py-1.5 text-2xl font-extrabold rounded-lg bg-pageBg">
                     {
-                      rating.overAllRating
+                      data.ratings.find((r) => r.faculty === faculty._id)?.overAllRating
                     }
                   </div>
                   <Divider orientation="vertical" className="mt-1" sx={{ minHeight: '3.5rem', maxHeight: '3.5rem' }} />
                   <div className="flex items-center justify-center w-20 h-16 px-4 py-1.5 text-2xl font-extrabold rounded-lg bg-pageBg">
                     {
-                      rating.faculty.averageRating
+                      (() => { // IIFE
+                        let total = 0;
+                        const reviews = data.ratings.filter((r) => r.faculty === faculty._id);
+                        reviews.forEach((rev) => {
+                          if (rev.overAllRating) total += rev.overAllRating;
+                        });
+                        return Number(total / reviews.length).toFixed(1);
+                      })()
                     }
                   </div>
                 </div>
@@ -136,10 +112,10 @@ export default function Ratings() {
                   <Typography color="gray" className="w-24 text-xs text-center">
                     Total rating:
                     &nbsp;
-                    {data.totalRatings.filter((r) => r.faculty === rating.faculty._id).length || 0}
+                    {data.ratings.filter((r) => r.faculty === faculty._id).length || 0}
                   </Typography>
                 </div>
-                <Button className="self-center" size="small" variant="contained" color="error" disabled={deleteMutation.loading} onClick={() => handleDeleteRating(Number(rating._id))}>
+                <Button className="self-center" size="small" variant="contained" color="error" disabled={deleteMutation.loading} onClick={() => handleDeleteRating(data.ratings.find((r) => r.faculty === faculty._id)?._id)}>
                   {
                     deleteMutation.loading
                       ? <CircularProgress />

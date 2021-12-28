@@ -11,6 +11,7 @@ import {
   Button,
   Chip,
   CircularProgress,
+  // Stack,
 } from '@mui/material';
 
 import moment from 'moment';
@@ -27,7 +28,9 @@ import {
 import { addToast } from '../../../../redux/toastsActions';
 
 import like from '../../../../assets/like.svg';
+import liked from '../../../../assets/liked.svg';
 import unlike from '../../../../assets/unlike.svg';
+import unliked from '../../../../assets/unliked.svg';
 import media from '../../../../assets/media.svg';
 
 export default function Grade() {
@@ -80,6 +83,24 @@ export default function Grade() {
     const para = String(content);
     return para.replaceAll('<img', '<imx');
   }
+  function calculateOverAllRating() {
+    if (loading) return 'N/A';
+    const ratings = data.ratings.filter((r) => r.faculty === faculty._id);
+    if (ratings.length === 0) return 'N/A';
+    let total = 0;
+    ratings.forEach((r) => {
+      total += r.overAllRating;
+    });
+    const average = total / ratings.length;
+    if (average >= 4.5) return 'A+';
+    if (average >= 4.0 && average < 4.5) return 'A';
+    if (average >= 3.5 && average < 4.0) return 'B+';
+    if (average >= 3.0 && average < 3.5) return 'B';
+    if (average >= 2.5 && average < 3.0) return 'C';
+    if (average >= 2 && average < 2.5) return 'D';
+    if (average >= 1.5 && average < 2) return 'E';
+    return 'F';
+  }
   return (
     <Grid container className="flex-grow w-full">
       <Container maxWidth="xl" className="flex flex-col justify-between md:flex-row md:gap-9">
@@ -107,7 +128,7 @@ export default function Grade() {
               &nbsp;
               and so on.
             </Typography>
-            <div className="flex flex-col">
+            <div className="flex-col hidden md:flex">
               <div className="flex items-end gap-3">
                 <Typography className="w-3/12 text-4xl font-extrabold text-center">
                   {data && (() => {
@@ -123,9 +144,10 @@ export default function Grade() {
                 </Typography>
                 <Typography className="w-3/12 text-4xl font-extrabold text-center">
                   {data && calculateLevelOfDifficulty()}
+                  /5.0
                 </Typography>
                 <Typography className="w-6/12 font-extrabold text-center text-7xl">
-                  A
+                  { calculateOverAllRating() }
                 </Typography>
               </div>
               <div className="flex gap-3">
@@ -136,12 +158,48 @@ export default function Grade() {
                   {data && data.ratings.length}
                   &nbsp;students
                   <br />
-                  evaluations
+                  evaluations rated from A to F
                 </Typography>
               </div>
             </div>
-            <div className="flex gap-3 mt-6">
-              <div className="w-1/2">
+            <div className="flex flex-wrap justify-center gap-3 md:hidden">
+              <div className="flex flex-col items-center">
+                <Typography className="text-4xl font-extrabold text-center">
+                  {data && (() => {
+                    let total = 0;
+                    const { ratings } = data;
+                    ratings.forEach((r) => {
+                      if (r.wouldTakeAgain) total += 1;
+                    });
+                    if (total === 0) return 0;
+                    return Number((total / ratings.length) * 100).toFixed(0);
+                  })()}
+                  %
+                </Typography>
+                <Typography className="mt-2 text-xs text-center">Would take again</Typography>
+              </div>
+              <div className="flex flex-col items-center">
+                <Typography className="w-full text-4xl font-extrabold text-center">
+                  {data && calculateLevelOfDifficulty()}
+                  /5.0
+                </Typography>
+                <Typography className="w-full mt-2 text-xs text-center">Level of difficulty</Typography>
+              </div>
+              <div className="flex flex-col items-center">
+                <Typography className="font-extrabold text-center text-7xl">
+                  { calculateOverAllRating() }
+                </Typography>
+                <Typography className="mt-2 text-xs text-center">
+                  Based on&nbsp;
+                  {data && data.ratings.length}
+                  &nbsp;students
+                  <br />
+                  evaluations rated from A to F
+                </Typography>
+              </div>
+            </div>
+            <div className="flex flex-col gap-3 mt-6 md:flex-row">
+              <div className="order-2 w-full md:w-1/2 md:order-1">
                 <Typography className="mb-12 text-3xl font-semibold">Attributes</Typography>
                 <div className="flex flex-wrap justify-between gap-3 w-72">
                   {
@@ -154,7 +212,7 @@ export default function Grade() {
                   }
                 </div>
               </div>
-              <div className="flex justify-center w-1/2">
+              <div className="flex justify-center order-1 w-full md:w-1/2 md:order-2">
                 <Button
                   variant="contained"
                   className="py-6 rounded-full h-9"
@@ -212,9 +270,9 @@ export default function Grade() {
                         }
                       </div>
                       <div className="flex items-center gap-2 mt-1">
-                        <img src={like} alt="like" className="w-4 transition duration-500 transform hover:scale-150" onClick={() => onLike(rate._id)} />
+                        <img src={rate.likes.find((l) => l === Number(user._id)) ? liked : like} alt="like" className="w-4 transition duration-500 transform hover:scale-150" onClick={() => onLike(rate._id)} />
                         <span className="text-sm text-gray-500">{rate.likes.length || 0}</span>
-                        <img src={unlike} alt="unlike" className="w-4 transition duration-500 transform hover:scale-150" onClick={() => onDisLike(rate._id)} />
+                        <img src={rate.disLikes.find((d) => d === Number(user._id)) ? unliked : unlike} alt="unlike" className="w-4 transition duration-500 transform hover:scale-150" onClick={() => onDisLike(rate._id)} />
                         <span className="text-sm text-gray-500">{rate.disLikes.length || 0}</span>
                         <span className="flex-grow" />
                         {/*
