@@ -32,6 +32,7 @@ import liked from '../../../../assets/liked.svg';
 import unlike from '../../../../assets/unlike.svg';
 import unliked from '../../../../assets/unliked.svg';
 import media from '../../../../assets/media.svg';
+import ReportDialog from './ReportDialog';
 
 export default function Grade() {
   const history = useHistory();
@@ -39,6 +40,7 @@ export default function Grade() {
   if (!location.state || !location.state[0]) return <Redirect push to="/" />;
   const dispatch = useDispatch();
   const [loadMore, setLoadMore] = React.useState(false);
+  const [isReportOpen, setReportOpen] = React.useState(false);
   const user = useSelector((state) => state.account.user);
   const faculty = location.state[location.state.length - 1];
   const { loading, data } = useQuery(
@@ -275,10 +277,27 @@ export default function Grade() {
                         <img src={rate.disLikes.find((d) => d === Number(user._id)) ? unliked : unlike} alt="unlike" className="w-4 transition duration-500 transform hover:scale-150" onClick={() => onDisLike(rate._id)} />
                         <span className="text-sm text-gray-500">{rate.disLikes.length || 0}</span>
                         <span className="flex-grow" />
-                        {/*
-                          <Typography variant="caption"
-                          color="error">Report this Rating</Typography>
-                        */}
+                        <Button
+                          variant="text"
+                          color="error"
+                          className="text-xs"
+                          onClick={() => {
+                            if (!user) dispatch(addToast({ message: 'Please login first', severity: 'error' }));
+                            else setReportOpen(true);
+                          }}
+                        >
+                          <span className="normal-case">Report this rating</span>
+                        </Button>
+                        {
+                          isReportOpen && (
+                            <ReportDialog
+                              open
+                              ratingId={Number(rate._id)}
+                              userId={Number(user._id)}
+                              handleClose={() => setReportOpen(false)}
+                            />
+                          )
+                        }
                       </div>
                     </Grid>
                   </Grid>

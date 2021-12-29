@@ -37,6 +37,8 @@ import Faqs from './Faqs';
 import EditBlog from './EditBlog';
 import AddBlog from './AddBlog';
 import Admins from './Admins';
+import Reports from './Reports';
+import ViewReport from './ViewReport';
 
 export default function Admin() {
   const [open, setOpen] = useState(false);
@@ -131,6 +133,12 @@ export default function Admin() {
           }
           {
             admin.currentTab.name === 'editBlog' && <EditBlog blog={admin.currentTab.data} />
+          }
+          {
+            admin.currentTab.name === 'reports' && <Reports />
+          }
+          {
+            admin.currentTab.name === 'viewReport' && <ViewReport report={admin.currentTab.data} />
           }
           {
             admin.currentTab.name === 'admins' && <Admins />

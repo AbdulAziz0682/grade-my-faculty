@@ -554,3 +554,30 @@ export const DELETE_BLOG = gql`
     deleteBlog(_id:$id)
   }
 `;
+
+export const REPORTS = gql`
+  query Reports($offset:Int $limit:Int) {
+    reports(offset:$offset limit:$limit) {
+      _id
+      user
+      rating
+      summary
+      details
+    }
+    allReports
+  }
+`;
+
+export const NEW_REPORT = gql`
+  mutation NewReport($user:Int! $rating:Int! $summary:String! $details:String!) {
+    newReport(user:$user rating:$rating summary:$summary details:$details) {
+      _id
+    }
+  }
+`;
+
+export const DELETE_REPORT = gql`
+  mutation DeleteReport($id:Int!) {
+    deleteReport(_id:$id)
+  }
+`;

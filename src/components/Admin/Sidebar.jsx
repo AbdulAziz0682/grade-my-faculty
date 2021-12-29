@@ -20,6 +20,7 @@ import {
   People,
   Settings,
   MailOutline,
+  Report,
 } from '@mui/icons-material';
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -67,6 +68,11 @@ const AdminTabs = {
   editAdmin: true,
 };
 
+const ReportTabs = {
+  reports: true,
+  viewReport: true,
+};
+
 export default function Sidebar({ setOpen, open }) {
   const { admin: { currentTab }, account: { admin } } = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -110,6 +116,10 @@ export default function Sidebar({ setOpen, open }) {
         <ListItemButton className={`${BlogTabs[currentTab.name] && 'bg-activeTab text-primary'} hover:bg-activeTab`} onClick={() => dispatch(setCurrentTab({ name: 'blogs', data: null }))}>
           <ListItemIcon className={`${!open && 'flex justify-center'}`}><Assignment className={`${BlogTabs[currentTab.name] && 'bg-activeTab text-primary'} hover:bg-activeTab w-8 h-8`} /></ListItemIcon>
           <ListItemText className={`${!open && 'hidden'}`} primary="Blogs" />
+        </ListItemButton>
+        <ListItemButton className={`${ReportTabs[currentTab.name] && 'bg-activeTab text-primary'} hover:bg-activeTab`} onClick={() => dispatch(setCurrentTab({ name: 'reports', data: null }))}>
+          <ListItemIcon className={`${!open && 'flex justify-center'}`}><Report className={`${ReportTabs[currentTab.name] && 'bg-activeTab text-primary'} hover:bg-activeTab w-8 h-8`} /></ListItemIcon>
+          <ListItemText className={`${!open && 'hidden'}`} primary="Reports" />
         </ListItemButton>
       </List>
       <Divider />
