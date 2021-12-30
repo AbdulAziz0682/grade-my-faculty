@@ -24,10 +24,15 @@ import { useHistory, Redirect } from 'react-router-dom';
 
 import { useQuery, useMutation } from '@apollo/client';
 import {
-  RATINGS, BLOGS_AND_ADMINS_AND_ADS, ADD_LIKE, ADD_DISLIKE,
+  RATINGS,
+  BLOGS_AND_ADMINS_AND_ADS,
+  ADD_LIKE,
+  ADD_DISLIKE,
+  SAVE_FACULTY,
 } from '../../../../graphqlQueries';
 
 import { addToast } from '../../../../redux/toastsActions';
+import { setUser } from '../../../../redux/accountActions';
 
 import like from '../../../../assets/like.svg';
 import liked from '../../../../assets/liked.svg';
@@ -39,11 +44,11 @@ import ReportDialog from './ReportDialog';
 export default function Grade() {
   const history = useHistory();
   const { location } = history;
-  if (!location.state || !location.state[0]) return <Redirect push to="/" />;
+  const user = useSelector((state) => state.account.user);
+  if (!location.state || !location.state[0] || !user) return <Redirect push to="/" />;
   const dispatch = useDispatch();
   const [loadMore, setLoadMore] = React.useState(false);
   const [isReportOpen, setReportOpen] = React.useState(false);
-  const user = useSelector((state) => state.account.user);
   const faculty = location.state[location.state.length - 1];
   const { loading, data } = useQuery(
     RATINGS,
@@ -55,6 +60,7 @@ export default function Grade() {
   );
   const [addLike] = useMutation(ADD_LIKE, { refetchQueries: [{ query: RATINGS }] });
   const [addDisLike] = useMutation(ADD_DISLIKE, { refetchQueries: [{ query: RATINGS }] });
+  const [saveFaculty] = useMutation(SAVE_FACULTY);
   function onLike(rating) {
     if (!user) dispatch(addToast({ message: 'Please login first', severity: 'error' }));
     else {
@@ -69,6 +75,12 @@ export default function Grade() {
         .catch((r) => dispatch(addToast({ message: r.message, severity: 'error' })));
     }
   }
+  function handleSave(fac) {
+    saveFaculty({ variables: { user: Number(user._id), faculty: Number(fac) } })
+      .then((r) => dispatch(setUser({ ...user, savedFaculties: r.data.saveFaculty })))
+      .catch((r) => dispatch(addToast({ message: r.message, severity: 'error' })));
+  }
+  console.log(user.savedFaculties, faculty._id);
   function calculateLevelOfDifficulty() {
     const { ratings } = data;
     let total = 0;
@@ -114,8 +126,8 @@ export default function Grade() {
           <Paper elevation={2} className="flex flex-col gap-2 p-4 mt-6 rounded-2xl lg:px-16 lg:pt-8 lg:pb-6 bg-gray-50">
             <div className="flex justify-between w-full gap-2">
               <Typography className="text-3xl font-bold text-primary">{faculty.firstName}</Typography>
-              <IconButton>
-                <BookmarkOutlined />
+              <IconButton onClick={() => handleSave(faculty._id)}>
+                <BookmarkOutlined color={`${user.savedFaculties.includes(Number(faculty._id)) && 'primary'}`} />
               </IconButton>
             </div>
             <Typography className="font-bold">{faculty.institute.name}</Typography>

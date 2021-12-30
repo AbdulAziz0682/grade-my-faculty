@@ -1,6 +1,7 @@
 import {
   LOGIN,
   LOGOUT,
+  SET_USER,
 } from './accountActionTypes';
 
 const initialState = {
@@ -19,6 +20,10 @@ function accountReducer(state = initialState, action) {
     case LOGOUT: return {
       loggedIn: false,
       role: '',
+    };
+    case SET_USER: return {
+      ...state,
+      user: action.payload,
     };
     default: return state;
   }

@@ -31,7 +31,10 @@ import media from '../../../../assets/media.svg';
 import CustomCheckBox from '../../../CustomCheckBox';
 
 import {
-  NEW_RATING, RATINGS, BLOGS_AND_ADMINS_AND_ADS, FACULTIES_BY_INSTITUTE,
+  NEW_RATING,
+  RATINGS,
+  BLOGS_AND_ADMINS_AND_ADS,
+  FACULTIES_BY_INSTITUTE,
 } from '../../../../graphqlQueries';
 
 function RadioCheckedIcon() {

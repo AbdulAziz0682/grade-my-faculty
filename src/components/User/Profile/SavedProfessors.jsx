@@ -6,20 +6,32 @@ import {
   Stack,
   Typography,
   CircularProgress,
+  IconButton,
 } from '@mui/material';
 
-import { useSelector } from 'react-redux';
+import { BookmarkOutlined } from '@mui/icons-material';
+
+import { useSelector, useDispatch } from 'react-redux';
 
 import { Redirect } from 'react-router-dom';
 
-import { useQuery } from '@apollo/client';
+import { useQuery, useMutation } from '@apollo/client';
 
-import { USER_RATINGS } from '../../../graphqlQueries';
+import { USER_RATINGS, SAVE_FACULTY } from '../../../graphqlQueries';
+import { addToast } from '../../../redux/toastsActions';
+import { setUser } from '../../../redux/accountActions';
 
 export default function SavedProfessors() {
   const user = useSelector((state) => state.account.user);
-  const { loading, data } = useQuery(USER_RATINGS, { variables: { id: Number(user?._id) }, fetchPolicy: 'network-only' });
   if (!user) return <Redirect push to="/login" />;
+  const dispatch = useDispatch();
+  const { loading, data } = useQuery(USER_RATINGS, { variables: { id: Number(user?._id) }, fetchPolicy: 'network-only' });
+  const [saveFaculty] = useMutation(SAVE_FACULTY);
+  function handleSave(fac) {
+    saveFaculty({ variables: { user: Number(user._id), faculty: Number(fac) } })
+      .then((r) => dispatch(setUser({ ...user, savedFaculties: r.data.saveFaculty })))
+      .catch((r) => dispatch(addToast({ message: r.message, severity: 'error' })));
+  }
   if (loading) return <div className="absolute inset-x-0 flex items-center justify-center mt-16"><CircularProgress /></div>;
   return (
     <div className="flex flex-col w-full gap-3 mt-3">
@@ -28,7 +40,7 @@ export default function SavedProfessors() {
       }
       {
         data.faculties.filter(
-          (fac) => user.savedFaculties.find((f) => Number(f) === Number(fac._id)),
+          (fac) => user.savedFaculties.includes(Number(fac._id)),
         ).map((faculty) => (
           <Paper className="w-full py-4 pl-6 border-2 pr-9" elevation={0}>
             <div className="flex flex-col w-full gap-3 md:flex-row">
@@ -57,8 +69,13 @@ export default function SavedProfessors() {
                   </Typography>
                 </div>
               </Stack>
-              <Stack spacing={1}>
-                <Typography variant="h3">{faculty.firstName}</Typography>
+              <Stack spacing={1} className="md:w-full">
+                <div className="flex justify-between w-full gap-2">
+                  <Typography variant="h3">{faculty.firstName}</Typography>
+                  <IconButton onClick={() => handleSave(faculty._id)}>
+                    <BookmarkOutlined color={`${user.savedFaculties.includes(Number(faculty._id)) && 'primary'}`} />
+                  </IconButton>
+                </div>
                 <Typography className="font-medium" color="gray">{faculty.department}</Typography>
                 <Typography className="font-medium" color="gray">{data.institutes.find((i) => i._id === faculty.institute).name}</Typography>
                 <div className="flex w-full divide-x-2">

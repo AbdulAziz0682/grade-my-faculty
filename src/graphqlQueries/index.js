@@ -581,3 +581,9 @@ export const DELETE_REPORT = gql`
     deleteReport(_id:$id)
   }
 `;
+
+export const SAVE_FACULTY = gql`
+  mutation SaveFaculty($user:Int! $faculty:Int!) {
+    saveFaculty(user:$user faculty:$faculty)
+  }
+`;
