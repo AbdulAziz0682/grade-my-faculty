@@ -30,7 +30,9 @@ import { addToast } from '../../../../redux/toastsActions';
 import media from '../../../../assets/media.svg';
 import CustomCheckBox from '../../../CustomCheckBox';
 
-import { NEW_RATING, RATINGS, BLOGS_AND_ADMINS_AND_ADS } from '../../../../graphqlQueries';
+import {
+  NEW_RATING, RATINGS, BLOGS_AND_ADMINS_AND_ADS, FACULTIES_BY_INSTITUTE,
+} from '../../../../graphqlQueries';
 
 function RadioCheckedIcon() {
   return (
@@ -71,7 +73,12 @@ export default function GradingForm() {
   const faculty = useHistory().location.state[0];
   const [newRating, { loading }] = useMutation(
     NEW_RATING,
-    { refetchQueries: [{ query: RATINGS }] },
+    {
+      refetchQueries: [
+        { query: RATINGS },
+        { query: FACULTIES_BY_INSTITUTE, variables: { id: Number(faculty.institute) } },
+      ],
+    },
   );
   const [form, setForm] = React.useState({
     course: faculty.courses[0],

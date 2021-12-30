@@ -10,6 +10,8 @@ import {
   CircularProgress,
 } from '@mui/material';
 
+import axios from 'axios';
+
 import { CheckSharp } from '@mui/icons-material';
 
 import { useHistory, Redirect } from 'react-router-dom';
@@ -17,31 +19,39 @@ import { useHistory, Redirect } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 
-import { gql, useMutation } from '@apollo/client';
-
 import { useSelector, useDispatch } from 'react-redux';
 import { login } from '../../redux/accountActions';
-
-const LOGIN_ADMIN = gql`
-  mutation LoginAdmin($email:String! $password:String!) {
-    loginAdmin(email:$email password:$password) {
-      admin {
-        _id
-        name
-        email
-        status
-      }
-      token
-    }
-  }
-`;
 
 export default function Login() {
   const history = useHistory();
   const dispatch = useDispatch();
   const { admin } = useSelector((state) => state.account);
   const [checked, setChecked] = useState(false);
-  const [loginAdmin, { loading, error }] = useMutation(LOGIN_ADMIN);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  function loginAdmin({ email, password }) {
+    setLoading(true);
+    axios.post('http://localhost:4000/adminlogin', { email, password }, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((res) => {
+        if (res.data.error) {
+          setError(res.data.message);
+          setLoading(false);
+          return;
+        }
+        if (checked) localStorage.setItem('token', res.data.token);
+        sessionStorage.setItem('token', res.data.token);
+        dispatch(login({ admin: res.data.admin, role: 'admin' }));
+        setLoading(false);
+      })
+      .catch((e) => {
+        setError(e.message);
+        setLoading(false);
+      });
+  }
   // Form requirements
   const schema = yup.object({
     email: yup.string().email('Enter a valid email').required('Email is required'),
@@ -53,13 +63,7 @@ export default function Login() {
       password: '',
     },
     validationSchema: schema,
-    onSubmit: (values) => loginAdmin({ variables: values })
-      .then((res) => {
-        if (checked) localStorage.setItem('token', res.data.loginAdmin.token);
-        sessionStorage.setItem('token', res.data.loginAdmin.token);
-        dispatch(login({ admin: res.data.loginAdmin.admin, role: 'admin' }));
-      })
-      .catch((res) => console.log(res)),
+    onSubmit: (values) => loginAdmin({ ...values }),
   });
   // -----------------
   if (admin) return <Redirect to="/admin" />;
@@ -114,7 +118,7 @@ export default function Login() {
               />
             </Grid>
             <Grid item className={`${error ? 'block' : 'hidden'} mt-3`}>
-              <p className="text-sm font-semibold text-red-700" style={{ fontFamily: 'montserrat' }}>{ error?.message }</p>
+              <p className="text-sm font-semibold text-red-700" style={{ fontFamily: 'montserrat' }}>{ error }</p>
             </Grid>
             <Grid item className="flex items-center justify-between gap-3 mb-2 mt-9">
               <div className="flex items-center flex-grow gap-3">

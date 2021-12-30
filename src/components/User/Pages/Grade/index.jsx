@@ -11,8 +11,10 @@ import {
   Button,
   Chip,
   CircularProgress,
-  // Stack,
+  IconButton,
 } from '@mui/material';
+
+import { BookmarkOutlined } from '@mui/icons-material';
 
 import moment from 'moment';
 
@@ -109,8 +111,13 @@ export default function Grade() {
         <div className="flex flex-col w-full lg:w-9/12 py-14">
           <Typography variant="h3">{faculty.institute.name}</Typography>
           <Typography variant="body1" className="font-bold">Dhaka, Bangladesh</Typography>
-          <Paper elevation={2} className="flex flex-col gap-2 p-4 mt-6 rounded-2xl lg:px-16 lg:pt-8 lg:pb-20 bg-gray-50">
-            <Typography className="text-3xl font-bold text-primary">{faculty.firstName}</Typography>
+          <Paper elevation={2} className="flex flex-col gap-2 p-4 mt-6 rounded-2xl lg:px-16 lg:pt-8 lg:pb-6 bg-gray-50">
+            <div className="flex justify-between w-full gap-2">
+              <Typography className="text-3xl font-bold text-primary">{faculty.firstName}</Typography>
+              <IconButton>
+                <BookmarkOutlined />
+              </IconButton>
+            </div>
             <Typography className="font-bold">{faculty.institute.name}</Typography>
             <Typography>
               {faculty.department}
@@ -118,7 +125,7 @@ export default function Grade() {
             </Typography>
             <Typography>
               Courses:
-              { faculty.courses.map(
+              { faculty.courses.slice(0, 3).map(
                 (course) => (
                   <span>
                     &nbsp;

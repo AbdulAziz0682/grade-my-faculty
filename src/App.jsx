@@ -11,12 +11,13 @@ import {
   InMemoryCache,
   ApolloProvider,
   HttpLink,
-  gql,
 } from '@apollo/client';
 
 import { LinearProgress, Typography } from '@mui/material';
 
 import { useDispatch } from 'react-redux';
+
+import axios from 'axios';
 
 import ErrorBoundary from './components/ErrorBoundary';
 
@@ -26,40 +27,6 @@ import themeOptions from './themeOptions';
 import { login } from './redux/accountActions';
 
 const theme = createTheme(themeOptions);
-
-const GET_LOGGEDIN_USER = gql`
-  query {
-    loggedUser {
-      user {
-        _id
-        firstName
-        lastName
-        email
-        ratings
-        savedFaculties
-        institute
-        graduationYear
-        registeredAt
-        password
-      }
-      token
-    }
-  }
-`;
-
-const GET_LOGGEDIN_ADMIN = gql`
-  query {
-    loggedAdmin {
-      admin {
-        _id
-        name
-        email
-        status
-      }
-      token
-    }
-  }
-`;
 
 export default function App() {
   const dispatch = useDispatch();
@@ -75,22 +42,40 @@ export default function App() {
     link,
   });
   React.useEffect(() => {
-    client.query({
-      query: GET_LOGGEDIN_USER,
+    axios.post('http://localhost:4000/adminlogin', {}, {
+      headers: {
+        Authentication: localStorage.getItem('token') || sessionStorage.getItem('token'),
+      },
     })
-      .then(({ data }) => {
-        dispatch(login({ user: data.loggedUser.user, role: 'user' }));
+      .then((res) => {
+        if (res.data.error) {
+          setLoading(false);
+          return;
+        }
+        dispatch(login({ admin: res.data.admin, role: 'admin' }));
         setLoading(false);
       })
-      .catch(() => setLoading(false));
-    client.query({
-      query: GET_LOGGEDIN_ADMIN,
+      .catch((e) => {
+        setLoading(false);
+        console.log(e);
+      });
+    axios.post('http://localhost:4000/login', {}, {
+      headers: {
+        Authentication: localStorage.getItem('token') || sessionStorage.getItem('token'),
+      },
     })
-      .then(({ data }) => {
-        dispatch(login({ admin: data.loggedAdmin.admin, role: 'admin' }));
+      .then((res) => {
+        if (res.data.error) {
+          setLoading(false);
+          return;
+        }
+        dispatch(login({ user: res.data.user, role: 'user' }));
         setLoading(false);
       })
-      .catch(() => setLoading(false));
+      .catch((e) => {
+        setLoading(false);
+        console.log(e);
+      });
   }, []);
   if (loading) {
     return (

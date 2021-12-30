@@ -19,7 +19,7 @@ import { useHistory, Redirect } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 
-import { gql, useMutation } from '@apollo/client';
+import axios from 'axios';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { login } from '../../../../redux/accountActions';
@@ -27,32 +27,36 @@ import { addToast } from '../../../../redux/toastsActions';
 
 import googleLogo from '../../../../assets/googleLogo.svg';
 
-const LOGIN_USER = gql`
-  mutation LoginUser($email:String! $password:String!) {
-    loginUser(email:$email password:$password) {
-      user {
-        _id
-        firstName
-        lastName
-        email
-        ratings
-        savedFaculties
-        institute
-        graduationYear
-        password
-        registeredAt
-      }
-      token
-    }
-  }
-`;
-
 export default function Login() {
   const history = useHistory();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.account);
   const [checked, setChecked] = useState(false);
-  const [loginUser, { loading, error }] = useMutation(LOGIN_USER);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  function loginUser({ email, password }) {
+    setLoading(true);
+    axios.post('http://localhost:4000/login', { email, password }, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((res) => {
+        if (res.data.error) {
+          setError(res.data.message);
+          setLoading(false);
+          return;
+        }
+        if (checked) localStorage.setItem('token', res.data.token);
+        sessionStorage.setItem('token', res.data.token);
+        dispatch(login({ user: res.data.user, role: 'user' }));
+        setLoading(false);
+      })
+      .catch((e) => {
+        setError(e.message);
+        setLoading(false);
+      });
+  }
   // Form requirements
   const schema = yup.object({
     email: yup.string().email('Enter a valid email').required('Email is required'),
@@ -64,13 +68,7 @@ export default function Login() {
       password: '',
     },
     validationSchema: schema,
-    onSubmit: (values) => loginUser({ variables: values })
-      .then((res) => {
-        localStorage.setItem('token', res.data.loginUser.token);
-        sessionStorage.setItem('token', res.data.loginUser.token);
-        dispatch(login({ user: res.data.loginUser.user, role: 'user' }));
-      })
-      .catch((res) => console.log(res)),
+    onSubmit: (values) => loginUser({ ...values }),
   });
   // -----------------
   function googleResponse(res) {
@@ -146,7 +144,7 @@ export default function Login() {
               />
             </Grid>
             <Grid item className={`${error ? 'block' : 'hidden'} mt-3`}>
-              <p className="text-sm font-semibold text-red-700" style={{ fontFamily: 'montserrat' }}>{ error?.message }</p>
+              <p className="text-sm font-semibold text-red-700" style={{ fontFamily: 'montserrat' }}>{ error }</p>
             </Grid>
             <Grid item className="flex items-center justify-between gap-3 mb-2">
               <div className="flex items-center flex-grow gap-3">
