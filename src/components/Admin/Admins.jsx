@@ -50,12 +50,11 @@ export default function Admins() {
   const [deleteAdmin] = useMutation(DELETE_ADMIN, { refetchQueries: [{ query: ADMINS }] });
   const [searchValue, setSearchValue] = React.useState('');
   function handleStatusChange(value, admin) {
-    if (currentAdmin._id === admin._id) {
+    if (Number(currentAdmin._id) === Number(admin._id)) {
       dispatch(addToast({ message: 'Sorry, you can not change your status', severity: 'error' }));
     } else {
       const variables = {
         ...admin,
-        confirmPassword: admin.password,
         id: Number(admin._id),
         status: value,
       };
@@ -119,7 +118,7 @@ export default function Admins() {
                       data?.admins.filter(
                         (adm) => adm.name.toLowerCase().includes(searchValue),
                       ).map((admin) => (
-                        <TableRow key={admin} className="hover:shadow-md">
+                        <TableRow key={admin._id} className="hover:shadow-md">
                           <TableCell className="text-gray-400">{admin._id}</TableCell>
                           <TableCell className="text-lg font-semibold text-black">{admin.email}</TableCell>
                           <TableCell className="text-gray-600">

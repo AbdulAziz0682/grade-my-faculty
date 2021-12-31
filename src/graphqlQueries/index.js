@@ -16,7 +16,6 @@ export const USERS = gql`
       firstName
       lastName
       email
-      password
       registeredAt
     }
     allUsers
@@ -29,7 +28,6 @@ export const NEW_USER = gql`
       firstName
       lastName
       email
-      password
     }
   }
 `;
@@ -45,8 +43,19 @@ export const UPDATE_USER = gql`
       savedFaculties
       institute
       graduationYear
-      password
     }
+  }
+`;
+
+export const UPDATE_USER_EMAIL = gql`
+  mutation UpdateUserEmail($id:Int! $email:String! $password:String!) {
+    updateUserEmail(_id:$id email:$email password:$password)
+  }
+`;
+
+export const UPDATE_USER_PASSWORD = gql`
+  mutation UpdateUserPassword($id:Int! $oldPassword:String! $newPassword:String!) {
+    updateUserPassword(_id:$id oldPassword:$oldPassword newPassword:$newPassword)
   }
 `;
 
@@ -62,7 +71,6 @@ export const ADMINS = gql`
       _id
       name
       email
-      password
       status
     }
     allAdmins
@@ -75,19 +83,17 @@ export const NEW_ADMIN = gql`
       _id
       name
       email
-      password
       status
     }
   }
 `;
 
 export const UPDATE_ADMIN = gql`
-  mutation UpdateAdmin($id:Int! $name:String! $email:String! $password:String! $confirmPassword:String! $status:String!) {
-    updateAdmin(_id:$id name:$name email:$email password:$password confirmPassword:$confirmPassword status:$status) {
+  mutation UpdateAdmin($id:Int! $name:String! $email:String! $password:String! $newPassword:String $status:String!) {
+    updateAdmin(_id:$id name:$name email:$email password:$password newPassword:$newPassword status:$status) {
       _id
       name
       email
-      password
       status
     }
   }

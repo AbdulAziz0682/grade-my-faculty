@@ -23,35 +23,32 @@ import * as yup from 'yup';
 import { addToast } from '../../../redux/toastsActions';
 import { logout } from '../../../redux/accountActions';
 
-import { UPDATE_USER, DELETE_USER } from '../../../graphqlQueries';
+import { UPDATE_USER_EMAIL, UPDATE_USER_PASSWORD, DELETE_USER } from '../../../graphqlQueries';
 
 export default function AccountSettings() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.account.user);
   const [isEditing, setEditing] = React.useState(false);
-  const [updateUser, { loading }] = useMutation(UPDATE_USER);
+  const [updateUserEmail, emailMutation] = useMutation(UPDATE_USER_EMAIL);
+  const [updateUserPassword, passwordMutation] = useMutation(UPDATE_USER_PASSWORD);
   const [deleteUser, deleteQuery] = useMutation(DELETE_USER);
   // Email Form requirements
-  const schema = yup.object({
+  const emailFormSchema = yup.object({
     email: yup.string().required('Email is required').email('Enter a valid email'),
     password: yup.string().required('Password is required').min(8, 'Enter at least 8 characters'),
   });
-  const formik = useFormik({
+  const emailFormik = useFormik({
     initialValues: {
       email: user?.email,
       password: '',
     },
-    validationSchema: schema,
+    validationSchema: emailFormSchema,
     onSubmit: (values) => {
-      if (values.password !== user.password) return dispatch(addToast({ message: 'Incorrect password, please try again', severity: 'error' }));
       const vars = {
-        ...user,
         id: Number(user._id),
-        institute: Number(user.institute),
         ...values,
-        confirmPassword: user.password,
       };
-      return updateUser({
+      return updateUserEmail({
         variables: vars,
       })
         .then(() => {
@@ -63,29 +60,28 @@ export default function AccountSettings() {
   });
   //-------------------------
   // Password Form requirements
-  const schema1 = yup.object({
-    password: yup.string().required('Password is required').min(8, 'Enter at least 8 characters'),
+  const passwordFormSchema = yup.object({
+    oldPassword: yup.string().required('Password is required').min(8, 'Enter at least 8 characters'),
     newPassword: yup.string().required('Password is required').min(8, 'Enter at least 8 characters'),
   });
-  const formik1 = useFormik({
+  const passwordFormik = useFormik({
     initialValues: {
-      password: '',
+      oldpassword: '',
       newPassword: '',
     },
-    validationSchema: schema1,
+    validationSchema: passwordFormSchema,
     onSubmit: (values) => {
-      if (values.password !== user.password) return dispatch(addToast({ message: 'Incorrect password, please try again', severity: 'error' }));
       const vars = {
-        ...user,
         id: Number(user._id),
-        institute: Number(user.institute),
-        password: values.newPassword,
-        confirmPassword: values.newPassword,
+        ...values,
       };
-      return updateUser({
+      return updateUserPassword({
         variables: vars,
       })
-        .then(() => dispatch(addToast({ message: 'Password changed successfully', severity: 'success' })))
+        .then(() => {
+          dispatch(addToast({ message: 'Password changed successfully', severity: 'success' }));
+          setEditing(false);
+        })
         .catch((r) => dispatch(addToast({ message: r.message, severity: 'error' })));
     },
   });
@@ -124,7 +120,7 @@ export default function AccountSettings() {
       )
       : (
         <Stack spacing={3}>
-          <Stack spacing={2} className="my-3" component="form" onSubmit={formik.handleSubmit}>
+          <Stack spacing={2} className="my-3" component="form" onSubmit={emailFormik.handleSubmit}>
             <Typography variant="h3">Update Email</Typography>
             <div className="flex items-center gap-3">
               <Typography variant="h6" className="w-5/12 md:w-4/12">Email:</Typography>
@@ -132,10 +128,10 @@ export default function AccountSettings() {
                 required
                 size="small"
                 name="email"
-                value={formik.values.email}
-                onChange={formik.handleChange}
-                error={formik.touched.email && Boolean(formik.errors.email)}
-                helperText={formik.touched.email && formik.errors.email}
+                value={emailFormik.values.email}
+                onChange={emailFormik.handleChange}
+                error={emailFormik.touched.email && Boolean(emailFormik.errors.email)}
+                helperText={emailFormik.touched.email && emailFormik.errors.email}
                 placeholder="Email"
                 className="w-7/12 md:w-6/12"
                 InputProps={{
@@ -150,10 +146,10 @@ export default function AccountSettings() {
                 required
                 size="small"
                 name="password"
-                value={formik.values.password}
-                onChange={formik.handleChange}
-                error={formik.touched.password && Boolean(formik.errors.password)}
-                helperText={formik.touched.password && formik.errors.password}
+                value={emailFormik.values.password}
+                onChange={emailFormik.handleChange}
+                error={emailFormik.touched.password && Boolean(emailFormik.errors.password)}
+                helperText={emailFormik.touched.password && emailFormik.errors.password}
                 placeholder="Password"
                 className="w-7/12 md:w-6/12"
                 InputProps={{
@@ -168,24 +164,30 @@ export default function AccountSettings() {
               <Button
                 variant="contained"
                 type="submit"
-                disabled={loading}
+                disabled={emailMutation.loading}
               >
-                Update Email
+                {
+                  emailMutation.loading
+                    ? <CircularProgress />
+                    : 'Update Email'
+                }
               </Button>
             </div>
           </Stack>
-          <Stack spacing={2} className="my-3" component="form" onSubmit={formik1.handleSubmit}>
+          <Stack spacing={2} className="my-3" component="form" onSubmit={passwordFormik.handleSubmit}>
             <Typography variant="h3">Update Password</Typography>
             <div className="flex items-center gap-3">
               <Typography variant="h6" className="w-5/12 md:w-4/12">Old Password:</Typography>
               <TextField
                 required
                 size="small"
-                name="password"
-                value={formik1.values.password}
-                onChange={formik1.handleChange}
-                error={formik1.touched.password && Boolean(formik1.errors.password)}
-                helperText={formik1.touched.password && formik1.errors.password}
+                name="oldPassword"
+                value={passwordFormik.values.oldPassword}
+                onChange={passwordFormik.handleChange}
+                error={
+                  passwordFormik.touched.oldPassword && Boolean(passwordFormik.errors.oldPassword)
+                }
+                helperText={passwordFormik.touched.oldPassword && passwordFormik.errors.oldPassword}
                 placeholder="Password"
                 className="w-7/12 md:w-6/12"
                 InputProps={{
@@ -201,10 +203,12 @@ export default function AccountSettings() {
                 required
                 size="small"
                 name="newPassword"
-                value={formik1.values.newPassword}
-                onChange={formik1.handleChange}
-                error={formik1.touched.newPassword && Boolean(formik1.errors.newPassword)}
-                helperText={formik1.touched.newPassword && formik1.errors.newPassword}
+                value={passwordFormik.values.newPassword}
+                onChange={passwordFormik.handleChange}
+                error={
+                  passwordFormik.touched.newPassword && Boolean(passwordFormik.errors.newPassword)
+                }
+                helperText={passwordFormik.touched.newPassword && passwordFormik.errors.newPassword}
                 placeholder="New Password"
                 className="w-7/12 md:w-6/12"
                 InputProps={{
@@ -219,9 +223,13 @@ export default function AccountSettings() {
               <Button
                 variant="contained"
                 type="submit"
-                disabled={loading}
+                disabled={passwordMutation.loading}
               >
-                Update Password
+                {
+                  passwordMutation.loading
+                    ? <CircularProgress />
+                    : 'Update Password'
+                }
               </Button>
             </div>
           </Stack>

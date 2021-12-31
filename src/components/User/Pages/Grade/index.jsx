@@ -80,7 +80,6 @@ export default function Grade() {
       .then((r) => dispatch(setUser({ ...user, savedFaculties: r.data.saveFaculty })))
       .catch((r) => dispatch(addToast({ message: r.message, severity: 'error' })));
   }
-  console.log(user.savedFaculties, faculty._id);
   function calculateLevelOfDifficulty() {
     const { ratings } = data;
     let total = 0;

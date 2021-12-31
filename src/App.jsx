@@ -6,13 +6,6 @@ import { BrowserRouter } from 'react-router-dom';
 
 import './index.css';
 
-import {
-  ApolloClient,
-  InMemoryCache,
-  ApolloProvider,
-  HttpLink,
-} from '@apollo/client';
-
 import { LinearProgress, Typography } from '@mui/material';
 
 import { useDispatch } from 'react-redux';
@@ -31,20 +24,11 @@ const theme = createTheme(themeOptions);
 export default function App() {
   const dispatch = useDispatch();
   const [loading, setLoading] = React.useState(true);
-  const link = new HttpLink({
-    uri: 'http://localhost:4000/graphql',
-    headers: {
-      Authentication: localStorage.getItem('token') || sessionStorage.getItem('token'),
-    },
-  });
-  const client = new ApolloClient({
-    cache: new InMemoryCache(),
-    link,
-  });
+  const token = localStorage.getItem('token') || sessionStorage.getItem('token');
   React.useEffect(() => {
     axios.post('http://localhost:4000/adminlogin', {}, {
       headers: {
-        Authentication: localStorage.getItem('token') || sessionStorage.getItem('token'),
+        Authentication: token,
       },
     })
       .then((res) => {
@@ -61,7 +45,7 @@ export default function App() {
       });
     axios.post('http://localhost:4000/login', {}, {
       headers: {
-        Authentication: localStorage.getItem('token') || sessionStorage.getItem('token'),
+        Authentication: token,
       },
     })
       .then((res) => {
@@ -91,11 +75,9 @@ export default function App() {
     <StyledEngineProvider injectFirst>
       <ThemeProvider theme={theme}>
         <ErrorBoundary>
-          <ApolloProvider client={client}>
-            <BrowserRouter>
-              <Routes />
-            </BrowserRouter>
-          </ApolloProvider>
+          <BrowserRouter>
+            <Routes />
+          </BrowserRouter>
         </ErrorBoundary>
       </ThemeProvider>
     </StyledEngineProvider>

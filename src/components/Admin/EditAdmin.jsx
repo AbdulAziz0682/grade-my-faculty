@@ -35,30 +35,31 @@ export default function EditAdmin({ admin }) {
     name: yup.string().required('Name is required').min(2, 'Enter at least 2 characters'),
     email: yup.string().email('Enter a valid email').required('Email is required'),
     password: yup.string().min(8, 'Password should be at least 8 characters long').required('Password is required'),
-    confirmPassword: yup.string().oneOf([yup.ref('password'), null], 'Passwords must match').required('Confirm password is required'),
+    newPassword: yup.string().min(8, 'Password should be at least 8 characters long'),
   });
   const formik = useFormik({
     initialValues: {
       name: admin.name,
       email: admin.email,
-      password: admin.password,
-      confirmPassword: admin.password,
+      password: '',
+      newPassword: '',
     },
     validationSchema: schema,
     onSubmit: (values) => updateAdmin(
       { variables: { ...values, id: Number(admin._id), status: admin.status } },
     )
       .then((r) => {
-        if (currentAdmin._id === r.data.updateAdmin._id) {
+        if (Number(currentAdmin._id) === Number(r.data.updateAdmin._id)) {
           if (currentAdmin.email !== r.data.updateAdmin.email) {
             dispatch(addToast({ message: 'Email changed, please login again', severity: 'warning' }));
-            dispatch(setCurrentTab({ name: 'dashboard', data: null }));
             dispatch(logout());
           } else {
             dispatch(addToast({ message: 'Admin updated successfully', severity: 'success' }));
             dispatch(login({ admin: r.data.updateAdmin, role: 'admin' }));
           }
         }
+        dispatch(addToast({ message: 'Admin updated successfully', severity: 'success' }));
+        dispatch(setCurrentTab({ name: 'admins', data: null }));
       })
       .catch((r) => dispatch(addToast({ message: r.message, severity: 'error' }))),
   });
@@ -106,13 +107,12 @@ export default function EditAdmin({ admin }) {
               variant="standard"
               type="password"
               fullWidth
-              required
-              label="Confirm Password"
-              name="confirmPassword"
-              value={formik.values.confirmPassword}
+              label="New Password"
+              name="newPassword"
+              value={formik.values.newPassword}
               onChange={formik.handleChange}
-              error={formik.touched.confirmPassword && Boolean(formik.errors.confirmPassword)}
-              helperText={formik.touched.confirmPassword && formik.errors.confirmPassword}
+              error={formik.touched.newPassword && Boolean(formik.errors.newPassword)}
+              helperText={formik.touched.newPassword && formik.errors.newPassword}
             />
             <Button type="submit" variant="contained" disabled={loading} style={{ maxHeight: '38px' }} className="self-start w-3/12 py-3 px-9 shadow-primaryGlow">
               {
@@ -133,7 +133,6 @@ EditAdmin.propTypes = {
     _id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
     email: PropTypes.string.isRequired,
-    password: PropTypes.string.isRequired,
     status: PropTypes.string.isRequired,
   }).isRequired,
 };
