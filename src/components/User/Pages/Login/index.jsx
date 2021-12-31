@@ -36,7 +36,7 @@ export default function Login() {
   const [error, setError] = useState(null);
   function loginUser({ email, password }) {
     setLoading(true);
-    axios.post('http://localhost:4000/login', { email, password }, {
+    axios.post('https://grade-my-faculty-backend.herokuapp.com/login', { email, password }, {
       headers: {
         'Content-Type': 'application/json',
       },

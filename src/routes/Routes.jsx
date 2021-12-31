@@ -46,7 +46,7 @@ import Toasts from '../components/Toasts';
 export default function Routes() {
   const token = localStorage.getItem('token') || sessionStorage.getItem('token');
   const link = new HttpLink({
-    uri: 'http://localhost:4000/graphql',
+    uri: 'https://grade-my-faculty-backend.herokuapp.com/graphql',
     headers: {
       Authentication: token,
     },

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Chart } from 'react-charts';
 
@@ -21,29 +21,54 @@ import {
 
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 
+import moment from 'moment';
+
 import { useQuery } from '@apollo/client';
 
 import professorGray from '../../assets/professorGray2.svg';
 import professorWhite from '../../assets/profWhite.svg';
 
-import { COUNT_ALL } from '../../graphqlQueries';
+import { COUNT_ALL, RATINGS } from '../../graphqlQueries';
+
+function calculateResulSet(ratings, date) {
+  const rs = [[0, 0]];
+  for (let i = 1; i <= 31; i += 1) {
+    rs.push([i, 0]);
+  }
+  for (let j = 0; j < ratings.length; j += 1) {
+    const rate = ratings[j];
+    const createdAt = new Date(rate.createdAt);
+    if (createdAt.getFullYear() === date.getFullYear()
+        && createdAt.getMonth() === date.getMonth()) {
+      const index = createdAt.getDate();
+      rs[index] = [index, rs[index][1] + 1];
+    }
+  }
+  return rs;
+}
 
 export default function Dashboard() {
   const [date, setDate] = useState(new Date());
   const [professorIcon, setProfessorIcon] = useState(professorGray);
+  const countAll = useQuery(COUNT_ALL, { fetchPolicy: 'cache-and-network' });
+  const ratingsQuery = useQuery(RATINGS, { fetchPolicy: 'cache-and-network' });
+  const [resultSet, setResultSet] = useState([[0, 0]]);
   const data = [
     {
-      label: 'Series 1',
-      data: [[0, 3], [1, 1], [2, 5], [3, 6], [4, 4]],
+      label: 'Reviews',
+      data: resultSet || [[0, 3], [1, 1], [2, 5], [3, 6], [4, 4]],
     },
   ];
-
   const axes = [
     { primary: true, type: 'linear', position: 'bottom' },
     { type: 'linear', position: 'left' },
   ];
-  const countAll = useQuery(COUNT_ALL);
-  if (countAll.loading) return <div className="absolute inset-0 flex items-center justify-center"><CircularProgress /></div>;
+  useEffect(() => {
+    if (ratingsQuery.data) {
+      setResultSet(calculateResulSet(ratingsQuery.data.ratings, date));
+    }
+  }, [ratingsQuery.data, date]);
+  if (countAll.loading || ratingsQuery.loading) return <div className="absolute inset-0 flex items-center justify-center"><CircularProgress /></div>;
   return (
     <div className="w-full px-4 pt-16">
       <Grid container rowSpacing={9} columnSpacing={4}>
@@ -75,7 +100,17 @@ export default function Dashboard() {
             </div>
           </div>
           <div className="w-full bg-white">
-            <Typography variant="h3">Review Chart</Typography>
+            <Typography variant="h3">
+              Review Chart:&nbsp;
+              <small>
+                Total Reviews on&nbsp;
+                {moment(date).format('DD-MM-YYYY')}
+                &nbsp;
+                are
+                &nbsp;
+                {resultSet[date.getDate()][1]}
+              </small>
+            </Typography>
             <div className="w-full h-60 md:h-96">
               <Chart data={data} axes={axes} tooltip />
             </div>
