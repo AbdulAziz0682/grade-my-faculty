@@ -30,7 +30,6 @@ import { UPDATE_USER, INSTITUTES } from '../../../graphqlQueries';
 export default function Profile() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.account.user);
-  console.log({ user });
   const [updateUser, { loading }] = useMutation(UPDATE_USER);
   const institutesQuery = useQuery(INSTITUTES);
   const [isEditing, setEditing] = React.useState(false);

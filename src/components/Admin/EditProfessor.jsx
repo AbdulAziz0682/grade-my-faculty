@@ -40,7 +40,6 @@ export default function EditProfessor({ professor }) {
   const dispatch = useDispatch();
   const institutesQuery = useQuery(INSTITUTES);
   const ratingsQuery = useQuery(RATINGS, { variables: { faculty: Number(professor._id) } });
-  console.log({ ratingsQuery });
   const [updateFaculty, { loading }] = useMutation(
     UPDATE_FACULTY,
     { refetchQueries: [{ query: FACULTIES }] },
