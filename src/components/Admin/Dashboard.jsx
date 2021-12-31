@@ -108,7 +108,7 @@ export default function Dashboard() {
                 &nbsp;
                 are
                 &nbsp;
-                {resultSet[date.getDate()][1]}
+                {resultSet[date.getDate()]?.at(1)}
               </small>
             </Typography>
             <div className="w-full h-60 md:h-96">

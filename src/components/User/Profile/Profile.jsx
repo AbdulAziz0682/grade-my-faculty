@@ -30,6 +30,7 @@ import { UPDATE_USER, INSTITUTES } from '../../../graphqlQueries';
 export default function Profile() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.account.user);
+  console.log({ user });
   const [updateUser, { loading }] = useMutation(UPDATE_USER);
   const institutesQuery = useQuery(INSTITUTES);
   const [isEditing, setEditing] = React.useState(false);
@@ -103,7 +104,7 @@ export default function Profile() {
           </div>
           <div className="flex gap-3">
             <Typography variant="h6" className="flex-grow">Expected Graduation Year:</Typography>
-            <Typography variant="body1" className="w-6/12 md:w-8/12">{user.graduationYear}</Typography>
+            <Typography variant="body1" className="w-6/12 md:w-8/12">{new Date(user.graduationYear).getFullYear()}</Typography>
           </div>
         </Stack>
       )

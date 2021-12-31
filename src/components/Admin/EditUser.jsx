@@ -31,8 +31,8 @@ export default function EditUser({ user }) {
     firstName: yup.string().required('First name is required').min(2, 'Enter at least 2 characters'),
     lastName: yup.string().required('Last name is required').min(2, 'Enter at least 2 characters'),
     email: yup.string().email('Enter a valid email').required('Email is required'),
-    password: yup.string().min(8, 'Password should be at least 8 characters long').required('Password is required'),
-    confirmPassword: yup.string().oneOf([yup.ref('password'), null], 'Passwords must match').required('Confirm password is required'),
+    password: yup.string().min(8, 'Password should be at least 8 characters long'),
+    confirmPassword: yup.string().oneOf([yup.ref('password'), null], 'Passwords must match'),
   });
   const formik = useFormik({
     initialValues: {
@@ -90,7 +90,6 @@ export default function EditUser({ user }) {
           variant="standard"
           type="password"
           fullWidth
-          required
           label="Password"
           name="password"
           value={formik.values.password}
@@ -102,7 +101,6 @@ export default function EditUser({ user }) {
           variant="standard"
           type="password"
           fullWidth
-          required
           label="Confirm Password"
           name="confirmPassword"
           value={formik.values.confirmPassword}

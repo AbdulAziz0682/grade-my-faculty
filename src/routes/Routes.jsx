@@ -55,7 +55,6 @@ export default function Routes() {
     cache: new InMemoryCache(),
     link,
   });
-  console.log({ client });
   const location = useLocation();
   const history = useHistory();
   history.listen(() => window.scrollTo(0, 0));
