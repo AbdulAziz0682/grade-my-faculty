@@ -42,6 +42,7 @@ import AdminForgetPassword from '../components/Admin/ForgetPassword';
 import AdminResetPassword from '../components/Admin/ResetPassword';
 
 import Toasts from '../components/Toasts';
+import VerifyConfirmationCode from '../components/User/Pages/Login/VerifyConfirmationCode';
 
 export default function Routes() {
   const token = localStorage.getItem('token') || sessionStorage.getItem('token');
@@ -127,7 +128,10 @@ export default function Routes() {
               <Route exact path="/forgotPassword">
                 <ForgetPassword />
               </Route>
-              <Route exact path="/resetPassword">
+              <Route exact path="/verifyConfirmationCode/:email">
+                <VerifyConfirmationCode />
+              </Route>
+              <Route exact path="/resetPassword/:token">
                 <ResetPassword />
               </Route>
               <Route exact path="/adminlogin">

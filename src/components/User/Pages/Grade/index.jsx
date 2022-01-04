@@ -45,7 +45,7 @@ export default function Grade() {
   const history = useHistory();
   const { location } = history;
   const user = useSelector((state) => state.account.user);
-  if (!location.state || !location.state[0] || !user) return <Redirect push to="/" />;
+  if (!location.state || !location.state[0]) return <Redirect push to="/" />;
   const dispatch = useDispatch();
   const [loadMore, setLoadMore] = React.useState(false);
   const [isReportOpen, setReportOpen] = React.useState(false);
@@ -76,7 +76,8 @@ export default function Grade() {
     }
   }
   function handleSave(fac) {
-    saveFaculty({ variables: { user: Number(user._id), faculty: Number(fac) } })
+    if (!user) return dispatch(addToast({ message: 'Please login first', severity: 'error' }));
+    return saveFaculty({ variables: { user: Number(user._id), faculty: Number(fac) } })
       .then((r) => dispatch(setUser({ ...user, savedFaculties: r.data.saveFaculty })))
       .catch((r) => dispatch(addToast({ message: r.message, severity: 'error' })));
   }
@@ -126,7 +127,7 @@ export default function Grade() {
             <div className="flex justify-between w-full gap-2">
               <Typography className="text-3xl font-bold text-primary">{faculty.firstName}</Typography>
               <IconButton onClick={() => handleSave(faculty._id)}>
-                <BookmarkOutlined color={`${user.savedFaculties.includes(Number(faculty._id)) && 'primary'}`} />
+                <BookmarkOutlined color={`${user?.savedFaculties.includes(Number(faculty._id)) && 'primary'}`} />
               </IconButton>
             </div>
             <Typography className="font-bold">{faculty.institute.name}</Typography>
