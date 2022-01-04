@@ -21,7 +21,7 @@ export default function ForgetPassword() {
   const [error, setError] = React.useState('');
   const dispatch = useDispatch();
   function handleSubmit() {
-    axios.post('http://localhost:4000/forgetPassword', { email }, {
+    axios.post('https://grade-my-faculty-backend.herokuapp.com0/forgetPassword', { email }, {
       headers: {
         'Content-Type': 'application/json',
       },
