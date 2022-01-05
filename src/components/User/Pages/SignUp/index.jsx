@@ -66,7 +66,7 @@ export default function SignUp() {
   });
   // -----------------
   function googleResponse(res) {
-    fetch('https://grade-my-faculty-backend.herokuapp.com/googleSignup', {
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/googleSignup`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',

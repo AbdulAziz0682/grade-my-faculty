@@ -27,7 +27,7 @@ export default function ResetPassword() {
     if (newPassword !== confirmPassword) return dispatch(addToast({ message: 'Passwords should match', severity: 'error' }));
     if (newPassword.length < 8) return dispatch(addToast({ message: 'Passwords should be at least 8 characters long', severity: 'error' }));
     return axios.post(
-      'https://grade-my-faculty-backend.herokuapp.com/resetPassword',
+      `${process.env.REACT_APP_BACKEND_URL}/resetPassword`,
       {
         token, newPassword, confirmPassword, role: 'admin',
       },

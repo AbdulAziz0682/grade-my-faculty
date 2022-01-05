@@ -36,7 +36,7 @@ export default function Login() {
   const [error, setError] = useState(null);
   function loginUser({ email, password }) {
     setLoading(true);
-    axios.post('https://grade-my-faculty-backend.herokuapp.com/login', { email, password }, {
+    axios.post(`${process.env.REACT_APP_BACKEND_URL}/login`, { email, password }, {
       headers: {
         'Content-Type': 'application/json',
       },
@@ -72,7 +72,7 @@ export default function Login() {
   });
   // -----------------
   function googleResponse(res) {
-    fetch('https://grade-my-faculty-backend.herokuapp.com/googleSignup', {
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/googleSignup`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',

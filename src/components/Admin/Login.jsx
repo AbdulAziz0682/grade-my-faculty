@@ -31,7 +31,7 @@ export default function Login() {
   const [error, setError] = useState(null);
   function loginAdmin({ email, password }) {
     setLoading(true);
-    axios.post('https://grade-my-faculty-backend.herokuapp.com/adminlogin', { email, password }, {
+    axios.post(`${process.env.REACT_APP_BACKEND_URL}/adminlogin`, { email, password }, {
       headers: {
         'Content-Type': 'application/json',
       },

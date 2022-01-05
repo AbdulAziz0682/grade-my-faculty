@@ -26,7 +26,7 @@ export default function App() {
   const [loading, setLoading] = React.useState(true);
   const token = localStorage.getItem('token') || sessionStorage.getItem('token');
   React.useEffect(() => {
-    axios.post('https://grade-my-faculty-backend.herokuapp.com/adminlogin', {}, {
+    axios.post(`${process.env.REACT_APP_BACKEND_URL}/adminlogin`, {}, {
       headers: {
         Authentication: token,
       },
@@ -43,7 +43,7 @@ export default function App() {
         setLoading(false);
         console.log(e);
       });
-    axios.post('https://grade-my-faculty-backend.herokuapp.com/login', {}, {
+    axios.post(`${process.env.REACT_APP_BACKEND_URL}/login`, {}, {
       headers: {
         Authentication: token,
       },

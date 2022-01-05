@@ -23,7 +23,7 @@ export default function VerifyConfirmationCode() {
   const [confirmationCode, setConfirmationCode] = React.useState(0);
   const dispatch = useDispatch();
   function handleSubmit() {
-    axios.post('https://grade-my-faculty-backend.herokuapp.com/validateCode', { email, confirmationCode, role: 'admin' }, {
+    axios.post(`${process.env.REACT_APP_BACKEND_URL}/validateCode`, { email, confirmationCode, role: 'admin' }, {
       headers: {
         'Content-Type': 'application/json',
       },

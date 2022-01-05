@@ -62,12 +62,6 @@ export default function Faculty() {
                 </>
               )}
           </div>
-          <div className="w-full py-2 border-t-2 border-primary">
-            <Typography className="uppercase text-primary">
-              <span className="font-bold">4.1</span>
-              &nbsp; Average faculty ratings
-            </Typography>
-          </div>
         </Paper>
       </Container>
     </Grid>

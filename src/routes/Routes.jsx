@@ -48,7 +48,7 @@ import VerifyConfirmationCode from '../components/User/Pages/Login/VerifyConfirm
 export default function Routes() {
   const token = localStorage.getItem('token') || sessionStorage.getItem('token');
   const link = new HttpLink({
-    uri: 'https://grade-my-faculty-backend.herokuapp.com/graphql',
+    uri: `${process.env.REACT_APP_BACKEND_URL}/graphql`,
     headers: {
       Authentication: token,
     },
