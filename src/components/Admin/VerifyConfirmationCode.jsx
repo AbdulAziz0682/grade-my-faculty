@@ -13,17 +13,17 @@ import {
 import axios from 'axios';
 import { useParams, Redirect, useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { addToast } from '../../../../redux/toastsActions';
+import { addToast } from '../../redux/toastsActions';
 
 export default function VerifyConfirmationCode() {
   const { email } = useParams();
   const history = useHistory();
-  if (!email) return <Redirect push to="/forgotPassword" />;
+  if (!email) return <Redirect push to="/adminforgotpassword" />;
   const [error, setError] = React.useState('');
   const [confirmationCode, setConfirmationCode] = React.useState(0);
   const dispatch = useDispatch();
   function handleSubmit() {
-    axios.post('https://grade-my-faculty-backend.herokuapp.com/validateCode', { email, confirmationCode, role: 'user' }, {
+    axios.post('https://grade-my-faculty-backend.herokuapp.com/validateCode', { email, confirmationCode, role: 'admin' }, {
       headers: {
         'Content-Type': 'application/json',
       },
@@ -31,12 +31,12 @@ export default function VerifyConfirmationCode() {
       .then((r) => {
         setError('');
         dispatch(addToast({ message: 'Code verified successfully', severity: 'success' }));
-        history.push(`/resetPassword/${r?.data?.token}`);
+        history.push(`/adminresetPassword/${r?.data?.token}`);
       })
       .catch((e) => setError(e?.response?.data?.error || e.message || 'Error occurred'));
   }
   return (
-    <Grid container className="flex-grow bg-pageBg">
+    <Grid container className="w-screen h-screen p-0 m-0 border-p">
       <Container maxWidth="xl" className="flex items-center justify-center py-3">
         <Paper component="form" onSubmit={(e) => { e.preventDefault(); handleSubmit(); }} elevation={4} className="p-2 sm:w-4/6 lg:w-2/6 md:p-5 rounded-xl">
           <Grid container direction="column" rowSpacing={1}>

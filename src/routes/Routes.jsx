@@ -40,6 +40,7 @@ import Admin from '../components/Admin';
 import AdminLogin from '../components/Admin/Login';
 import AdminForgetPassword from '../components/Admin/ForgetPassword';
 import AdminResetPassword from '../components/Admin/ResetPassword';
+import AdminVerifyConfirmationCode from '../components/Admin/VerifyConfirmationCode';
 
 import Toasts from '../components/Toasts';
 import VerifyConfirmationCode from '../components/User/Pages/Login/VerifyConfirmationCode';
@@ -59,21 +60,29 @@ export default function Routes() {
   const location = useLocation();
   const history = useHistory();
   history.listen(() => window.scrollTo(0, 0));
-  const adminRoutes = {
-    '/admin': true,
-    '/adminlogin': true,
-    '/adminforgotpassword': true,
-    '/adminresetpassword': true,
-  };
+  const adminRoutes = [
+    '/admin',
+    '/adminlogin',
+    '/adminforgotpassword',
+    '/adminresetpassword',
+    '/adminverifyConfirmationCode',
+  ];
+  function isAdminRoute(pathname) {
+    const found = adminRoutes.find((r) => pathname.startsWith(r));
+    if (found) {
+      return true;
+    }
+    return false;
+  }
   return (
     <>
       <Switch>
         <ApolloProvider client={client}>
           <Grid container direction="column" className="min-h-screen">
             <Grid item>
-              { !adminRoutes[location.pathname] && <TopBar /> }
+              { !isAdminRoute(location.pathname) && <TopBar /> }
             </Grid>
-            <Grid item className="flex flex-col flex-grow w-full" sx={{ marginTop: adminRoutes[location.pathname] ? '0px' : '86px' /* MaxHeight of Topbar */ }}>
+            <Grid item className="flex flex-col flex-grow w-full" sx={{ marginTop: isAdminRoute(location.pathname) ? '0px' : '86px' /* MaxHeight of Topbar */ }}>
               <Route exact path="/">
                 <Home />
               </Route>
@@ -131,8 +140,14 @@ export default function Routes() {
               <Route exact path="/verifyConfirmationCode/:email">
                 <VerifyConfirmationCode />
               </Route>
+              <Route exact path="/adminverifyConfirmationCode/:email">
+                <AdminVerifyConfirmationCode />
+              </Route>
               <Route exact path="/resetPassword/:token">
                 <ResetPassword />
+              </Route>
+              <Route exact path="/adminresetPassword/:token">
+                <AdminResetPassword />
               </Route>
               <Route exact path="/adminlogin">
                 <AdminLogin />
@@ -151,7 +166,7 @@ export default function Routes() {
               </Route>
             </Grid>
             <Grid item>
-              { !adminRoutes[location.pathname] && <Footer /> }
+              { !isAdminRoute(location.pathname) && <Footer /> }
             </Grid>
           </Grid>
         </ApolloProvider>

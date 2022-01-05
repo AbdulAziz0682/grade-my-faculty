@@ -18,7 +18,6 @@ import { addToast } from '../../../../redux/toastsActions';
 
 export default function ResetPassword() {
   const { token } = useParams();
-  console.log({ token });
   const history = useHistory();
   if (!token) return history.push('/forgotPassword');
   const dispatch = useDispatch();
@@ -27,11 +26,17 @@ export default function ResetPassword() {
   function handleSubmit() {
     if (newPassword !== confirmPassword) return dispatch(addToast({ message: 'Passwords should match', severity: 'error' }));
     if (newPassword.length < 8) return dispatch(addToast({ message: 'Passwords should be at least 8 characters long', severity: 'error' }));
-    return axios.post('https://grade-my-faculty-backend.herokuapp.com/resetPassword', { token, newPassword, confirmPassword }, {
-      headers: {
-        'Content-Type': 'application/json',
+    return axios.post(
+      'https://grade-my-faculty-backend.herokuapp.com/resetPassword',
+      {
+        token, newPassword, confirmPassword, role: 'user',
       },
-    })
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    )
       .then((r) => {
         dispatch(addToast({ message: r?.data || 'Password changed', severity: 'success' }));
         history.push('/login');
