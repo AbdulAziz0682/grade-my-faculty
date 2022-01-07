@@ -39,9 +39,8 @@ export default function App() {
         dispatch(login({ admin: res.data.admin, role: 'admin' }));
         setLoading(false);
       })
-      .catch((e) => {
+      .catch(() => {
         setLoading(false);
-        console.log(e);
       });
     axios.post(`${process.env.REACT_APP_BACKEND_URL}/login`, {}, {
       headers: {
@@ -56,9 +55,8 @@ export default function App() {
         dispatch(login({ user: res.data.user, role: 'user' }));
         setLoading(false);
       })
-      .catch((e) => {
+      .catch(() => {
         setLoading(false);
-        console.log(e);
       });
   }, []);
   if (loading) {
