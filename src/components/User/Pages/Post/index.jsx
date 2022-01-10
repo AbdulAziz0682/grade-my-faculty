@@ -19,9 +19,6 @@ import beardGuy from '../../../../assets/beardGuy.svg';
 import facebook from '../../../../assets/primaryFacebook.svg';
 import instagram from '../../../../assets/primaryInstagram.svg';
 import twitter from '../../../../assets/primaryTwitter.svg';
-// import startupIdea from '../../../../assets/startupIdea.png';
-// import postAsset from '../../../../assets/postAsset.png';
-// import banner2 from '../../../../assets/banner2.png';
 
 export default function Post() {
   const history = useHistory();
@@ -46,7 +43,7 @@ export default function Post() {
               { blog.title }
             </Typography>
             {
-              ads && <div dangerouslySetInnerHTML={{ __html: ads[0].code }} className="flex items-center justify-center w-full" />
+              ads && <div dangerouslySetInnerHTML={{ __html: ads[0]?.code }} className="flex items-center justify-center w-full" />
             }
             <div className="flex justify-between w-full gap-3">
               <div className="flex items-center gap-3">
@@ -111,22 +108,6 @@ export default function Post() {
               />
             ))
           }
-          {/* <div className="flex flex-col justify-center px-6">
-            <img className="self-center w-32" src={banner2} alt="banner" />
-            <span className="flex flex-col gap-3 mt-12 w-44 px-9">
-              <Typography className="text-xs font-semibold">
-                SF Symbols were introduced during WWDC 2019 and are a
-                big present for us developers.
-              </Typography>
-            </span>
-            <Button
-              variant="contained"
-              className
-              ="self-center w-32 h-6 p-4 mt-2 text-white bg-blue-500 rounded-lg hover:bg-blue-800"
-            >
-              Download
-            </Button>
-          </div> */}
         </div>
       </Container>
     </Grid>
