@@ -33,7 +33,6 @@ export default function Faculty() {
     <Grid container className="flex-grow">
       <Container maxWidth="xl" className="flex flex-col py-14">
         <Typography variant="h3" className="text-primary">{state[0].name}</Typography>
-        <p className="w-full text-lg font-bold text-primary">Dhaka, Bangladesh</p>
         <Paper elevation={2} className="flex flex-col w-full gap-3 p-6 mt-6 rounded-2xl bg-gray-50">
           <div className="flex justify-between w-full gap-3 py-2 border-b-4 border-primary">
             <Typography className="font-bold text-primary">Top Faculty</Typography>

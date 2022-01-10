@@ -45,7 +45,7 @@ export default function Profile() {
       firstName: user?.firstName,
       lastName: user?.lastName,
       institute: user?.institute,
-      graduationYear: new Date(user?.graduationYear).getFullYear(),
+      graduationYear: user?.graduationYear,
     },
     validationSchema: schema,
     onSubmit: (values) => {

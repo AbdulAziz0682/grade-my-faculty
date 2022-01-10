@@ -26,7 +26,10 @@ export default function UserProfile() {
       <Container maxWidth="xl" className="flex flex-col justify-between md:flex-row md:gap-9">
         <Grid container direction="column" columnGap={3} className="w-full py-10 md:px-4">
           <Grid item>
-            <Typography variant="h2">Hey, User</Typography>
+            <Typography variant="h2">
+              Hey,&nbsp;
+              {user.firstName}
+            </Typography>
           </Grid>
           <Grid item className="w-full">
             <Tabs
