@@ -103,7 +103,7 @@ export default function Profile() {
           </div>
           <div className="flex gap-3">
             <Typography variant="h6" className="flex-grow">Expected Graduation Year:</Typography>
-            <Typography variant="body1" className="w-6/12 md:w-8/12">{new Date(user.graduationYear).getFullYear()}</Typography>
+            <Typography variant="body1" className="w-6/12 md:w-8/12">{user.graduationYear}</Typography>
           </div>
         </Stack>
       )
