@@ -1,8 +1,14 @@
+/* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/forbid-prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export default class ErrorBoundary extends React.Component {
+import { Redirect } from 'react-router-dom';
+
+import { connect } from 'react-redux';
+import { addToast } from '../redux/toastsActions';
+
+class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props);
     this.state = { hasError: false };
@@ -16,6 +22,7 @@ export default class ErrorBoundary extends React.Component {
   componentDidCatch(error) {
     // You can also log the error to an error reporting service
     console.dir(error);
+    this.props.addToast({ message: error.message, severity: 'error' });
   }
 
   render() {
@@ -23,13 +30,23 @@ export default class ErrorBoundary extends React.Component {
     const { children } = this.props;
     if (hasError) {
       // You can render any custom fallback UI
-      return <h1>Something went wrong.</h1>;
+      this.setState({ hasError: false });
+      return <Redirect push to="/" />;
     }
 
     return children;
   }
 }
 
+function mapDispatchToProps(dispatch) {
+  return {
+    addToast: (data) => dispatch(addToast({ message: data.message, severity: data.severity })),
+  };
+}
+
 ErrorBoundary.propTypes = {
   children: PropTypes.any.isRequired,
+  addToast: PropTypes.func.isRequired,
 };
+
+export default connect(null, mapDispatchToProps)(ErrorBoundary);
