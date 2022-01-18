@@ -12,8 +12,6 @@ import {
 
 import { Search, KeyboardArrowDown } from '@mui/icons-material';
 
-// import { useSelector } from 'react-redux';
-
 import { useQuery } from '@apollo/client';
 import { FACULTIES_AND_INSTITUTES } from '../../../../graphqlQueries';
 
@@ -27,13 +25,7 @@ import homeImg from '../../../../assets/homeImg.svg';
 export default function Home() {
   const ref = useRef();
   const { loading, data } = useQuery(FACULTIES_AND_INSTITUTES);
-  // const faculty = useSelector((state) => state.faculty);
   const [searchBy, setSearchBy] = React.useState('university');
-  /* const universities = [
-    { name: 'North South University' },
-    { name: 'Lahore University' },
-    { name: 'Karachi University' },
-  ]; */
   return (
     <>
       <Grid container className="flex-grow">
@@ -95,31 +87,23 @@ export default function Home() {
           <Grid container spacing={16}>
             <Grid item md={4} className="flex flex-col items-center">
               <img src={help} alt="help others" className="w-24" />
-              <Typography className="py-3 font-bold text-center text-white capitalize" sx={{ minHeight: '64px' }}>Help other students 100% anonymous</Typography>
+              <Typography className="py-3 font-bold text-center text-white capitalize" sx={{ minHeight: '64px' }}>Help Other Students 100% Anonymously</Typography>
               <Typography className="flex flex-wrap text-white" align="center">
-                Lorem ipsum dolor sit amet,
-                eum et consul accusam urbanitas,
-                vel ne commodo persecuti, nam et tamquam qualisque.
+                Share your reviews with your peers and help them succeed
               </Typography>
             </Grid>
             <Grid item md={4} className="flex flex-col items-center">
               <img src={evaluation} alt="help others" className="w-24" />
-              <Typography className="py-3 font-bold text-center text-white capitalize" sx={{ minHeight: '64px' }}>Reliable evaluation from your peers</Typography>
+              <Typography className="py-3 font-bold text-center text-white capitalize" sx={{ minHeight: '64px' }}>Reliable Evaluation From Your Peers</Typography>
               <Typography className="flex flex-wrap text-white" align="center">
-                Lorem ipsum dolor sit amet, eum et
-                consul accusam urbanitas, vel ne
-                commodo persecuti, nam et
-                tamquam qualisque.
+                Real reviews from verified students
               </Typography>
             </Grid>
             <Grid item md={4} className="flex flex-col items-center">
               <img src={compare} alt="help others" className="w-24" />
-              <Typography className="py-3 font-bold text-center text-white capitalize" sx={{ minHeight: '64px' }}>Compare faculty members</Typography>
+              <Typography className="py-3 font-bold text-center text-white capitalize" sx={{ minHeight: '64px' }}>Compare Faculty Members</Typography>
               <Typography className="flex flex-wrap text-white" align="center">
-                Lorem ipsum dolor sit amet, eum et
-                consul accusam urbanitas, vel ne
-                commodo persecuti, nam et
-                tamquam qualisque.
+                Choose the best faculty for your courses without a second thought
               </Typography>
             </Grid>
           </Grid>

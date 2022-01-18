@@ -73,13 +73,11 @@ export default function AboutUs() {
             <Card className="w-full p-6 md:w-5/6 lg:w-7/12 md:p-8">
               <Typography variant="h4" align="center" className="mb-3">Our Mission</Typography>
               <Typography variant="body1">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                tempor incididunt ut labore et dolore
-                magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                laboris nisi ut aliquip ex ea
-                commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-                velit esse cillum dolore eu fugiat nulla
-                pariatur.
+                GMF was founded on the belief that peer reviews should be
+                publicly available for students.
+                <br />
+                We believe having access to peer reviews is essential for
+                every students academic success to help navigate through their academic journey.
               </Typography>
             </Card>
           </Grid>

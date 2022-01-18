@@ -57,23 +57,32 @@ export default function Footer() {
             >
               <Typography color="white" className="font-semibold">Follow Us</Typography>
               <div style={{ display: 'flex', gap: '1.5rem' }}>
-                <Icon>
-                  <img src={facebook} alt="facebook" />
-                </Icon>
-                <Icon>
-                  <img src={instagram} alt="instagram" />
-                </Icon>
-                <Icon>
-                  <img src={twitter} alt="twittter" />
-                </Icon>
+                <a href="https://www.facebook.com/grademyfaculty/">
+                  <Icon>
+                    <img src={facebook} alt="facebook" />
+                  </Icon>
+                </a>
+                <a href="https://www.instagram.com/grademyfaculty/">
+                  <Icon>
+                    <img src={instagram} alt="instagram" />
+                  </Icon>
+                </a>
+                <a href=" ">
+                  <Icon>
+                    <img src={twitter} alt="twittter" />
+                  </Icon>
+                </a>
               </div>
             </Grid>
           </Grid>
         </Container>
       </Box>
-      <Container maxWidth="xl" className="md:px-40" sx={{ py: 3, bgcolor: 'white' }}>
+      <Container maxWidth="xl" className="relative md:px-40" sx={{ py: 3, bgcolor: 'white' }}>
         <div className="w-full">
-          <Typography color="gray" className="font-semibold">&copy; 2021 Grade My Faculty. All Rights Reserved</Typography>
+          <Typography color="gray" className="flex items-center justify-between font-semibold">
+            <span>&copy; 2021 Grade My Faculty. All Rights Reserved</span>
+          </Typography>
+          <a href="https://usmandeveloper.com/" className="absolute bottom-6 right-3 flex items-center justify-center p-0.5 border rounded-full text-primary border-primary">UD</a>
         </div>
       </Container>
     </Box>
