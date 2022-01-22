@@ -1,16 +1,18 @@
 {
   "files": {
-    "main.css": "/static/css/main.af2ff574.chunk.css",
-    "main.js": "/static/js/main.bfee71e8.chunk.js",
-    "main.js.map": "/static/js/main.bfee71e8.chunk.js.map",
+    "main.css": "/static/css/main.b7512491.chunk.css",
+    "main.js": "/static/js/main.3cba2140.chunk.js",
+    "main.js.map": "/static/js/main.3cba2140.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.901e8003.js",
     "runtime-main.js.map": "/static/js/runtime-main.901e8003.js.map",
-    "static/js/2.7df69cb6.chunk.js": "/static/js/2.7df69cb6.chunk.js",
-    "static/js/2.7df69cb6.chunk.js.map": "/static/js/2.7df69cb6.chunk.js.map",
+    "static/js/2.58f18503.chunk.js": "/static/js/2.58f18503.chunk.js",
+    "static/js/2.58f18503.chunk.js.map": "/static/js/2.58f18503.chunk.js.map",
     "index.html": "/index.html",
-    "static/css/main.af2ff574.chunk.css.map": "/static/css/main.af2ff574.chunk.css.map",
-    "static/js/2.7df69cb6.chunk.js.LICENSE.txt": "/static/js/2.7df69cb6.chunk.js.LICENSE.txt",
+    "static/css/main.b7512491.chunk.css.map": "/static/css/main.b7512491.chunk.css.map",
+    "static/js/2.58f18503.chunk.js.LICENSE.txt": "/static/js/2.58f18503.chunk.js.LICENSE.txt",
+    "static/media/Sakib.f035e5c9.png": "/static/media/Sakib.f035e5c9.png",
     "static/media/Search.1017d124.svg": "/static/media/Search.1017d124.svg",
+    "static/media/Utsho.b9400ae3.png": "/static/media/Utsho.b9400ae3.png",
     "static/media/ads.78eef4a7.svg": "/static/media/ads.78eef4a7.svg",
     "static/media/adsBlue.839eff57.svg": "/static/media/adsBlue.839eff57.svg",
     "static/media/beardGuy.5f609dc7.svg": "/static/media/beardGuy.5f609dc7.svg",
@@ -26,7 +28,6 @@
     "static/media/legals.a17be735.svg": "/static/media/legals.a17be735.svg",
     "static/media/like.f8ec3206.svg": "/static/media/like.f8ec3206.svg",
     "static/media/liked.173c2e4e.svg": "/static/media/liked.173c2e4e.svg",
-    "static/media/logo.213caaab.jpg": "/static/media/logo.213caaab.jpg",
     "static/media/media.42f09728.svg": "/static/media/media.42f09728.svg",
     "static/media/media3.a8c88ede.png": "/static/media/media3.a8c88ede.png",
     "static/media/primaryFacebook.6d6a570a.svg": "/static/media/primaryFacebook.6d6a570a.svg",
@@ -44,8 +45,8 @@
   },
   "entrypoints": [
     "static/js/runtime-main.901e8003.js",
-    "static/js/2.7df69cb6.chunk.js",
-    "static/css/main.af2ff574.chunk.css",
-    "static/js/main.bfee71e8.chunk.js"
+    "static/js/2.58f18503.chunk.js",
+    "static/css/main.b7512491.chunk.css",
+    "static/js/main.3cba2140.chunk.js"
   ]
 }
