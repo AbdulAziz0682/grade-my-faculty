@@ -6,26 +6,25 @@ import Container from '@mui/material/Container';
 import Card from '@mui/material/Card';
 import CircularProgress from '@mui/material/CircularProgress';
 
-import { ArrowBack, ArrowForward } from '@mui/icons-material';
-
 import { useQuery } from '@apollo/client';
 
 import FacultyProfile from './FacultyProfile';
 import { ABOUT_US } from '../../../../graphqlQueries';
 
 export default function AboutUs() {
+  const list = [
+    {
+      name: 'Utsho',
+      facebookLink: 'https://www.facebook.com/utsho1214',
+      instagramLink: 'https://www.instagram.com/tef.utsho/',
+    },
+    {
+      name: 'Sakib',
+      facebookLink: 'https://www.facebook.com/sakibbzz/',
+      instagramLink: 'https://www.instagram.com/sakibbzz/',
+    },
+  ];
   const { loading, data } = useQuery(ABOUT_US);
-  const list1 = [
-    { name: 'Abdul Kalam' },
-    { name: 'Abdul Salam' },
-    { name: 'Shaikh Saadi' },
-  ];
-  const list2 = [
-    { name: 'Muhammad Saleem' },
-    { name: 'Abdul Aleem' },
-    { name: 'Abdul Kalam' },
-  ];
-  const [list, setList] = React.useState(list1);
   if (loading) return <div className="absolute inset-x-0 flex items-center justify-center mt-16"><CircularProgress /></div>;
   return (
     <Grid container className="flex-grow bg-pageBg">
@@ -43,22 +42,16 @@ export default function AboutUs() {
             </Card>
           </Grid>
           <Grid item className="flex flex-col items-center justify-between gap-2 md:flex-row">
-            <Card className="flex items-center justify-center w-full cursor-pointer md:w-14 h-14 hover:bg-gray-100">
-              <ArrowBack onClick={() => setList(list1)} className="w-12 h-12 text-primary" />
-            </Card>
-            <Card className="flex w-full p-3 md:w-5/6 lg:w-7/12">
+            <Card className="w-full p-3 mx-auto flexm md:w-5/6 lg:w-7/12">
               <Grid container rowSpacing={2}>
                 {
                   list.map((item) => (
-                    <Grid item xs={12} md={4} className="flex flex-col items-center">
+                    <Grid item xs={6} className="flex flex-col items-center">
                       <FacultyProfile faculty={item} />
                     </Grid>
                   ))
                 }
               </Grid>
-            </Card>
-            <Card className="flex items-center justify-center w-full cursor-pointer md:w-14 h-14 hover:bg-gray-100">
-              <ArrowForward onClick={() => setList(list2)} className="w-12 h-12 text-primary" />
             </Card>
           </Grid>
           <Grid item className="flex items-center justify-center">
