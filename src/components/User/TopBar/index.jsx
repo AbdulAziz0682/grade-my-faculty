@@ -6,9 +6,7 @@ import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
-// import Typography from '@mui/material/Typography';
 import MenuItem from '@mui/material/MenuItem';
-// import Menu from '@mui/material/Menu';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import Button from '@mui/material/Button';
 import List from '@mui/material/List';
@@ -32,7 +30,7 @@ import { FACULTIES_AND_INSTITUTES } from '../../../graphqlQueries';
 
 import { logout } from '../../../redux/accountActions';
 
-import logo from '../../../assets/logo.jpg';
+import logo from '../../../assets/logo.png';
 
 const isSearchFieldRoute = {
   '/grade': true,

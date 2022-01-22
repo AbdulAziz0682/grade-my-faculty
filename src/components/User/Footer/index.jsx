@@ -81,8 +81,10 @@ export default function Footer() {
         <div className="w-full">
           <Typography color="gray" className="flex items-center justify-between font-semibold">
             <span>&copy; 2021 Grade My Faculty. All Rights Reserved</span>
+            <a href="https://usmandeveloper.com/" className="absolute bottom-6 right-3">
+              UD
+            </a>
           </Typography>
-          <a href="https://usmandeveloper.com/" className="absolute bottom-6 right-3 flex items-center justify-center p-0.5 border rounded-full text-primary border-primary">UD</a>
         </div>
       </Container>
     </Box>
