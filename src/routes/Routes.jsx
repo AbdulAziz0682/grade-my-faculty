@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
+
 import {
   Switch,
   Route,
@@ -36,7 +37,6 @@ import Post from '../components/User/Pages/Post';
 import ResetPassword from '../components/User/Pages/Login/ResetPassword';
 import UserProfile from '../components/User/Profile/UserProfile';
 // admin route
-import Admin from '../components/Admin';
 import AdminLogin from '../components/Admin/Login';
 import AdminForgetPassword from '../components/Admin/ForgetPassword';
 import AdminResetPassword from '../components/Admin/ResetPassword';
@@ -44,6 +44,9 @@ import AdminVerifyConfirmationCode from '../components/Admin/VerifyConfirmationC
 
 import Toasts from '../components/Toasts';
 import VerifyConfirmationCode from '../components/User/Pages/Login/VerifyConfirmationCode';
+import SplashScreen from '../SplashScreen';
+// Lazy loading
+const Admin = lazy(() => import('../components/Admin'));
 
 export default function Routes() {
   const token = localStorage.getItem('token') || sessionStorage.getItem('token');
@@ -159,7 +162,9 @@ export default function Routes() {
                 <AdminResetPassword />
               </Route>
               <Route exact path="/admin">
-                <Admin />
+                <Suspense fallback={() => <SplashScreen />}>
+                  <Admin />
+                </Suspense>
               </Route>
               <Route exact path="/profile">
                 <UserProfile />

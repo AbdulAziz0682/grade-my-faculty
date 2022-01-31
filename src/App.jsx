@@ -6,8 +6,6 @@ import { BrowserRouter } from 'react-router-dom';
 
 import './index.css';
 
-import { LinearProgress, Typography } from '@mui/material';
-
 import { useDispatch } from 'react-redux';
 
 import axios from 'axios';
@@ -18,6 +16,8 @@ import Routes from './routes/Routes';
 
 import themeOptions from './themeOptions';
 import { login } from './redux/accountActions';
+
+import SplashScreen from './SplashScreen';
 
 const theme = createTheme(themeOptions);
 
@@ -59,16 +59,7 @@ export default function App() {
         setLoading(false);
       });
   }, []);
-  if (loading) {
-    return (
-      <div className="absolute inset-0 flex flex-col items-center justify-center px-4">
-        <Typography variant="h3" align="center" color="primary">
-          Grade My Faculty
-          <LinearProgress className="w-full" />
-        </Typography>
-      </div>
-    );
-  }
+  if (loading) return <SplashScreen />;
   return (
     <StyledEngineProvider injectFirst>
       <ThemeProvider theme={theme}>
