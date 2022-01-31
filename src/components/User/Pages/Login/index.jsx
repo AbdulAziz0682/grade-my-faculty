@@ -170,14 +170,14 @@ export default function Login() {
             <Grid item className="flex flex-col items-center mt-5">
               <GoogleLogin
                 // eslint-disable-next-line react/jsx-curly-brace-presence
-                clientId={'728667475500-03g9ge02ct4rn7rv985bekmcm5hdit88.apps.googleusercontent.com'}
+                clientId={process.env.REACT_APP_OAUTH_CLIENT_ID}
                 onSuccess={(res) => googleResponse(res)}
                 onFailure={(res) => googleResponse(res)}
                 cookiePolicy="single_host_origin"
                 buttonText="Login"
                 render={(renderProps) => (
                   <Button
-                    onClick={renderProps.onClick}
+                    onClick={(e) => renderProps.onClick(e)}
                     disabled={renderProps.disabled}
                     variant="contained"
                     className="py-3 bg-white hover:bg-white rounded-xl"

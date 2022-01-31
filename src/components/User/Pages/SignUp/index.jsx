@@ -207,7 +207,7 @@ export default function SignUp() {
             <Grid item className="flex flex-col items-center my-3">
               <GoogleLogin
                 // eslint-disable-next-line react/jsx-curly-brace-presence
-                clientId={'728667475500-03g9ge02ct4rn7rv985bekmcm5hdit88.apps.googleusercontent.com'}
+                clientId={process.env.REACT_APP_OAUTH_CLIENT_ID}
                 onSuccess={(res) => googleResponse(res)}
                 onFailure={(res) => googleResponse(res)}
                 cookiePolicy="single_host_origin"

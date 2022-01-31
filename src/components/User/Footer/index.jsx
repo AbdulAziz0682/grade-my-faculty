@@ -79,9 +79,9 @@ export default function Footer() {
       </Box>
       <Container maxWidth="xl" className="relative md:px-40" sx={{ py: 3, bgcolor: 'white' }}>
         <div className="w-full">
-          <Typography color="gray" className="flex items-center justify-between font-semibold">
+          <Typography color="gray" className="flex items-center justify-between text-sm font-semibold md:text-base">
             <span>&copy; 2021 Grade My Faculty. All Rights Reserved</span>
-            <a href="https://usmandeveloper.com/" className="absolute bottom-6 right-3">
+            <a href="https://usmandeveloper.com/">
               UD
             </a>
           </Typography>
