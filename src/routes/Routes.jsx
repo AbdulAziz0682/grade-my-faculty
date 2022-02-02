@@ -162,7 +162,7 @@ export default function Routes() {
                 <AdminResetPassword />
               </Route>
               <Route exact path="/admin">
-                <Suspense fallback={() => <SplashScreen />}>
+                <Suspense fallback={<SplashScreen />}>
                   <Admin />
                 </Suspense>
               </Route>

@@ -56,9 +56,14 @@ export default function MobileMenuDialog({ open, handleClose }) {
           {
             user
               ? (
-                <ListItemButton onClick={() => { userLogout(); handleClose(); }}>
-                  <ListItemText sx={{ color: 'gray' }}>Logout</ListItemText>
-                </ListItemButton>
+                <>
+                  <ListItemButton onClick={() => { history.push('/profile'); handleClose(); }}>
+                    <ListItemText sx={{ color: pathname === '/profile' || pathname === '/profile' ? 'primary.main' : 'gray' }}>Profile</ListItemText>
+                  </ListItemButton>
+                  <ListItemButton onClick={() => { userLogout(); handleClose(); }}>
+                    <ListItemText sx={{ color: 'gray' }}>Logout</ListItemText>
+                  </ListItemButton>
+                </>
               )
               : (
                 <>

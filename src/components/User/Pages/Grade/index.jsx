@@ -252,7 +252,7 @@ export default function Grade() {
             {
               !loading && data.ratings.map(
                 (rate) => (
-                  <Grid container>
+                  <Grid container key={rate._id}>
                     <Grid item xs={12} sm={3} className="flex flex-row p-3 bg-primary md:flex-col">
                       <Typography className="self-center w-full text-3xl font-semibold text-center text-white">{rate.gradeOfUser}</Typography>
                       <span className="flex-grow" />

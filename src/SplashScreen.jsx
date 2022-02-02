@@ -7,8 +7,8 @@ import {
 
 export default function SplashScreen() {
   return (
-    <div className="absolute inset-0 flex flex-col items-center justify-center px-4">
-      <Typography variant="h3" align="center" color="primary">
+    <div className="absolute inset-0 flex px-4">
+      <Typography align="center" color="primary" className="m-auto text-5xl">
         Grade My Faculty
         <LinearProgress className="w-full" />
       </Typography>

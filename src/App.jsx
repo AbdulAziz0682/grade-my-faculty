@@ -59,13 +59,16 @@ export default function App() {
         setLoading(false);
       });
   }, []);
-  if (loading) return <SplashScreen />;
   return (
     <StyledEngineProvider injectFirst>
       <ThemeProvider theme={theme}>
         <BrowserRouter>
           <ErrorBoundary>
-            <Routes />
+            {
+              loading
+                ? <SplashScreen />
+                : <Routes />
+            }
           </ErrorBoundary>
         </BrowserRouter>
       </ThemeProvider>
