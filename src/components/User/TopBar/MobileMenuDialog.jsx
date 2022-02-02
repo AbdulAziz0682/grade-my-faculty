@@ -10,6 +10,7 @@ import {
   ListItemButton,
   ListItemText,
   IconButton,
+  Icon,
 } from '@mui/material';
 
 import { Close } from '@mui/icons-material';
@@ -80,9 +81,24 @@ export default function MobileMenuDialog({ open, handleClose }) {
       </DialogContent>
       <DialogActions className="flex items-center justify-center">
         <span className="flex items-center justify-center gap-9">
-          <img src={primaryFacebook} alt="facebook" className="w-6" />
+          <a href="https://www.facebook.com/grademyfaculty/">
+            <Icon>
+              <img className="w-6" src={primaryFacebook} alt="facebook" />
+            </Icon>
+          </a>
+          <a href="https://www.instagram.com/grademyfaculty/">
+            <Icon>
+              <img className="w-6" src={primaryInstagram} alt="instagram" />
+            </Icon>
+          </a>
+          <a href=" ">
+            <Icon>
+              <img className="w-6" src={primaryTwitter} alt="twittter" />
+            </Icon>
+          </a>
+          {/* <img src={primaryFacebook} alt="facebook" className="w-6" />
           <img src={primaryInstagram} alt="instagram" className="w-6" />
-          <img src={primaryTwitter} alt="twitter" className="w-6" />
+          <img src={primaryTwitter} alt="twitter" className="w-6" /> */}
         </span>
       </DialogActions>
     </Dialog>
