@@ -20,9 +20,8 @@ export default function EmailVerification() {
             <span className="text-primary">{history.location.state[0].email || 'No email'}</span>
           </Typography>
           <Typography variant="body1" style={{ fontFamily: 'montserrat' }}>
-            Wrong email?&nbsp;
-            <span className="font-bold cursor-pointer text-primary">Click here</span>
-            &nbsp;to correct.
+            If your email is already is verified, you may not get
+            verification email and login successfully.
           </Typography>
         </Paper>
       </Container>
