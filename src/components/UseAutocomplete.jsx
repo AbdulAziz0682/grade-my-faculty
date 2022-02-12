@@ -126,6 +126,7 @@ const AutoComplete = ({ suggestions, disabled, data }) => {
     <div className="w-full">
       <input
         type="text"
+        name={`auto-comp-${Math.random()}`} // This random name is for disabling browser suggesstions
         onChange={onChange}
         onKeyDown={onKeyDown}
         disabled={disabled}

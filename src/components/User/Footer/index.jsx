@@ -6,7 +6,7 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Icon from '@mui/material/Icon';
 
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 
 import facebook from '../../../assets/facebook.svg';
 import instagram from '../../../assets/instagram.svg';
@@ -30,7 +30,9 @@ export default function Footer() {
                 gap: '1rem',
               }}
             >
-              <Typography className="font-semibold" color="white">Grade My Faculty</Typography>
+              <Link to="/">
+                <Typography className="font-semibold" color="white">Grade My Faculty</Typography>
+              </Link>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                 <Typography className="font-semibold cursor-pointer" color="white">
                   <span aria-hidden onClick={() => history.push('/faq')}>FAQ</span>

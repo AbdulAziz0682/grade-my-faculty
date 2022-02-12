@@ -17,11 +17,13 @@ export default function AboutUs() {
       name: 'Utsho',
       facebookLink: 'https://www.facebook.com/utsho1214',
       instagramLink: 'https://www.instagram.com/tef.utsho/',
+      linkedinLink: 'https://www.linkedin.com/in/tasnim-ferdaous/',
     },
     {
       name: 'Sakib',
       facebookLink: 'https://www.facebook.com/sakibbzz/',
       instagramLink: 'https://www.instagram.com/sakibbzz/',
+      linkedinLink: 'https://www.linkedin.com/in/sadmansakibrabbani/',
     },
   ];
   const { loading, data } = useQuery(ABOUT_US);

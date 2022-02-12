@@ -35,7 +35,7 @@ export default function Faculty() {
         <Typography variant="h3" className="text-primary">{state[0].name}</Typography>
         <Paper elevation={2} className="flex flex-col w-full gap-3 p-6 mt-6 rounded-2xl bg-gray-50">
           <div className="flex justify-between w-full gap-3 py-2 border-b-4 border-primary">
-            <Typography className="font-bold text-primary">Top Faculty</Typography>
+            <Typography className="font-bold text-primary">Faculty Members</Typography>
             {
               data?.faculties.length > 0 && data?.faculties.length > 4 && <Button variant="contained" className="rounded-2xl" hidden={isViewAll} onClick={() => setViewAll(!isViewAll)}>View all Faculty</Button>
             }
