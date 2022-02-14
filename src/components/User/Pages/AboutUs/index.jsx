@@ -13,13 +13,13 @@ import 'react-alice-carousel/lib/alice-carousel.css';
 import { useQuery } from '@apollo/client';
 
 import TeamMember from './TeamMember';
-import { ABOUT_US } from '../../../../graphqlQueries';
+import { ABOUT_US, MEMBERS } from '../../../../graphqlQueries';
 
 import arrowLeft from '../../../../assets/arrow-left.svg';
 import arrowRight from '../../../../assets/arrow-right.svg';
 
 export default function AboutUs() {
-  const list = [
+  /* const list = [
     {
       name: 'Utsho',
       imgSrc: '',
@@ -44,24 +44,25 @@ export default function AboutUs() {
       instagramLink: 'https://www.instagram.com/tef.utsho/',
       linkedinLink: 'https://www.linkedin.com/in/tasnim-ferdaous/',
     },
-  ];
+  ]; */
+  const { loading, data } = useQuery(ABOUT_US);
+  const membersQuery = useQuery(MEMBERS);
   const [activeIndex, setActiveIndex] = useState(0);
-  function handlePrevious() {
+  function handlePrevious(list) {
     let prevIndex = activeIndex - 1;
     if (prevIndex < 0) {
       prevIndex = list.length - 1;
     }
     setActiveIndex(() => prevIndex);
   }
-  function handleNext() {
+  function handleNext(list) {
     let nextIndex = activeIndex + 1;
     if (nextIndex >= list.length) {
       nextIndex = 0;
     }
     setActiveIndex(() => nextIndex);
   }
-  const { loading, data } = useQuery(ABOUT_US);
-  if (loading) return <div className="absolute inset-x-0 flex items-center justify-center mt-16"><CircularProgress /></div>;
+  if (loading || membersQuery.loading) return <div className="absolute inset-x-0 flex items-center justify-center mt-16"><CircularProgress /></div>;
   return (
     <Grid container className="flex-grow bg-pageBg">
       <Container maxWidth="xl">
@@ -78,7 +79,7 @@ export default function AboutUs() {
             </Card>
           </Grid>
           <Grid item className="flex flex-wrap items-center justify-between w-full gap-2">
-            <Card className="flex w-full h-auto cursor-pointer md:w-auto" onClick={() => handlePrevious()}>
+            <Card className="flex w-full h-auto cursor-pointer md:w-auto" onClick={() => handlePrevious(membersQuery.data.members)}>
               <Icon className="flex w-12 h-12 p-2 mx-auto">
                 <img src={arrowLeft} alt="arrow left" className="w-full" />
               </Icon>
@@ -99,7 +100,7 @@ export default function AboutUs() {
                   900: { items: 3 },
                 }}
                 items={
-                  list.map((item) => (
+                  membersQuery.data.members.map((item) => (
                     <div className="flex flex-col items-center mx-auto">
                       <TeamMember member={item} />
                     </div>
@@ -107,7 +108,7 @@ export default function AboutUs() {
                 }
               />
             </Card>
-            <Card className="flex w-full h-auto cursor-pointer md:w-auto" onClick={() => handleNext()}>
+            <Card className="flex w-full h-auto cursor-pointer md:w-auto" onClick={() => handleNext(membersQuery.data.members)}>
               <Icon className="flex w-12 h-12 p-2 mx-auto">
                 <img src={arrowRight} alt="arrow left" className="w-full" />
               </Icon>

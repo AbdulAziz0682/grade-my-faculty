@@ -19,6 +19,7 @@ import {
   Festival,
   People,
   Settings,
+  Groups,
   MailOutline,
   Report,
 } from '@mui/icons-material';
@@ -66,6 +67,12 @@ const AdminTabs = {
   admins: true,
   addAdmin: true,
   editAdmin: true,
+};
+
+const TeamMembers = {
+  teamMembers: true,
+  addTeamMember: true,
+  editTeamMember: true,
 };
 
 const ReportTabs = {
@@ -127,6 +134,12 @@ export default function Sidebar({ setOpen, open }) {
         <ListItemButton className={`${AdminTabs[currentTab.name] && 'bg-activeTab text-primary'} hover:bg-activeTab`} onClick={() => dispatch(setCurrentTab({ name: 'admins', data: null }))}>
           <ListItemIcon className={`${!open && 'flex justify-center'}`}><Settings className={`${AdminTabs[currentTab.name] && 'bg-activeTab text-primary'} hover:bg-activeTab w-8 h-8`} /></ListItemIcon>
           <ListItemText className={`${!open && 'hidden'}`} primary="Admin Settings" />
+        </ListItemButton>
+      </List>
+      <List>
+        <ListItemButton className={`${TeamMembers[currentTab.name] && 'bg-activeTab text-primary'} hover:bg-activeTab`} onClick={() => dispatch(setCurrentTab({ name: 'teamMembers', data: null }))}>
+          <ListItemIcon className={`${!open && 'flex justify-center'}`}><Groups className={`${TeamMembers[currentTab.name] && 'bg-activeTab text-primary'} hover:bg-activeTab w-8 h-8`} /></ListItemIcon>
+          <ListItemText className={`${!open && 'hidden'}`} primary="Team Members" />
         </ListItemButton>
       </List>
       <List>

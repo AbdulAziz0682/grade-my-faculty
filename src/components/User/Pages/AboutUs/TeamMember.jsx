@@ -10,7 +10,7 @@ import Icon from '@mui/material/Icon';
 export default function TeamMember({ member }) {
   return (
     <>
-      <img src={member.imgSrc} alt={member.name} className="w-20" />
+      <img src={member.image} alt={member.name} className="w-20" />
       <Typography align="center" className="font-semibold text-medium">{member.name}</Typography>
       <Typography align="center" className="text-sm">{member.role}</Typography>
       <div
@@ -42,7 +42,7 @@ TeamMember.propTypes = {
   member: PropTypes.shape({
     name: PropTypes.string.isRequired,
     role: PropTypes.string.isRequired,
-    imgSrc: PropTypes.string.isRequired,
+    image: PropTypes.string.isRequired,
     facebookLink: PropTypes.string.isRequired,
     instagramLink: PropTypes.string.isRequired,
     linkedinLink: PropTypes.string.isRequired,

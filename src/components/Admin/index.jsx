@@ -37,6 +37,9 @@ import Faqs from './Faqs';
 import EditBlog from './EditBlog';
 import AddBlog from './AddBlog';
 import Admins from './Admins';
+import TeamMembers from './TeamMembers';
+import AddMember from './AddMember';
+import EditMember from './EditMember';
 import Reports from './Reports';
 import ViewReport from './ViewReport';
 
@@ -148,6 +151,15 @@ export default function Admin() {
           }
           {
             admin.currentTab.name === 'editAdmin' && <EditAdmin admin={admin.currentTab.data} />
+          }
+          {
+            admin.currentTab.name === 'teamMembers' && <TeamMembers />
+          }
+          {
+            admin.currentTab.name === 'addMember' && <AddMember />
+          }
+          {
+            admin.currentTab.name === 'editMember' && <EditMember member={admin.currentTab.data} />
           }
           {
             admin.currentTab.name === 'ads' && <Ads />

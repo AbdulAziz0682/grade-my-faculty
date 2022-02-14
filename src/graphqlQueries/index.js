@@ -6,6 +6,7 @@ export const COUNT_ALL = gql`
     allUsers
     allInstitutes
     allRatings
+    allMembers
   }
 `;
 
@@ -591,5 +592,61 @@ export const DELETE_REPORT = gql`
 export const SAVE_FACULTY = gql`
   mutation SaveFaculty($user:Int! $faculty:Int!) {
     saveFaculty(user:$user faculty:$faculty)
+  }
+`;
+
+export const MEMBERS = gql`
+  query Members($offset:Int $limit:Int) {
+    members(offset:$offset limit:$limit) {
+      _id
+      image
+      name
+      role
+      facebookLink
+      instagramLink
+      linkedinLink
+    }
+    allMembers
+  }
+`;
+
+export const NEW_MEMBER = gql`
+  mutation NewMember($image:String! $name:String! $role:String! $facebookLink:String! $instagramLink:String! $linkedinLink:String!) {
+    newMember(
+      image: $image
+      name: $name
+      role: $role
+      facebookLink: $facebookLink
+      instagramLink: $instagramLink
+      linkedinLink: $linkedinLink
+    ) {
+      _id
+      name
+      role
+    }
+  }
+`;
+
+export const UPDATE_MEMBER = gql`
+  mutation UpdateMember($id:Int! $image:String! $name:String! $role:String! $facebookLink:String! $instagramLink:String! $linkedinLink:String!) {
+    updateMember(
+      _id: $id
+      image: $image
+      name: $name
+      role: $role
+      facebookLink: $facebookLink
+      instagramLink: $instagramLink
+      linkedinLink: $linkedinLink
+    ) {
+      _id
+      name
+      role
+    }
+  }
+`;
+
+export const DELETE_MEMBER = gql`
+  mutation DeleteMember($id:Int!) {
+    deleteMember(_id:$id)
   }
 `;
