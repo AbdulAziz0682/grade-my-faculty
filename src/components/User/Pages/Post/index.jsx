@@ -59,13 +59,19 @@ export default function Post() {
                 }}
               >
                 <Icon>
-                  <img src={facebook} alt="facebook" />
+                  <a href={blog?.writtenBy?.facebookLink}>
+                    <img src={facebook} alt="facebook" />
+                  </a>
                 </Icon>
                 <Icon>
-                  <img src={instagram} alt="instagram" />
+                  <a href={blog?.writtenBy?.instagramLink}>
+                    <img src={instagram} alt="instagram" />
+                  </a>
                 </Icon>
                 <Icon>
-                  <img src={twitter} alt="twittter" />
+                  <a href={blog?.writtenBy?.twitterLink}>
+                    <img src={twitter} alt="twittter" />
+                  </a>
                 </Icon>
               </div>
             </div>

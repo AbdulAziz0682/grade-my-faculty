@@ -31,16 +31,19 @@ export default function EditAdmin({ admin }) {
     { refetchQueries: [{ query: ADMINS }] },
   );
   // Form requirements
+  const urlRegex = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;
   const schema = yup.object({
     name: yup.string().required('Name is required').min(2, 'Enter at least 2 characters'),
     email: yup.string().email('Enter a valid email').required('Email is required'),
     password: yup.string().min(8, 'Password should be at least 8 characters long').required('Password is required'),
     newPassword: yup.string().min(8, 'Password should be at least 8 characters long'),
+    facebookLink: yup.string().matches(urlRegex, 'Not a valid link'),
+    instagramLink: yup.string().matches(urlRegex, 'Not a valid link'),
+    twitterLink: yup.string().matches(urlRegex, 'Not a valid link'),
   });
   const formik = useFormik({
     initialValues: {
-      name: admin.name,
-      email: admin.email,
+      ...admin,
       password: '',
       newPassword: '',
     },
@@ -114,6 +117,36 @@ export default function EditAdmin({ admin }) {
               error={formik.touched.newPassword && Boolean(formik.errors.newPassword)}
               helperText={formik.touched.newPassword && formik.errors.newPassword}
             />
+            <TextField
+              variant="standard"
+              fullWidth
+              label="Facebook Link"
+              name="facebookLink"
+              value={formik.values.facebookLink}
+              onChange={formik.handleChange}
+              error={formik.touched.facebookLink && Boolean(formik.errors.facebookLink)}
+              helperText={formik.touched.facebookLink && formik.errors.facebookLink}
+            />
+            <TextField
+              variant="standard"
+              fullWidth
+              label="Instagram Link"
+              name="instagramLink"
+              value={formik.values.instagramLink}
+              onChange={formik.handleChange}
+              error={formik.touched.instagramLink && Boolean(formik.errors.instagramLink)}
+              helperText={formik.touched.instagramLink && formik.errors.instagramLink}
+            />
+            <TextField
+              variant="standard"
+              fullWidth
+              label="Twitter Link"
+              name="twitterLink"
+              value={formik.values.twitterLink}
+              onChange={formik.handleChange}
+              error={formik.touched.twitterLink && Boolean(formik.errors.twitterLink)}
+              helperText={formik.touched.twitterLink && formik.errors.twitterLink}
+            />
             <Button type="submit" variant="contained" disabled={loading} style={{ maxHeight: '38px' }} className="self-start w-3/12 py-3 px-9 shadow-primaryGlow">
               {
                 loading
@@ -133,6 +166,9 @@ EditAdmin.propTypes = {
     _id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
     email: PropTypes.string.isRequired,
+    facebookLink: PropTypes.string.isRequired,
+    instagramLink: PropTypes.string.isRequired,
+    twitterLink: PropTypes.string.isRequired,
     status: PropTypes.string.isRequired,
   }).isRequired,
 };

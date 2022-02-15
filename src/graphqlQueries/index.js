@@ -73,14 +73,17 @@ export const ADMINS = gql`
       name
       email
       status
+      facebookLink
+      instagramLink
+      twitterLink
     }
     allAdmins
   }
 `;
 
 export const NEW_ADMIN = gql`
-  mutation NewAdmin($name:String! $email:String! $password:String! $confirmPassword:String!) {
-    newAdmin(name:$name email:$email password:$password confirmPassword:$confirmPassword) {
+  mutation NewAdmin($name:String! $email:String! $password:String! $confirmPassword:String! $facebookLink:String $instagramLink:String $twitterLink:String) {
+    newAdmin(name:$name email:$email password:$password confirmPassword:$confirmPassword facebookLink:$facebookLink instagramLink:$instagramLink twitterLink:$twitterLink) {
       _id
       name
       email
@@ -90,8 +93,8 @@ export const NEW_ADMIN = gql`
 `;
 
 export const UPDATE_ADMIN = gql`
-  mutation UpdateAdmin($id:Int! $name:String! $email:String! $password:String! $newPassword:String $status:String!) {
-    updateAdmin(_id:$id name:$name email:$email password:$password newPassword:$newPassword status:$status) {
+  mutation UpdateAdmin($id:Int! $name:String! $email:String! $password:String! $newPassword:String $status:String! $facebookLink:String $instagramLink:String $twitterLink:String) {
+    updateAdmin(_id:$id name:$name email:$email password:$password newPassword:$newPassword status:$status facebookLink:$facebookLink instagramLink:$instagramLink twitterLink:$twitterLink) {
       _id
       name
       email
@@ -522,6 +525,9 @@ export const BLOGS_AND_ADMINS_AND_ADS = gql`
     admins {
       _id
       name
+      facebookLink
+      instagramLink
+      twitterLink
     }
     ads {
       _id
