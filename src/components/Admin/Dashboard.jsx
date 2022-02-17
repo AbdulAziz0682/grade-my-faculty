@@ -28,9 +28,9 @@ import { useQuery } from '@apollo/client';
 import professorGray from '../../assets/professorGray2.svg';
 import professorWhite from '../../assets/profWhite.svg';
 
-import { COUNT_ALL, RATINGS } from '../../graphqlQueries';
+import { COUNT_ALL, DASHBOARD_RATINGS } from '../../graphqlQueries';
 
-function calculateResulSet(ratings, date) {
+function calculateResulSet(ratings = [], date) {
   const rs = [[0, 0]];
   for (let i = 1; i <= 31; i += 1) {
     rs.push([i, 0]);
@@ -51,7 +51,7 @@ export default function Dashboard() {
   const [date, setDate] = useState(new Date());
   const [professorIcon, setProfessorIcon] = useState(professorGray);
   const countAll = useQuery(COUNT_ALL, { fetchPolicy: 'cache-and-network' });
-  const ratingsQuery = useQuery(RATINGS, { fetchPolicy: 'cache-and-network' });
+  const ratingsQuery = useQuery(DASHBOARD_RATINGS, { fetchPolicy: 'cache-and-network', variables: { date } });
   const [resultSet, setResultSet] = useState([[0, 0]]);
   const data = [
     {
@@ -68,7 +68,7 @@ export default function Dashboard() {
       setResultSet(calculateResulSet(ratingsQuery.data.ratings, date));
     }
   }, [ratingsQuery.data, date]);
-  if (countAll.loading || ratingsQuery.loading) return <div className="absolute inset-0 flex items-center justify-center"><CircularProgress /></div>;
+  if (countAll.loading) return <div className="absolute inset-0 flex items-center justify-center"><CircularProgress /></div>;
   return (
     <div className="w-full px-4 pt-16">
       <Grid container rowSpacing={9} columnSpacing={4}>

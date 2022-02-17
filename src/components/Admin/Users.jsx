@@ -28,17 +28,14 @@ import { setCurrentTab } from '../../redux/adminActions';
 import Search from '../../assets/Search.svg';
 
 import {
-  USERS, RATINGS, FACULTIES, INSTITUTES,
+  ADMIN_USERS,
 } from '../../graphqlQueries';
 
 export default function Users() {
   const dispatch = useDispatch();
   const [offset, setOffset] = React.useState(0);
   const [searchValue, setSearchValue] = React.useState('');
-  const { loading, data } = useQuery(USERS, { fetchPolicy: 'cache-and-network', variables: { offset, limit: 10 } });
-  const ratingsQuery = useQuery(RATINGS);
-  const facultiesQuery = useQuery(FACULTIES);
-  const institutesQuery = useQuery(INSTITUTES);
+  const { loading, data } = useQuery(ADMIN_USERS, { fetchPolicy: 'cache-and-network', variables: { offset, limit: 10 } });
   function nextPage() {
     if (data && offset < data.allUsers) {
       setOffset((off) => off + 10);
@@ -82,8 +79,7 @@ export default function Users() {
             </TableRow>
           </TableHead>
           {
-            !loading && !ratingsQuery.loading && !institutesQuery.loading
-            && !facultiesQuery.loading && data && (
+            !loading && data && (
               <TableBody>
                 {
                   data?.users.filter(
@@ -99,14 +95,7 @@ export default function Users() {
                         onClick={() => dispatch(setCurrentTab(
                           {
                             name: 'viewUser',
-                            data: {
-                              ...u,
-                              ratings: ratingsQuery.data?.ratings.filter(
-                                (r) => r.user === u._id,
-                              ) || [],
-                              faculties: facultiesQuery.data.faculties,
-                              institutes: institutesQuery.data.institutes,
-                            },
+                            data: u,
                           },
                         ))}
                       >

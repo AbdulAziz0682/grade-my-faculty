@@ -10,6 +10,35 @@ export const COUNT_ALL = gql`
   }
 `;
 
+export const ADMIN_USERS = gql`
+  query Users($offset:Int $limit:Int) {
+    users(offset:$offset limit:$limit) {
+      _id
+      firstName
+      lastName
+      email
+      registeredAt
+    }
+    allUsers
+  }
+`;
+
+export const ADMIN_USER_RATINGS = gql`
+  query AdminUserRatings($user:Int!) {
+    ratings(user:$user) {
+      thoughts
+      course
+      createdAt
+      faculty {
+        firstName
+        institute {
+          name
+        }
+      }
+    }
+  }
+`;
+
 export const USERS = gql`
   query users($offset:Int $limit:Int) {
     users(offset:$offset limit:$limit) {
@@ -26,6 +55,16 @@ export const USERS = gql`
 export const NEW_USER = gql`
   mutation NewUser($firstName:String! $lastName:String! $email:String! $password:String! $confirmPassword:String!) {
     newUser(firstName:$firstName lastName:$lastName email:$email password:$password confirmPassword:$confirmPassword) {
+      firstName
+      lastName
+      email
+    }
+  }
+`;
+
+export const ADMIN_UPDATE_USER = gql`
+  mutation AdminUpdateUser($id:Int! $firstName:String $lastName:String $email:String $password:String $confirmPassword:String) {
+    adminUpdateUser(_id:$id firstName:$firstName lastName:$lastName email:$email password:$password confirmPassword:$confirmPassword) {
       firstName
       lastName
       email
@@ -276,6 +315,14 @@ export const ADS = gql`
 export const DELETE_AD = gql`
   mutation DeleteAd($id:Int!) {
     deleteAd(_id:$id)
+  }
+`;
+
+export const DASHBOARD_RATINGS = gql`
+  query Ratings($date:Date) {
+    ratings(date:$date) {
+      createdAt
+    }
   }
 `;
 

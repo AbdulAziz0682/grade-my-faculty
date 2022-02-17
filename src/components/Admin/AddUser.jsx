@@ -26,9 +26,9 @@ export default function AddUser() {
   );
   // Form requirements
   const schema = yup.object({
-    firstName: yup.string().required('First name is required').min(2, 'Enter at least 2 characters'),
-    lastName: yup.string().required('Last name is required').min(2, 'Enter at least 2 characters'),
-    email: yup.string().email('Enter a valid email').required('Email is required'),
+    firstName: yup.string().required('First name is required').min(2, 'Enter at least 2 characters for first name'),
+    lastName: yup.string().required('Last name is required').min(2, 'Enter at least 2 characters for lastname'),
+    email: yup.string().email('Enter a valid email').required('Email is required').min(2, 'Enter a valid email'),
     password: yup.string().min(8, 'Password should be at least 8 characters long').required('Password is required'),
     confirmPassword: yup.string().oneOf([yup.ref('password'), null], 'Passwords must match').required('Confirm password is required'),
   });

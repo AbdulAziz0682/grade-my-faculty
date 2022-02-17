@@ -18,19 +18,19 @@ import * as yup from 'yup';
 import { useDispatch } from 'react-redux';
 import { addToast } from '../../redux/toastsActions';
 
-import { UPDATE_USER, USERS } from '../../graphqlQueries';
+import { ADMIN_UPDATE_USER, ADMIN_USERS } from '../../graphqlQueries';
 
 export default function EditUser({ user }) {
   const dispatch = useDispatch();
   const [updateUser, { loading }] = useMutation(
-    UPDATE_USER,
-    { refetchQueries: [{ query: USERS }] },
+    ADMIN_UPDATE_USER,
+    { refetchQueries: [{ query: ADMIN_USERS }] },
   );
   // Form requirements
   const schema = yup.object({
-    firstName: yup.string().required('First name is required').min(2, 'Enter at least 2 characters'),
-    lastName: yup.string().required('Last name is required').min(2, 'Enter at least 2 characters'),
-    email: yup.string().email('Enter a valid email').required('Email is required'),
+    firstName: yup.string().min(2, 'Enter at least 2 characters for first name'),
+    lastName: yup.string().min(2, 'Enter at least 2 characters for last name'),
+    email: yup.string().email('Enter a valid email').min(2, 'Enter a valid email'),
     password: yup.string().min(8, 'Password should be at least 8 characters long'),
     confirmPassword: yup.string().oneOf([yup.ref('password'), null], 'Passwords must match'),
   });
@@ -39,8 +39,6 @@ export default function EditUser({ user }) {
       firstName: user.firstName,
       lastName: user.lastName,
       email: user.email,
-      password: user.password,
-      confirmPassword: user.password,
     },
     validationSchema: schema,
     onSubmit: (values) => updateUser({ variables: { ...values, id: Number(user._id) } })
@@ -56,7 +54,6 @@ export default function EditUser({ user }) {
         <TextField
           variant="standard"
           fullWidth
-          required
           label="First Name"
           name="firstName"
           value={formik.values.firstName}
@@ -67,7 +64,6 @@ export default function EditUser({ user }) {
         <TextField
           variant="standard"
           fullWidth
-          required
           label="Last Name"
           name="lastName"
           value={formik.values.lastName}
@@ -78,7 +74,6 @@ export default function EditUser({ user }) {
         <TextField
           variant="standard"
           fullWidth
-          required
           label="Email"
           name="email"
           value={formik.values.email}
