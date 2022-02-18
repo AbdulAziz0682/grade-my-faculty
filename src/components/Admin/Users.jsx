@@ -35,9 +35,12 @@ export default function Users() {
   const dispatch = useDispatch();
   const [offset, setOffset] = React.useState(0);
   const [searchValue, setSearchValue] = React.useState('');
-  const { loading, data } = useQuery(ADMIN_USERS, { fetchPolicy: 'cache-and-network', variables: { offset, limit: 10 } });
+  const { loading, data } = useQuery(
+    ADMIN_USERS,
+    { fetchPolicy: 'cache-and-network', variables: { offset, limit: 10, firstName: searchValue } },
+  );
   function nextPage() {
-    if (data && offset < data.allUsers) {
+    if (data && offset < data?.allUsers) {
       setOffset((off) => off + 10);
     }
   }
@@ -82,9 +85,7 @@ export default function Users() {
             !loading && data && (
               <TableBody>
                 {
-                  data?.users.filter(
-                    (usr) => usr.firstName.toLowerCase().includes(searchValue),
-                  ).map((u) => (
+                  data?.users.map((u) => (
                     <TableRow key={u._id} className="hover:shadow-md">
                       <TableCell className="m-3 leading-9 text-gray-400">{u._id}</TableCell>
                       <TableCell className="text-lg font-semibold text-black">{u.firstName}</TableCell>

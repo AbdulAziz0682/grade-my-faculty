@@ -11,8 +11,8 @@ export const COUNT_ALL = gql`
 `;
 
 export const ADMIN_USERS = gql`
-  query Users($offset:Int $limit:Int) {
-    users(offset:$offset limit:$limit) {
+  query Users($firstName:String $offset:Int $limit:Int) {
+    users(firstName:$firstName offset:$offset limit:$limit) {
       _id
       firstName
       lastName
