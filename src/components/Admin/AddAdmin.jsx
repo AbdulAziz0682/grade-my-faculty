@@ -42,12 +42,19 @@ export default function AddAdmin() {
       email: '',
       password: '',
       confirmPassword: '',
-      facebookLink: '',
-      instagramLink: '',
-      twitterLink: '',
     },
     validationSchema: schema,
-    onSubmit: (values) => newAdmin({ variables: values })
+    onSubmit: (values) => newAdmin(
+      {
+        variables: {
+          ...values,
+          // If link is empty, better not provide it
+          facebookLink: values.facebookLink === '' ? undefined : values.facebookLink,
+          instagramLink: values.instagramLink === '' ? undefined : values.instagramLink,
+          twitter: values.twitter === '' ? undefined : values.twitter,
+        },
+      },
+    )
       .then(() => dispatch(addToast({ message: 'Admin added successfully', severity: 'success' })))
       .catch((r) => dispatch(addToast({ message: r.message, severity: 'error' }))),
   });

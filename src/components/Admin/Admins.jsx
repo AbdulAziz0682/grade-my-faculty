@@ -43,18 +43,23 @@ import AboutUs from './AboutUs';
 export default function Admins() {
   const dispatch = useDispatch();
   const [offset, setOffset] = React.useState(0);
+  const [searchValue, setSearchValue] = React.useState('');
   const currentAdmin = useSelector((state) => state.account.admin);
-  const { loading, data } = useQuery(ADMINS, { fetchPolicy: 'cache-and-network', variables: { offset, limit: 10 } });
+  const { loading, data } = useQuery(
+    ADMINS,
+    {
+      fetchPolicy: 'cache-and-network',
+      variables: { offset, limit: 10, name: searchValue },
+    },
+  );
   const aboutUsQuery = useQuery(ABOUT_US);
   const [updateAdmin] = useMutation(UPDATE_ADMIN, { refetchQueries: [{ query: ADMINS }] });
   const [deleteAdmin] = useMutation(DELETE_ADMIN, { refetchQueries: [{ query: ADMINS }] });
-  const [searchValue, setSearchValue] = React.useState('');
   function handleStatusChange(value, admin) {
     if (Number(currentAdmin._id) === Number(admin._id)) {
       dispatch(addToast({ message: 'Sorry, you can not change your status', severity: 'error' }));
     } else {
       const variables = {
-        ...admin,
         id: Number(admin._id),
         status: value,
       };
@@ -106,7 +111,8 @@ export default function Admins() {
               <TableHead>
                 <TableRow>
                   <TableCell className="font-semibold text-gray-400">ID</TableCell>
-                  <TableCell className="text-lg font-semibold text-gray-400">Admin Email</TableCell>
+                  <TableCell className="text-lg font-semibold text-gray-400">Name</TableCell>
+                  <TableCell className="font-semibold text-gray-400">Email</TableCell>
                   <TableCell className="font-semibold text-gray-400">Status</TableCell>
                   <TableCell className="font-semibold text-center text-gray-400">Actions</TableCell>
                 </TableRow>
@@ -115,12 +121,11 @@ export default function Admins() {
                 !loading && data && (
                   <TableBody>
                     {
-                      data?.admins.filter(
-                        (adm) => adm.name.toLowerCase().includes(searchValue),
-                      ).map((admin) => (
+                      data?.admins.map((admin) => (
                         <TableRow key={admin._id} className="hover:shadow-md">
                           <TableCell className="text-gray-400">{admin._id}</TableCell>
-                          <TableCell className="text-lg font-semibold text-black">{admin.email}</TableCell>
+                          <TableCell className="text-lg font-semibold text-black">{admin.name}</TableCell>
+                          <TableCell className="text-gray-400">{admin.email}</TableCell>
                           <TableCell className="text-gray-600">
                             <select value={admin.status} onChange={(event) => handleStatusChange(event.target.value, admin)} className="w-24 min-w-full p-2 bg-gray-200">
                               <option value="Active">Active</option>
@@ -166,6 +171,7 @@ export default function Admins() {
             <AboutUs
               ourStory={aboutUsQuery.data?.aboutUs.ourStory}
               whoWeAre={aboutUsQuery.data?.aboutUs.whoWeAre}
+              ourMission={aboutUsQuery.data?.aboutUs.ourMission}
             />
           )
         }

@@ -106,8 +106,8 @@ export const DELETE_USER = gql`
 `;
 
 export const ADMINS = gql`
-  query Admins($offset:Int $limit:Int) {
-    admins(offset:$offset limit:$limit) {
+  query Admins($name:String $offset:Int $limit:Int) {
+    admins(name:$name offset:$offset limit:$limit) {
       _id
       name
       email
@@ -132,7 +132,7 @@ export const NEW_ADMIN = gql`
 `;
 
 export const UPDATE_ADMIN = gql`
-  mutation UpdateAdmin($id:Int! $name:String! $email:String! $password:String! $newPassword:String $status:String! $facebookLink:String $instagramLink:String $twitterLink:String) {
+  mutation UpdateAdmin($id:Int! $name:String $email:String $password:String $newPassword:String $status:String $facebookLink:String $instagramLink:String $twitterLink:String) {
     updateAdmin(_id:$id name:$name email:$email password:$password newPassword:$newPassword status:$status facebookLink:$facebookLink instagramLink:$instagramLink twitterLink:$twitterLink) {
       _id
       name
@@ -589,15 +589,17 @@ export const ABOUT_US = gql`
     aboutUs {
       ourStory
       whoWeAre
+      ourMission
     }
   }
 `;
 
 export const UPDATE_ABOUT_US = gql`
-  mutation UpdateAboutUs($ourStory:String $whoWeAre:String) {
-    updateAboutUs(ourStory:$ourStory whoWeAre:$whoWeAre) {
+  mutation UpdateAboutUs($ourStory:String $whoWeAre:String $ourMission:String) {
+    updateAboutUs(ourStory:$ourStory whoWeAre:$whoWeAre ourMission:$ourMission) {
       ourStory
       whoWeAre
+      ourMission
     }
   }
 `;

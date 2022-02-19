@@ -15,9 +15,9 @@ import { addToast } from '../../redux/toastsActions';
 
 import { ABOUT_US, UPDATE_ABOUT_US } from '../../graphqlQueries';
 
-export default function AboutUs({ ourStory, whoWeAre }) {
+export default function AboutUs({ ourStory, whoWeAre, ourMission }) {
   const dispatch = useDispatch();
-  const [state, setState] = useState({ ourStory, whoWeAre });
+  const [state, setState] = useState({ ourStory, whoWeAre, ourMission });
   const [updateAboutUs, { loading }] = useMutation(
     UPDATE_ABOUT_US,
     { refetchQueries: [{ query: ABOUT_US }] },
@@ -28,7 +28,7 @@ export default function AboutUs({ ourStory, whoWeAre }) {
       .catch((r) => dispatch(addToast({ message: r.message, severity: 'error' })));
   }
   return (
-    <Card elevation={1} className="flex flex-col gap-12 px-3 pb-14 md:px-14">
+    <Card elevation={1} className="flex flex-col gap-12 px-3 py-8 md:px-14">
       <TextField
         variant="standard"
         multiline
@@ -45,6 +45,14 @@ export default function AboutUs({ ourStory, whoWeAre }) {
         value={state.whoWeAre}
         onChange={(e) => setState({ ...state, whoWeAre: e.target.value })}
       />
+      <TextField
+        variant="standard"
+        multiline
+        label="Our Mission"
+        className="w-full"
+        value={state.ourMission}
+        onChange={(e) => setState({ ...state, ourMission: e.target.value })}
+      />
       <Button variant="contained" disabled={loading} onClick={() => handleUpdate()}>
         {
           loading
@@ -59,9 +67,11 @@ export default function AboutUs({ ourStory, whoWeAre }) {
 AboutUs.defaultProps = {
   ourStory: '',
   whoWeAre: '',
+  ourMission: '',
 };
 
 AboutUs.propTypes = {
   ourStory: PropTypes.string,
   whoWeAre: PropTypes.string,
+  ourMission: PropTypes.string,
 };

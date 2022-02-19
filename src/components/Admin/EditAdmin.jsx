@@ -33,23 +33,32 @@ export default function EditAdmin({ admin }) {
   // Form requirements
   const urlRegex = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;
   const schema = yup.object({
-    name: yup.string().required('Name is required').min(2, 'Enter at least 2 characters'),
-    email: yup.string().email('Enter a valid email').required('Email is required'),
-    password: yup.string().min(8, 'Password should be at least 8 characters long').required('Password is required'),
+    name: yup.string().min(2, 'Enter at least 2 characters'),
+    email: yup.string().email('Enter a valid email'),
+    password: yup.string().min(8, 'Password should be at least 8 characters long'),
     newPassword: yup.string().min(8, 'Password should be at least 8 characters long'),
     facebookLink: yup.string().matches(urlRegex, 'Not a valid link'),
     instagramLink: yup.string().matches(urlRegex, 'Not a valid link'),
     twitterLink: yup.string().matches(urlRegex, 'Not a valid link'),
   });
   const formik = useFormik({
-    initialValues: {
-      ...admin,
-      password: '',
-      newPassword: '',
-    },
+    initialValues: admin,
     validationSchema: schema,
     onSubmit: (values) => updateAdmin(
-      { variables: { ...values, id: Number(admin._id), status: admin.status } },
+      {
+        variables: {
+          id: Number(admin._id),
+          name: values.name === '' ? undefined : values.name,
+          email: values.email === '' ? undefined : values.email,
+          // If password is empty, better not provide it
+          password: values.password === '' ? undefined : values.password,
+          newPassword: values.newPassword === '' ? undefined : values.newPassword,
+          // If link is empty, better not provide it
+          facebookLink: values.facebookLink === '' ? undefined : values.facebookLink,
+          instagramLink: values.instagramLink === '' ? undefined : values.instagramLink,
+          twitter: values.twitter === '' ? undefined : values.twitter,
+        },
+      },
     )
       .then((r) => {
         if (Number(currentAdmin._id) === Number(r.data.updateAdmin._id)) {
@@ -75,7 +84,6 @@ export default function EditAdmin({ admin }) {
             <TextField
               variant="standard"
               fullWidth
-              required
               label="Name"
               name="name"
               value={formik.values.name}
@@ -86,7 +94,6 @@ export default function EditAdmin({ admin }) {
             <TextField
               variant="standard"
               fullWidth
-              required
               label="Email"
               name="email"
               value={formik.values.email}
@@ -98,7 +105,6 @@ export default function EditAdmin({ admin }) {
               variant="standard"
               type="password"
               fullWidth
-              required
               label="Password"
               name="password"
               value={formik.values.password}
