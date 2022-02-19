@@ -41,6 +41,7 @@ import EditFaqDialog from './EditFaqDialog';
 export default function Faqs() {
   const dispatch = useDispatch();
   const [offset, setOffset] = React.useState(0);
+  const [searchValue, setSearchValue] = React.useState('');
   const [openNewFaqDialog, setOpenNewFaqDialog] = useState(false);
   const [updateFaq, setUpdateFaq] = useState({});
   const [openUpdateFaqDialog, setOpenUpdateFaqDialog] = useState(false);
@@ -48,9 +49,13 @@ export default function Faqs() {
     setUpdateFaq(faq);
     setOpenUpdateFaqDialog(true);
   }
-  const { loading, data } = useQuery(FAQS, { fetchPolicy: 'cache-and-network', variables: { offset, limit: 10 } });
+  const { loading, data } = useQuery(
+    FAQS,
+    {
+      fetchPolicy: 'cache-and-network', variables: { offset, limit: 10, title: searchValue },
+    },
+  );
   const [deleteFaq] = useMutation(DELETE_FAQ, { refetchQueries: [{ query: FAQS }] });
-  const [searchValue, setSearchValue] = React.useState('');
   function handleDelete(_id) {
     deleteFaq({ variables: { id: Number(_id) } })
       .then(() => dispatch(addToast({ message: 'Faq deleted successfully', severity: 'success' })))
@@ -111,9 +116,7 @@ export default function Faqs() {
             !loading && data && (
               <TableBody>
                 {
-                  data?.faqs.filter(
-                    (faq) => faq.title.toLowerCase().includes(searchValue),
-                  ).map((faq) => (
+                  data?.faqs.map((faq) => (
                     <TableRow key={faq._id} className="hover:shadow-md">
                       <TableCell className="text-gray-400">{faq._id}</TableCell>
                       <TableCell className="text-lg font-semibold text-black">{faq.title}</TableCell>

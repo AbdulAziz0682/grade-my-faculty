@@ -545,8 +545,8 @@ export const DELETE_EMAIL = gql`
 `;
 
 export const FAQS = gql`
-  query Faqs($offset:Int $limit:Int) {
-    faqs(offset:$offset limit:$limit) {
+  query Faqs($title:String $offset:Int $limit:Int) {
+    faqs(title:$title offset:$offset limit:$limit) {
       _id
       title
       category
