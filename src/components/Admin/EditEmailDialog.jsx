@@ -29,7 +29,7 @@ export default function AddEmailDialog({
   });
   function handleSubmit() {
     if (newEmail.emailDomain !== '') {
-      handleUpdate({ ...newEmail, id: Number(email._id), status: email.status });
+      handleUpdate({ ...newEmail, id: Number(email._id) });
       handleClose();
     } else dispatch(addToast({ message: 'Email Domain is required', severity: 'error' }));
   }
@@ -81,6 +81,5 @@ AddEmailDialog.propTypes = {
     _id: PropTypes.number.isRequired,
     emailDomain: PropTypes.string.isRequired,
     isAllowed: PropTypes.bool.isRequired,
-    status: PropTypes.string.isRequired,
   }).isRequired,
 };

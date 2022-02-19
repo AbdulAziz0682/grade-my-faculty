@@ -507,8 +507,8 @@ export const ADD_DISLIKE = gql`
 `;
 
 export const ALLOWED_EMAILS = gql`
-  query AllowedEmails($offset:Int $limit:Int) {
-    allowedEmails(offset:$offset limit:$limit) {
+  query AllowedEmails($emailDomain:String $offset:Int $limit:Int) {
+    allowedEmails(emailDomain:$emailDomain offset:$offset limit:$limit) {
       _id
       emailDomain
       isAllowed
@@ -519,7 +519,7 @@ export const ALLOWED_EMAILS = gql`
 `;
 
 export const UPDATE_ALLOWED_EMAIL = gql`
-  mutation UpdateAllowedEmail($id:Int! $emailDomain:String! $isAllowed:Boolean! $status:String!) {
+  mutation UpdateAllowedEmail($id:Int! $emailDomain:String $isAllowed:Boolean $status:String) {
     updateAllowedEmail(_id:$id emailDomain:$emailDomain isAllowed:$isAllowed status:$status) {
       _id
       emailDomain

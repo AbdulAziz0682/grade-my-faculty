@@ -40,6 +40,7 @@ import EditEmailDialog from './EditEmailDialog';
 export default function AllowedEmails() {
   const dispatch = useDispatch();
   const [offset, setOffset] = React.useState(0);
+  const [searchValue, setSearchValue] = React.useState('');
   const [openNewEmailDialog, setOpenNewEmailDialog] = useState(false);
   const [updateEmail, setUpdateEmail] = useState({});
   const [openUpdateEmailDialog, setOpenUpdateEmailDialog] = useState(false);
@@ -47,8 +48,13 @@ export default function AllowedEmails() {
     setUpdateEmail(() => email);
     setOpenUpdateEmailDialog(true);
   }
-  const [searchValue, setSearchValue] = React.useState('');
-  const { loading, data } = useQuery(ALLOWED_EMAILS, { fetchPolicy: 'cache-and-network', variables: { offset, limit: 10 } });
+  const { loading, data } = useQuery(
+    ALLOWED_EMAILS,
+    {
+      fetchPolicy: 'cache-and-network',
+      variables: { offset, limit: 10, emailDomain: searchValue },
+    },
+  );
   const [update] = useMutation(
     UPDATE_ALLOWED_EMAIL,
     { refetchQueries: [{ query: ALLOWED_EMAILS }] },
@@ -61,7 +67,6 @@ export default function AllowedEmails() {
   }
   function handleStatusChange(value, email) {
     const variables = {
-      ...email,
       id: Number(email._id),
       status: value,
     };
@@ -129,9 +134,7 @@ export default function AllowedEmails() {
             !loading && data && (
               <TableBody>
                 {
-                  data?.allowedEmails.filter(
-                    (email) => email.emailDomain.toLowerCase().includes(searchValue),
-                  ).map((email) => (
+                  data?.allowedEmails.map((email) => (
                     <TableRow key={email._id} className="hover:shadow-md">
                       <TableCell className="text-gray-400">{email._id}</TableCell>
                       <TableCell className="text-lg font-semibold text-black">{email.emailDomain}</TableCell>
