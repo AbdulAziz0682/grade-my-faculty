@@ -24,9 +24,9 @@ export default function EditAdDialog({
 }) {
   // Form requirements
   const schema = yup.object({
-    title: yup.string().required('Title is required').min(2, 'Enter at least 2 characters'),
-    locationId: yup.string().required('Location ID is required').min(2, 'Enter at least 2 characters'),
-    code: yup.string().required('Code is required').min(2, 'Enter at least 2 characters'),
+    title: yup.string().min(2, 'Enter at least 2 characters'),
+    locationId: yup.string().min(2, 'Enter at least 2 characters'),
+    code: yup.string().min(2, 'Enter at least 2 characters'),
   });
   const formik = useFormik({
     initialValues: {
@@ -37,7 +37,7 @@ export default function EditAdDialog({
     validationSchema: schema,
     onSubmit: (values) => {
       handleClose();
-      handleUpdate({ ...values, id: Number(ad._id), status: ad.status });
+      handleUpdate({ ...values, id: Number(ad._id) });
     },
   });
   return (
@@ -50,7 +50,6 @@ export default function EditAdDialog({
               variant="standard"
               label="Ad Title"
               className="md:w-3/6"
-              required
               name="title"
               value={formik.values.title}
               onChange={formik.handleChange}
@@ -76,7 +75,6 @@ export default function EditAdDialog({
             fullWidth
             variant="standard"
             label="Ad Code"
-            required
             name="code"
             value={formik.values.code}
             onChange={formik.handleChange}
@@ -101,6 +99,5 @@ EditAdDialog.propTypes = {
     title: PropTypes.string.isRequired,
     locationId: PropTypes.string.isRequired,
     code: PropTypes.string.isRequired,
-    status: PropTypes.string.isRequired,
   }).isRequired,
 };

@@ -352,7 +352,7 @@ export const NEW_AD = gql`
 `;
 
 export const UPDATE_AD = gql`
-  mutation UpdateAd($id:Int! $title:String! $locationId:String! $code:String! $status:String!) {
+  mutation UpdateAd($id:Int! $title:String $locationId:String $code:String $status:String) {
     updateAd(_id:$id title:$title locationId:$locationId code:$code status:$status) {
       _id
       title
@@ -363,8 +363,8 @@ export const UPDATE_AD = gql`
 `;
 
 export const ADS = gql`
-  query Ads($offset:Int $limit:Int) {
-    ads(offset:$offset limit:$limit) {
+  query Ads($title:String $offset:Int $limit:Int) {
+    ads(title:$title offset:$offset limit:$limit) {
       _id
       title
       status

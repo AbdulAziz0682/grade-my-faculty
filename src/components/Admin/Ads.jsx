@@ -50,10 +50,16 @@ export default function Ads() {
     setOpenUpdateAdDialog(true);
   }
   const dispatch = useDispatch();
-  const { loading, data } = useQuery(ADS, { fetchPolicy: 'cache-and-network', variables: { offset, limit: 10 } });
+  const [searchValue, setSearchValue] = React.useState('');
+  const { loading, data } = useQuery(
+    ADS,
+    {
+      fetchPolicy: 'cache-and-network',
+      variables: { offset, limit: 10, title: searchValue },
+    },
+  );
   const [update] = useMutation(UPDATE_AD, { refetchQueries: [{ query: ADS }] });
   const [deleteAd] = useMutation(DELETE_AD, { refetchQueries: [{ query: ADS }] });
-  const [searchValue, setSearchValue] = React.useState('');
   function handleUpdate(updatedAd) {
     update({ variables: updatedAd })
       .then(() => dispatch(addToast({ message: 'Ad updated successfully', severity: 'success' })))
@@ -61,7 +67,6 @@ export default function Ads() {
   }
   function handleStatusChange(value, ad) {
     const variables = {
-      ...ad,
       id: Number(ad._id),
       status: value,
     };
@@ -129,9 +134,7 @@ export default function Ads() {
             !loading && data && (
               <TableBody>
                 {
-                  data?.ads.filter(
-                    (a) => a.title.toLowerCase().includes(searchValue),
-                  ).map((ad) => (
+                  data?.ads.map((ad) => (
                     <TableRow key={ad._id} className="hover:shadow-md">
                       <TableCell className="text-gray-400">{ad._id}</TableCell>
                       <TableCell className="text-lg font-semibold text-black">{ad.title}</TableCell>

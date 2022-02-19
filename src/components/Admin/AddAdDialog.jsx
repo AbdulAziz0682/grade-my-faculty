@@ -21,12 +21,13 @@ import * as yup from 'yup';
 import { useDispatch } from 'react-redux';
 import { addToast } from '../../redux/toastsActions';
 
-import { NEW_AD } from '../../graphqlQueries';
+import { NEW_AD, ADS } from '../../graphqlQueries';
 
 export default function AddAdDialog({ open, handleClose }) {
   const dispatch = useDispatch();
   const [newAd, { loading }] = useMutation(
     NEW_AD,
+    { refetchQueries: [{ query: ADS }] },
   );
   // Form requirements
   const schema = yup.object({
