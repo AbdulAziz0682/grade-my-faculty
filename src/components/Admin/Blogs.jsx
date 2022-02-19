@@ -41,7 +41,13 @@ export default function Blogs() {
   const dispatch = useDispatch();
   const [offset, setOffset] = React.useState(0);
   const [searchValue, setSearchValue] = React.useState('');
-  const { loading, data } = useQuery(BLOGS, { fetchPolicy: 'cache-and-network', variables: { offset, limit: 10 } });
+  const { loading, data } = useQuery(
+    BLOGS,
+    {
+      fetchPolicy: 'cache-and-network',
+      variables: { offset, limit: 10, title: searchValue },
+    },
+  );
   const [deleteBlog] = useMutation(DELETE_BLOG, { refetchQueries: [{ query: BLOGS }] });
   function handleDelete(_id) {
     deleteBlog({ variables: { id: Number(_id) } })
@@ -66,7 +72,7 @@ export default function Blogs() {
         <TextField
           variant="outlined"
           size="small"
-          value={setSearchValue}
+          value={searchValue}
           onChange={(e) => setSearchValue(e.target.value)}
           placeholder="Search..."
           InputProps={{
@@ -93,13 +99,11 @@ export default function Blogs() {
             !loading && data && (
               <TableBody>
                 {
-                  data?.blogs.filter(
-                    (blg) => blg.title.toLowerCase().includes(searchValue),
-                  ).map((blog) => (
+                  data?.blogs.map((blog) => (
                     <TableRow key={blog._id} className="hover:shadow-md">
                       <TableCell className="m-3 leading-9 text-gray-400">{blog._id}</TableCell>
                       <TableCell className="text-lg font-semibold text-black">{blog.title}</TableCell>
-                      <TableCell className="leading-9 text-gray-400">{moment().from(blog.registeredAt)}</TableCell>
+                      <TableCell className="leading-9 text-gray-400">{moment().from(blog.createdAt)}</TableCell>
                       <TableCell className="text-center">
                         <IconButton onClick={() => dispatch(setCurrentTab({ name: 'editBlog', data: blog }))}><Visibility /></IconButton>
                         <IconButton

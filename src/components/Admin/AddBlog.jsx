@@ -20,13 +20,12 @@ import { useMutation } from '@apollo/client';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { addToast } from '../../redux/toastsActions';
 
 import { BLOGS, NEW_BLOG } from '../../graphqlQueries';
 
 export default function AddBlog() {
-  const admin = useSelector((state) => state.account.admin);
   // Chip select requirements
   const [tags, setTags] = React.useState([]);
   const [currentText, setCurrentText] = React.useState('');
@@ -56,7 +55,7 @@ export default function AddBlog() {
       content: '',
     },
     validationSchema: schema,
-    onSubmit: (values) => newBlog({ variables: { ...values, tags, writtenBy: Number(admin._id) } })
+    onSubmit: (values) => newBlog({ variables: { ...values, tags } })
       .then(() => dispatch(addToast({ message: 'Blog added successfully', severity: 'success' })))
       .catch((r) => dispatch(addToast({ message: r.message, severity: 'error' }))),
   });

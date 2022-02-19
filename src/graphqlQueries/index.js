@@ -611,13 +611,16 @@ export const DELETE_RATING = gql`
 `;
 
 export const BLOGS = gql`
-  query Blogs($offset:Int $limit:Int) {
-    blogs(offset:$offset limit:$limit) {
+  query Blogs($title:String $offset:Int $limit:Int) {
+    blogs(title:$title offset:$offset limit:$limit) {
       _id
       title
       content
       createdAt
-      writtenBy
+      writtenBy {
+        _id
+        name
+      }
       tags
     }
     allBlogs
@@ -652,24 +655,22 @@ export const BLOGS_AND_ADMINS_AND_ADS = gql`
 `;
 
 export const NEW_BLOG = gql`
-  mutation NewBlog($title:String! $content:String! $writtenBy:Int! $tags:[String]) {
-    newBlog(title:$title content:$content writtenBy:$writtenBy tags:$tags) {
+  mutation NewBlog($title:String! $content:String! $tags:[String]) {
+    newBlog(title:$title content:$content tags:$tags) {
       _id
       title
       content
-      writtenBy
       tags
     }
   }
 `;
 
 export const UPDATE_BLOG = gql`
-  mutation UpdateBlog($id:Int! $title:String! $content:String! $tags:[String]) {
+  mutation UpdateBlog($id:Int! $title:String $content:String $tags:[String]) {
     updateBlog(_id:$id title:$title content:$content tags:$tags) {
       _id
       title
       content
-      writtenBy
       tags
     }
   }
