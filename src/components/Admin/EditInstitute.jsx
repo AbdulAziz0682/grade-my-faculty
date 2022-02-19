@@ -21,7 +21,7 @@ import * as yup from 'yup';
 import { useDispatch } from 'react-redux';
 import { addToast } from '../../redux/toastsActions';
 
-import { INSTITUTES, UPDATE_INSTITUTE } from '../../graphqlQueries';
+import { ADMIN_INSTITUTES, UPDATE_INSTITUTE } from '../../graphqlQueries';
 
 export default function EditInstitute({ institute }) {
   // Chip select requirements
@@ -34,12 +34,12 @@ export default function EditInstitute({ institute }) {
   const dispatch = useDispatch();
   const [updateInstitute, { loading }] = useMutation(
     UPDATE_INSTITUTE,
-    { refetchQueries: [{ query: INSTITUTES }] },
+    { refetchQueries: [{ query: ADMIN_INSTITUTES }] },
   );
   // Form requirements
   const schema = yup.object({
-    name: yup.string().required('Name is required').min(2, 'Enter at least 2 characters'),
-    email: yup.string().email('Enter a valid email').required('Email is required'),
+    name: yup.string().min(2, 'Enter at least 2 characters'),
+    email: yup.string().email('Enter a valid email').min(2, 'Enter a valid email'),
   });
   const formik = useFormik({
     initialValues: {
@@ -56,13 +56,12 @@ export default function EditInstitute({ institute }) {
   return (
     <div className="flex flex-col w-full gap-3">
       <div className="flex flex-col items-center w-full mb-3 md:justify-between md:flex-row">
-        <Typography className="ml-16 text-3xl text-gray-400">Edit Institutes</Typography>
+        <Typography className="ml-16 text-3xl text-gray-400">Edit Institute</Typography>
       </div>
       <Card className="flex flex-col w-full gap-12 p-14" elevation={6} component="form" onSubmit={formik.handleSubmit}>
         <TextField
           variant="standard"
           fullWidth
-          required
           label="Name"
           name="name"
           value={formik.values.name}
@@ -73,7 +72,6 @@ export default function EditInstitute({ institute }) {
         <TextField
           variant="standard"
           fullWidth
-          required
           label="Email"
           name="email"
           value={formik.values.email}

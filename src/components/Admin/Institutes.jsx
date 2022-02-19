@@ -27,13 +27,16 @@ import { setCurrentTab } from '../../redux/adminActions';
 
 import Search from '../../assets/Search.svg';
 
-import { INSTITUTES } from '../../graphqlQueries';
+import { ADMIN_INSTITUTES } from '../../graphqlQueries';
 
 export default function Institutes() {
   const dispatch = useDispatch();
-  const [offset, setOffset] = React.useState(0);
-  const { loading, data } = useQuery(INSTITUTES, { fetchPolicy: 'cache-and-network', variables: { offset, limit: 10 } });
   const [searchValue, setSearchValue] = React.useState('');
+  const [offset, setOffset] = React.useState(0);
+  const { loading, data } = useQuery(
+    ADMIN_INSTITUTES,
+    { fetchPolicy: 'cache-and-network', variables: { offset, limit: 10, name: searchValue } },
+  );
   function nextPage() {
     if (data && offset < data.allInstitutes) {
       setOffset((off) => off + 10);
@@ -80,14 +83,12 @@ export default function Institutes() {
             !loading && (
               <TableBody>
                 {
-                  data?.institutes.filter(
-                    (inst) => inst.name.toLowerCase().includes(searchValue),
-                  ).map((institute) => (
+                  data?.institutes.map((institute) => (
                     <TableRow key={institute.id} className="hover:shadow-md">
                       <TableCell className="m-3 leading-9 text-gray-400">{institute._id}</TableCell>
                       <TableCell className="text-lg font-semibold text-black">{institute.name}</TableCell>
                       <TableCell className="leading-9 text-gray-400">{institute.email}</TableCell>
-                      <TableCell className="leading-9 text-gray-400">{moment().from(institute.registeredAt)}</TableCell>
+                      <TableCell className="leading-9 text-gray-400">{moment().from(institute.createdAt)}</TableCell>
                       <TableCell className="cursor-pointer text-primary" onClick={() => dispatch(setCurrentTab({ name: 'viewInstitute', data: institute }))}>View more</TableCell>
                     </TableRow>
                   ))

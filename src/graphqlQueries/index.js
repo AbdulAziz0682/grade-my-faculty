@@ -148,6 +148,19 @@ export const DELETE_ADMIN = gql`
   }
 `;
 
+export const ADMIN_INSTITUTES = gql`
+  query Institutes($name:String $offset:Int $limit:Int) {
+    institutes(name:$name offset:$offset limit:$limit) {
+      _id
+      name
+      email
+      createdAt
+      courses
+    }
+    allInstitutes
+  }
+`;
+
 export const INSTITUTES = gql`
   query Institutes($offset:Int $limit:Int) {
     institutes(offset:$offset limit:$limit) {
@@ -174,7 +187,7 @@ export const NEW_INSTITUTE = gql`
 `;
 
 export const UPDATE_INSTITUTE = gql`
-  mutation UpdateInstitute($id:Int! $name:String! $email:String! $courses:[String]!) {
+  mutation UpdateInstitute($id:Int! $name:String $email:String $courses:[String]) {
     updateInstitute(_id:$id name:$name email:$email courses:$courses) {
       _id
       name
@@ -205,6 +218,57 @@ export const FACULTIES = gql`
   }
 `;
 
+export const ADMIN_FACULTIES = gql`
+  query AdminFaculties($firstName:String $offset:Int $limit:Int) {
+    faculties(firstName:$firstName offset:$offset limit:$limit) {
+      _id
+      firstName
+      lastName
+      email
+      courses
+      department
+      institute {
+        _id
+        name
+        courses
+      }
+    }
+    allFaculties
+  }
+`;
+
+export const ADMIN_FACULTY_RATINGS = gql`
+  query AdminFacultyRatings($faculty:Int $offset:Int $limit:Int) {
+    ratings(faculty:$faculty offset:$offset limit:$limit) {
+      _id
+      thoughts
+      course
+      createdAt
+      overAllRating # This is required in edit professor component
+    }
+    allRatings
+  }
+`;
+
+export const ADMIN_INSTITUTE_FACULTIES = gql`
+  query InstituteFaculties($institute:Int $firstName:String $offset:Int $limit:Int) {
+    faculties(institute:$institute firstName:$firstName offset:$offset limit:$limit) {
+      _id
+      firstName
+      lastName
+      email
+      institute {
+        _id
+        name
+      }
+      department
+      courses
+      attributes
+    }
+    allFaculties
+  }
+`;
+
 export const FACULTIES_AND_INSTITUTES = gql`
   query Faculties($offset:Int $limit:Int) {
     faculties(offset:$offset limit:$limit) {
@@ -212,11 +276,9 @@ export const FACULTIES_AND_INSTITUTES = gql`
       firstName
       lastName
       email
-      institute
       department
       courses
       attributes
-      ratings
     }
     allFaculties
     institutes {
@@ -249,7 +311,6 @@ export const NEW_FACULTY = gql`
       firstName
       lastName
       email
-      institute
       department
       courses
     }
@@ -257,13 +318,16 @@ export const NEW_FACULTY = gql`
 `;
 
 export const UPDATE_FACULTY = gql`
-  mutation UpdateFaculty($id:Int! $firstName:String! $lastName:String! $email:String! $institute:Int! $department:String! $courses:[String!]!) {
+  mutation UpdateFaculty($id:Int! $firstName:String $lastName:String $email:String $institute:Int $department:String $courses:[String]) {
     updateFaculty(_id:$id firstName:$firstName lastName:$lastName email:$email institute:$institute department:$department courses:$courses) {
       _id
       firstName
       lastName
       email
-      institute
+      institute {
+        _id
+        name
+      }
       department
       courses
     }

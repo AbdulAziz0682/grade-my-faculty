@@ -30,7 +30,10 @@ export default function ViewUser({ user }) {
   const [offset, setOffset] = React.useState(0);
   const { data, loading } = useQuery(
     ADMIN_USER_RATINGS,
-    { variables: { user: user._id, offset, limit: 10 } },
+    {
+      fetchPolicy: 'cache-and-network',
+      variables: { user: user._id, offset, limit: 10 },
+    },
   );
   function nextPage() {
     if (data && offset < data?.ratings.length) {

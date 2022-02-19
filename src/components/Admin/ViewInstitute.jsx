@@ -28,8 +28,7 @@ import { setCurrentTab } from '../../redux/adminActions';
 import { addToast } from '../../redux/toastsActions';
 
 import {
-  FACULTIES_BY_INSTITUTE, DELETE_INSTITUTE, INSTITUTES,
-  RATINGS,
+  ADMIN_INSTITUTE_FACULTIES, DELETE_INSTITUTE, INSTITUTES,
 } from '../../graphqlQueries';
 
 import Search from '../../assets/Search.svg';
@@ -37,20 +36,38 @@ import Search from '../../assets/Search.svg';
 export default function viewInstitute({ institute }) {
   const dispatch = useDispatch();
   const [searchValue, setSearchValue] = React.useState('');
-  const ratingsQuery = useQuery(RATINGS);
+  const [offset, setOffset] = React.useState(0);
   const { loading, data } = useQuery(
-    FACULTIES_BY_INSTITUTE,
-    { variables: { institute: Number(institute._id) } },
+    ADMIN_INSTITUTE_FACULTIES,
+    {
+      fetchPolicy: 'cache-and-network',
+      variables: {
+        institute: Number(institute._id),
+        firstName: searchValue,
+        offset,
+        limit: 10,
+      },
+    },
   );
   const [deleteInstitue, deleteMutation] = useMutation(
     DELETE_INSTITUTE,
-    { refetchQueries: [{ query: INSTITUTES }, { query: FACULTIES_BY_INSTITUTE }] },
+    { refetchQueries: [{ query: INSTITUTES }, { query: ADMIN_INSTITUTE_FACULTIES }] },
   );
   function handleDelete() {
     deleteInstitue({ variables: { id: Number(institute._id) } })
       .then(() => dispatch(addToast({ message: 'Institute deleted successfully', severity: 'success' })))
       .catch((e) => dispatch(addToast({ message: e.message, severity: 'error' })));
     dispatch(setCurrentTab({ name: 'institutes', data: null }));
+  }
+  function nextPage() {
+    if (data && offset < data.allFaculties) {
+      setOffset((off) => off + 10);
+    }
+  }
+  function prevPage() {
+    if (data && offset > 0) {
+      setOffset((off) => off - 10);
+    }
   }
   return (
     <div className="flex flex-col w-full gap-3">
@@ -99,12 +116,10 @@ export default function viewInstitute({ institute }) {
                   </TableRow>
                 </TableHead>
                 {
-                  !loading && !ratingsQuery.loading && data && (
+                  !loading && data && (
                     <TableBody>
                       {
-                        data?.faculties.filter(
-                          (faculty) => faculty.firstName.toLowerCase().includes(searchValue),
-                        ).map((faculty) => (
+                        data?.faculties.map((faculty) => (
                           <TableRow key={faculty.id} className="hover:shadow-md">
                             <TableCell className="m-3 leading-9 text-gray-400">{faculty._id}</TableCell>
                             <TableCell className="text-lg font-semibold text-black">{faculty.firstName}</TableCell>
@@ -119,15 +134,7 @@ export default function viewInstitute({ institute }) {
                               onClick={() => dispatch(setCurrentTab(
                                 {
                                   name: 'viewProfessor',
-                                  data: {
-                                    ...faculty,
-                                    institute:
-                                    Number(faculty.institute),
-                                    instituteName: institute.name,
-                                    ratings: ratingsQuery.data.ratings.filter(
-                                      (r) => r.faculty === faculty._id,
-                                    ),
-                                  },
+                                  data: faculty,
                                 },
                               ))}
                             >
@@ -140,7 +147,7 @@ export default function viewInstitute({ institute }) {
                   )
                 }
                 {
-                  loading && ratingsQuery.loading && <div className="absolute inset-x-0 flex items-center justify-center"><CircularProgress /></div>
+                  loading && <div className="absolute inset-x-0 flex items-center justify-center"><CircularProgress /></div>
                 }
               </Table>
             </TableContainer>
@@ -148,11 +155,11 @@ export default function viewInstitute({ institute }) {
         </div>
       </Card>
       <div className="flex justify-end w-full gap-12 mt-16">
-        <IconButton className="bg-gray-400 rounded-none shadow-lg">
-          <ChevronLeft className="w-12 h-12" htmlColor="white" />
+        <IconButton className={`rounded-none shadow-lg ${(offset - 10) < 0 ? 'bg-gray-400' : 'bg-primary'}`} onClick={() => prevPage()}>
+          <ChevronLeft className="w-10 h-10" htmlColor="white" />
         </IconButton>
-        <IconButton className="rounded-none shadow-lg bg-primary">
-          <ChevronRight className="w-12 h-12" htmlColor="white" />
+        <IconButton className={`rounded-none shadow-lg ${(offset + 10) >= data?.allFaculties ? 'bg-gray-400' : 'bg-primary'}`} onClick={() => nextPage()}>
+          <ChevronRight className="w-10 h-10" htmlColor="white" />
         </IconButton>
       </div>
     </div>

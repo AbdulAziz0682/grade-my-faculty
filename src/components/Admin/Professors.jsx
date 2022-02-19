@@ -25,14 +25,19 @@ import { setCurrentTab } from '../../redux/adminActions';
 
 import Search from '../../assets/Search.svg';
 
-import { FACULTIES_AND_INSTITUTES, RATINGS } from '../../graphqlQueries';
+import { ADMIN_FACULTIES } from '../../graphqlQueries';
 
 export default function Professors() {
   const dispatch = useDispatch();
   const [offset, setOffset] = React.useState(0);
   const [searchValue, setSearchValue] = React.useState('');
-  const { loading, data } = useQuery(FACULTIES_AND_INSTITUTES, { variables: { offset, limit: 10 }, fetchPolicy: 'cache-and-network' });
-  const ratingsQuery = useQuery(RATINGS);
+  const { loading, data } = useQuery(
+    ADMIN_FACULTIES,
+    {
+      variables: { offset, limit: 10, firstName: searchValue },
+      fetchPolicy: 'cache-and-network',
+    },
+  );
   function nextPage() {
     if (data && offset < data.allFaculties) {
       setOffset((off) => off + 10);
@@ -76,37 +81,24 @@ export default function Professors() {
             </TableRow>
           </TableHead>
           {
-            !loading && !ratingsQuery.loading && data && (
+            !loading && data && (
               <TableBody>
                 {
-                  data?.faculties.filter(
-                    (faculty) => faculty.firstName.toLowerCase().includes(searchValue),
-                  ).map((faculty) => (
+                  data?.faculties.map((faculty) => (
                     <TableRow key={faculty.id} className="hover:shadow-md">
                       <TableCell className="m-3 leading-9 text-gray-400">{faculty._id}</TableCell>
                       <TableCell className="text-lg font-semibold text-black">{faculty.firstName}</TableCell>
                       <TableCell className="leading-9 text-gray-400">{faculty.email}</TableCell>
                       <TableCell className="leading-9 text-gray-400">
                         {
-                          data.institutes.find(
-                            (i) => i._id === faculty.institute,
-                          ).name
+                          faculty.institute.name
                         }
                       </TableCell>
                       <TableCell
                         className="cursor-pointer text-primary"
                         onClick={() => dispatch(setCurrentTab({
                           name: 'viewProfessor',
-                          data: {
-                            ...faculty,
-                            institute: Number(faculty.institute),
-                            ratings: ratingsQuery.data.ratings.filter(
-                              (r) => r.faculty === faculty._id,
-                            ),
-                            instituteName: data.institutes.find(
-                              (i) => i._id === faculty.institute,
-                            ).name,
-                          },
+                          data: faculty,
                         }))}
                       >
                         View more

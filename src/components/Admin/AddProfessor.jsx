@@ -23,21 +23,17 @@ import { useDispatch } from 'react-redux';
 import { addToast } from '../../redux/toastsActions';
 
 import {
-  NEW_FACULTY, INSTITUTES, COUNT_ALL, FACULTIES,
+  NEW_FACULTY,
+  ADMIN_INSTITUTES,
+  COUNT_ALL,
+  ADMIN_FACULTIES,
 } from '../../graphqlQueries';
 
 export default function AddProfessor() {
-  // Chip select requirements
-  const [courses, setCourses] = React.useState([]);
-  function handleDelete(course) {
-    setCourses(courses.filter((c) => c !== course.toUpperCase()));
-  }
-  // --------------------------------------
-  const [currentInstId, setCurrentInstId] = React.useState(0);
   const dispatch = useDispatch();
-  const institutesQuery = useQuery(INSTITUTES);
-  const [newFaculty, { loading }] = useMutation(
-    NEW_FACULTY, { refetchQueries: [{ query: FACULTIES }, { query: COUNT_ALL }] },
+  const { data, loading } = useQuery(ADMIN_INSTITUTES, { fetchPolicy: 'cache-and-network' });
+  const [newFaculty, { loading: newFacultyLoading }] = useMutation(
+    NEW_FACULTY, { refetchQueries: [{ query: ADMIN_FACULTIES }, { query: COUNT_ALL }] },
   );
   // Form requirements
   const schema = yup.object({
@@ -45,6 +41,8 @@ export default function AddProfessor() {
     lastName: yup.string().required('Last name is required').min(2, 'Enter at least 2 characters'),
     email: yup.string().email('Enter a valid email').required('Email is required'),
     department: yup.string().required('Department is required').min(6, 'Enter at least 6 characters'),
+    institute: yup.number().min(0, 'Enter a valid institute').required('Institute is required'),
+    courses: yup.array().min(1, 'Enter at least 1 course').required('Courses are required'),
   });
   const formik = useFormik({
     initialValues: {
@@ -52,18 +50,26 @@ export default function AddProfessor() {
       lastName: '',
       email: '',
       department: '',
+      institute: -1,
+      courses: [],
     },
     validationSchema: schema,
-    onSubmit: (values) => newFaculty(
-      { variables: { ...values, courses, institute: currentInstId } },
-    )
+    onSubmit: (values) => newFaculty({ variables: values })
       .then(() => dispatch(addToast({ message: 'Faculty added successfully', severity: 'success' })))
       .catch((r) => dispatch(addToast({ message: r.message, severity: 'error' }))),
   });
+  // Chip select requirements
+  function handleDelete(course) {
+    const prevCourses = formik.values.courses;
+    const newCourses = prevCourses.filter((c) => c !== course.toUpperCase());
+    formik.setFieldValue('courses', newCourses);
+  }
+  // --------------------------------------
   React.useEffect(() => {
     // When institute is changed, the courses of previous one should be removed
-    setCourses(() => []);
-  }, [currentInstId]);
+    formik.setFieldValue('courses', []);
+  }, [formik.values.institute]);
+  if (loading) return <div className="absolute inset-x-0 flex items-center justify-center"><CircularProgress /></div>;
   return (
     <div className="flex flex-col w-full gap-3">
       <div className="flex flex-col w-full gap-2 md:gap-9 md:flex-row md:items-center">
@@ -103,26 +109,32 @@ export default function AddProfessor() {
           error={formik.touched.email && Boolean(formik.errors.email)}
           helperText={formik.touched.email && formik.errors.email}
         />
-        <Select
-          variant="standard"
-          label="Institute"
-          placeholder="Institute"
-          className="w-full"
-          disabled={institutesQuery.loading}
-          value={
-            !institutesQuery.loading
-              ? institutesQuery.data.institutes.find((i) => Number(i._id) === currentInstId)._id
-              : 0
-          }
-          onChange={(e) => setCurrentInstId(Number(e.target.value))}
-        >
+        <div className="flex flex-wrap w-full gap-3">
+          <Select
+            variant="standard"
+            label="Institute"
+            placeholder="Institute"
+            className="w-full"
+            name="institute"
+            disabled={loading}
+            value={formik.values.institute}
+            onChange={(e) => formik.setFieldValue('institute', Number(e.target.value))}
+            error={formik.touched.institute && Boolean(formik.errors.institute)}
+          >
+            <MenuItem key={-1} disabled vlaue="N/A">N/A</MenuItem>
+            {
+              data.institutes.map((inst) => (
+                <MenuItem key={inst._id} value={inst._id}>{inst.name}</MenuItem>
+              ))
+            }
+          </Select>
           {
-            !institutesQuery.loading
-            && institutesQuery.data.institutes.map((inst) => (
-              <MenuItem key={inst._id} value={inst._id}>{inst.name}</MenuItem>
-            ))
+            formik.touched.institute
+            && formik.errors.institute && (
+              <small className="text-red-500">{formik.errors.institute}</small>
+            )
           }
-        </Select>
+        </div>
         <TextField
           variant="standard"
           fullWidth
@@ -137,8 +149,7 @@ export default function AddProfessor() {
         <div className="flex flex-wrap w-full gap-3 p-3">
           <Typography className="w-full -ml-2 text-sm">Courses</Typography>
           {
-            !institutesQuery.loading
-            && courses.map(
+            formik.values.courses.map(
               (course) => (
                 <Chip
                   key={course}
@@ -154,26 +165,33 @@ export default function AddProfessor() {
             label="Courses"
             placeholder="Courses"
             className="w-full"
-            disabled={institutesQuery.loading}
+            disabled={loading}
+            error={formik.touched.courses && Boolean(formik.errors.courses)}
+            value={formik.values.courses[-1]}
             onChange={(e) => {
-              const found = courses.find((c) => c === e.target.value);
+              const found = formik.values.courses.find((c) => c === e.target.value);
               if (found) return;
-              setCourses([...courses, e.target.value]);
+              formik.setFieldValue('courses', [...formik.values.courses, e.target.value]);
             }}
           >
             {
-              !institutesQuery.loading
-              && institutesQuery.data.institutes.find(
-                (i) => Number(i._id) === currentInstId,
-              ).courses.map((course) => (
+              data.institutes.find(
+                (i) => Number(i._id) === formik.values.institute,
+              )?.courses.map((course) => (
                 <MenuItem key={course} value={course}>{course}</MenuItem>
               ))
             }
           </Select>
-        </div>
-        <Button type="submit" variant="contained" disabled={loading || courses.length === 0} style={{ maxHeight: '38px' }} className="self-start w-3/12 py-3 px-9 shadow-primaryGlow">
           {
-            loading
+            formik.touched.courses
+            && formik.errors.courses && (
+              <small className="text-red-500">{formik.errors.courses}</small>
+            )
+          }
+        </div>
+        <Button type="submit" variant="contained" disabled={newFacultyLoading} style={{ maxHeight: '38px' }} className="self-start w-3/12 py-3 px-9 shadow-primaryGlow">
+          {
+            newFacultyLoading
               ? <CircularProgress />
               : 'Add'
           }
