@@ -19,18 +19,6 @@ import { addToast } from '../../redux/toastsActions';
 
 import { NEW_MEMBER, MEMBERS, COUNT_ALL } from '../../graphqlQueries';
 
-async function getBase64Image(img) {
-  if (!img) return '';
-  // const res = {};
-  const fd = new FormData();
-  fd.append('image', img);
-  const result = await (await fetch(`${process.env.REACT_APP_BACKEND_URL}/utilities/image-to-uri`, {
-    method: 'POST',
-    body: fd,
-  })).json();
-  return result;
-}
-
 export default function AddMember() {
   const dispatch = useDispatch();
   const [newMember, { loading }] = useMutation(
@@ -40,9 +28,9 @@ export default function AddMember() {
   const imgRef = React.useRef();
   const urlRegex = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;
   const schema = yup.object({
-    image: yup.mixed().required('Image is required').test('fileSize', 'File should not be larger than 800kb', (value) => {
+    image: yup.mixed().required('Image is required').test('fileSize', 'File should not be larger than 40kb', (value) => {
       if (!value) return true;
-      return value.size <= 819200;
+      return value.size <= 40960;
     }),
     name: yup.string().required('First name is required').min(2, 'Enter at least 2 characters'),
     role: yup.string().required('Last name is required').min(2, 'Enter at least 2 characters'),
@@ -59,10 +47,9 @@ export default function AddMember() {
       linkedinLink: '',
     },
     validationSchema: schema,
-    onSubmit: async (values) => {
-      const result = await getBase64Image(imgRef.current.files[0]);
+    onSubmit: (values) => {
       newMember(
-        { variables: { ...values, image: result.imageURI } },
+        { variables: { ...values } },
       )
         .then(() => dispatch(addToast({ message: 'Member added successfully', severity: 'success' })))
         .catch((r) => dispatch(addToast({ message: r.message, severity: 'error' })));
@@ -91,6 +78,7 @@ export default function AddMember() {
             type="file"
             accept="image/*"
             ref={imgRef}
+            // onChange={(e) => console.log(e.target.files[0])}
             onChange={({ target }) => formik.setFieldValue('image', target.files[0])}
           />
           {formik.errors.image && <small className="text-red-500">{formik.errors.image}</small>}

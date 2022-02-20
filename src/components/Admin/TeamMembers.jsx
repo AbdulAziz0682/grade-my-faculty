@@ -37,7 +37,13 @@ export default function TeamMembers() {
   const dispatch = useDispatch();
   const [offset, setOffset] = React.useState(0);
   const [searchValue, setSearchValue] = React.useState('');
-  const { loading, data } = useQuery(MEMBERS, { variables: { offset, limit: 10 }, fetchPolicy: 'cache-and-network' });
+  const { loading, data } = useQuery(
+    MEMBERS,
+    {
+      variables: { offset, limit: 10, name: searchValue },
+      fetchPolicy: 'cache-and-network',
+    },
+  );
   const [deleteMember] = useMutation(DELETE_MEMBER, { refetchQueries: [{ query: MEMBERS }] });
   function handleDelete(_id) {
     deleteMember({ variables: { id: Number(_id) } })
@@ -89,9 +95,7 @@ export default function TeamMembers() {
             !loading && data && (
               <TableBody>
                 {
-                  data?.members.filter(
-                    (member) => member.name.toLowerCase().includes(searchValue),
-                  ).map((member) => (
+                  data?.members.map((member) => (
                     <TableRow key={member.id} className="hover:shadow-md">
                       <TableCell className="m-3 leading-9 text-gray-400">{member._id}</TableCell>
                       <TableCell className="text-lg font-semibold text-black">{member.name}</TableCell>

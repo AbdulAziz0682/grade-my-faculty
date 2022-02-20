@@ -21,18 +21,6 @@ import { addToast } from '../../redux/toastsActions';
 
 import { UPDATE_MEMBER, MEMBERS, COUNT_ALL } from '../../graphqlQueries';
 
-async function getBase64Image(img) {
-  if (!img) return '';
-  // const res = {};
-  const fd = new FormData();
-  fd.append('image', img);
-  const result = await (await fetch(`${process.env.REACT_APP_BACKEND_URL}/utilities/image-to-uri`, {
-    method: 'POST',
-    body: fd,
-  })).json();
-  return result;
-}
-
 export default function EditMember({ member }) {
   const dispatch = useDispatch();
   const [updateMember, { loading }] = useMutation(
@@ -42,15 +30,15 @@ export default function EditMember({ member }) {
   const imgRef = React.useRef();
   const urlRegex = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;
   const schema = yup.object({
-    image: yup.mixed().required('Image is required').test('fileSize', 'File should not be larger than 800kb', (value) => {
+    image: yup.mixed().test('fileSize', 'File should not be larger than 40kb', (value) => {
       if (!value) return true;
-      return value.size <= 819200;
+      return value.size <= 40960;
     }),
-    name: yup.string().required('First name is required').min(2, 'Enter at least 2 characters'),
-    role: yup.string().required('Last name is required').min(2, 'Enter at least 2 characters'),
-    facebookLink: yup.string().matches(urlRegex, 'Not a valid link').required('Facebook link is required'),
-    instagramLink: yup.string().matches(urlRegex, 'Not a valid link').required('Instagram link is required'),
-    linkedinLink: yup.string().matches(urlRegex, 'Not a valid link').required('Linkedin link is required'),
+    name: yup.string().min(2, 'Enter at least 2 characters'),
+    role: yup.string().min(2, 'Enter at least 2 characters'),
+    facebookLink: yup.string().matches(urlRegex, 'Not a valid link'),
+    instagramLink: yup.string().matches(urlRegex, 'Not a valid link'),
+    linkedinLink: yup.string().matches(urlRegex, 'Not a valid link'),
   });
   const formik = useFormik({
     initialValues: {
@@ -58,9 +46,8 @@ export default function EditMember({ member }) {
     },
     validationSchema: schema,
     onSubmit: async (values) => {
-      const result = await getBase64Image(imgRef.current.files[0]);
       updateMember(
-        { variables: { ...values, id: Number(member._id), image: result.imageURI } },
+        { variables: { ...values, id: Number(member._id) } },
       )
         .then(() => dispatch(addToast({ message: 'Member updated successfully', severity: 'success' })))
         .catch((r) => dispatch(addToast({ message: r.message, severity: 'error' })));
@@ -82,7 +69,7 @@ export default function EditMember({ member }) {
                   URL.createObjectURL(imgRef.current.files[0])
                 )
               )
-            )) || member.image}
+            )) || `${process.env.REACT_APP_BACKEND_URL}/${member.image}`}
             alt="preview"
           />
           <input

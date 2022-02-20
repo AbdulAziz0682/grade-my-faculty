@@ -716,8 +716,8 @@ export const SAVE_FACULTY = gql`
 `;
 
 export const MEMBERS = gql`
-  query Members($offset:Int $limit:Int) {
-    members(offset:$offset limit:$limit) {
+  query Members($name:String $offset:Int $limit:Int) {
+    members(name:$name offset:$offset limit:$limit) {
       _id
       image
       name
@@ -731,7 +731,7 @@ export const MEMBERS = gql`
 `;
 
 export const NEW_MEMBER = gql`
-  mutation NewMember($image:String! $name:String! $role:String! $facebookLink:String! $instagramLink:String! $linkedinLink:String!) {
+  mutation NewMember($image:Upload! $name:String! $role:String! $facebookLink:String! $instagramLink:String! $linkedinLink:String!) {
     newMember(
       image: $image
       name: $name
@@ -748,7 +748,7 @@ export const NEW_MEMBER = gql`
 `;
 
 export const UPDATE_MEMBER = gql`
-  mutation UpdateMember($id:Int! $image:String! $name:String! $role:String! $facebookLink:String! $instagramLink:String! $linkedinLink:String!) {
+  mutation UpdateMember($id:Int! $image:Upload $name:String $role:String $facebookLink:String $instagramLink:String $linkedinLink:String) {
     updateMember(
       _id: $id
       image: $image

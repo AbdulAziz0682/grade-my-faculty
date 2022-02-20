@@ -11,8 +11,9 @@ import {
   ApolloClient,
   InMemoryCache,
   ApolloProvider,
-  HttpLink,
 } from '@apollo/client';
+
+import { createUploadLink } from 'apollo-upload-client';
 
 import Grid from '@mui/material/Grid';
 import TopBar from '../components/User/TopBar';
@@ -50,10 +51,11 @@ const Admin = lazy(() => import('../components/Admin'));
 
 export default function Routes() {
   const token = localStorage.getItem('token') || sessionStorage.getItem('token');
-  const link = new HttpLink({
+  const link = createUploadLink({
     uri: `${process.env.REACT_APP_BACKEND_URL}/graphql`,
     headers: {
       Authentication: token,
+      'keep-alive': 'true',
     },
   });
   const client = new ApolloClient({
