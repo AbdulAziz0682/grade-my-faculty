@@ -10,7 +10,7 @@ import Icon from '@mui/material/Icon';
 export default function TeamMember({ member }) {
   return (
     <>
-      <img src={member.image} alt={member.name} className="w-20" />
+      <img src={`${process.env.REACT_APP_BACKEND_URL}/${member.image}`} alt={member.name} className="w-20" />
       <Typography align="center" className="font-semibold text-medium">{member.name}</Typography>
       <Typography align="center" className="text-sm">{member.role}</Typography>
       <div

@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import React, { useState } from 'react';
 
 import Grid from '@mui/material/Grid';
@@ -13,40 +14,13 @@ import 'react-alice-carousel/lib/alice-carousel.css';
 import { useQuery } from '@apollo/client';
 
 import TeamMember from './TeamMember';
-import { ABOUT_US, MEMBERS } from '../../../../graphqlQueries';
+import { ABOUT_US_AND_MEMBERS } from '../../../../graphqlQueries';
 
 import arrowLeft from '../../../../assets/arrow-left.svg';
 import arrowRight from '../../../../assets/arrow-right.svg';
 
 export default function AboutUs() {
-  /* const list = [
-    {
-      name: 'Utsho',
-      imgSrc: '',
-      role: 'Founder',
-      facebookLink: 'https://www.facebook.com/utsho1214',
-      instagramLink: 'https://www.instagram.com/tef.utsho/',
-      linkedinLink: 'https://www.linkedin.com/in/tasnim-ferdaous/',
-    },
-    {
-      name: 'Sakib',
-      imgSrc: '',
-      role: 'Co-founder',
-      facebookLink: 'https://www.facebook.com/sakibbzz/',
-      instagramLink: 'https://www.instagram.com/sakibbzz/',
-      linkedinLink: 'https://www.linkedin.com/in/sadmansakibrabbani/',
-    },
-    {
-      name: 'Utsho',
-      imgSrc: '',
-      role: 'Founder',
-      facebookLink: 'https://www.facebook.com/utsho1214',
-      instagramLink: 'https://www.instagram.com/tef.utsho/',
-      linkedinLink: 'https://www.linkedin.com/in/tasnim-ferdaous/',
-    },
-  ]; */
-  const { loading, data } = useQuery(ABOUT_US);
-  const membersQuery = useQuery(MEMBERS);
+  const { loading, data } = useQuery(ABOUT_US_AND_MEMBERS, { fetchPolicy: 'cache-and-network' });
   const [activeIndex, setActiveIndex] = useState(0);
   function handlePrevious(list) {
     let prevIndex = activeIndex - 1;
@@ -62,7 +36,7 @@ export default function AboutUs() {
     }
     setActiveIndex(() => nextIndex);
   }
-  if (loading || membersQuery.loading) return <div className="absolute inset-x-0 flex items-center justify-center mt-16"><CircularProgress /></div>;
+  if (loading) return <div className="absolute inset-x-0 flex items-center justify-center mt-16"><CircularProgress /></div>;
   return (
     <Grid container className="flex-grow bg-pageBg">
       <Container maxWidth="xl">
@@ -79,7 +53,7 @@ export default function AboutUs() {
             </Card>
           </Grid>
           <Grid item className="flex flex-wrap items-center justify-between w-full gap-2">
-            <Card className="flex w-full h-auto cursor-pointer md:w-auto" onClick={() => handlePrevious(membersQuery.data.members)}>
+            <Card className="flex w-full h-auto cursor-pointer md:w-auto" onClick={() => handlePrevious(data.members)}>
               <Icon className="flex w-12 h-12 p-2 mx-auto">
                 <img src={arrowLeft} alt="arrow left" className="w-full" />
               </Icon>
@@ -100,15 +74,15 @@ export default function AboutUs() {
                   900: { items: 3 },
                 }}
                 items={
-                  membersQuery.data.members.map((item) => (
+                  data.members.map((item) => (
                     <div className="flex flex-col items-center mx-auto">
-                      <TeamMember member={item} />
+                      <TeamMember key={item._id} member={item} />
                     </div>
                   ))
                 }
               />
             </Card>
-            <Card className="flex w-full h-auto cursor-pointer md:w-auto" onClick={() => handleNext(membersQuery.data.members)}>
+            <Card className="flex w-full h-auto cursor-pointer md:w-auto" onClick={() => handleNext(data.members)}>
               <Icon className="flex w-12 h-12 p-2 mx-auto">
                 <img src={arrowRight} alt="arrow left" className="w-full" />
               </Icon>
@@ -126,11 +100,7 @@ export default function AboutUs() {
             <Card className="w-full p-6 md:w-5/6 lg:w-7/12 md:p-8">
               <Typography variant="h4" align="center" className="mb-3">Our Mission</Typography>
               <Typography variant="body1">
-                GMF was founded on the belief that peer reviews should be
-                publicly available for students.
-                <br />
-                We believe having access to peer reviews is essential for
-                every students academic success to help navigate through their academic journey.
+                {data.aboutUs.ourMission}
               </Typography>
             </Card>
           </Grid>

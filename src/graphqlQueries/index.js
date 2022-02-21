@@ -276,11 +276,14 @@ export const FACULTIES_AND_INSTITUTES = gql`
       firstName
       lastName
       email
+      institute {
+        _id
+        name
+      }
       department
       courses
       attributes
     }
-    allFaculties
     institutes {
       _id
       name
@@ -289,17 +292,23 @@ export const FACULTIES_AND_INSTITUTES = gql`
 `;
 
 export const FACULTIES_BY_INSTITUTE = gql`
-  query FacultiesByInstitute($institute:Int!) {
-    faculties(institute:$institute) {
+  query FacultiesByInstitute($institute:Int! $limit:Int) {
+    faculties(institute:$institute limit:$limit) {
       _id
       firstName
       lastName
       email
-      institute
+      institute {
+        _id
+        name
+      }
       department
       courses
       attributes
-      ratings
+      ratings {
+        _id
+        overAllRating
+      }
     }
   }
 `;
@@ -394,8 +403,14 @@ export const RATINGS = gql`
   query Ratings($faculty:Int) {
     ratings(faculty:$faculty) {
       _id
-      user
-      faculty
+      user {
+        _id
+        firstName
+      }
+      faculty {
+        _id
+        firstName
+      }
       course
       levelOfDifficulty
       gradeOfUser
@@ -406,8 +421,12 @@ export const RATINGS = gql`
       thoughts
       wouldTakeAgain
       createdAt
-      likes
-      disLikes
+      likes {
+        _id
+      }
+      disLikes {
+        _id
+      }
     }
   }
 `;
@@ -416,8 +435,14 @@ export const USER_RATINGS = gql`
   query UserRatings($id:Int!) {
     ratings(user:$id) {
       _id
-      user
-      faculty
+      faculty {
+        _id
+        firstName
+        institute {
+          _id
+          name
+        }
+      }
       course
       levelOfDifficulty
       gradeOfUser
@@ -428,43 +453,18 @@ export const USER_RATINGS = gql`
       thoughts
       wouldTakeAgain
       createdAt
-      likes
-      disLikes
-    }
-    totalRatings: ratings {
-      _id
-      user
-      faculty
-      course
-      levelOfDifficulty
-      gradeOfUser
-      isAttendanceMandatory
-      overAllRating
-      semester
-      tags
-      thoughts
-      wouldTakeAgain
-      createdAt
-      likes
-      disLikes
-    }
-    faculties {
-      _id
-      firstName
-      lastName
-      department
-      institute
-    }
-    institutes {
-      _id
-      name
+      likes {
+        _id
+      }
+      disLikes {
+        _id
+      }
     }
   }
 `;
 
 export const NEW_RATING = gql`
   mutation NewRating(
-    $user:Int!
     $faculty:Int!
     $course:String!
     $levelOfDifficulty:Int!
@@ -477,7 +477,6 @@ export const NEW_RATING = gql`
     $wouldTakeAgain:Boolean!
   ) {
     newRating(
-      user: $user
       faculty: $faculty
       course: $course
       levelOfDifficulty: $levelOfDifficulty
@@ -495,14 +494,14 @@ export const NEW_RATING = gql`
 `;
 
 export const ADD_LIKE = gql`
-  mutation AddLike($user:Int! $rating:Int!) {
-    addLike(user:$user rating:$rating)
+  mutation AddLike($rating:Int!) {
+    addLike(rating:$rating)
   }
 `;
 
 export const ADD_DISLIKE = gql`
-  mutation AddDisLike($user:Int! $rating:Int!) {
-    addDisLike(user:$user rating:$rating)
+  mutation AddDisLike($rating:Int!) {
+    addDisLike(rating:$rating)
   }
 `;
 
@@ -545,8 +544,8 @@ export const DELETE_EMAIL = gql`
 `;
 
 export const FAQS = gql`
-  query Faqs($title:String $offset:Int $limit:Int) {
-    faqs(title:$title offset:$offset limit:$limit) {
+  query Faqs($title:String $category:String $offset:Int $limit:Int) {
+    faqs(title:$title category:$category offset:$offset limit:$limit) {
       _id
       title
       category
@@ -628,24 +627,20 @@ export const BLOGS = gql`
 `;
 
 export const BLOGS_AND_ADMINS_AND_ADS = gql`
-  query BlogsAndAdmins($offset:Int $limit:Int) {
+  query BlogsAndAdmins($offset:Int $limit:Int $locationId:String) {
     blogs(offset:$offset limit:$limit) {
       _id
       title
       content
       createdAt
-      writtenBy
+      writtenBy {
+        _id
+        name
+      }
       tags
     }
     allBlogs
-    admins {
-      _id
-      name
-      facebookLink
-      instagramLink
-      twitterLink
-    }
-    ads {
+    ads(locationId:$locationId) {
       _id
       code
       locationId
@@ -696,8 +691,8 @@ export const REPORTS = gql`
 `;
 
 export const NEW_REPORT = gql`
-  mutation NewReport($user:Int! $rating:Int! $summary:String! $details:String!) {
-    newReport(user:$user rating:$rating summary:$summary details:$details) {
+  mutation NewReport($rating:Int! $summary:String! $details:String!) {
+    newReport(rating:$rating summary:$summary details:$details) {
       _id
     }
   }
@@ -710,8 +705,8 @@ export const DELETE_REPORT = gql`
 `;
 
 export const SAVE_FACULTY = gql`
-  mutation SaveFaculty($user:Int! $faculty:Int!) {
-    saveFaculty(user:$user faculty:$faculty)
+  mutation SaveFaculty($faculty:Int!) {
+    saveFaculty(faculty:$faculty)
   }
 `;
 
@@ -768,5 +763,24 @@ export const UPDATE_MEMBER = gql`
 export const DELETE_MEMBER = gql`
   mutation DeleteMember($id:Int!) {
     deleteMember(_id:$id)
+  }
+`;
+
+export const ABOUT_US_AND_MEMBERS = gql`
+  query AboutUsAndMembers {
+    members {
+      _id
+      image
+      name
+      role
+      facebookLink
+      instagramLink
+      linkedinLink
+    }
+    aboutUs {
+      ourStory
+      whoWeAre
+      ourMission
+    }
   }
 `;

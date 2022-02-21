@@ -27,7 +27,7 @@ import { NEW_REPORT } from '../../../../graphqlQueries';
 import { addToast } from '../../../../redux/toastsActions';
 
 export default function ReportDialog({
-  open, handleClose, ratingId, userId,
+  open, handleClose, ratingId,
 }) {
   const dispatch = useDispatch();
   const [newReport, { loading }] = useMutation(NEW_REPORT);
@@ -43,7 +43,7 @@ export default function ReportDialog({
     },
     validationSchema: schema,
     onSubmit: (values) => {
-      newReport({ variables: { ...values, rating: ratingId, user: userId } })
+      newReport({ variables: { ...values, rating: ratingId } })
         .then(() => {
           dispatch(addToast({ message: 'Reported successfully', severity: 'success' }));
           handleClose();
@@ -110,5 +110,4 @@ ReportDialog.propTypes = {
   open: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
   ratingId: PropTypes.number.isRequired,
-  userId: PropTypes.number.isRequired,
 };

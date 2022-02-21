@@ -24,7 +24,7 @@ import homeImg from '../../../../assets/homeImg.svg';
 
 export default function Home() {
   const ref = useRef();
-  const { loading, data } = useQuery(FACULTIES_AND_INSTITUTES);
+  const { loading, data, error } = useQuery(FACULTIES_AND_INSTITUTES);
   const [searchBy, setSearchBy] = React.useState('university');
   return (
     <>
@@ -63,8 +63,8 @@ export default function Home() {
                 <Grid item xs={12} md={7} sx={{ order: { xs: 3, md: 2 } }} className="mt-1 md:mt-0">
                   <Autocomplete
                     disabled={loading}
-                    suggestions={searchBy === 'university' ? data?.institutes : data?.faculties}
-                    data={data}
+                    error={error}
+                    suggestions={(searchBy === 'university' ? data?.institutes : data?.faculties) || []}
                   />
                 </Grid>
                 <Grid item xs={2} md={1} sx={{ order: { xs: 2, md: 3 } }}>

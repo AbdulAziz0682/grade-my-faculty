@@ -25,7 +25,7 @@ import { useHistory, Redirect } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client';
 import {
   RATINGS,
-  BLOGS_AND_ADMINS_AND_ADS,
+  BLOGS,
   ADD_LIKE,
   ADD_DISLIKE,
   SAVE_FACULTY,
@@ -48,14 +48,14 @@ export default function Grade() {
   if (!location.state || !location.state[0]) return <Redirect push to="/" />;
   const dispatch = useDispatch();
   const [loadMore, setLoadMore] = React.useState(false);
-  const [isReportOpen, setReportOpen] = React.useState(false);
+  const [reportId, setReportId] = React.useState(0);
   const faculty = location.state[location.state.length - 1];
   const { loading, data } = useQuery(
     RATINGS,
-    { variables: { faculty: Number(faculty._id) }, fetchPolicy: 'network-only' },
+    { variables: { faculty: Number(faculty._id), limit: loadMore ? undefined : 3 }, fetchPolicy: 'cache-and-network' },
   );
   const blogsQuery = useQuery(
-    BLOGS_AND_ADMINS_AND_ADS,
+    BLOGS,
     { fetchPolicy: 'cache-and-network' },
   );
   const [addLike] = useMutation(ADD_LIKE, { refetchQueries: [{ query: RATINGS }] });
@@ -64,25 +64,25 @@ export default function Grade() {
   function onLike(rating) {
     if (!user) dispatch(addToast({ message: 'Please login first', severity: 'error' }));
     else {
-      addLike({ variables: { user: Number(user._id), rating: Number(rating) } })
+      addLike({ variables: { rating: Number(rating) } })
         .catch((r) => dispatch(addToast({ message: r.message, severity: 'error' })));
     }
   }
   function onDisLike(rating) {
     if (!user) dispatch(addToast({ message: 'Please login first', severity: 'error' }));
     else {
-      addDisLike({ variables: { user: Number(user._id), rating: Number(rating) } })
+      addDisLike({ variables: { rating: Number(rating) } })
         .catch((r) => dispatch(addToast({ message: r.message, severity: 'error' })));
     }
   }
   function handleSave(fac) {
     if (!user) return dispatch(addToast({ message: 'Please login first', severity: 'error' }));
-    return saveFaculty({ variables: { user: Number(user._id), faculty: Number(fac) } })
+    return saveFaculty({ variables: { faculty: Number(fac) } })
       .then((r) => dispatch(setUser({ ...user, savedFaculties: r.data.saveFaculty })))
       .catch((r) => dispatch(addToast({ message: r.message, severity: 'error' })));
   }
-  function calculateLevelOfDifficulty() {
-    const { ratings } = data;
+  function calculateLevelOfDifficulty(ratings) {
+    if (!ratings) return -1;
     let total = 0;
     ratings.forEach((r) => { total += r.levelOfDifficulty; });
     if (total === 0) return 0;
@@ -92,21 +92,17 @@ export default function Grade() {
     const src = (/<img src="([^"]*([^"]*(?:[^\\"]|\\\\|\\")*)+)"/g).exec(content);
     return src ? src[0].slice(10, -1) : media;
   }
-  function postPageAds(ads) {
-    return ads.filter((ad) => ad.locationId === '/post');
-  }
   function getFirstPara(content) {
     const para = String(content);
     return para.replaceAll('<img', '<imx');
   }
-  function calculateOverAllRating() {
-    if (loading) return 'N/A';
-    const ratings = data.ratings.filter((r) => r.faculty === faculty._id);
-    if (ratings.length === 0) return 'N/A';
+  function calculateOverAllRating(ratings) {
+    if (!ratings) return 'N/A';
     let total = 0;
     ratings.forEach((r) => {
       total += r.overAllRating;
     });
+    if (total === 0) return 'N/A';
     const average = total / ratings.length;
     if (average >= 4.5) return 'A+';
     if (average >= 4.0 && average < 4.5) return 'A';
@@ -137,16 +133,21 @@ export default function Grade() {
             <Typography>
               Courses:
               { faculty.courses.slice(0, 3).map(
-                (course) => (
+                (course, idx) => (
                   <span>
                     &nbsp;
-                    {course}
-                    ,
+                    {`${course}${(idx === (faculty.courses.length - 1)) || (idx === 2) ? '' : ','}`}
                   </span>
                 ),
               )}
-              &nbsp;
-              and so on.
+              {
+                faculty.courses.length > 3 && (
+                  <>
+                    &nbsp;
+                    and so on.
+                  </>
+                )
+              }
             </Typography>
             <div className="flex-col hidden md:flex">
               <div className="flex items-end gap-3">
@@ -163,11 +164,11 @@ export default function Grade() {
                   %
                 </Typography>
                 <Typography className="w-3/12 text-4xl font-extrabold text-center">
-                  {data && calculateLevelOfDifficulty()}
+                  {data && calculateLevelOfDifficulty(data?.ratings)}
                   /5.0
                 </Typography>
                 <Typography className="w-6/12 font-extrabold text-center text-7xl">
-                  { calculateOverAllRating() }
+                  { calculateOverAllRating(data?.ratings) }
                 </Typography>
               </div>
               <div className="flex gap-3">
@@ -200,14 +201,14 @@ export default function Grade() {
               </div>
               <div className="flex flex-col items-center">
                 <Typography className="w-full text-4xl font-extrabold text-center">
-                  {data && calculateLevelOfDifficulty()}
+                  {data && calculateLevelOfDifficulty(data?.ratings)}
                   /5.0
                 </Typography>
                 <Typography className="w-full mt-2 text-xs text-center">Level of difficulty</Typography>
               </div>
               <div className="flex flex-col items-center">
                 <Typography className="font-extrabold text-center text-7xl">
-                  { calculateOverAllRating() }
+                  { calculateOverAllRating(data?.ratings) }
                 </Typography>
                 <Typography className="mt-2 text-xs text-center">
                   Based on&nbsp;
@@ -248,7 +249,7 @@ export default function Grade() {
           </Paper>
           <Paper elevation={2} className="flex flex-col gap-6 p-4 px-4 mt-24 rounded-2xl lg:px-16 lg:pt-8 lg:pb-5 bg-gray-50">
             <Typography className="py-2 text-4xl font-bold border-b-2 border-black">Evaluations</Typography>
-            { loading && <CircularProgress /> }
+            { loading && <div className="flex justify-center w-full"><CircularProgress /></div> }
             {
               !loading && data.ratings.map(
                 (rate) => (
@@ -290,9 +291,9 @@ export default function Grade() {
                         }
                       </div>
                       <div className="flex items-center gap-2 mt-1">
-                        <img src={rate.likes.find((l) => l === Number(user._id)) ? liked : like} alt="like" className="w-4 transition duration-500 transform hover:scale-150" onClick={() => onLike(rate._id)} />
+                        <img src={rate.likes.find((l) => l._id === Number(user._id)) ? liked : like} alt="like" className="w-4 transition duration-500 transform hover:scale-150" onClick={() => onLike(rate._id)} />
                         <span className="text-sm text-gray-500">{rate.likes.length || 0}</span>
-                        <img src={rate.disLikes.find((d) => d === Number(user._id)) ? unliked : unlike} alt="unlike" className="w-4 transition duration-500 transform hover:scale-150" onClick={() => onDisLike(rate._id)} />
+                        <img src={rate.disLikes.find((d) => d._id === Number(user._id)) ? unliked : unlike} alt="unlike" className="w-4 transition duration-500 transform hover:scale-150" onClick={() => onDisLike(rate._id)} />
                         <span className="text-sm text-gray-500">{rate.disLikes.length || 0}</span>
                         <span className="flex-grow" />
                         <Button
@@ -301,18 +302,17 @@ export default function Grade() {
                           className="text-xs"
                           onClick={() => {
                             if (!user) dispatch(addToast({ message: 'Please login first', severity: 'error' }));
-                            else setReportOpen(true);
+                            else setReportId(rate._id);
                           }}
                         >
                           <span className="normal-case">Report this rating</span>
                         </Button>
                         {
-                          isReportOpen && (
+                          Boolean(reportId) && ( // 0 value returns false
                             <ReportDialog
                               open
-                              ratingId={Number(rate._id)}
-                              userId={Number(user._id)}
-                              handleClose={() => setReportOpen(false)}
+                              ratingId={reportId}
+                              handleClose={() => setReportId(0)}
                             />
                           )
                         }
@@ -320,10 +320,10 @@ export default function Grade() {
                     </Grid>
                   </Grid>
                 ),
-              ).slice(loadMore ? 0 : -3)
+              )
             }
             {
-              !loadMore && !loading && (data.ratings.length > 3)
+              !loadMore && !loading && (data.ratings.length === 3)
                 ? (
                   <div className="flex justify-end pt-6 mt-8 border-t-2 border-black">
                     <Button variant="contained" className="px-6 rounded-lg" onClick={() => setLoadMore(true)}>Load More</Button>
@@ -339,17 +339,8 @@ export default function Grade() {
         <div className="flex flex-col h-auto gap-10 lg:w-3/12 py-14">
           <Typography variant="h4">Our Blog</Typography>
           {
-            !blogsQuery.loading && blogsQuery.data.blogs.map(
-              (blog) => (
-                {
-                  ...blog,
-                  writtenBy: blogsQuery.data.admins.find(
-                    (a) => Number(a._id) === Number(blog.writtenBy),
-                  ),
-                }
-              ),
-            ).map((blg, idx, arr) => (
-              <Paper elevation={3} key={blg._id} className="flex flex-col w-full gap-5 pb-3 my-6 transform lg:my-0">
+            !blogsQuery.loading && blogsQuery.data.blogs.map((blg, idx, arr) => (
+              <Paper elevation={3} key={blg._id} onClick={() => history.push('/post', [blg, arr])} className="flex flex-col w-full gap-5 pb-3 my-6 transform lg:my-0">
                 <img src={getImgSrc(blg.content)} alt="blog" className="w-full" style={{ maxHeight: '200px' }} />
                 <div className="flex flex-col w-full gap-5 px-6">
                   <Typography className="text-sm text-gray-500 uppercase">{ moment(blg.createdAt).format('DD MMMM YYYY') }</Typography>
@@ -359,7 +350,7 @@ export default function Grade() {
                       dangerouslySetInnerHTML={{ __html: getFirstPara(blg.content) }}
                     />
                   </Typography>
-                  <Button variant="text" color="primary" className="self-start pl-0" onClick={() => history.push('/post', [blg, arr, postPageAds(blogsQuery.data.ads)])}>Read more</Button>
+                  <Button variant="text" color="primary" className="self-start pl-0" onClick={() => history.push('/post', [blg, arr])}>Read more</Button>
                 </div>
               </Paper>
             )).slice(-3)

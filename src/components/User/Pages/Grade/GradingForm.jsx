@@ -72,8 +72,8 @@ export default function GradingForm() {
   const { location } = history;
   const dispatch = useDispatch();
   const user = useSelector((state) => state.account.user);
-  if (!location.state || !location.state[0] || !user) return <Redirect push to="/" />;
-  const faculty = useHistory().location.state[0];
+  if (!location.state || !location.state[0] || !user) return history.push('/');
+  const faculty = location.state[0];
   const [newRating, { loading }] = useMutation(
     NEW_RATING,
     {
@@ -105,7 +105,7 @@ export default function GradingForm() {
     return form.tags.find((t) => t === tag) === tag;
   }
   function handleSubmit() {
-    newRating({ variables: { ...form, user: Number(user._id), faculty: Number(faculty._id) } })
+    newRating({ variables: { ...form, faculty: Number(faculty._id) } })
       .then(() => {
         dispatch(addToast({ message: 'Rated successfully', severity: 'success' }));
         history.goBack();
@@ -123,9 +123,6 @@ export default function GradingForm() {
   function getImgSrc(content) {
     const src = (/<img src="([^"]*([^"]*(?:[^\\"]|\\\\|\\")*)+)"/g).exec(content);
     return src ? src[0].slice(10, -1) : media;
-  }
-  function postPageAds(ads) {
-    return ads.filter((ad) => ad.locationId === '/post');
   }
   function getFirstPara(content) {
     const para = String(content);
@@ -146,16 +143,21 @@ export default function GradingForm() {
             <Typography>
               Courses:
               { faculty.courses.map(
-                (course) => (
+                (course, idx) => (
                   <span>
                     &nbsp;
-                    {course}
-                    ,
+                    {`${course}${(idx === (faculty.courses.length - 1)) || (idx === 2) ? '' : ','}`}
                   </span>
                 ),
               )}
-              &nbsp;
-              and so on.
+              {
+                faculty.courses.length > 3 && (
+                  <>
+                    &nbsp;
+                    and so on.
+                  </>
+                )
+              }
             </Typography>
           </Paper>
           <Paper elevation={5} className="flex flex-col gap-2 p-4 mt-9 rounded-2xl lg:px-16 lg:py-8 bg-gray-50">
@@ -321,17 +323,8 @@ export default function GradingForm() {
         <div className="flex-col h-auto gap-10 lg:flex lg:w-3/12 py-14">
           <Typography variant="h4">Our Blog</Typography>
           {
-            !blogsQuery.loading && blogsQuery.data.blogs.map(
-              (blog) => (
-                {
-                  ...blog,
-                  writtenBy: blogsQuery.data.admins.find(
-                    (a) => Number(a._id) === Number(blog.writtenBy),
-                  ),
-                }
-              ),
-            ).map((blg, idx, arr) => (
-              <Paper elevation={3} key={blg._id} className="flex flex-col w-full gap-5 pb-3 my-6 transform lg:my-0">
+            !blogsQuery.loading && blogsQuery.data.blogs.map((blg, idx, arr) => (
+              <Paper elevation={3} key={blg._id} onClick={() => history.push('/post', [blg, arr])} className="flex flex-col w-full gap-5 pb-3 my-6 transform lg:my-0">
                 <img src={getImgSrc(blg.content)} alt="blog" className="w-full" style={{ maxHeight: '200px' }} />
                 <div className="flex flex-col w-full gap-5 px-6">
                   <Typography className="text-sm text-gray-500 uppercase">{ moment(blg.createdAt).format('DD MMMM YYYY') }</Typography>
@@ -341,7 +334,7 @@ export default function GradingForm() {
                       dangerouslySetInnerHTML={{ __html: getFirstPara(blg.content) }}
                     />
                   </Typography>
-                  <Button variant="text" color="primary" className="self-start pl-0" onClick={() => history.push('/post', [blg, arr, postPageAds(blogsQuery.data.ads)])}>Read more</Button>
+                  <Button variant="text" color="primary" className="self-start pl-0" onClick={() => history.push('/post', [blg, arr])}>Read more</Button>
                 </div>
               </Paper>
             )).slice(-3)

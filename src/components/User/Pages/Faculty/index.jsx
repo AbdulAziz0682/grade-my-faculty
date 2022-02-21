@@ -23,12 +23,11 @@ import { FACULTIES_BY_INSTITUTE } from '../../../../graphqlQueries';
 export default function Faculty() {
   const { location: { state } } = useHistory();
   if (!state || !state[0]) return <Redirect push to="/" />;
+  const [isViewAll, setViewAll] = useState(false);
   const { loading, data } = useQuery(
     FACULTIES_BY_INSTITUTE,
-    { variables: { institute: Number(state[0]._id) }, fetchPolicy: 'network-only' },
+    { variables: { institute: state[0]._id, limit: isViewAll ? undefined : 4 }, fetchPolicy: 'network-only' },
   );
-  const [isViewAll, setViewAll] = useState(false);
-  if (loading) return <span className="absolute inset-x-0 flex justify-center mt-16"><CircularProgress /></span>;
   return (
     <Grid container className="flex-grow">
       <Container maxWidth="xl" className="flex flex-col py-14">
@@ -37,29 +36,27 @@ export default function Faculty() {
           <div className="flex justify-between w-full gap-3 py-2 border-b-4 border-primary">
             <Typography className="font-bold text-primary">Faculty Members</Typography>
             {
-              data?.faculties.length > 0 && data?.faculties.length > 4 && <Button variant="contained" className="rounded-2xl" hidden={isViewAll} onClick={() => setViewAll(!isViewAll)}>View all Faculty</Button>
+              // if limit 4 returns less than 4 records it means there are not more than 4
+              // in such case hidding the button is more suitable
+              data?.faculties.length >= 4 && (
+                <Button variant="contained" className="rounded-2xl" hidden={isViewAll} onClick={() => setViewAll(!isViewAll)}>View all Faculty</Button>
+              )
             }
           </div>
           <div className="flex flex-wrap justify-center w-full py-2 gap-9">
             {
+              loading && (
+                <span className="inset-x-0 flex justify-center"><CircularProgress /></span>
+              )
+            }
+            {
               data?.faculties.length === 0 && <Typography variant="h6" color="primary" align="center">No Faculty added yet</Typography>
             }
-            { !isViewAll && data && (data.faculties.length > 4 && data.faculties.length > 0)
-              ? (
-                <>
-                  <FacultyCard institute={state[0]} faculty={data?.faculties[0] || {}} />
-                  <FacultyCard institute={state[0]} faculty={data?.faculties[1] || {}} />
-                  <FacultyCard institute={state[0]} faculty={data?.faculties[2] || {}} />
-                  <FacultyCard institute={state[0]} faculty={data?.faculties[3] || {}} />
-                </>
+            {
+              data && data.faculties.map(
+                (fac) => <FacultyCard key={fac.id} faculty={fac} />,
               )
-              : (
-                <>
-                  {data && data.faculties.map(
-                    (fac) => <FacultyCard institute={state[0]} key={fac.id} faculty={fac} />,
-                  )}
-                </>
-              )}
+            }
           </div>
         </Paper>
       </Container>

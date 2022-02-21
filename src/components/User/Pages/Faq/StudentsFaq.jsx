@@ -7,15 +7,18 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
+  CircularProgress,
 } from '@mui/material';
 
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
-import { useHistory } from 'react-router-dom';
+import { useQuery } from '@apollo/client';
+
+import { FAQS } from '../../../../graphqlQueries';
 
 export default function StudentsFaq() {
-  const history = useHistory();
-  const studentsFaq = history.location.state[history.location.state.length - 1];
+  const { loading, data } = useQuery(FAQS, { fetchPolicy: 'cache-and-network', variables: { category: 'student' } });
+  if (loading) return <div className="absolute inset-x-0 flex items-center justify-center mt-16"><CircularProgress /></div>;
   return (
     <Grid container className="flex-grow bg-pageBg">
       <Container maxWidth="xl">
@@ -25,10 +28,10 @@ export default function StudentsFaq() {
           </Grid>
           <Grid item className="w-full">
             {
-              studentsFaq.length === 0 && <Typography variant="h6" align="center" color="primary">No faqs added yet</Typography>
+              data.faqs.length === 0 && <Typography variant="h6" align="center" color="primary">No faqs added yet</Typography>
             }
             {
-              studentsFaq.length !== 0 && studentsFaq.map((faq) => (
+              data.faqs.length !== 0 && data.faqs.map((faq) => (
                 <Accordion style={{ marginBottom: 0, marginTop: 0 }}>
                   <AccordionSummary className="px-3 md:px-9" expandIcon={<ExpandMoreIcon htmlColor="white" sx={{ bgcolor: 'primary.main', width: '2.5rem', height: '2.5rem' }} />}>
                     <Typography variant="h4">{faq.title}</Typography>

@@ -8,11 +8,14 @@ import {
   Paper,
   Icon,
   Button,
+  CircularProgress,
 } from '@mui/material';
 
 import moment from 'moment';
 
-import { useHistory, Redirect } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
+
+import { useQuery } from '@apollo/client';
 
 import media3 from '../../../../assets/media3.png';
 import beardGuy from '../../../../assets/beardGuy.svg';
@@ -20,11 +23,15 @@ import facebook from '../../../../assets/primaryFacebook.svg';
 import instagram from '../../../../assets/primaryInstagram.svg';
 import twitter from '../../../../assets/primaryTwitter.svg';
 
+import { BLOGS_AND_ADMINS_AND_ADS } from '../../../../graphqlQueries';
+
 export default function Post() {
   const history = useHistory();
   const blog = history.location.state[0];
-  const blogs = history.location.state[1];
-  const ads = history.location.state[2];
+  const { loading, data } = useQuery(
+    BLOGS_AND_ADMINS_AND_ADS,
+    { fetchPolicy: 'cache-and-network', variables: { locationId: '/post' } },
+  );
   function getImgSrc(content) {
     const src = (/<img src="([^"]*([^"]*(?:[^\\"]|\\\\|\\")*)+)"/g).exec(content);
     return src ? src[0].slice(10, -1) : media3;
@@ -33,7 +40,7 @@ export default function Post() {
     const para = String(content);
     return para.replaceAll('<img', '<imx');
   }
-  if (!blog || !blogs || blogs.length === 0) return <Redirect push to="/blog" />;
+  if (loading) return <span className="absolute inset-x-0 flex justify-center mt-16"><CircularProgress /></span>;
   return (
     <Grid container className="flex-grow bg-gray-50">
       <Container maxWidth="xl" className="flex flex-col justify-between md:flex-row md:gap-6" style={{ minHeight: '170vh' }}>
@@ -43,7 +50,7 @@ export default function Post() {
               { blog.title }
             </Typography>
             {
-              ads && <div dangerouslySetInnerHTML={{ __html: ads[0]?.code }} className="flex items-center justify-center w-full" />
+              data.ads && <div dangerouslySetInnerHTML={{ __html: data.ads[0]?.code }} className="flex items-center justify-center w-full" />
             }
             <div className="flex justify-between w-full gap-3">
               <div className="flex items-center gap-3">
@@ -77,7 +84,7 @@ export default function Post() {
             </div>
             <div className="block w-full" dangerouslySetInnerHTML={{ __html: blog.content }} />
             {
-              ads && ads.slice(1, 2).map((ad) => (
+              data.ads && data.ads.slice(1, 2).map((ad) => (
                 <div
                   dangerouslySetInnerHTML={{ __html: ad.code }}
                   className="flex flex-col justify-center px-6"
@@ -88,9 +95,9 @@ export default function Post() {
         </div>
         <div className="flex-col items-end w-full h-auto gap-10 pb-2 lg:flex md:w-3/12 pt-14">
           {
-            blogs.map(
+            data.blogs.map(
               (blg, idx, arr) => (
-                <Paper elevation={3} key={blg._id} className="flex flex-col w-full gap-5 pb-3 my-6 transform lg:my-0">
+                <Paper elevation={3} key={blg._id} onClick={() => history.push('/post', [blg, arr])} className="flex flex-col w-full gap-5 pb-3 my-6 transform lg:my-0">
                   <img src={getImgSrc(blg.content)} alt="blog" className="w-full" style={{ maxHeight: '200px' }} />
                   <div className="flex flex-col w-full gap-5 px-6">
                     <Typography className="text-sm text-gray-500 uppercase">{ moment(blg.createdAt).format('DD MMMM YYYY') }</Typography>
@@ -100,14 +107,14 @@ export default function Post() {
                         dangerouslySetInnerHTML={{ __html: getFirstPara(blg.content) }}
                       />
                     </Typography>
-                    <Button variant="text" color="primary" className="self-start pl-0" onClick={() => history.push('/post', [blg, arr, ads])}>Read more</Button>
+                    <Button variant="text" color="primary" className="self-start pl-0" onClick={() => history.push('/post', [blg, arr])}>Read more</Button>
                   </div>
                 </Paper>
               ),
             ).slice(-3)
           }
           {
-            ads && ads.slice(3).map((ad) => (
+            data.ads && data.ads.slice(3).map((ad) => (
               <div
                 dangerouslySetInnerHTML={{ __html: ad.code }}
                 className="flex flex-col justify-center px-6"

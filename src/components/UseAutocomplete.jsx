@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 
 import { useHistory } from 'react-router-dom';
 
-const AutoComplete = ({ suggestions, disabled, data }) => {
+const AutoComplete = ({ suggestions, disabled, error }) => {
   const [filteredSuggestions, setFilteredSuggestions] = useState([]);
   const [activeSuggestionIndex, setActiveSuggestionIndex] = useState(0);
   const [showSuggestions, setShowSuggestions] = useState(false);
@@ -92,7 +92,7 @@ const AutoComplete = ({ suggestions, disabled, data }) => {
               value={suggestion.firstName}
               sx={{ border: '1px solid' }}
               className="py-1 bg-gray-100 border-l-0 border-r-0 border-gray-200"
-              onClick={() => history.push('/grade', [{ ...suggestion, institute: data.institutes.find((i) => Number(i._id) === Number(suggestion.institute)) }])}
+              onClick={() => history.push('/grade', [suggestion])}
             >
               <div className="flex items-end justify-between gap-3 pb-2 overflow-auto" style={{ fontFamily: 'montserrat' }}>
                 <div className="flex flex-col">
@@ -104,10 +104,7 @@ const AutoComplete = ({ suggestions, disabled, data }) => {
                 </div>
                 <p className="font-bold">
                   {
-                    data
-                    && (
-                      data.institutes.find((i) => i._id === suggestion.institute).name
-                    )
+                    suggestion.institute.name
                   }
                 </p>
               </div>
@@ -121,7 +118,11 @@ const AutoComplete = ({ suggestions, disabled, data }) => {
       </div>
     );
   }
-
+  // helper function
+  function getPlaceholderText() {
+    if (error && error.message) return 'An error occurred, please refresh';
+    return disabled ? 'Loading...' : '';
+  }
   return (
     <div className="w-full">
       <input
@@ -130,7 +131,7 @@ const AutoComplete = ({ suggestions, disabled, data }) => {
         onChange={onChange}
         onKeyDown={onKeyDown}
         disabled={disabled}
-        placeholder={`${disabled ? 'Loading...' : ''}`}
+        placeholder={getPlaceholderText()}
         value={input}
         id="autocomplete"
         className={`${showSuggestions && input ? 'rounded-t-3xl md:rounded' : 'rounded'} border-2 border-gray-300 bg-gray-100`}
@@ -145,5 +146,5 @@ export default AutoComplete;
 AutoComplete.propTypes = {
   suggestions: PropTypes.array.isRequired,
   disabled: PropTypes.bool.isRequired,
-  data: PropTypes.object.isRequired,
+  error: PropTypes.object.isRequired,
 };

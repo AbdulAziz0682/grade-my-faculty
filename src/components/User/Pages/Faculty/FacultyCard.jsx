@@ -5,42 +5,33 @@ import PropTypes from 'prop-types';
 
 import {
   Card,
-  CircularProgress,
   Typography,
 } from '@mui/material';
 
 import { useHistory } from 'react-router-dom';
 
-import { useQuery } from '@apollo/client';
-import { RATINGS } from '../../../../graphqlQueries';
+function calculateOverAllRating(ratings) {
+  if (!ratings) return 'N/A';
+  let total = 0;
+  ratings.forEach((r) => {
+    total += r.overAllRating;
+  });
+  if (total === 0) return 'N/A';
+  const average = total / ratings.length;
+  if (average >= 4.5) return 'A+';
+  if (average >= 4.0 && average < 4.5) return 'A';
+  if (average >= 3.5 && average < 4.0) return 'B+';
+  if (average >= 3.0 && average < 3.5) return 'B';
+  if (average >= 2.5 && average < 3.0) return 'C';
+  if (average >= 2 && average < 2.5) return 'D';
+  if (average >= 1.5 && average < 2) return 'E';
+  return 'F';
+}
 
-export default function FacultyCard({ faculty, institute }) {
+export default function FacultyCard({ faculty }) {
   const history = useHistory();
-  const { loading, data } = useQuery(
-    RATINGS,
-    { variables: { faculty: Number(faculty._id) }, fetchPolicy: 'network-only' },
-  );
-
-  function calculateOverAllRating() {
-    const ratings = data.ratings.filter((r) => r.faculty === faculty._id);
-    if (ratings.length === 0 || loading) return 'N/A';
-    let total = 0;
-    ratings.forEach((r) => {
-      total += r.overAllRating;
-    });
-    const average = total / ratings.length;
-    if (average >= 4.5) return 'A+';
-    if (average >= 4.0 && average < 4.5) return 'A';
-    if (average >= 3.5 && average < 4.0) return 'B+';
-    if (average >= 3.0 && average < 3.5) return 'B';
-    if (average >= 2.5 && average < 3.0) return 'C';
-    if (average >= 2 && average < 2.5) return 'D';
-    if (average >= 1.5 && average < 2) return 'E';
-    return 'F';
-  }
-  if (loading) return <span className="absolute inset-x-0 flex items-center justify-center"><CircularProgress /></span>;
   return (
-    <Card elevation={3} className="flex flex-col w-full gap-3 p-6 cursor-pointer sm:w-5/12 hover:shadow-lg" onClick={() => history.push('/grade', [{ ...faculty, institute, ratings: [] || data.ratings }])}>
+    <Card elevation={3} className="flex flex-col w-full gap-3 p-6 cursor-pointer sm:w-5/12 hover:shadow-lg" onClick={() => history.push('/grade', [faculty])}>
       <Typography className="text-lg font-semibold">{faculty.firstName}</Typography>
       <Typography className="">
         {faculty.department}
@@ -48,11 +39,11 @@ export default function FacultyCard({ faculty, institute }) {
       </Typography>
       <Typography className="text-lg font-bold text-primary">
         Grade&nbsp;(
-        { calculateOverAllRating() }
+        { calculateOverAllRating(faculty.ratings) }
         )
       </Typography>
       <Typography>
-        {!loading && data.ratings.length}
+        {faculty.ratings.length}
         &nbsp;Reviews
       </Typography>
     </Card>
@@ -63,9 +54,8 @@ FacultyCard.propTypes = {
   faculty: PropTypes.shape({
     _id: PropTypes.number.isRequired,
     firstName: PropTypes.string.isRequired,
+    institute: PropTypes.object.isRequired,
     department: PropTypes.string.isRequired,
-    levelOfDifficulty: PropTypes.number.isRequired,
-    reviews: PropTypes.number.isRequired,
+    ratings: PropTypes.array.isRequired,
   }).isRequired,
-  institute: PropTypes.object.isRequired,
 };

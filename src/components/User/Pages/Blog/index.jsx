@@ -22,15 +22,12 @@ export default function AboutUs() {
   const [limit, setLimit] = React.useState(3);
   const { loading, data } = useQuery(
     BLOGS_AND_ADMINS_AND_ADS,
-    { fetchPolicy: 'cache-and-network', variables: { limit } },
+    { fetchPolicy: 'cache-and-network', variables: { limit, locationId: '/blog' } },
   );
   if (loading) return <span className="absolute inset-x-0 flex justify-center mt-16"><CircularProgress /></span>;
   function getImgSrc(content) {
     const src = (/<img src="([^"]*([^"]*(?:[^\\"]|\\\\|\\")*)+)"/g).exec(content);
     return src ? src[0].slice(10, -1) : media;
-  }
-  function postPageAds() {
-    return data.ads.filter((a) => a.locationId === '/post');
   }
   return (
     <div className="flex-grow w-full bg-pageBg">
@@ -44,18 +41,14 @@ export default function AboutUs() {
       <div className="w-full bg-primary">
         <Container maxWidth="xl" className="flex flex-wrap justify-center gap-10 p-16 ">
           {
-            data.blogs.map(
-              (blg) => (
-                { ...blg, writtenBy: data.admins.find((a) => Number(a._id) === blg.writtenBy) }
-              ),
-            ).map((blog, idx, arr) => (
-              <Card key={new Date()} className="flex-col my-1 cursor-pointer w-80" onClick={() => history.push('/post', [blog, arr, postPageAds()])}>
+            data.blogs.map((blog, idx, arr) => (
+              <Card key={new Date()} className="flex-col my-1 cursor-pointer w-80" onClick={() => history.push('/post', [blog, arr])}>
                 <img className="w-auto" style={{ maxHeight: '170px', width: '100%' }} src={getImgSrc(blog.content)} alt="media" />
                 <Typography className="mx-8 mt-8 font-semibold">
                   { blog.title }
                 </Typography>
                 <Typography className="mx-8 my-4 text-primary">
-                  { blog?.writtenBy?.name || 'N/A' }
+                  { blog.writtenBy.name }
                 </Typography>
               </Card>
             ))
@@ -77,7 +70,7 @@ export default function AboutUs() {
             </Button>
           </div>
           {
-            data.ads.filter((a) => a.locationId === '/blog')
+            data.ads.slice(-3).filter((a) => a.locationId === '/blog')
               .map((ad) => (
                 <div
                   dangerouslySetInnerHTML={{ __html: ad.code }}
@@ -85,22 +78,6 @@ export default function AboutUs() {
                 />
               ))
           }
-          {/* <div className="flex flex-col md:flex-row md:justify-center">
-            <img className="w-auto" src={banner} alt="banner" />
-            <span className="flex flex-col gap-3 md:w-2/6 lg:w-1/6 px-9">
-              <Typography className="text-lg font-bold text-white">Large Title</Typography>
-              <Typography className="text-xs text-gray-600">
-                SF Symbols were introduced during WWDC 2019 and are a big present for us developers.
-              </Typography>
-            </span>
-            <Button
-              variant="contained"
-              className
-              ="self-center h-6 p-4 text-white bg-blue-500 rounded-lg w-36 hover:bg-blue-800 mt-9"
-            >
-              Download
-            </Button>
-        </div> */}
         </Container>
       </div>
     </div>
