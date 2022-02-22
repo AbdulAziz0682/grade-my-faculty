@@ -173,7 +173,8 @@ export default function Login() {
                 clientId={process.env.REACT_APP_OAUTH_CLIENT_ID}
                 onSuccess={(res) => googleResponse(res)}
                 onFailure={(res) => googleResponse(res)}
-                cookiePolicy="single_host_origin"
+                cookiepolicy="single_host_origin"
+                ux_mode="redirect"
                 buttonText="Login"
                 render={(renderProps) => (
                   <Button
