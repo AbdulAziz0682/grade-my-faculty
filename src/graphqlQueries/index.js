@@ -73,14 +73,12 @@ export const ADMIN_UPDATE_USER = gql`
 `;
 
 export const UPDATE_USER = gql`
-  mutation UpdateUser($id:Int! $firstName:String! $lastName:String! $email:String! $password:String $confirmPassword:String $institute:Int $graduationYear:Int) {
-    updateUser(_id:$id firstName:$firstName lastName:$lastName email:$email password:$password confirmPassword:$confirmPassword institute:$institute graduationYear:$graduationYear) {
+  mutation UpdateUser($firstName:String $lastName:String $institute:String $graduationYear:Int) {
+    updateUser(firstName:$firstName lastName:$lastName institute:$institute graduationYear:$graduationYear) {
       _id
       firstName
       lastName
       email
-      ratings
-      savedFaculties
       institute
       graduationYear
     }
@@ -88,20 +86,26 @@ export const UPDATE_USER = gql`
 `;
 
 export const UPDATE_USER_EMAIL = gql`
-  mutation UpdateUserEmail($id:Int! $email:String! $password:String!) {
-    updateUserEmail(_id:$id email:$email password:$password)
+  mutation UpdateUserEmail($email:String! $password:String!) {
+    updateUserEmail(email:$email password:$password)
   }
 `;
 
 export const UPDATE_USER_PASSWORD = gql`
-  mutation UpdateUserPassword($id:Int! $oldPassword:String! $newPassword:String!) {
-    updateUserPassword(_id:$id oldPassword:$oldPassword newPassword:$newPassword)
+  mutation UpdateUserPassword($oldPassword:String! $newPassword:String!) {
+    updateUserPassword(oldPassword:$oldPassword newPassword:$newPassword)
   }
 `;
 
 export const DELETE_USER = gql`
   mutation DeleteUser($id:Int!) {
     deleteUser(_id:$id)
+  }
+`;
+
+export const DELETE_SELF = gql`
+  mutation DeleteSelf {
+    deleteSelf
   }
 `;
 
@@ -400,8 +404,8 @@ export const DASHBOARD_RATINGS = gql`
 `;
 
 export const RATINGS = gql`
-  query Ratings($faculty:Int) {
-    ratings(faculty:$faculty) {
+  query Ratings($faculty:Int $course:String $semester:String) {
+    ratings(faculty:$faculty course:$course semester:$semester) {
       _id
       user {
         _id
@@ -438,6 +442,7 @@ export const USER_RATINGS = gql`
       faculty {
         _id
         firstName
+        department
         institute {
           _id
           name
@@ -449,16 +454,7 @@ export const USER_RATINGS = gql`
       isAttendanceMandatory
       overAllRating
       semester
-      tags
-      thoughts
       wouldTakeAgain
-      createdAt
-      likes {
-        _id
-      }
-      disLikes {
-        _id
-      }
     }
   }
 `;
@@ -681,8 +677,15 @@ export const REPORTS = gql`
   query Reports($offset:Int $limit:Int) {
     reports(offset:$offset limit:$limit) {
       _id
-      user
-      rating
+      user {
+        _id
+        firstName
+        email
+      }
+      rating {
+        _id
+        overAllRating
+      }
       summary
       details
     }
@@ -781,6 +784,26 @@ export const ABOUT_US_AND_MEMBERS = gql`
       ourStory
       whoWeAre
       ourMission
+    }
+  }
+`;
+
+export const USER_SAVED_FACULTIES = gql`
+  query UserSavedFaulties($faculties:[Int]) {
+    faculties(in: $faculties) {
+      _id
+      firstName
+      department
+      institute {
+        _id
+        name
+      }
+      ratings {
+        _id
+        wouldTakeAgain
+        levelOfDifficulty
+        overAllRating
+      }
     }
   }
 `;

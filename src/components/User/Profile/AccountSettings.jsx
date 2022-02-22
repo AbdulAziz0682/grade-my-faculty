@@ -23,7 +23,7 @@ import * as yup from 'yup';
 import { addToast } from '../../../redux/toastsActions';
 import { logout } from '../../../redux/accountActions';
 
-import { UPDATE_USER_EMAIL, UPDATE_USER_PASSWORD, DELETE_USER } from '../../../graphqlQueries';
+import { UPDATE_USER_EMAIL, UPDATE_USER_PASSWORD, DELETE_SELF } from '../../../graphqlQueries';
 
 export default function AccountSettings() {
   const dispatch = useDispatch();
@@ -31,7 +31,7 @@ export default function AccountSettings() {
   const [isEditing, setEditing] = React.useState(false);
   const [updateUserEmail, emailMutation] = useMutation(UPDATE_USER_EMAIL);
   const [updateUserPassword, passwordMutation] = useMutation(UPDATE_USER_PASSWORD);
-  const [deleteUser, deleteQuery] = useMutation(DELETE_USER);
+  const [deleteUser, deleteQuery] = useMutation(DELETE_SELF);
   // Email Form requirements
   const emailFormSchema = yup.object({
     email: yup.string().required('Email is required').email('Enter a valid email'),
@@ -43,20 +43,14 @@ export default function AccountSettings() {
       password: '',
     },
     validationSchema: emailFormSchema,
-    onSubmit: (values) => {
-      const vars = {
-        id: Number(user._id),
-        ...values,
-      };
-      return updateUserEmail({
-        variables: vars,
+    onSubmit: (values) => updateUserEmail({
+      variables: values,
+    })
+      .then(() => {
+        dispatch(addToast({ message: 'Email changed, please login again', severity: 'warning' }));
+        dispatch(logout());
       })
-        .then(() => {
-          dispatch(addToast({ message: 'Email changed, please login again', severity: 'warning' }));
-          dispatch(logout());
-        })
-        .catch((r) => dispatch(addToast({ message: r.message, severity: 'error' })));
-    },
+      .catch((r) => dispatch(addToast({ message: r.message, severity: 'error' }))),
   });
   //-------------------------
   // Password Form requirements
@@ -70,24 +64,18 @@ export default function AccountSettings() {
       newPassword: '',
     },
     validationSchema: passwordFormSchema,
-    onSubmit: (values) => {
-      const vars = {
-        id: Number(user._id),
-        ...values,
-      };
-      return updateUserPassword({
-        variables: vars,
+    onSubmit: (values) => updateUserPassword({
+      variables: values,
+    })
+      .then(() => {
+        dispatch(addToast({ message: 'Password changed successfully', severity: 'success' }));
+        setEditing(false);
       })
-        .then(() => {
-          dispatch(addToast({ message: 'Password changed successfully', severity: 'success' }));
-          setEditing(false);
-        })
-        .catch((r) => dispatch(addToast({ message: r.message, severity: 'error' })));
-    },
+      .catch((r) => dispatch(addToast({ message: r.message, severity: 'error' }))),
   });
   //-------------------------
-  function handleDelete(id) {
-    deleteUser({ variables: { id: Number(id) } })
+  function handleDelete() {
+    deleteUser()
       .then(() => {
         dispatch(addToast({ message: 'Account deleted successfully', severity: 'success' }));
         dispatch(logout());
@@ -235,7 +223,7 @@ export default function AccountSettings() {
           </Stack>
           <div className="flex items-center gap-9">
             <Typography variant="h3">Delete Account</Typography>
-            <Button variant="contained" disabled={deleteQuery.loading} color="error" startIcon={<Delete />} onClick={() => handleDelete(user._id)}>
+            <Button variant="contained" disabled={deleteQuery.loading} color="error" startIcon={<Delete />} onClick={() => handleDelete()}>
               {
                 deleteQuery.loading
                   ? <CircularProgress />
