@@ -85,7 +85,7 @@ export default function GradingForm() {
   );
   const [form, setForm] = React.useState({
     course: faculty.courses[0],
-    semester: 'Summer 2021',
+    semester: `Summer ${new Date().getFullYear()}`,
     gradeOfUser: 'A+',
     overAllRating: 1,
     levelOfDifficulty: 1,
@@ -203,10 +203,13 @@ export default function GradingForm() {
                 }
               </Select>
               <Typography className="text-xl">2. When did you take this class?</Typography>
-              <Select variant="outlined" className="rounded-none w-60" value={form.semester} onChange={(e) => setForm({ ...form, semester: e.target.value })}>
-                <MenuItem value="Summer 2021">Summer 2021</MenuItem>
-                <MenuItem value="Spring 2021">Spring 2021</MenuItem>
-              </Select>
+              <TextField
+                variant="outlined"
+                className="w-60"
+                placeholder="Spring 2023"
+                value={form.semester}
+                onChange={(e) => setForm({ ...form, semester: e.target.value })}
+              />
               <Typography className="text-xl">3. What grade did you recieve?</Typography>
               <Select variant="outlined" className="rounded-none w-60" value={form.gradeOfUser} onChange={(e) => setForm({ ...form, gradeOfUser: e.target.value })}>
                 <MenuItem value="A+">A+</MenuItem>

@@ -599,8 +599,14 @@ export const UPDATE_ABOUT_US = gql`
   }
 `;
 
+export const ADMIN_DELETE_RATING = gql`
+  mutation AdminDeleteRating($id:Int!) {
+    adminDeleteRating(_id:$id)
+  }
+`;
+
 export const DELETE_RATING = gql`
-  mutation DeleteRating($id:Int!) {
+  mutation deleteRating($id:Int!) {
     deleteRating(_id:$id)
   }
 `;
@@ -674,8 +680,8 @@ export const DELETE_BLOG = gql`
 `;
 
 export const REPORTS = gql`
-  query Reports($offset:Int $limit:Int) {
-    reports(offset:$offset limit:$limit) {
+  query Reports($summary:String $offset:Int $limit:Int) {
+    reports(summary:$summary offset:$offset limit:$limit) {
       _id
       user {
         _id
@@ -685,6 +691,25 @@ export const REPORTS = gql`
       rating {
         _id
         overAllRating
+        course
+        semester
+        createdAt
+        thoughts
+        likes {
+          _id
+        }
+        disLikes {
+          _id
+        }
+        user {
+          _id
+          firstName
+          email
+        }
+        faculty {
+          firstName
+          email
+        }
       }
       summary
       details

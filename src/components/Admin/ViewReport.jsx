@@ -19,13 +19,13 @@ import { setCurrentTab } from '../../redux/adminActions';
 import { addToast } from '../../redux/toastsActions';
 
 import {
-  USERS, RATINGS, DELETE_RATING,
+  USERS, RATINGS, ADMIN_DELETE_RATING,
 } from '../../graphqlQueries';
 
 export default function ViewReport({ report }) {
   const dispatch = useDispatch();
   const [deleteRating, { loading }] = useMutation(
-    DELETE_RATING,
+    ADMIN_DELETE_RATING,
     { refetchQueries: [{ query: RATINGS }, { query: USERS }] },
   );
   function handleRatingDelete(id) {
@@ -105,7 +105,7 @@ export default function ViewReport({ report }) {
             </tr>
             <tr>
               <td><Typography>Rated on:</Typography></td>
-              <td><Typography>{moment(report.rating.createdAt).format('DD-MM-YYYY, HH:MM')}</Typography></td>
+              <td><Typography>{moment(report.rating.createdAt).format('DD-MM-YYYY, HH:MM A')}</Typography></td>
             </tr>
             <tr>
               <td><Typography>Likes:</Typography></td>

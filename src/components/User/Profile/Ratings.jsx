@@ -18,7 +18,7 @@ import RatingCard from './RatingCard';
 
 export default function Ratings() {
   const user = useSelector((state) => state.account.user);
-  const { loading, data } = useQuery(USER_RATINGS, { variables: { id: user?._id || -1 }, fetchPolicy: 'cache-and-network' });
+  const { loading, data, refetch } = useQuery(USER_RATINGS, { variables: { id: user?._id || -1 }, fetchPolicy: 'network-only', nextFetchPolicy: 'no-cache' });
   if (!user) return <Redirect push to="/login" />;
   if (loading) return <div className="absolute inset-x-0 flex items-center justify-center mt-16"><CircularProgress /></div>;
   return (
@@ -29,7 +29,7 @@ export default function Ratings() {
       { /* The following component calculates difficulty levels and
            average ratings on semester, course and faculty */
         data?.ratings.map((rating) => (
-          <RatingCard key={rating._id} rating={rating} />
+          <RatingCard key={rating._id} rating={rating} refetch={refetch} />
         ))
       }
     </div>

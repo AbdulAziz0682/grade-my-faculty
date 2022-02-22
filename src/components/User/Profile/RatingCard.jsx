@@ -11,13 +11,13 @@ import {
   Button,
 } from '@mui/material';
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { useQuery, useMutation } from '@apollo/client';
 
 import { addToast } from '../../../redux/toastsActions';
 
-import { RATINGS, DELETE_RATING } from '../../../graphqlQueries';
+import { USER_RATINGS, RATINGS, DELETE_RATING } from '../../../graphqlQueries';
 
 // helper functions
 function calculateWillTakeAgainPercent(ratings) {
@@ -49,12 +49,13 @@ function calculateAverageRating(ratings) {
   return Number(total / ratings.length).toFixed(1);
 }
 
-function RatingCard({ rating }) {
+function RatingCard({ rating, refetch }) {
+  const user = useSelector((state) => state.account.user);
   const dispatch = useDispatch();
   const { data } = useQuery(
     RATINGS,
     {
-      fetchPolicy: 'cache-and-network',
+      fetchPolicy: 'network-only',
       variables: {
         course: rating.course,
         semester: rating.semester,
@@ -65,21 +66,23 @@ function RatingCard({ rating }) {
   const [deleteRating, deleteMutation] = useMutation(
     DELETE_RATING,
     {
-      refetchQueries: [{
-        query: RATINGS,
-        variables: {
-          course: rating.course,
-          semester: rating.semester,
-          faculty: rating.faculty._id,
+      refetchQueries: [
+        {
+          query: USER_RATINGS,
+          variables: { user: user?._id },
+          fetchPolicy: 'network-only',
         },
-        fetchPolicy: 'network-only',
-      }],
+        {
+          query: RATINGS,
+        },
+      ],
     },
   );
   function handleDeleteRating(id) {
     deleteRating({ variables: { id: Number(id) } })
       .then(() => {
         dispatch(addToast({ message: 'Rating deleted successfully', severity: 'success' }));
+        refetch();
       })
       .catch((e) => dispatch(addToast({ message: e.message, severity: 'error' })));
   }
@@ -159,6 +162,8 @@ RatingCard.propTypes = {
       }).isRequired,
     }).isRequired,
   }).isRequired,
+  // Fuction for refetching ratings after user deletes one
+  refetch: PropTypes.func.isRequired,
 };
 
 export default RatingCard;

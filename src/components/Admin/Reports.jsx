@@ -27,7 +27,7 @@ import { setCurrentTab } from '../../redux/adminActions';
 import Search from '../../assets/Search.svg';
 
 import {
-  USERS, REPORTS, RATINGS, FACULTIES, DELETE_REPORT,
+  REPORTS, DELETE_REPORT,
 } from '../../graphqlQueries';
 import { addToast } from '../../redux/toastsActions';
 
@@ -35,17 +35,10 @@ export default function Reports() {
   const dispatch = useDispatch();
   const [offset, setOffset] = React.useState(0);
   const [searchValue, setSearchValue] = React.useState('');
-  const { loading, data } = useQuery(REPORTS, { fetchPolicy: 'cache-and-network', variables: { offset, limit: 10 } });
-  const ratingsQuery = useQuery(RATINGS);
-  const usersQuery = useQuery(USERS);
-  const facultiesQuery = useQuery(FACULTIES);
+  const { loading, data } = useQuery(REPORTS, { fetchPolicy: 'cache-and-network', variables: { offset, limit: 10, summary: searchValue } });
   const [deleteReport] = useMutation(
     DELETE_REPORT,
-    {
-      refetchQueries: [
-        { query: REPORTS }, { query: USERS }, { query: FACULTIES }, { query: RATINGS },
-      ],
-    },
+    { refetchQueries: [{ query: REPORTS }] },
   );
   function nextPage() {
     if (data && offset < data.allReports) {
@@ -71,7 +64,7 @@ export default function Reports() {
           variant="outlined"
           size="small"
           value={searchValue}
-          onChange={(e) => setSearchValue(e.target.value.toLowerCase())}
+          onChange={(e) => setSearchValue(e.target.value)}
           placeholder="Search..."
           InputProps={{
             startAdornment: (
@@ -94,58 +87,25 @@ export default function Reports() {
             </TableRow>
           </TableHead>
           {
-            !loading && !ratingsQuery.loading && !usersQuery.loading && !facultiesQuery.loading
-            && data && (
+            !loading && data && (
               <TableBody>
                 {
-                  data?.reports.filter(
-                    (rpt) => rpt.summary.toLowerCase().includes(searchValue),
-                  ).map((r) => (
+                  data?.reports.map((r) => (
                     <TableRow key={r._id} className="hover:shadow-md">
                       <TableCell className="m-3 leading-9 text-gray-400">{r._id}</TableCell>
                       <TableCell className="text-lg font-semibold text-black">{r.summary}</TableCell>
                       <TableCell className="leading-9 text-gray-400">
-                        {
-                          usersQuery.data.users.find(
-                            (u) => Number(u._id) === Number(r.user),
-                          )?.firstName || 'N/A'
-                        }
+                        {r.user.firstName}
                       </TableCell>
-                      <TableCell className="leading-9 text-gray-400">{r.rating}</TableCell>
+                      <TableCell className="leading-9 text-gray-400">{r.rating._id}</TableCell>
                       <TableCell className="text-center">
                         <IconButton
                           className="cursor-pointer"
                           onClick={() => {
-                            const rating = ratingsQuery.data?.ratings.find(
-                              (rt) => Number(rt._id) === Number(r.rating),
-                            );
-                            if (!rating) {
-                              dispatch(addToast({ message: 'Rating does not exist', severity: 'error' }));
-                              return;
-                            }
-                            const reportingUser = usersQuery.data.users.find(
-                              (u) => Number(u._id) === Number(r.user),
-                            );
-                            if (!reportingUser) {
-                              dispatch(addToast({ message: 'User does not exist', severity: 'error' }));
-                              return;
-                            }
                             dispatch(setCurrentTab(
                               {
                                 name: 'viewReport',
-                                data: {
-                                  ...r,
-                                  rating: {
-                                    ...rating,
-                                    user: usersQuery.data.users.find(
-                                      (u) => Number(u._id) === Number(rating.user),
-                                    ),
-                                    faculty: facultiesQuery.data.faculties.find(
-                                      (f) => Number(f._id) === Number(rating.faculty),
-                                    ),
-                                  },
-                                  user: reportingUser,
-                                },
+                                data: r,
                               },
                             ));
                           }}
