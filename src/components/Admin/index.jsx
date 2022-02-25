@@ -42,6 +42,7 @@ import AddMember from './AddMember';
 import EditMember from './EditMember';
 import Reports from './Reports';
 import ViewReport from './ViewReport';
+import AddManyProfessors from './AddManyProfessors';
 
 export default function Admin() {
   const [open, setOpen] = useState(false);
@@ -109,6 +110,9 @@ export default function Admin() {
           }
           {
             admin.currentTab.name === 'addProfessor' && <AddProfessor />
+          }
+          {
+            admin.currentTab.name === 'addManyProfessors' && <AddManyProfessors />
           }
           {
             admin.currentTab.name === 'viewProfessor' && <ViewProfessor professor={admin.currentTab.data} />

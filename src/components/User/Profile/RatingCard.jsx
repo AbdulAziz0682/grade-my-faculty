@@ -79,6 +79,7 @@ function RatingCard({ rating, refetch }) {
     },
   );
   function handleDeleteRating(id) {
+    if (!window.confirm('Are you sure you want to delete the rating?')) return;
     deleteRating({ variables: { id: Number(id) } })
       .then(() => {
         dispatch(addToast({ message: 'Rating deleted successfully', severity: 'success' }));

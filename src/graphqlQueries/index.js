@@ -330,6 +330,15 @@ export const NEW_FACULTY = gql`
   }
 `;
 
+export const NEW_FACULTIES = gql`
+  mutation NewFaculties($csvFile:Upload! $institute:Int!) {
+    newFaculties(csvFile:$csvFile institute:$institute) {
+      _id
+      firstName
+    }
+  }
+`;
+
 export const UPDATE_FACULTY = gql`
   mutation UpdateFaculty($id:Int! $firstName:String $lastName:String $email:String $institute:Int $department:String $courses:[String]) {
     updateFaculty(_id:$id firstName:$firstName lastName:$lastName email:$email institute:$institute department:$department courses:$courses) {

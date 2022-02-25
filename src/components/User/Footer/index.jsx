@@ -10,7 +10,6 @@ import { useHistory, Link } from 'react-router-dom';
 
 import facebook from '../../../assets/facebook.svg';
 import instagram from '../../../assets/instagram.svg';
-import twitter from '../../../assets/twitter.svg';
 
 export default function Footer() {
   const history = useHistory();
@@ -67,11 +66,6 @@ export default function Footer() {
                 <a href="https://www.instagram.com/grademyfaculty/">
                   <Icon>
                     <img src={instagram} alt="instagram" />
-                  </Icon>
-                </a>
-                <a href=" ">
-                  <Icon>
-                    <img src={twitter} alt="twittter" />
                   </Icon>
                 </a>
               </div>

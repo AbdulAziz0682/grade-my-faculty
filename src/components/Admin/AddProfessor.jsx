@@ -28,6 +28,7 @@ import {
   COUNT_ALL,
   ADMIN_FACULTIES,
 } from '../../graphqlQueries';
+import { setCurrentTab } from '../../redux/adminActions';
 
 export default function AddProfessor() {
   const dispatch = useDispatch();
@@ -72,8 +73,11 @@ export default function AddProfessor() {
   if (loading) return <div className="absolute inset-x-0 flex items-center justify-center"><CircularProgress /></div>;
   return (
     <div className="flex flex-col w-full gap-3">
-      <div className="flex flex-col w-full gap-2 md:gap-9 md:flex-row md:items-center">
+      <div className="flex flex-wrap items-center justify-between w-full gap-2">
         <Typography className="ml-16 text-4xl text-gray-500">Add Professor</Typography>
+        <Button type="submit" variant="contained" onClick={() => dispatch(setCurrentTab({ name: 'addManyProfessors' }))} style={{ maxHeight: '38px' }} className="self-start w-auto py-3 px-9 shadow-primaryGlow">
+          Add Many Professors
+        </Button>
       </div>
       <Card className="flex flex-col w-full gap-12 p-14" elevation={6} component="form" onSubmit={formik.handleSubmit}>
         <TextField
