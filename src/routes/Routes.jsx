@@ -24,6 +24,8 @@ import Grade from '../components/User/Pages/Grade';
 import GradingForm from '../components/User/Pages/Grade/GradingForm';
 import Blog from '../components/User/Pages/Blog';
 import Contact from '../components/User/Pages/Contact';
+import NewInstitute from '../components/User/Pages/NewInstitute';
+import NewFaculty from '../components/User/Pages/NewFaculty';
 import Login from '../components/User/Pages/Login';
 import SingUp from '../components/User/Pages/SignUp';
 import EmailVerification from '../components/User/Pages/SignUp/EmailVerification';
@@ -129,6 +131,12 @@ export default function Routes() {
               </Route>
               <Route exact path="/contact">
                 <Contact />
+              </Route>
+              <Route exact path="/new-institute">
+                <NewInstitute />
+              </Route>
+              <Route exact path="/new-faculty">
+                <NewFaculty />
               </Route>
               <Route exact path="/login">
                 <Login />

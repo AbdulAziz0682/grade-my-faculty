@@ -12,8 +12,8 @@ import {
 
 import { useMutation, useQuery } from '@apollo/client';
 
-// import { useDispatch } from 'react-redux';
-// import { addToast } from '../../redux/toastsActions';
+import { useDispatch } from 'react-redux';
+import { addToast } from '../../redux/toastsActions';
 
 import {
   ADMIN_INSTITUTES,
@@ -23,7 +23,8 @@ import {
 } from '../../graphqlQueries';
 
 export default function AddManyProfessors() {
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
+  const [error, setError] = React.useState(null);
   const { data, loading } = useQuery(ADMIN_INSTITUTES, { fetchPolicy: 'cache-and-network' });
   const [updateMember, { loading: loadingMutation }] = useMutation(
     NEW_FACULTIES, { refetchQueries: [{ query: ADMIN_FACULTIES }, { query: COUNT_ALL }] },
@@ -31,11 +32,10 @@ export default function AddManyProfessors() {
   const [institute, setInstitute] = React.useState(-1);
   const inputRef = React.useRef();
   function handleUpload() {
-    console.log(inputRef);
     if (!inputRef?.current?.files[0]) return;
-    updateMember({ variables: { csvFile: inputRef.current.files[0], institute } })
-      .then(() => console.log('Success'))
-      .catch(() => console.error('Error occurred'));
+    updateMember({ variables: { jsonFile: inputRef.current.files[0], institute } })
+      .then(() => dispatch(addToast({ message: 'Faculties added successfully', severity: 'success' })))
+      .catch((r) => setError(r));
   }
   if (loading) return <div className="absolute inset-x-0 flex items-center justify-center"><CircularProgress /></div>;
   return (
@@ -69,9 +69,12 @@ export default function AddManyProfessors() {
             ))
           }
         </Select>
-        <Typography variant="h6" className="font-bold">Upload CSV file:</Typography>
+        <Typography variant="h6" className="font-bold">Upload JSON file:</Typography>
         <input type="file" ref={inputRef} className="w-full rounded-lg border-1" />
-        <Button variant="contained" disabled={loadingMutation} onClick={() => handleUpload()} style={{ maxHeight: '38px' }} className="self-start w-3/12 py-3 px-9 shadow-primaryGlow">
+        {
+          error && <Typography color="error" variant="subtitle1">{error?.message}</Typography>
+        }
+        <Button variant="contained" disabled={loadingMutation || institute === -1} onClick={() => handleUpload()} style={{ maxHeight: '38px' }} className="self-start w-3/12 py-3 px-9 shadow-primaryGlow">
           {
             loadingMutation
               ? <CircularProgress />

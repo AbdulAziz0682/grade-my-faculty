@@ -39,8 +39,8 @@ export default function AddProfessor() {
   // Form requirements
   const schema = yup.object({
     firstName: yup.string().required('First name is required').min(2, 'Enter at least 2 characters'),
-    lastName: yup.string().required('Last name is required').min(2, 'Enter at least 2 characters'),
-    email: yup.string().email('Enter a valid email').required('Email is required'),
+    lastName: yup.string(),
+    email: yup.string().email('Enter a valid email'),
     department: yup.string().required('Department is required').min(6, 'Enter at least 6 characters'),
     institute: yup.number().min(0, 'Enter a valid institute').required('Institute is required'),
     courses: yup.array().min(1, 'Enter at least 1 course').required('Courses are required'),
@@ -48,14 +48,19 @@ export default function AddProfessor() {
   const formik = useFormik({
     initialValues: {
       firstName: '',
-      lastName: '',
-      email: '',
       department: '',
       institute: -1,
       courses: [],
     },
     validationSchema: schema,
-    onSubmit: (values) => newFaculty({ variables: values })
+    onSubmit: (values) => newFaculty({
+      variables: {
+        ...values,
+        // if last name is not supplied, better not provide it
+        lastName: values.lastName ? values.lastName : undefined,
+        email: values.email ? values.email : undefined,
+      },
+    })
       .then(() => dispatch(addToast({ message: 'Faculty added successfully', severity: 'success' })))
       .catch((r) => dispatch(addToast({ message: r.message, severity: 'error' }))),
   });
@@ -94,7 +99,6 @@ export default function AddProfessor() {
         <TextField
           variant="standard"
           fullWidth
-          required
           label="Last Name"
           name="lastName"
           value={formik.values.lastName}
@@ -105,7 +109,6 @@ export default function AddProfessor() {
         <TextField
           variant="standard"
           fullWidth
-          required
           label="Email"
           name="email"
           value={formik.values.email}

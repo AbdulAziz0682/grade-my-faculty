@@ -7,11 +7,12 @@ import React, { useState } from 'react';
 
 import {
   MenuItem,
+  Button,
 } from '@mui/material';
 
 import PropTypes from 'prop-types';
 
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 
 const AutoComplete = ({ suggestions, disabled, error }) => {
   const [filteredSuggestions, setFilteredSuggestions] = useState([]);
@@ -114,7 +115,17 @@ const AutoComplete = ({ suggestions, disabled, error }) => {
       </ul>
     ) : (
       <div className="bg-gray-100 no-suggestions rounded-b-3xl">
-        <em>sorry no suggestions</em>
+        <em>
+          Request for
+          &nbsp;
+          <Link to="/new-institute">
+            <Button variant="text">New University</Button>
+          </Link>
+          &nbsp;or&nbsp;
+          <Link to="/new-faculty">
+            <Button variant="text">New Faculty</Button>
+          </Link>
+        </em>
       </div>
     );
   }

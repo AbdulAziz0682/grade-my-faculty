@@ -121,7 +121,6 @@ export default function EditProfessor({ professor }) {
         <TextField
           variant="standard"
           fullWidth
-          required
           label="Last Name"
           name="lastName"
           value={formik.values.lastName}
@@ -132,7 +131,6 @@ export default function EditProfessor({ professor }) {
         <TextField
           variant="standard"
           fullWidth
-          required
           label="Email"
           name="email"
           value={formik.values.email}

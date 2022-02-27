@@ -318,7 +318,7 @@ export const FACULTIES_BY_INSTITUTE = gql`
 `;
 
 export const NEW_FACULTY = gql`
-  mutation NewFaculty($firstName:String! $lastName:String! $email:String! $institute:Int! $department:String! $courses:[String!]!) {
+  mutation NewFaculty($firstName:String! $lastName:String $email:String $institute:Int! $department:String! $courses:[String!]!) {
     newFaculty(firstName:$firstName lastName:$lastName email:$email institute:$institute department:$department courses:$courses) {
       _id
       firstName
@@ -331,8 +331,8 @@ export const NEW_FACULTY = gql`
 `;
 
 export const NEW_FACULTIES = gql`
-  mutation NewFaculties($csvFile:Upload! $institute:Int!) {
-    newFaculties(csvFile:$csvFile institute:$institute) {
+  mutation NewFaculties($jsonFile:Upload! $institute:Int!) {
+    newFaculties(jsonFile:$jsonFile institute:$institute) {
       _id
       firstName
     }
