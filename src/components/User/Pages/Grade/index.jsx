@@ -255,7 +255,12 @@ export default function Grade() {
                 (rate) => (
                   <Grid container key={rate._id}>
                     <Grid item xs={12} sm={3} className="flex flex-row p-3 bg-primary md:flex-col">
-                      <Typography className="self-center w-full text-3xl font-semibold text-center text-white">{rate.gradeOfUser}</Typography>
+                      <Typography className="self-center w-1/2 text-3xl font-semibold text-center text-white">
+                        {
+                          calculateOverAllRating([{ overAllRating: rate.overAllRating }])
+                        }
+                      </Typography>
+                      <Typography className="w-full text-center text-white md:text-xs">Faculty Rating</Typography>
                       <span className="flex-grow" />
                       <Typography className="self-center text-3xl font-semibold text-center text-white w-min">
                         { Number(rate.levelOfDifficulty).toFixed(1) }
