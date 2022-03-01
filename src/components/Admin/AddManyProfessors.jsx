@@ -14,6 +14,7 @@ import { useMutation, useQuery } from '@apollo/client';
 
 import { useDispatch } from 'react-redux';
 import { addToast } from '../../redux/toastsActions';
+import { setCurrentTab } from '../../redux/adminActions';
 
 import {
   ADMIN_INSTITUTES,
@@ -34,7 +35,10 @@ export default function AddManyProfessors() {
   function handleUpload() {
     if (!inputRef?.current?.files[0]) return;
     updateMember({ variables: { jsonFile: inputRef.current.files[0], institute } })
-      .then(() => dispatch(addToast({ message: 'Faculties added successfully', severity: 'success' })))
+      .then(() => {
+        dispatch(addToast({ message: 'Faculties added successfully', severity: 'success' }));
+        dispatch(setCurrentTab({ name: 'professors', data: null }));
+      })
       .catch((r) => setError(r));
   }
   if (loading) return <div className="absolute inset-x-0 flex items-center justify-center"><CircularProgress /></div>;
@@ -43,11 +47,41 @@ export default function AddManyProfessors() {
       <div className="flex flex-col w-full">
         <Typography className="ml-16 text-4xl text-gray-500">Add Many Professors</Typography>
         <Typography className="ml-16 text-gray-500">
-          The data entered here should be in CSV format.
+          The data entered here should be in JSON file format (eg Faculties.json).
         </Typography>
         <Typography className="ml-16 text-gray-500">
-          Note that &apos;Rizwan,Ahmed,rizwanahmed@email.com,Computer Science,AMS101,CSE103&apos;
-          represent first name, last name, email, department and courses respectively.
+          Note that trailing commas are not allowed in json file formats. You can validate your
+          json file structure on different websites.
+          The one acceptable json file is that has the content structure as follows:
+          <pre>
+            {
+              `
+              [
+                {
+                  "firstName": "Sahadet Hossain 9",
+                  "lastName": "last name",
+                  "department": "Mathematics",
+                  "courses": [
+                    "MAT116",
+                    "MAT120",
+                    "MAT125"
+                  ]
+                },
+                {
+                  "firstName": "Sahadet Hossain 10",
+                  "lastName": "Khoso",
+                  "email": "email@email.com",
+                  "department": "Mathematics",
+                  "courses": [
+                    "MAT116",
+                    "MAT120",
+                    "MAT125"
+                  ]
+                }
+              ]
+              `
+            }
+          </pre>
         </Typography>
       </div>
       <Card className="flex flex-col w-full gap-3 p-14" elevation={6} component="form">
