@@ -647,6 +647,9 @@ export const BLOGS_AND_ADMINS_AND_ADS = gql`
       writtenBy {
         _id
         name
+        facebookLink
+        twitterLink
+        instagramLink
       }
       tags
     }
