@@ -56,7 +56,7 @@ export default function EditAdmin({ admin }) {
           // If link is empty, better not provide it
           facebookLink: values.facebookLink === '' ? undefined : values.facebookLink,
           instagramLink: values.instagramLink === '' ? undefined : values.instagramLink,
-          twitter: values.twitter === '' ? undefined : values.twitter,
+          twitterLink: values.twitterLink === '' ? undefined : values.twitterLink,
         },
       },
     )
