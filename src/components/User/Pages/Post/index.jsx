@@ -77,7 +77,7 @@ export default function Post() {
                 </Icon>
                 <Icon>
                   <a href={blog?.writtenBy?.twitterLink}>
-                    <img src={twitter} alt="twittter" />
+                    <img src={twitter} alt="twitter" />
                   </a>
                 </Icon>
               </div>
