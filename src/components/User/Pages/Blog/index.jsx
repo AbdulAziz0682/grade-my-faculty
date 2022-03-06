@@ -41,8 +41,8 @@ export default function AboutUs() {
       <div className="w-full bg-primary">
         <Container maxWidth="xl" className="flex flex-wrap justify-center gap-10 p-16 ">
           {
-            data.blogs.map((blog, idx, arr) => (
-              <Card key={new Date()} className="flex-col my-1 cursor-pointer w-80" onClick={() => history.push('/post', [blog, arr])}>
+            data.blogs.map((blog) => (
+              <Card key={blog._id} className="flex-col my-1 cursor-pointer w-80" onClick={() => history.push(`/post/${blog._id}`, [blog])}>
                 <img className="w-auto" style={{ maxHeight: '170px', width: '100%' }} src={getImgSrc(blog.content)} alt="media" />
                 <Typography className="mx-8 mt-8 font-semibold">
                   { blog.title }

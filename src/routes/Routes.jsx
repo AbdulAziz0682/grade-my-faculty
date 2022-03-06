@@ -108,7 +108,7 @@ export default function Routes() {
               <Route exact path="/blog">
                 <Blog />
               </Route>
-              <Route exact path="/post">
+              <Route exact path="/post/:_id">
                 <Post />
               </Route>
               <Route exact path="/aboutUs">

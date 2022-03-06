@@ -6,16 +6,21 @@ import {
   Typography,
   Container,
   Paper,
-  Icon,
+  // Icon,
   Button,
   CircularProgress,
+  IconButton,
 } from '@mui/material';
+
+import { ShareRounded } from '@mui/icons-material';
 
 import moment from 'moment';
 
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 
 import { useQuery } from '@apollo/client';
+
+import CopyLinkDialog from './CopyLinkDialog';
 
 import media3 from '../../../../assets/media3.png';
 import beardGuy from '../../../../assets/beardGuy.svg';
@@ -27,10 +32,23 @@ import { BLOGS_AND_ADMINS_AND_ADS } from '../../../../graphqlQueries';
 
 export default function Post() {
   const history = useHistory();
-  const blog = history.location.state[0];
+  const params = useParams();
+  const [open, setOpen] = React.useState(false); // for opening and closing copy link dialog
+  const [blog, setBlog] = React.useState({
+    // null blog for handling undefined
+    _id: -1,
+    title: 'N/A',
+    content: 'N/A',
+    createdAt: new Date(),
+    writtenBy: {
+      _id: -1,
+      name: 'N/A',
+    },
+    tags: [],
+  });
   const { loading, data } = useQuery(
     BLOGS_AND_ADMINS_AND_ADS,
-    { fetchPolicy: 'cache-and-network', variables: { locationId: '/post' } },
+    { fetchPolicy: 'cache', variables: { locationId: '/post' } },
   );
   function getImgSrc(content) {
     const src = (/<img src="([^"]*([^"]*(?:[^\\"]|\\\\|\\")*)+)"/g).exec(content);
@@ -40,6 +58,17 @@ export default function Post() {
     const para = String(content);
     return para.replaceAll('<img', '<imx');
   }
+  React.useEffect(() => {
+    // if no data or loading
+    if (loading || !data) return;
+    // find the blog whose _id is in url
+    const b = data.blogs.find((blg) => blg._id === Number(params._id));
+    if (!b) {
+      history.push('/blog');
+      return;
+    }
+    setBlog(b);
+  }, [loading, data]);
   if (loading) return <span className="absolute inset-x-0 flex justify-center mt-16"><CircularProgress /></span>;
   return (
     <Grid container className="flex-grow bg-gray-50">
@@ -62,30 +91,34 @@ export default function Post() {
               </div>
               <div
                 style={{
-                  display: 'flex', gap: '1rem', alignItems: 'center', justifyContent: 'space-between',
+                  display: 'flex', gap: '0.5rem', alignItems: 'center', justifyContent: 'space-between',
                 }}
               >
-                <Icon>
+                <IconButton onClick={() => setOpen(true)}>
+                  <ShareRounded className="text-primary" />
+                </IconButton>
+                <IconButton>
                   <a href={blog?.writtenBy?.facebookLink}>
                     <img src={facebook} alt="facebook" />
                   </a>
-                </Icon>
-                <Icon>
+                </IconButton>
+                <IconButton>
                   <a href={blog?.writtenBy?.instagramLink}>
                     <img src={instagram} alt="instagram" />
                   </a>
-                </Icon>
-                <Icon>
+                </IconButton>
+                <IconButton>
                   <a href={blog?.writtenBy?.twitterLink}>
                     <img src={twitter} alt="twitter" />
                   </a>
-                </Icon>
+                </IconButton>
               </div>
             </div>
             <div className="block w-full" dangerouslySetInnerHTML={{ __html: blog.content }} />
             {
               data.ads && data.ads.slice(1, 2).map((ad) => (
                 <div
+                  key={ad._id}
                   dangerouslySetInnerHTML={{ __html: ad.code }}
                   className="flex flex-col justify-center px-6"
                 />
@@ -97,7 +130,7 @@ export default function Post() {
           {
             data.blogs.map(
               (blg, idx, arr) => (
-                <Paper elevation={3} key={blg._id} onClick={() => history.push('/post', [blg, arr])} className="flex flex-col w-full gap-5 pb-3 my-6 transform lg:my-0">
+                <Paper elevation={3} key={blg._id} onClick={() => history.push(`/post/${blg._id}`, [blg, arr])} className="flex flex-col w-full gap-5 pb-3 my-6 transform lg:my-0">
                   <img src={getImgSrc(blg.content)} alt="blog" className="w-full" style={{ maxHeight: '200px' }} />
                   <div className="flex flex-col w-full gap-5 px-6">
                     <Typography className="text-sm text-gray-500 uppercase">{ moment(blg.createdAt).format('DD MMMM YYYY') }</Typography>
@@ -107,15 +140,16 @@ export default function Post() {
                         dangerouslySetInnerHTML={{ __html: getFirstPara(blg.content) }}
                       />
                     </Typography>
-                    <Button variant="text" color="primary" className="self-start pl-0" onClick={() => history.push('/post', [blg, arr])}>Read more</Button>
+                    <Button variant="text" color="primary" className="self-start pl-0" onClick={() => history.push(`/post/${blg._id}`, [blg, arr])}>Read more</Button>
                   </div>
                 </Paper>
               ),
-            ).slice(-3)
+            )
           }
           {
             data.ads && data.ads.slice(3).map((ad) => (
               <div
+                key={ad._id}
                 dangerouslySetInnerHTML={{ __html: ad.code }}
                 className="flex flex-col justify-center px-6"
               />
@@ -123,6 +157,10 @@ export default function Post() {
           }
         </div>
       </Container>
+      <CopyLinkDialog
+        open={open}
+        handleClose={() => setOpen(false)}
+      />
     </Grid>
   );
 }
