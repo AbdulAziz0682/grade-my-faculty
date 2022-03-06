@@ -340,7 +340,7 @@ export default function GradingForm() {
                   <Button variant="text" color="primary" className="self-start pl-0" onClick={() => history.push(`/post/${blg._id}`, [blg, arr])}>Read more</Button>
                 </div>
               </Paper>
-            )).slice(-3)
+            ))
           }
         </div>
       </Container>
