@@ -45,6 +45,7 @@ export default function Grade() {
   const history = useHistory();
   const { location } = history;
   const user = useSelector((state) => state.account.user);
+  console.log(user);
   if (!location.state || !location.state[0]) return <Redirect push to="/" />;
   const dispatch = useDispatch();
   const [loadMore, setLoadMore] = React.useState(false);
@@ -296,9 +297,9 @@ export default function Grade() {
                         }
                       </div>
                       <div className="flex items-center gap-2 mt-1">
-                        <img src={rate.likes.find((l) => l._id === Number(user._id)) ? liked : like} alt="like" className="w-4 transition duration-500 transform hover:scale-150" onClick={() => onLike(rate._id)} />
+                        <img src={rate.likes.find((l) => l?._id === Number(user?._id)) ? liked : like} alt="like" className="w-4 transition duration-500 transform hover:scale-150" onClick={() => onLike(rate._id)} />
                         <span className="text-sm text-gray-500">{rate.likes.length || 0}</span>
-                        <img src={rate.disLikes.find((d) => d._id === Number(user._id)) ? unliked : unlike} alt="unlike" className="w-4 transition duration-500 transform hover:scale-150" onClick={() => onDisLike(rate._id)} />
+                        <img src={rate.disLikes.find((d) => d?._id === Number(user?._id)) ? unliked : unlike} alt="unlike" className="w-4 transition duration-500 transform hover:scale-150" onClick={() => onDisLike(rate._id)} />
                         <span className="text-sm text-gray-500">{rate.disLikes.length || 0}</span>
                         <span className="flex-grow" />
                         <Button
