@@ -67,7 +67,7 @@ export default function AboutUs() {
                 disableDotsControls
                 infinite
                 onSlideChange={(e) => setActiveIndex(e.item)}
-                animationDuration={3000}
+                animationDuration={4000}
                 responsive={{
                   0: { items: 1 },
                   600: { items: 2 },
