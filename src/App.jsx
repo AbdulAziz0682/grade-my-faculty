@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { Helmet } from 'react-helmet';
+
 import { createTheme, ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
 
 import { BrowserRouter } from 'react-router-dom';
@@ -63,6 +65,16 @@ export default function App() {
     <StyledEngineProvider injectFirst>
       <ThemeProvider theme={theme}>
         <BrowserRouter>
+          <Helmet>
+            <meta
+              name="description"
+              content="A publicly available platform for students to anonymously grade and review their university faculties."
+            />
+            <meta
+              property="og:description"
+              content="A publicly available platform for students to anonymously grade and review their university faculties."
+            />
+          </Helmet>
           <ErrorBoundary>
             {
               loading
