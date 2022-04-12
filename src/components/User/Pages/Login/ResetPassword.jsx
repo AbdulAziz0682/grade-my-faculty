@@ -7,6 +7,7 @@ import Typography from '@mui/material/Typography';
 import {
   TextField,
   Button,
+  CircularProgress,
 } from '@mui/material';
 
 import axios from 'axios';
@@ -23,9 +24,11 @@ export default function ResetPassword() {
   const dispatch = useDispatch();
   const [newPassword, setNewPassword] = React.useState('');
   const [confirmPassword, setConfirmPassword] = React.useState('');
+  const [loading, setLoading] = React.useState(false);
   function handleSubmit() {
     if (newPassword !== confirmPassword) return dispatch(addToast({ message: 'Passwords should match', severity: 'error' }));
     if (newPassword.length < 8) return dispatch(addToast({ message: 'Passwords should be at least 8 characters long', severity: 'error' }));
+    setLoading(true);
     return axios.post(
       `${process.env.REACT_APP_BACKEND_URL}/resetPassword`,
       {
@@ -38,10 +41,14 @@ export default function ResetPassword() {
       },
     )
       .then((r) => {
+        setLoading(false);
         dispatch(addToast({ message: r?.data || 'Password changed', severity: 'success' }));
         history.push('/login');
       })
-      .catch((e) => dispatch(addToast({ message: e?.response?.data?.error || e.message || 'Error occurred', severity: 'error' })));
+      .catch((e) => {
+        dispatch(addToast({ message: e?.response?.data?.error || e.message || 'Error occurred', severity: 'error' }));
+        setLoading(false);
+      });
   }
   return (
     <Grid container className="flex-grow bg-pageBg">
@@ -76,7 +83,13 @@ export default function ResetPassword() {
               />
             </Grid>
             <Grid item className="mt-9">
-              <Button variant="contained" type="submit" className="py-3" fullWidth>Reset Password</Button>
+              <Button variant="contained" disabled={loading} type="submit" className="py-3" fullWidth>
+                {
+                  loading
+                    ? <CircularProgress />
+                    : 'Reset Password'
+                }
+              </Button>
             </Grid>
           </Grid>
         </Paper>

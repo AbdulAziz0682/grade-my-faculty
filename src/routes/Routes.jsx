@@ -29,6 +29,7 @@ import NewFaculty from '../components/User/Pages/NewFaculty';
 import Login from '../components/User/Pages/Login';
 import SingUp from '../components/User/Pages/SignUp';
 import EmailVerification from '../components/User/Pages/SignUp/EmailVerification';
+import VerifyEmail from '../components/User/Pages/VerifyEmail';
 import ForgetPassword from '../components/User/Pages/Login/ForgetPassword';
 import Faq from '../components/User/Pages/Faq';
 import StudentsFaq from '../components/User/Pages/Faq/StudentsFaq';
@@ -146,6 +147,9 @@ export default function Routes() {
               </Route>
               <Route exact path="/emailVerification">
                 <EmailVerification />
+              </Route>
+              <Route exact path="/verifyEmail">
+                <VerifyEmail />
               </Route>
               <Route exact path="/forgotPassword">
                 <ForgetPassword />

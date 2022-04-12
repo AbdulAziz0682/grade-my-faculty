@@ -7,6 +7,7 @@ import Typography from '@mui/material/Typography';
 import {
   TextField,
   Button,
+  CircularProgress,
 } from '@mui/material';
 
 import { useHistory } from 'react-router-dom';
@@ -19,8 +20,10 @@ export default function ForgetPassword() {
   const history = useHistory();
   const [email, setEmail] = React.useState('');
   const [error, setError] = React.useState('');
+  const [loading, setLoading] = React.useState(false);
   const dispatch = useDispatch();
   function handleSubmit() {
+    setLoading(true);
     axios.post(`${process.env.REACT_APP_BACKEND_URL}/forgetPassword`, { email, role: 'user' }, {
       headers: {
         'Content-Type': 'application/json',
@@ -28,10 +31,14 @@ export default function ForgetPassword() {
     })
       .then((r) => {
         setError('');
+        setLoading(false);
         dispatch(addToast({ message: r?.data || 'Code sent on given email', severity: 'success' }));
         history.push(`/verifyConfirmationCode/${email}`);
       })
-      .catch((e) => setError(e?.response?.data?.error || e.message || 'Error occurred'));
+      .catch((e) => {
+        setError(e?.response?.data?.error || e.message || 'Error occurred');
+        setLoading(false);
+      });
   }
   return (
     <Grid container className="flex-grow bg-pageBg">
@@ -55,7 +62,13 @@ export default function ForgetPassword() {
               <p className="pt-2 text-sm font-semibold text-red-500" style={{ fontFamily: 'montserrat' }}>{error}</p>
             </Grid>
             <Grid item className="mt-3">
-              <Button variant="contained" type="submit" className="py-3" fullWidth>Reset Password</Button>
+              <Button variant="contained" disabled={loading} type="submit" className="py-3" fullWidth>
+                {
+                  loading
+                    ? <CircularProgress />
+                    : 'Reset Password'
+                }
+              </Button>
             </Grid>
           </Grid>
         </Paper>

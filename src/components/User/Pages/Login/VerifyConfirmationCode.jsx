@@ -7,9 +7,9 @@ import Typography from '@mui/material/Typography';
 import {
   TextField,
   Button,
+  CircularProgress,
 } from '@mui/material';
 
-// import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import { useParams, Redirect, useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
@@ -20,9 +20,11 @@ export default function VerifyConfirmationCode() {
   const history = useHistory();
   if (!email) return <Redirect push to="/forgotPassword" />;
   const [error, setError] = React.useState('');
+  const [loading, setLoading] = React.useState(false);
   const [confirmationCode, setConfirmationCode] = React.useState(0);
   const dispatch = useDispatch();
   function handleSubmit() {
+    setLoading(true);
     axios.post(`${process.env.REACT_APP_BACKEND_URL}/validateCode`, { email, confirmationCode, role: 'user' }, {
       headers: {
         'Content-Type': 'application/json',
@@ -30,10 +32,14 @@ export default function VerifyConfirmationCode() {
     })
       .then((r) => {
         setError('');
+        setLoading(false);
         dispatch(addToast({ message: 'Code verified successfully', severity: 'success' }));
         history.push(`/resetPassword/${r?.data?.token}`);
       })
-      .catch((e) => setError(e?.response?.data?.error || e.message || 'Error occurred'));
+      .catch((e) => {
+        setError(e?.response?.data?.error || e.message || 'Error occurred');
+        setLoading(false);
+      });
   }
   return (
     <Grid container className="flex-grow bg-pageBg">
@@ -69,7 +75,13 @@ export default function VerifyConfirmationCode() {
               <p className="pt-2 text-sm font-semibold text-red-500" style={{ fontFamily: 'montserrat' }}>{error}</p>
             </Grid>
             <Grid item className="mt-3">
-              <Button variant="contained" type="submit" className="py-3" fullWidth>Verify Code</Button>
+              <Button variant="contained" disabled={loading} type="submit" className="py-3" fullWidth>
+                {
+                  loading
+                    ? <CircularProgress />
+                    : 'Verify Code'
+                }
+              </Button>
             </Grid>
           </Grid>
         </Paper>
