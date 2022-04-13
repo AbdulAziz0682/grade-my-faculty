@@ -134,10 +134,9 @@ export default function Grade() {
               Courses:
               { faculty.courses.slice(0, 3).map(
                 (course, idx) => (
-                  <span>
-                    &nbsp;
-                    {`${course}${(idx === (faculty.courses.length - 1)) || (idx === 2) ? '' : ','}`}
-                  </span>
+                  <>
+                    {` ${course}${(idx === (faculty.courses.length - 1)) || (idx === 2) ? '' : ','}`}
+                  </>
                 ),
               )}
               {

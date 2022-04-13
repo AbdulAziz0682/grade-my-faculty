@@ -36,43 +36,45 @@ export default function MobileMenuDialog({ open, handleClose }) {
   }
   return (
     <Dialog open={open} fullWidth handleClose={handleClose} classes={{ container: 'items-start mt-14', paper: 'w-full' }}>
-      <DialogTitle classes={{ root: 'text-xl flex justify-between items-center' }}>
-        Welcome to Grade my Faculty
-        <IconButton onClick={() => handleClose()}><Close /></IconButton>
+      <IconButton className="self-end p-3" onClick={() => handleClose()}><Close /></IconButton>
+      <DialogTitle classes={{ root: 'text-xl text-center' }}>
+        Welcome to
+        <br />
+        Grade my Faculty
       </DialogTitle>
       <DialogContent>
         <List>
           <ListItemButton onClick={() => { history.push('/'); handleClose(); }}>
-            <ListItemText sx={{ color: pathname === '/' || pathname === '/' ? 'primary.main' : 'gray' }}>Home</ListItemText>
+            <ListItemText classes={{ primary: 'font-bold text-lg' }} sx={{ color: pathname === '/' || pathname === '/' ? 'primary.main' : 'gray' }}>Home</ListItemText>
           </ListItemButton>
           <ListItemButton onClick={() => { history.push('/blog'); handleClose(); }}>
-            <ListItemText sx={{ color: pathname === '/blog' || pathname === '/blog' ? 'primary.main' : 'gray' }}>Blog</ListItemText>
+            <ListItemText classes={{ primary: 'font-bold text-lg' }} sx={{ color: pathname === '/blog' || pathname === '/blog' ? 'primary.main' : 'gray' }}>Blog</ListItemText>
           </ListItemButton>
           <ListItemButton onClick={() => { history.push('/aboutUs'); handleClose(); }}>
-            <ListItemText sx={{ color: pathname === '/aboutUs' || pathname === '/aboutUs' ? 'primary.main' : 'gray' }}>About Us</ListItemText>
+            <ListItemText classes={{ primary: 'font-bold text-lg' }} sx={{ color: pathname === '/aboutUs' || pathname === '/aboutUs' ? 'primary.main' : 'gray' }}>About Us</ListItemText>
           </ListItemButton>
           <ListItemButton onClick={() => { history.push('/contact'); handleClose(); }}>
-            <ListItemText sx={{ color: pathname === '/contact' || pathname === '/contact' ? 'primary.main' : 'gray' }}>Contact</ListItemText>
+            <ListItemText classes={{ primary: 'font-bold text-lg' }} sx={{ color: pathname === '/contact' || pathname === '/contact' ? 'primary.main' : 'gray' }}>Contact</ListItemText>
           </ListItemButton>
           {
             user
               ? (
                 <>
                   <ListItemButton onClick={() => { history.push('/profile'); handleClose(); }}>
-                    <ListItemText sx={{ color: pathname === '/profile' || pathname === '/profile' ? 'primary.main' : 'gray' }}>Profile</ListItemText>
+                    <ListItemText classes={{ primary: 'font-bold text-lg' }} sx={{ color: pathname === '/profile' || pathname === '/profile' ? 'primary.main' : 'gray' }}>Profile</ListItemText>
                   </ListItemButton>
                   <ListItemButton onClick={() => { userLogout(); handleClose(); }}>
-                    <ListItemText sx={{ color: 'gray' }}>Logout</ListItemText>
+                    <ListItemText classes={{ primary: 'font-bold text-lg' }} sx={{ color: 'gray' }}>Logout</ListItemText>
                   </ListItemButton>
                 </>
               )
               : (
                 <>
                   <ListItemButton onClick={() => { history.push('/login'); handleClose(); }}>
-                    <ListItemText sx={{ color: pathname === '/login' || pathname === '/login' ? 'primary.main' : 'gray' }}>Login</ListItemText>
+                    <ListItemText classes={{ primary: 'font-bold text-lg' }} sx={{ color: pathname === '/login' || pathname === '/login' ? 'primary.main' : 'gray' }}>Login</ListItemText>
                   </ListItemButton>
                   <ListItemButton onClick={() => { history.push('/signUp'); handleClose(); }}>
-                    <ListItemText sx={{ color: pathname === '/signUp' || pathname === '/signUp' ? 'primary.main' : 'gray' }}>Sign Up</ListItemText>
+                    <ListItemText classes={{ primary: 'font-bold text-lg' }} sx={{ color: pathname === '/signUp' || pathname === '/signUp' ? 'primary.main' : 'gray' }}>Sign Up</ListItemText>
                   </ListItemButton>
                 </>
               )
@@ -96,9 +98,6 @@ export default function MobileMenuDialog({ open, handleClose }) {
               <img className="w-6" src={primaryTwitter} alt="twittter" />
             </Icon>
           </a>
-          {/* <img src={primaryFacebook} alt="facebook" className="w-6" />
-          <img src={primaryInstagram} alt="instagram" className="w-6" />
-          <img src={primaryTwitter} alt="twitter" className="w-6" /> */}
         </span>
       </DialogActions>
     </Dialog>

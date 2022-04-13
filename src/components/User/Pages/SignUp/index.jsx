@@ -227,7 +227,7 @@ export default function SignUp() {
                       variant="body2"
                       className="text-lg font-normal text-gray-400 normal-case md:text-2xl"
                     >
-                      Sign in with Google
+                      Sign Up with Google
                     </Typography>
                   </Button>
                 )}
