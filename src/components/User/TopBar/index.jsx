@@ -7,7 +7,7 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import MenuItem from '@mui/material/MenuItem';
-import MoreIcon from '@mui/icons-material/MoreVert';
+import MenuIcon from '@mui/icons-material/Menu';
 import Button from '@mui/material/Button';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -191,7 +191,7 @@ export default function TopBar() {
                 color="inherit"
                 onClick={(/* e */) => { /* handleMobileMenuOpen(e); */ setOpenDialog(true); }}
               >
-                <MoreIcon />
+                <MenuIcon />
               </IconButton>
             </Box>
           </Toolbar>

@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-globals */
 /* eslint-disable no-underscore-dangle */
 import React from 'react';
 
@@ -75,6 +76,7 @@ export default function AccountSettings() {
   });
   //-------------------------
   function handleDelete() {
+    if (!confirm('Are you sure you want to delete your Account? You will loose your data and access to it permanently!')) return;
     deleteUser()
       .then(() => {
         dispatch(addToast({ message: 'Account deleted successfully', severity: 'success' }));

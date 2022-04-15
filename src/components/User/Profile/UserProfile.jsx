@@ -4,8 +4,6 @@ import {
   Container,
   Grid,
   Typography,
-  Tabs,
-  Tab,
 } from '@mui/material';
 
 import { useSelector } from 'react-redux';
@@ -32,19 +30,12 @@ export default function UserProfile() {
             </Typography>
           </Grid>
           <Grid item className="w-full">
-            <Tabs
-              value={value}
-              onChange={(e, newVal) => setValue(newVal)}
-              TabIndicatorProps={{ className: 'hidden' }}
-              className="max-w-full bg-gray-50"
-              variant="scrollable"
-              allowScrollButtonsMobile
-            >
-              <Tab value={0} label={<Typography variant="h4">Profile</Typography>} />
-              <Tab value={1} label={<Typography variant="h4">Account Settings</Typography>} />
-              <Tab value={2} label={<Typography variant="h4">Ratings</Typography>} />
-              <Tab value={3} label={<Typography variant="h4">Saved Professors</Typography>} />
-            </Tabs>
+            <div className="flex items-center gap-2 px-1 py-3 bg-gray-100 justify-evenly">
+              <Typography className={`${value === 0 && 'font-bold'} cursor-pointer text-xs md:text-lg`} onClick={() => setValue(0)}>Profile</Typography>
+              <Typography className={`${value === 1 && 'font-bold'} cursor-pointer text-xs md:text-lg`} onClick={() => setValue(1)}>Account</Typography>
+              <Typography className={`${value === 2 && 'font-bold'} cursor-pointer text-xs md:text-lg`} onClick={() => setValue(2)}>Ratings</Typography>
+              <Typography className={`${value === 3 && 'font-bold'} cursor-pointer text-xs md:text-lg`} onClick={() => setValue(3)}>Saved Professors</Typography>
+            </div>
             <div className={`${value === 0 ? 'block' : 'hidden'}`}>
               <Profile />
             </div>

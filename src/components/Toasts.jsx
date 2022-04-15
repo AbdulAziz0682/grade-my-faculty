@@ -24,8 +24,14 @@ export default function Toasts() {
   );
 }
 
+Toasts.defaultProps = {
+  actions: {
+    removeToast: () => null,
+  },
+};
+
 Toasts.propTypes = {
   actions: PropTypes.shape({
     removeToast: PropTypes.func.isRequired,
-  }).isRequired,
+  }),
 };

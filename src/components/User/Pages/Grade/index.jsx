@@ -122,7 +122,7 @@ export default function Grade() {
             <div className="flex justify-between w-full gap-2">
               <Typography className="text-3xl font-bold text-primary">{faculty.firstName}</Typography>
               <IconButton onClick={() => handleSave(faculty._id)}>
-                <BookmarkOutlined color={`${user?.savedFaculties.includes(Number(faculty._id)) && 'primary'}`} />
+                <BookmarkOutlined color={`${user?.savedFaculties?.includes(Number(faculty._id)) && 'primary'}`} />
               </IconButton>
             </div>
             <Typography className="font-bold">{faculty.institute.name}</Typography>
