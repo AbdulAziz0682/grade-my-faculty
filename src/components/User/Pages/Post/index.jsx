@@ -128,7 +128,9 @@ export default function Post() {
         </div>
         <div className="flex-col items-end w-full h-auto gap-10 pb-2 lg:flex md:w-3/12 pt-14">
           {
-            data.blogs.map(
+            data.blogs.slice().sort(
+              () => (Math.random() - 0.5), // Randomizing array elements
+            ).map(
               (blg, idx, arr) => (
                 <Paper elevation={3} key={blg._id} onClick={() => history.push(`/post/${blg._id}`, [blg, arr])} className="flex flex-col w-full gap-5 pb-3 my-6 transform lg:my-0">
                   <img src={getImgSrc(blg.content)} alt="blog" className="w-full" style={{ maxHeight: '200px' }} />

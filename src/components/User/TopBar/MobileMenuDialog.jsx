@@ -40,7 +40,7 @@ export default function MobileMenuDialog({ open, handleClose }) {
       <DialogTitle classes={{ root: 'text-xl text-center' }}>
         Welcome to
         <br />
-        Grade my Faculty
+        Grade My Faculty
       </DialogTitle>
       <DialogContent>
         <List>

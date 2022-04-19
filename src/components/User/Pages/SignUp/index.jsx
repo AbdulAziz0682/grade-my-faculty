@@ -90,17 +90,18 @@ export default function SignUp() {
   return (
     <Grid container className="flex-grow bg-pageBg">
       <Container maxWidth="xl" className="flex items-center justify-center pt-32 pb-16">
-        <Paper component="form" onSubmit={formik.handleSubmit} className="w-full px-8 lg:w-10/12 md:px-12 lg:px-32 py-9 rounded-xl">
+        <Paper component="form" onSubmit={formik.handleSubmit} className="w-full px-8 lg:w-8/12 md:px-9 lg:px-24 py-9 rounded-xl">
           <Grid container direction="column" className="gap-4">
             <Grid item>
-              <Typography variant="body2" classes={{ root: 'font-extrabold text-2xl' }}>Sign Up</Typography>
+              <Typography variant="body2" classes={{ root: 'font-extrabold text-xl' }}>Sign Up</Typography>
             </Grid>
             <Grid container rowSpacing={3} columnSpacing={{ xs: 2, md: 6, lg: 12 }} className="mt-1">
               <Grid item xs={12} sm={6}>
-                <Typography variant="h6" className="text-sm font-semibold" style={{ fontFamily: 'montserrat' }}>First Name *</Typography>
+                <Typography variant="h6" className="text-xs font-semibold" style={{ fontFamily: 'montserrat' }}>First Name *</Typography>
                 <TextField
                   fullWidth
                   required
+                  size="small"
                   name="firstName"
                   value={formik.values.firstName}
                   onChange={formik.handleChange}
@@ -115,10 +116,11 @@ export default function SignUp() {
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
-                <Typography variant="h6" className="text-sm font-semibold" style={{ fontFamily: 'montserrat' }}>Last Name *</Typography>
+                <Typography variant="h6" className="text-xs font-semibold" style={{ fontFamily: 'montserrat' }}>Last Name *</Typography>
                 <TextField
                   fullWidth
                   required
+                  size="small"
                   name="lastName"
                   value={formik.values.lastName}
                   onChange={formik.handleChange}
@@ -133,10 +135,11 @@ export default function SignUp() {
                 />
               </Grid>
               <Grid item xs={12}>
-                <Typography variant="h6" className="text-sm font-semibold" style={{ fontFamily: 'montserrat' }}>Email *</Typography>
+                <Typography variant="h6" className="text-xs font-semibold" style={{ fontFamily: 'montserrat' }}>Email *</Typography>
                 <TextField
                   fullWidth
                   required
+                  size="small"
                   name="email"
                   value={formik.values.email}
                   onChange={formik.handleChange}
@@ -151,10 +154,11 @@ export default function SignUp() {
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
-                <Typography variant="h6" className="text-sm font-semibold" style={{ fontFamily: 'montserrat' }}>Password *</Typography>
+                <Typography variant="h6" className="text-xs font-semibold" style={{ fontFamily: 'montserrat' }}>Password *</Typography>
                 <TextField
                   fullWidth
                   required
+                  size="small"
                   name="password"
                   value={formik.values.password}
                   onChange={formik.handleChange}
@@ -170,10 +174,11 @@ export default function SignUp() {
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
-                <Typography variant="h6" className="text-sm font-semibold" style={{ fontFamily: 'montserrat' }}>Confirm Password *</Typography>
+                <Typography variant="h6" className="text-xs font-semibold" style={{ fontFamily: 'montserrat' }}>Confirm Password *</Typography>
                 <TextField
                   fullWidth
                   required
+                  size="small"
                   name="confirmPassword"
                   value={formik.values.confirmPassword}
                   onChange={formik.handleChange}
@@ -190,10 +195,10 @@ export default function SignUp() {
               </Grid>
             </Grid>
             <Grid item className={`${error ? 'block' : 'hidden'} mt-3`}>
-              <p className="text-sm font-semibold text-red-700" style={{ fontFamily: 'montserrat' }}>{ error?.message }</p>
+              <p className="text-xs font-semibold text-red-700" style={{ fontFamily: 'montserrat' }}>{ error?.message }</p>
             </Grid>
             <Grid item>
-              <Button variant="contained" disabled={loading} type="submit" className="py-4 text-xl" fullWidth>
+              <Button variant="contained" size="medium" disabled={loading} type="submit" className="py-2" fullWidth>
                 {
                   loading
                     ? <CircularProgress />
@@ -202,7 +207,7 @@ export default function SignUp() {
               </Button>
             </Grid>
             <Grid item className="mt-5">
-              <Typography className="text-sm font-bold" align="center" style={{ fontFamily: 'montserrat' }}>or continue with</Typography>
+              <Typography className="text-xs font-bold" align="center" style={{ fontFamily: 'montserrat' }}>or continue with</Typography>
             </Grid>
             <Grid item className="flex flex-col items-center my-3">
               <GoogleLogin
@@ -218,14 +223,14 @@ export default function SignUp() {
                     onClick={renderProps.onClick}
                     disabled={renderProps.disabled}
                     variant="contained"
-                    className="py-3 bg-white hover:bg-white rounded-xl"
+                    className="py-1.5 bg-white hover:bg-white rounded-xl"
                     startIcon={
                       <img src={googleLogo} alt="google" />
                     }
                   >
                     <Typography
                       variant="body2"
-                      className="text-lg font-normal text-gray-400 normal-case md:text-2xl"
+                      className="text-lg font-normal text-gray-400 normal-case md:text-xl"
                     >
                       Sign Up with Google
                     </Typography>
@@ -234,7 +239,7 @@ export default function SignUp() {
               />
             </Grid>
             <Grid item className="flex justify-center mt-3">
-              <p className="text-sm font-bold lg:text-sm" style={{ fontFamily: 'montserrat' }}>
+              <p className="text-xs font-bold lg:text-xs" style={{ fontFamily: 'montserrat' }}>
                 Already have an account?
                 <span className="mx-1 cursor-pointer text-primary" aria-hidden onClick={() => history.push('/login')}>Click here</span>
               </p>
