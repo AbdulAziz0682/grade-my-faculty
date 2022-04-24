@@ -105,13 +105,17 @@ export default function Grade() {
     });
     if (total === 0) return 'N/A';
     const average = total / ratings.length;
-    if (average >= 4.5) return 'A+';
-    if (average >= 4.0 && average < 4.5) return 'A';
-    if (average >= 3.5 && average < 4.0) return 'B+';
-    if (average >= 3.0 && average < 3.5) return 'B';
-    if (average >= 2.5 && average < 3.0) return 'C';
-    if (average >= 2 && average < 2.5) return 'D';
-    if (average >= 1.5 && average < 2) return 'E';
+    if (average >= 5 * (11 / 12)) return 'A+';
+    if (average >= 5 * (10 / 12) && average < 5 * (11 / 12)) return 'A';
+    if (average >= 5 * (9 / 12) && average < 5 * (10 / 12)) return 'A-';
+    if (average >= 5 * (8 / 12) && average < 5 * (9 / 12)) return 'B+';
+    if (average >= 5 * (7 / 12) && average < 5 * (8 / 12)) return 'B';
+    if (average >= 5 * (6 / 12) && average < 5 * (7 / 12)) return 'B-';
+    if (average >= 5 * (5 / 12) && average < 5 * (6 / 12)) return 'C+';
+    if (average >= 5 * (4 / 12) && average < 5 * (5 / 12)) return 'C';
+    if (average >= 5 * (3 / 12) && average < 5 * (4 / 12)) return 'C-';
+    if (average >= 5 * (2 / 12) && average < 5 * (3 / 12)) return 'D';
+    if (average >= 5 * (1 / 12) && average < 5 * (2 / 12)) return 'E';
     return 'F';
   }
   return (
@@ -292,7 +296,7 @@ export default function Grade() {
                             )
                         }
                         {
-                          rate.tags.length === 0 && <Typography variant="h6" color="primary">No Ratings yet</Typography>
+                          rate.tags.length === 0 && <Typography variant="h6" color="primary">No Attributes yet</Typography>
                         }
                       </div>
                       <div className="flex items-center gap-2 mt-1">

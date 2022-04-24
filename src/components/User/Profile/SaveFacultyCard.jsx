@@ -52,7 +52,20 @@ function calculateAverageRating(ratings) {
   ratings.forEach((r) => {
     if (r.overAllRating) total += r.overAllRating;
   });
-  return Number(total / ratings.length).toFixed(1);
+  if (total === 0) return 'N/A';
+  const average = total / ratings.length;
+  if (average >= 5 * (11 / 12)) return 'A+';
+  if (average >= 5 * (10 / 12) && average < 5 * (11 / 12)) return 'A';
+  if (average >= 5 * (9 / 12) && average < 5 * (10 / 12)) return 'A-';
+  if (average >= 5 * (8 / 12) && average < 5 * (9 / 12)) return 'B+';
+  if (average >= 5 * (7 / 12) && average < 5 * (8 / 12)) return 'B';
+  if (average >= 5 * (6 / 12) && average < 5 * (7 / 12)) return 'B-';
+  if (average >= 5 * (5 / 12) && average < 5 * (6 / 12)) return 'C+';
+  if (average >= 5 * (4 / 12) && average < 5 * (5 / 12)) return 'C';
+  if (average >= 5 * (3 / 12) && average < 5 * (4 / 12)) return 'C-';
+  if (average >= 5 * (2 / 12) && average < 5 * (3 / 12)) return 'D';
+  if (average >= 5 * (1 / 12) && average < 5 * (2 / 12)) return 'E';
+  return 'F';
 }
 
 function SavedFacultyCard({ faculty }) {

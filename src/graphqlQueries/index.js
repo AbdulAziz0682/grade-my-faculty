@@ -426,7 +426,6 @@ export const RATINGS = gql`
       }
       course
       levelOfDifficulty
-      gradeOfUser
       isAttendanceMandatory
       overAllRating
       semester
@@ -459,7 +458,6 @@ export const USER_RATINGS = gql`
       }
       course
       levelOfDifficulty
-      gradeOfUser
       isAttendanceMandatory
       overAllRating
       semester
@@ -473,7 +471,6 @@ export const NEW_RATING = gql`
     $faculty:Int!
     $course:String!
     $levelOfDifficulty:Int!
-    $gradeOfUser:String!
     $isAttendanceMandatory:Boolean!
     $overAllRating:Int!
     $semester:String!
@@ -485,7 +482,6 @@ export const NEW_RATING = gql`
       faculty: $faculty
       course: $course
       levelOfDifficulty: $levelOfDifficulty
-      gradeOfUser: $gradeOfUser
       isAttendanceMandatory: $isAttendanceMandatory
       overAllRating: $overAllRating
       semester: $semester

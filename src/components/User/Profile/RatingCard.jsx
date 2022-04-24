@@ -46,7 +46,20 @@ function calculateAverageRating(ratings) {
   ratings.forEach((r) => {
     if (r.overAllRating) total += r.overAllRating;
   });
-  return Number(total / ratings.length).toFixed(1);
+  if (total === 0) return 'N/A';
+  const average = total / ratings.length;
+  if (average >= 5 * (11 / 12)) return 'A+';
+  if (average >= 5 * (10 / 12) && average < 5 * (11 / 12)) return 'A';
+  if (average >= 5 * (9 / 12) && average < 5 * (10 / 12)) return 'A-';
+  if (average >= 5 * (8 / 12) && average < 5 * (9 / 12)) return 'B+';
+  if (average >= 5 * (7 / 12) && average < 5 * (8 / 12)) return 'B';
+  if (average >= 5 * (6 / 12) && average < 5 * (7 / 12)) return 'B-';
+  if (average >= 5 * (5 / 12) && average < 5 * (6 / 12)) return 'C+';
+  if (average >= 5 * (4 / 12) && average < 5 * (5 / 12)) return 'C';
+  if (average >= 5 * (3 / 12) && average < 5 * (4 / 12)) return 'C-';
+  if (average >= 5 * (2 / 12) && average < 5 * (3 / 12)) return 'D';
+  if (average >= 5 * (1 / 12) && average < 5 * (2 / 12)) return 'E';
+  return 'F';
 }
 
 function RatingCard({ rating, refetch }) {
@@ -117,7 +130,7 @@ function RatingCard({ rating, refetch }) {
           <div className="flex justify-center gap-5">
             <div className="flex items-center justify-center w-20 h-16 px-4 py-1.5 text-2xl font-extrabold rounded-lg bg-pageBg">
               {
-                rating.overAllRating
+                calculateAverageRating([{ overAllRating: rating.overAllRating }])
               }
             </div>
             <Divider orientation="vertical" className="mt-1" sx={{ minHeight: '3.5rem', maxHeight: '3.5rem' }} />
