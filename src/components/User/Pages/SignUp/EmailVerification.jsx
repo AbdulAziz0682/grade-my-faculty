@@ -38,6 +38,12 @@ export default function EmailVerification() {
             <ListItem>
               <ListItemIcon><Circle style={{ width: '15px', height: '15px' }} /></ListItemIcon>
               <Typography>
+                Your email is already verified by Google and does not need further verification.
+              </Typography>
+            </ListItem>
+            <ListItem>
+              <ListItemIcon><Circle style={{ width: '15px', height: '15px' }} /></ListItemIcon>
+              <Typography>
                 The email is in your spam folder. (Sometimes things get lost in there.)
               </Typography>
             </ListItem>
