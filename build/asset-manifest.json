@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/static/css/main.43be99ea.chunk.css",
-    "main.js": "/static/js/main.b186f20c.chunk.js",
-    "main.js.map": "/static/js/main.b186f20c.chunk.js.map",
+    "main.js": "/static/js/main.b7fa380e.chunk.js",
+    "main.js.map": "/static/js/main.b7fa380e.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.0adf6e15.js",
     "runtime-main.js.map": "/static/js/runtime-main.0adf6e15.js.map",
     "static/css/2.73338a27.chunk.css": "/static/css/2.73338a27.chunk.css",
@@ -27,7 +27,7 @@
     "static/media/conversations.svg": "/static/media/conversations.cee119b3.svg",
     "static/media/evaluation.d9d03ab5.svg": "/static/media/evaluation.d9d03ab5.svg",
     "static/media/facebook.c8e1ba69.svg": "/static/media/facebook.c8e1ba69.svg",
-    "static/media/googleLogo.c3be9ad0.svg": "/static/media/googleLogo.c3be9ad0.svg",
+    "static/media/googleLogo.16436e19.svg": "/static/media/googleLogo.16436e19.svg",
     "static/media/help.1be46864.svg": "/static/media/help.1be46864.svg",
     "static/media/homeImg.46d4a976.svg": "/static/media/homeImg.46d4a976.svg",
     "static/media/instagram.30497091.svg": "/static/media/instagram.30497091.svg",
@@ -53,6 +53,6 @@
     "static/css/2.73338a27.chunk.css",
     "static/js/2.0c85eb44.chunk.js",
     "static/css/main.43be99ea.chunk.css",
-    "static/js/main.b186f20c.chunk.js"
+    "static/js/main.b7fa380e.chunk.js"
   ]
 }
