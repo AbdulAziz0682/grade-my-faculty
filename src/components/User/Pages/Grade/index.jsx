@@ -261,7 +261,9 @@ export default function Grade() {
                     <Grid item xs={12} sm={3} className="flex flex-row p-3 bg-primary md:flex-col">
                       <Typography className="self-center w-1/2 text-3xl font-semibold text-center text-white">
                         {
-                          calculateOverAllRating([{ overAllRating: rate.overAllRating }])
+                          calculateOverAllRating(
+                            [{ overAllRating: 5 * ((rate.overAllRating - 1) / 12) }],
+                          )
                         }
                       </Typography>
                       <Typography className="w-full text-center text-white md:text-xs">Faculty Rating</Typography>

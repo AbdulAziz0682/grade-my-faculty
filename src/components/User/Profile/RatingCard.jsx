@@ -11,6 +11,8 @@ import {
   Button,
 } from '@mui/material';
 
+import { useHistory } from 'react-router-dom';
+
 import { useDispatch, useSelector } from 'react-redux';
 
 import { useQuery, useMutation } from '@apollo/client';
@@ -48,21 +50,22 @@ function calculateAverageRating(ratings) {
   });
   if (total === 0) return 'N/A';
   const average = total / ratings.length;
-  if (average >= 5 * (11 / 12)) return 'A+';
-  if (average >= 5 * (10 / 12) && average < 5 * (11 / 12)) return 'A';
-  if (average >= 5 * (9 / 12) && average < 5 * (10 / 12)) return 'A-';
-  if (average >= 5 * (8 / 12) && average < 5 * (9 / 12)) return 'B+';
-  if (average >= 5 * (7 / 12) && average < 5 * (8 / 12)) return 'B';
-  if (average >= 5 * (6 / 12) && average < 5 * (7 / 12)) return 'B-';
-  if (average >= 5 * (5 / 12) && average < 5 * (6 / 12)) return 'C+';
-  if (average >= 5 * (4 / 12) && average < 5 * (5 / 12)) return 'C';
-  if (average >= 5 * (3 / 12) && average < 5 * (4 / 12)) return 'C-';
-  if (average >= 5 * (2 / 12) && average < 5 * (3 / 12)) return 'D';
-  if (average >= 5 * (1 / 12) && average < 5 * (2 / 12)) return 'E';
+  if (average >= 5 * (11 / 12)) return 'A+'; // 4.583333
+  if (average >= 5 * (10 / 12) && average < 5 * (11 / 12)) return 'A'; // 4.16666, 4.583333
+  if (average >= 5 * (9 / 12) && average < 5 * (10 / 12)) return 'A-'; // 3.75, 4.16666
+  if (average >= 5 * (8 / 12) && average < 5 * (9 / 12)) return 'B+'; // 3.3333, 3.75
+  if (average >= 5 * (7 / 12) && average < 5 * (8 / 12)) return 'B'; // 2.91666, 3.3333
+  if (average >= 5 * (6 / 12) && average < 5 * (7 / 12)) return 'B-'; // 2.5, 2.91666
+  if (average >= 5 * (5 / 12) && average < 5 * (6 / 12)) return 'C+'; // 2.083333, 2.5
+  if (average >= 5 * (4 / 12) && average < 5 * (5 / 12)) return 'C'; // 1.6666, 2.08333
+  if (average >= 5 * (3 / 12) && average < 5 * (4 / 12)) return 'C-'; // 1.25, 1.6666
+  if (average >= 5 * (2 / 12) && average < 5 * (3 / 12)) return 'D'; // 0.83333, 1.25
+  if (average >= 5 * (1 / 12) && average < 5 * (2 / 12)) return 'E'; // 0.41666, 0.83333
   return 'F';
 }
 
 function RatingCard({ rating, refetch }) {
+  const history = useHistory();
   const user = useSelector((state) => state.account.user);
   const dispatch = useDispatch();
   const { data } = useQuery(
@@ -130,7 +133,7 @@ function RatingCard({ rating, refetch }) {
           <div className="flex justify-center gap-5">
             <div className="flex items-center justify-center w-20 h-16 px-4 py-1.5 text-2xl font-extrabold rounded-lg bg-pageBg">
               {
-                calculateAverageRating([{ overAllRating: rating.overAllRating }])
+                calculateAverageRating([{ overAllRating: 5 * ((rating.overAllRating - 1) / 12) }])
               }
             </div>
             <Divider orientation="vertical" className="mt-1" sx={{ minHeight: '3.5rem', maxHeight: '3.5rem' }} />
@@ -146,13 +149,18 @@ function RatingCard({ rating, refetch }) {
               {data?.ratings.length}
             </Typography>
           </div>
-          <Button className="self-center" size="small" variant="contained" color="error" disabled={deleteMutation.loading} onClick={() => handleDeleteRating(Number(rating._id))}>
-            {
-              deleteMutation.loading
-                ? <CircularProgress />
-                : 'Delete'
-            }
-          </Button>
+          <div className="flex flex-wrap justify-center gap-3">
+            <Button className="self-center" size="small" variant="contained" color="primary" onClick={() => history.push('/edit-rating', [rating])}>
+              Edit
+            </Button>
+            <Button className="self-center" size="small" variant="contained" color="error" disabled={deleteMutation.loading} onClick={() => handleDeleteRating(Number(rating._id))}>
+              {
+                deleteMutation.loading
+                  ? <CircularProgress />
+                  : 'Delete'
+              }
+            </Button>
+          </div>
         </Stack>
       </div>
     </Paper>
@@ -162,7 +170,8 @@ function RatingCard({ rating, refetch }) {
 RatingCard.propTypes = {
   rating: PropTypes.shape({
     _id: PropTypes.number.isRequired,
-    // Over all rating represents rate value (1 to 5) given by user on a particular rating
+    // Over all rating represents rate value (A to F) given by user on a particular rating
+    tags: PropTypes.arrayOf(PropTypes.string).isRequired,
     overAllRating: PropTypes.number.isRequired,
     course: PropTypes.string.isRequired,
     semester: PropTypes.string.isRequired,
@@ -170,6 +179,7 @@ RatingCard.propTypes = {
       _id: PropTypes.number.isRequired,
       firstName: PropTypes.string.isRequired,
       department: PropTypes.string.isRequired,
+      courses: PropTypes.arrayOf(PropTypes.string).isRequired,
       institute: PropTypes.shape({
         _id: PropTypes.number.isRequired,
         name: PropTypes.string.isRequired,

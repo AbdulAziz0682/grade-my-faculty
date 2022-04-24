@@ -451,17 +451,20 @@ export const USER_RATINGS = gql`
         _id
         firstName
         department
+        courses
         institute {
           _id
           name
         }
       }
       course
+      tags
       levelOfDifficulty
       isAttendanceMandatory
       overAllRating
       semester
       wouldTakeAgain
+      thoughts
     }
   }
 `;
@@ -480,6 +483,34 @@ export const NEW_RATING = gql`
   ) {
     newRating(
       faculty: $faculty
+      course: $course
+      levelOfDifficulty: $levelOfDifficulty
+      isAttendanceMandatory: $isAttendanceMandatory
+      overAllRating: $overAllRating
+      semester: $semester
+      tags: $tags
+      thoughts: $thoughts
+      wouldTakeAgain: $wouldTakeAgain
+    ) {
+      _id
+    }
+  }
+`;
+
+export const UPDATE_RATING = gql`
+  mutation UpdateRating(
+    $id:Int!
+    $course:String!
+    $levelOfDifficulty:Int!
+    $isAttendanceMandatory:Boolean!
+    $overAllRating:Int!
+    $semester:String!
+    $tags:[String]!
+    $thoughts:String!
+    $wouldTakeAgain:Boolean!
+  ) {
+    updateRating(
+      _id: $id
       course: $course
       levelOfDifficulty: $levelOfDifficulty
       isAttendanceMandatory: $isAttendanceMandatory

@@ -22,6 +22,7 @@ import Home from '../components/User/Pages/Home';
 import Faculty from '../components/User/Pages/Faculty';
 import Grade from '../components/User/Pages/Grade';
 import GradingForm from '../components/User/Pages/Grade/GradingForm';
+import EditRating from '../components/User/Pages/Grade/EditRating';
 import Blog from '../components/User/Pages/Blog';
 import Contact from '../components/User/Pages/Contact';
 import NewInstitute from '../components/User/Pages/NewInstitute';
@@ -105,6 +106,9 @@ export default function Routes() {
               </Route>
               <Route exact path="/grading">
                 <GradingForm />
+              </Route>
+              <Route exact path="/edit-rating">
+                <EditRating />
               </Route>
               <Route exact path="/blog">
                 <Blog />
