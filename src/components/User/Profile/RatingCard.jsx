@@ -49,7 +49,8 @@ function calculateAverageRating(ratings) {
     if (r.overAllRating) total += r.overAllRating;
   });
   if (total === 0) return 'N/A';
-  const average = total / ratings.length;
+  let average = total / ratings.length;
+  if (ratings.length === 1) average = 5 * ((total - 1) / 12);
   if (average >= 5 * (11 / 12)) return 'A+'; // 4.583333
   if (average >= 5 * (10 / 12) && average < 5 * (11 / 12)) return 'A'; // 4.16666, 4.583333
   if (average >= 5 * (9 / 12) && average < 5 * (10 / 12)) return 'A-'; // 3.75, 4.16666
@@ -133,7 +134,7 @@ function RatingCard({ rating, refetch }) {
           <div className="flex justify-center gap-5">
             <div className="flex items-center justify-center w-20 h-16 px-4 py-1.5 text-2xl font-extrabold rounded-lg bg-pageBg">
               {
-                calculateAverageRating([{ overAllRating: 5 * ((rating.overAllRating - 1) / 12) }])
+                calculateAverageRating([{ overAllRating: rating.overAllRating }])
               }
             </div>
             <Divider orientation="vertical" className="mt-1" sx={{ minHeight: '3.5rem', maxHeight: '3.5rem' }} />

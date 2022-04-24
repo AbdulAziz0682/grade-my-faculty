@@ -104,7 +104,8 @@ export default function Grade() {
       total += r.overAllRating;
     });
     if (total === 0) return 'N/A';
-    const average = total / ratings.length;
+    let average = total / ratings.length;
+    if (ratings.length === 1) average = 5 * ((total - 1) / 12);
     if (average >= 5 * (11 / 12)) return 'A+';
     if (average >= 5 * (10 / 12) && average < 5 * (11 / 12)) return 'A';
     if (average >= 5 * (9 / 12) && average < 5 * (10 / 12)) return 'A-';
@@ -180,7 +181,7 @@ export default function Grade() {
                 <Typography className="w-3/12 mt-2 text-xs text-center">Level of difficulty</Typography>
                 <Typography className="w-6/12 mt-2 text-xs text-center">
                   Based on&nbsp;
-                  {data && data.ratings.length}
+                  {data && data?.ratings.length}
                   &nbsp;students
                   <br />
                   evaluations rated from A to F
@@ -216,7 +217,7 @@ export default function Grade() {
                 </Typography>
                 <Typography className="mt-2 text-xs text-center">
                   Based on&nbsp;
-                  {data && data.ratings.length}
+                  {data && data?.ratings.length}
                   &nbsp;students
                   <br />
                   evaluations rated from A to F
@@ -255,14 +256,14 @@ export default function Grade() {
             <Typography className="py-2 text-4xl font-bold border-b-2 border-black">Evaluations</Typography>
             { loading && <div className="flex justify-center w-full"><CircularProgress /></div> }
             {
-              !loading && data.ratings.map(
+              !loading && data?.ratings.map(
                 (rate) => (
                   <Grid container key={rate._id}>
                     <Grid item xs={12} sm={3} className="flex flex-row p-3 bg-primary md:flex-col">
                       <Typography className="self-center w-1/2 text-3xl font-semibold text-center text-white">
                         {
                           calculateOverAllRating(
-                            [{ overAllRating: 5 * ((rate.overAllRating - 1) / 12) }],
+                            [{ overAllRating: rate.overAllRating }],
                           )
                         }
                       </Typography>
@@ -334,7 +335,7 @@ export default function Grade() {
               )
             }
             {
-              !loadMore && !loading && (data.ratings.length === 3)
+              !loadMore && !loading && (data?.ratings.length === 3)
                 ? (
                   <div className="flex justify-end pt-6 mt-8 border-t-2 border-black">
                     <Button variant="contained" className="px-6 rounded-lg" onClick={() => setLoadMore(true)}>Load More</Button>
@@ -343,7 +344,7 @@ export default function Grade() {
                 : ''
             }
             {
-              !loading && data.ratings.length === 0 && <Typography variant="h6" color="primary" align="center">No ratings yet</Typography>
+              !loading && data?.ratings.length === 0 && <Typography variant="h6" color="primary" align="center">No ratings yet</Typography>
             }
           </Paper>
         </div>

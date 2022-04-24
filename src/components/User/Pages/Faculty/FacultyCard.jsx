@@ -17,7 +17,8 @@ function calculateOverAllRating(ratings) {
     total += r.overAllRating;
   });
   if (total === 0) return 'N/A';
-  const average = total / ratings.length;
+  let average = total / ratings.length;
+  if (ratings.length === 1) average = 5 * ((total - 1) / 12);
   if (average >= 5 * (11 / 12)) return 'A+';
   if (average >= 5 * (10 / 12) && average < 5 * (11 / 12)) return 'A';
   if (average >= 5 * (9 / 12) && average < 5 * (10 / 12)) return 'A-';
