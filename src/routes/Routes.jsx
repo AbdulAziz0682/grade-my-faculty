@@ -41,6 +41,7 @@ import AboutUs from '../components/User/Pages/AboutUs';
 import Post from '../components/User/Pages/Post';
 import ResetPassword from '../components/User/Pages/Login/ResetPassword';
 import UserProfile from '../components/User/Profile/UserProfile';
+import NotFound from '../components/NotFound';
 // admin route
 import AdminLogin from '../components/Admin/Login';
 import AdminForgetPassword from '../components/Admin/ForgetPassword';
@@ -85,13 +86,13 @@ export default function Routes() {
   }
   return (
     <>
-      <Switch>
-        <ApolloProvider client={client}>
-          <Grid container direction="column" className="min-h-screen">
-            <Grid item>
-              { !isAdminRoute(location.pathname) && <TopBar /> }
-            </Grid>
-            <Grid item className="flex flex-col flex-grow w-full" sx={{ marginTop: isAdminRoute(location.pathname) ? '0px' : '86px' /* MaxHeight of Topbar */ }}>
+      <ApolloProvider client={client}>
+        <Grid container direction="column" className="min-h-screen">
+          <Grid item>
+            { !isAdminRoute(location.pathname) && <TopBar /> }
+          </Grid>
+          <Grid item className="flex flex-col flex-grow w-full" sx={{ marginTop: isAdminRoute(location.pathname) ? '0px' : '86px' /* MaxHeight of Topbar */ }}>
+            <Switch>
               <Route exact path="/">
                 <Home />
               </Route>
@@ -187,13 +188,16 @@ export default function Routes() {
               <Route exact path="/profile">
                 <UserProfile />
               </Route>
-            </Grid>
-            <Grid item>
-              { !isAdminRoute(location.pathname) && <Footer /> }
-            </Grid>
+              <Route path="*">
+                <NotFound />
+              </Route>
+            </Switch>
           </Grid>
-        </ApolloProvider>
-      </Switch>
+          <Grid item>
+            { !isAdminRoute(location.pathname) && <Footer /> }
+          </Grid>
+        </Grid>
+      </ApolloProvider>
       <Toasts />
     </>
   );

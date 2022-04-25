@@ -19,10 +19,9 @@ class ErrorBoundary extends React.Component {
     return { hasError: true };
   }
 
-  componentDidCatch(error) {
+  componentDidCatch() {
     // You can also log the error to an error reporting service
-    console.dir(error);
-    this.props.addToast({ message: error.message, severity: 'error' });
+    this.props.addToast({ message: 'An unexpected error occured, try logging in again!', severity: 'error' });
   }
 
   render() {
