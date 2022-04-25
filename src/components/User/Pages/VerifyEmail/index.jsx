@@ -17,6 +17,7 @@ import { Redirect } from 'react-router-dom';
 
 import { useDispatch } from 'react-redux';
 import { addToast } from '../../../../redux/toastsActions';
+import { logout } from '../../../../redux/accountActions';
 import WelcomeDialog from './WelcomeDialog';
 
 export default function VerifyEmail() {
@@ -32,11 +33,13 @@ export default function VerifyEmail() {
         setLoading(false);
         setDialogOpen(true);
         dispatch(addToast({ message: 'Email Verified successfully', severity: 'success' }));
+        dispatch(logout()); // Preventing accidential login
       })
       .catch((e) => {
         setLoading(false);
         setError(true);
         dispatch(addToast({ message: e?.response?.data?.error || e.message || 'Error occurred', severity: 'error' }));
+        dispatch(logout()); // Preventing accidential login
       });
   }
   React.useEffect(() => {
