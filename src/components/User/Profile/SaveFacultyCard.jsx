@@ -25,6 +25,8 @@ import { SAVE_FACULTY } from '../../../graphqlQueries';
 import { addToast } from '../../../redux/toastsActions';
 import { setUser } from '../../../redux/accountActions';
 
+import { calculateAverageOverAllRating, mapAverageOverAllRating } from '../../../utils/calculateAverageOverAllRating';
+
 // helper functions
 function calculateWillTakeAgainPercent(ratings) {
   if (!ratings || ratings.length === 0) return 0;
@@ -46,29 +48,6 @@ function calculateLevelOfDifficulty(ratings) {
   return Number(total / ratings.length).toFixed(1);
 }
 
-function calculateAverageRating(ratings) {
-  if (!ratings || ratings.length === 0) return 0;
-  let total = 0;
-  ratings.forEach((r) => {
-    if (r.overAllRating) total += r.overAllRating;
-  });
-  if (total === 0) return 'N/A';
-  let average = total / ratings.length;
-  if (ratings.length === 1) average = 5 * ((total - 1) / 12);
-  if (average >= 5 * (11 / 12)) return 'A+';
-  if (average >= 5 * (10 / 12) && average < 5 * (11 / 12)) return 'A';
-  if (average >= 5 * (9 / 12) && average < 5 * (10 / 12)) return 'A-';
-  if (average >= 5 * (8 / 12) && average < 5 * (9 / 12)) return 'B+';
-  if (average >= 5 * (7 / 12) && average < 5 * (8 / 12)) return 'B';
-  if (average >= 5 * (6 / 12) && average < 5 * (7 / 12)) return 'B-';
-  if (average >= 5 * (5 / 12) && average < 5 * (6 / 12)) return 'C+';
-  if (average >= 5 * (4 / 12) && average < 5 * (5 / 12)) return 'C';
-  if (average >= 5 * (3 / 12) && average < 5 * (4 / 12)) return 'C-';
-  if (average >= 5 * (2 / 12) && average < 5 * (3 / 12)) return 'D';
-  if (average >= 5 * (1 / 12) && average < 5 * (2 / 12)) return 'E';
-  return 'F';
-}
-
 function SavedFacultyCard({ faculty }) {
   const user = useSelector((state) => state.account.user);
   const dispatch = useDispatch();
@@ -86,7 +65,7 @@ function SavedFacultyCard({ faculty }) {
           <Typography variant="h5" align="center">Quality</Typography>
           <div className="flex justify-center md:justify-end">
             <div className="flex items-center justify-center w-24 h-16 px-4 py-1.5 text-3xl font-extrabold rounded-lg bg-pageBg">
-              {calculateAverageRating(faculty.ratings)}
+              {mapAverageOverAllRating(calculateAverageOverAllRating(faculty.ratings))}
             </div>
           </div>
           <div className="flex items-center justify-center w-full">

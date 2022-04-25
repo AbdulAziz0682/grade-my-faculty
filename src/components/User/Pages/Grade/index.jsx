@@ -35,6 +35,8 @@ import {
 import { addToast } from '../../../../redux/toastsActions';
 import { setUser } from '../../../../redux/accountActions';
 
+import { calculateAverageOverAllRating, mapAverageOverAllRating } from '../../../../utils/calculateAverageOverAllRating';
+
 import like from '../../../../assets/like.svg';
 import liked from '../../../../assets/liked.svg';
 import unlike from '../../../../assets/unlike.svg';
@@ -97,28 +99,6 @@ export default function Grade() {
     const para = String(content);
     return para.replaceAll('<img', '<imx');
   }
-  function calculateOverAllRating(ratings) {
-    if (!ratings) return 'N/A';
-    let total = 0;
-    ratings.forEach((r) => {
-      total += r.overAllRating;
-    });
-    if (total === 0) return 'N/A';
-    let average = total / ratings.length;
-    if (ratings.length === 1) average = 5 * ((total - 1) / 12);
-    if (average >= 5 * (11 / 12)) return 'A+';
-    if (average >= 5 * (10 / 12) && average < 5 * (11 / 12)) return 'A';
-    if (average >= 5 * (9 / 12) && average < 5 * (10 / 12)) return 'A-';
-    if (average >= 5 * (8 / 12) && average < 5 * (9 / 12)) return 'B+';
-    if (average >= 5 * (7 / 12) && average < 5 * (8 / 12)) return 'B';
-    if (average >= 5 * (6 / 12) && average < 5 * (7 / 12)) return 'B-';
-    if (average >= 5 * (5 / 12) && average < 5 * (6 / 12)) return 'C+';
-    if (average >= 5 * (4 / 12) && average < 5 * (5 / 12)) return 'C';
-    if (average >= 5 * (3 / 12) && average < 5 * (4 / 12)) return 'C-';
-    if (average >= 5 * (2 / 12) && average < 5 * (3 / 12)) return 'D';
-    if (average >= 5 * (1 / 12) && average < 5 * (2 / 12)) return 'E';
-    return 'F';
-  }
   return (
     <Grid container className="flex-grow w-full">
       <Container maxWidth="xl" className="flex flex-col justify-between md:flex-row md:gap-9">
@@ -173,7 +153,7 @@ export default function Grade() {
                   /5.0
                 </Typography>
                 <Typography className="w-6/12 font-extrabold text-center text-7xl">
-                  { calculateOverAllRating(data?.ratings) }
+                  { mapAverageOverAllRating(calculateAverageOverAllRating(data?.ratings)) }
                 </Typography>
               </div>
               <div className="flex gap-3">
@@ -213,7 +193,7 @@ export default function Grade() {
               </div>
               <div className="flex flex-col items-center">
                 <Typography className="font-extrabold text-center text-7xl">
-                  { calculateOverAllRating(data?.ratings) }
+                  { mapAverageOverAllRating(calculateAverageOverAllRating(data?.ratings)) }
                 </Typography>
                 <Typography className="mt-2 text-xs text-center">
                   Based on&nbsp;
@@ -262,8 +242,8 @@ export default function Grade() {
                     <Grid item xs={12} sm={3} className="flex flex-row p-3 bg-primary md:flex-col">
                       <Typography className="self-center w-1/2 text-3xl font-semibold text-center text-white">
                         {
-                          calculateOverAllRating(
-                            [{ overAllRating: rate.overAllRating }],
+                          mapAverageOverAllRating(
+                            calculateAverageOverAllRating([{ overAllRating: rate.overAllRating }]),
                           )
                         }
                       </Typography>

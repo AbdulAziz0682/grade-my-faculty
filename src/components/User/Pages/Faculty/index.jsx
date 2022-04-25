@@ -20,12 +20,7 @@ import FacultyCard from './FacultyCard';
 
 import { FACULTIES_BY_INSTITUTE } from '../../../../graphqlQueries';
 
-function calculateTotalOverAllRating(ratings) {
-  if (!ratings) return 0;
-  let total = 0;
-  ratings.forEach((r) => { total += r.overAllRating; });
-  return total;
-}
+import { calculateAverageOverAllRating } from '../../../../utils/calculateAverageOverAllRating';
 
 export default function Faculty() {
   const { location: { state } } = useHistory();
@@ -61,8 +56,8 @@ export default function Faculty() {
             }
             {
               data && data.faculties.slice().sort((f1, f2) => {
-                const total1 = calculateTotalOverAllRating(f1.ratings);
-                const total2 = calculateTotalOverAllRating(f2.ratings);
+                const total1 = calculateAverageOverAllRating(f1.ratings);
+                const total2 = calculateAverageOverAllRating(f2.ratings);
                 return total2 - total1; // Sort by descending order
               }).map(
                 (fac) => <FacultyCard key={fac.id} faculty={fac} />,

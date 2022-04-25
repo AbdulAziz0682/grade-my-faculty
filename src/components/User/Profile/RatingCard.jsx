@@ -21,6 +21,8 @@ import { addToast } from '../../../redux/toastsActions';
 
 import { USER_RATINGS, RATINGS, DELETE_RATING } from '../../../graphqlQueries';
 
+import { calculateAverageOverAllRating, mapAverageOverAllRating } from '../../../utils/calculateAverageOverAllRating';
+
 // helper functions
 function calculateWillTakeAgainPercent(ratings) {
   if (!ratings || ratings.length === 0) return 0;
@@ -40,29 +42,6 @@ function calculateLevelOfDifficulty(ratings) {
     if (r.levelOfDifficulty) total += r.levelOfDifficulty;
   });
   return Number(total / ratings.length).toFixed(1);
-}
-
-function calculateAverageRating(ratings) {
-  if (!ratings || ratings.length === 0) return 0;
-  let total = 0;
-  ratings.forEach((r) => {
-    if (r.overAllRating) total += r.overAllRating;
-  });
-  if (total === 0) return 'N/A';
-  let average = total / ratings.length;
-  if (ratings.length === 1) average = 5 * ((total - 1) / 12);
-  if (average >= 5 * (11 / 12)) return 'A+'; // 4.583333
-  if (average >= 5 * (10 / 12) && average < 5 * (11 / 12)) return 'A'; // 4.16666, 4.583333
-  if (average >= 5 * (9 / 12) && average < 5 * (10 / 12)) return 'A-'; // 3.75, 4.16666
-  if (average >= 5 * (8 / 12) && average < 5 * (9 / 12)) return 'B+'; // 3.3333, 3.75
-  if (average >= 5 * (7 / 12) && average < 5 * (8 / 12)) return 'B'; // 2.91666, 3.3333
-  if (average >= 5 * (6 / 12) && average < 5 * (7 / 12)) return 'B-'; // 2.5, 2.91666
-  if (average >= 5 * (5 / 12) && average < 5 * (6 / 12)) return 'C+'; // 2.083333, 2.5
-  if (average >= 5 * (4 / 12) && average < 5 * (5 / 12)) return 'C'; // 1.6666, 2.08333
-  if (average >= 5 * (3 / 12) && average < 5 * (4 / 12)) return 'C-'; // 1.25, 1.6666
-  if (average >= 5 * (2 / 12) && average < 5 * (3 / 12)) return 'D'; // 0.83333, 1.25
-  if (average >= 5 * (1 / 12) && average < 5 * (2 / 12)) return 'E'; // 0.41666, 0.83333
-  return 'F';
 }
 
 function RatingCard({ rating, refetch }) {
@@ -134,12 +113,18 @@ function RatingCard({ rating, refetch }) {
           <div className="flex justify-center gap-5">
             <div className="flex items-center justify-center w-20 h-16 px-4 py-1.5 text-2xl font-extrabold rounded-lg bg-pageBg">
               {
-                calculateAverageRating([{ overAllRating: rating.overAllRating }])
+                mapAverageOverAllRating(
+                  calculateAverageOverAllRating([{ overAllRating: rating.overAllRating }]),
+                )
               }
             </div>
             <Divider orientation="vertical" className="mt-1" sx={{ minHeight: '3.5rem', maxHeight: '3.5rem' }} />
             <div className="flex items-center justify-center w-20 h-16 px-4 py-1.5 text-2xl font-extrabold rounded-lg bg-pageBg">
-              {calculateAverageRating(data?.ratings)}
+              {
+                mapAverageOverAllRating(
+                  calculateAverageOverAllRating(data?.ratings),
+                )
+              }
             </div>
           </div>
           <div className="flex justify-center gap-10 md:gap-5 md:justify-between">
